@@ -1,5 +1,4 @@
 import { reactRouter } from '@react-router/dev/vite';
-import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
@@ -8,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const webPort = Number.isNaN(parsedWebPort) ? 5173 : parsedWebPort;
 
   return {
-    plugins: [tailwindcss(), reactRouter()],
+    plugins: [reactRouter()],
     resolve: {
       tsconfigPaths: true,
     },
