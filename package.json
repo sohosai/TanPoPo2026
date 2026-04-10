@@ -1,17 +1,21 @@
 {
-  "name": "TanPoPo2025",
+  "name": "tanpopo2026",
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check": "turbo run check-types",
+    "clean": "turbo run clean && rm -rf .turbo",
+    "format": "biome format . --write",
+    "ci": "bun run check && bun run format",
+    "prepare": "lefthook install"
   },
   "devDependencies": {
-    "prettier": "^3.7.4",
+    "@biomejs/biome": "2.4.11",
+    "lefthook": "^2.1.5",
+    "prettier": "^3.8.2",
     "turbo": "^2.9.5",
-    "typescript": "5.9.2"
+    "typescript": "6.0.2"
   },
   "engines": {
     "node": ">=18"
