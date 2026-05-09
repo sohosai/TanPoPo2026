@@ -6,12 +6,12 @@ import {
 } from 'react';
 import styles from './MapBottomSheet.module.scss';
 
-const PEEK = 50;
-const FLING_VELOCITY = 0.5;
-const RUBBER_DIM = 200;
+const peek = 50;
+const flingVelocity = 0.5;
+const rubberDim = 200;
 
 const rubberband = (overflow: number) =>
-  (1 - 1 / ((overflow * 0.55) / RUBBER_DIM + 1)) * RUBBER_DIM;
+  (1 - 1 / ((overflow * 0.55) / rubberDim + 1)) * rubberDim;
 
 export default function MapBottomSheet() {
   const ref = useRef<HTMLDivElement>(null);
@@ -25,7 +25,7 @@ export default function MapBottomSheet() {
     velocity: 0,
   });
 
-  const getMax = () => Math.max((ref.current?.offsetHeight ?? 0) - PEEK, 0);
+  const getMax = () => Math.max((ref.current?.offsetHeight ?? 0) - peek, 0);
 
   useLayoutEffect(() => {
     setY(getMax());
@@ -60,7 +60,7 @@ export default function MapBottomSheet() {
     const max = getMax();
     const v = drag.current.velocity;
     const next =
-      Math.abs(v) > FLING_VELOCITY
+      Math.abs(v) > flingVelocity
         ? v > 0
           ? max
           : 0
