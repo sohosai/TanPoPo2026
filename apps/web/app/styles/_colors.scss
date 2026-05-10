@@ -1,0 +1,11 @@
+// アプリ全体で使用するカラーパレットを一元管理するファイル
+// 新しい色を追加する場合はここに定義し、各 .module.scss から @use で参照する
+
+// 基本カラー
+$white: #ffffff;
+$black: #000000;
+
+// BottomSheet
+$sheet-background: rgba($white, 1);
+$sheet-shadow: rgba($black, 0.15);
+$sheet-handle: rgba($black, 0.28);
