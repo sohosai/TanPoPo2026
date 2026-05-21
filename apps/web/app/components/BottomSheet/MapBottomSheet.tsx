@@ -1,8 +1,9 @@
 import {
+  type PointerEvent,
+  useCallback,
   useLayoutEffect,
   useRef,
   useState,
-  type PointerEvent,
 } from 'react';
 import styles from './MapBottomSheet.module.scss';
 
@@ -25,11 +26,14 @@ export default function MapBottomSheet() {
     velocity: 0,
   });
 
-  const getMax = () => Math.max((ref.current?.offsetHeight ?? 0) - peek, 0);
+  const getMax = useCallback(
+    () => Math.max((ref.current?.offsetHeight ?? 0) - peek, 0),
+    [],
+  );
 
   useLayoutEffect(() => {
     setY(getMax());
-  }, []);
+  }, [getMax]);
 
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -60,13 +64,7 @@ export default function MapBottomSheet() {
     const max = getMax();
     const v = drag.current.velocity;
     const next =
-      Math.abs(v) > flingVelocity
-        ? v > 0
-          ? max
-          : 0
-        : y < max / 2
-          ? 0
-          : max;
+      Math.abs(v) > flingVelocity ? (v > 0 ? max : 0) : y < max / 2 ? 0 : max;
     setY(next);
     setDragging(false);
   };
