@@ -12,30 +12,19 @@
 }
 
 #global-loader {
-  /* ロゴの本体 */
   .logo {
     height: 10%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background: #ffffff;
-    aspect-ratio: 3.6 / 1;
-
-    .text {
-      height: 81%;
-      margin-top: 3%;
-      margin-right: 1%;
-      aspect-ratio: 3.22 / 1;
-      svg path {
-        fill: #ff0000;
-      }
-    }
 
     /* 左側の綿毛 */
     .shape {
       height: 100%;
       aspect-ratio: 1 / 1.25;
       position: relative;
+      flex-shrink: 0;
 
       /* 綿毛の丸 */
       .circle1 {
@@ -77,24 +66,69 @@
         height: 30%;
         position: absolute;
         bottom: 0;
-        right: 0;
+        right: 0%;
         z-index: 1;
         display: flex;
-        justify-content: end;
+        justify-content: center;
 
-        svg {
+        :where(svg) {
           width: auto;
           height: 100%;
           display: block;
         }
 
         /* 茎の色（綿毛と同じ赤に） */
-        svg path {
+        :where(svg path) {
           fill: #ff0000;
         }
       }
     }
 
     /* 右側の文字 */
+    .text {
+      margin-left: 5%;
+      height: 81%;
+      margin-top: 3%;
+      display: flex;
+      overflow: hidden;
+      max-width: 0;
+      opacity: 0;
+
+      animation: revealText 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+
+      :where(svg) {
+        height: 100%;
+        display: block;
+        flex-shrink: 0;
+        transform: translateX(10px);
+        animation: slideInText 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+
+      :where(svg path) {
+        fill: #ff0000;
+      }
+    }
+  }
+}
+
+/* 文字枠の展開とフェードイン */
+@keyframes revealText {
+  0% {
+    max-width: 0;
+    opacity: 0;
+  }
+  100% {
+    max-width: 100%;
+    opacity: 1;
+  }
+}
+
+/* 文字自体のスライドイン */
+@keyframes slideInText {
+  0% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
