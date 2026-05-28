@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   isRouteErrorResponse,
   Links,
@@ -8,6 +9,7 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
+import { GlobalLoader } from './components/Loader';
 import './global.css';
 
 export const links: Route.LinksFunction = () => [
@@ -24,6 +26,23 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    // デバッグ用のクエリパラメータ (?debug-loader) が指定されている場合は消去しない
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('debug-loader')) {
+      return;
+    }
+
+    const loader = document.getElementById('global-loader');
+    if (loader) {
+      loader.classList.add('fade-out');
+      const timeout = setTimeout(() => {
+        loader.remove();
+      }, 600); // transition 0.6s
+      return () => clearTimeout(timeout);
+    }
+  }, []);
+
   return (
     <html lang="ja">
       <head>
@@ -33,6 +52,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <GlobalLoader />
         {children}
         <ScrollRestoration />
         <Scripts />

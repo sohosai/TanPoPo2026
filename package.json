@@ -6,7 +6,7 @@
     "dev": "turbo run dev",
     "check": "turbo run check-types",
     "clean": "turbo run clean && rm -rf .turbo",
-    "format": "biome format . --write",
+    "format": "biome format . --write && prettier --write \"**/*.html\"",
     "ci": "bun run check && bun run format",
     "prepare": "lefthook install"
   },
