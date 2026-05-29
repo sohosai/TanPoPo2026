@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import styles from './MapBottomSheet.module.scss';
+import styles from './BottomSheet.module.scss';
 
 // デフォルトは50
 const peek = 500;
