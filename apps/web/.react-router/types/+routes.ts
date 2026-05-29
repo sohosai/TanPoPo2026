@@ -14,10 +14,7 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/search": {
-    params: {};
-  };
-  "/search/shop/:id": {
+  "/shop/:id": {
     params: {
       "id": string;
     };
@@ -27,25 +24,25 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/search" | "/search/shop/:id";
+    page: "/" | "/shop/:id";
   };
-  "routes/search/index.tsx": {
-    id: "routes/search/index";
-    page: "/search" | "/search/shop/:id";
+  "routes/index.tsx": {
+    id: "routes/index";
+    page: "/" | "/shop/:id";
   };
-  "routes/search/list.tsx": {
-    id: "routes/search/list";
-    page: "/search";
+  "routes/shop/index.tsx": {
+    id: "routes/shop/index";
+    page: "/";
   };
-  "routes/search/shop.tsx": {
-    id: "routes/search/shop";
-    page: "/search/shop/:id";
+  "routes/shop/detail.tsx": {
+    id: "routes/shop/detail";
+    page: "/shop/:id";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
-  "routes/search/index": typeof import("./app/routes/search/index.tsx");
-  "routes/search/list": typeof import("./app/routes/search/list.tsx");
-  "routes/search/shop": typeof import("./app/routes/search/shop.tsx");
+  "routes/index": typeof import("./app/routes/index.tsx");
+  "routes/shop/index": typeof import("./app/routes/shop/index.tsx");
+  "routes/shop/detail": typeof import("./app/routes/shop/detail.tsx");
 };

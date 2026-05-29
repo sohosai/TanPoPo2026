@@ -8,7 +8,6 @@ import {
 } from 'react';
 import styles from './MapBottomSheet.module.scss';
 
-
 // デフォルトは50
 const peek = 500;
 const flingVelocity = 0.5;

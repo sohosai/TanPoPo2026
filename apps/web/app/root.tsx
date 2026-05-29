@@ -9,7 +9,7 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
-import { GlobalLoader } from './components/Loader';
+import { GlobalLoader } from './components/features/Loader';
 import './global.css';
 
 export const links: Route.LinksFunction = () => [
