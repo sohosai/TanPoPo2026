@@ -14,20 +14,38 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/search": {
+    params: {};
+  };
+  "/search/shop/:id": {
+    params: {
+      "id": string;
+    };
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/";
+    page: "/" | "/search" | "/search/shop/:id";
   };
-  "routes/index.tsx": {
-    id: "routes/index";
-    page: "/";
+  "routes/search/index.tsx": {
+    id: "routes/search/index";
+    page: "/search" | "/search/shop/:id";
+  };
+  "routes/search/list.tsx": {
+    id: "routes/search/list";
+    page: "/search";
+  };
+  "routes/search/shop.tsx": {
+    id: "routes/search/shop";
+    page: "/search/shop/:id";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
-  "routes/index": typeof import("./app/routes/index.tsx");
+  "routes/search/index": typeof import("./app/routes/search/index.tsx");
+  "routes/search/list": typeof import("./app/routes/search/list.tsx");
+  "routes/search/shop": typeof import("./app/routes/search/shop.tsx");
 };

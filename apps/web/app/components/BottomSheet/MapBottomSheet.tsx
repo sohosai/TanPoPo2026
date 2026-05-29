@@ -1,5 +1,6 @@
 import {
   type PointerEvent,
+  type ReactNode,
   useCallback,
   useLayoutEffect,
   useRef,
@@ -7,14 +8,20 @@ import {
 } from 'react';
 import styles from './MapBottomSheet.module.scss';
 
-const peek = 50;
+
+// デフォルトは50
+const peek = 500;
 const flingVelocity = 0.5;
 const rubberDim = 200;
+
+interface MapBottomSheetProps {
+  children?: ReactNode;
+}
 
 const rubberband = (overflow: number) =>
   (1 - 1 / ((overflow * 0.55) / rubberDim + 1)) * rubberDim;
 
-export default function MapBottomSheet() {
+export default function MapBottomSheet({ children }: MapBottomSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [y, setY] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -83,6 +90,7 @@ export default function MapBottomSheet() {
         onPointerCancel={onUp}
       >
         <div className={styles.handle} />
+        {children}
       </div>
     </div>
   );
