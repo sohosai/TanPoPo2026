@@ -1,3 +1,9 @@
+import ShopListItem from '~/components/features/Shop/ShopListItem';
+
 export default function List() {
-  return <h1>これはリストです</h1>;
+  return (
+    <div>
+      <ShopListItem />
+    </div>
+  );
 }

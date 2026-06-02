@@ -6,10 +6,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import styles from './BottomSheet.module.scss';
+import { css, cx } from '../../../../styled-system/css';
 
 // デフォルトは50
-const peek = 500;
+const peek = 50;
 const flingVelocity = 0.5;
 const rubberDim = 200;
 
@@ -19,6 +19,39 @@ interface MapBottomSheetProps {
 
 const rubberband = (overflow: number) =>
   (1 - 1 / ((overflow * 0.55) / rubberDim + 1)) * rubberDim;
+
+const sheetStyles = css({
+  position: 'fixed',
+  left: 0,
+  right: 0,
+  bottom: 0,
+  zIndex: 10,
+  h: '95vh',
+  bg: 'sheet.background',
+  borderRadius: '16px 16px 0 0',
+  boxShadow: '0 -8px 24px {colors.sheet.shadow}',
+  transition: 'transform 0.45s cubic-bezier(0.32, 0.72, 0, 1)',
+  touchAction: 'none',
+});
+
+const noTransitionStyles = css({
+  transition: 'none!',
+});
+
+const handleAreaStyles = css({
+  h: '40px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'grab',
+});
+
+const handleStyles = css({
+  w: '42px',
+  h: '5px',
+  borderRadius: '999px',
+  bg: 'sheet.handle',
+});
 
 export default function MapBottomSheet({ children }: MapBottomSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -78,17 +111,17 @@ export default function MapBottomSheet({ children }: MapBottomSheetProps) {
   return (
     <div
       ref={ref}
-      className={`${styles.sheet} ${dragging ? styles.noTransition : ''}`}
+      className={cx(sheetStyles, dragging && noTransitionStyles)}
       style={{ transform: `translateY(${y}px)` }}
     >
       <div
-        className={styles.handleArea}
+        className={handleAreaStyles}
         onPointerDown={onDown}
         onPointerMove={onMove}
         onPointerUp={onUp}
         onPointerCancel={onUp}
       >
-        <div className={styles.handle} />
+        <div className={handleStyles} />
         {children}
       </div>
     </div>

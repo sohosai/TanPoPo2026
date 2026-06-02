@@ -2,7 +2,7 @@ import maplibregl, { type StyleSpecification } from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import sohosaiMap from './sohosai-map.json';
-import styles from './View.module.scss';
+import { css } from '../../../../styled-system/css';
 
 export default function View() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -23,8 +23,8 @@ export default function View() {
   }, []);
 
   return (
-    <div className={styles.root}>
-      <div ref={mapContainer} className={styles.map} />
+    <div className={css({ position: 'fixed', top: 0, left: 0, w: '100vw', h: '100dvh', bg: 'gray.100' })}>
+      <div ref={mapContainer} className={css({ position: 'absolute', top: 0, left: 0, w: '100%', h: '100%' })} />
     </div>
   );
 }

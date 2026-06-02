@@ -11,6 +11,7 @@ import {
 import type { Route } from './+types/root';
 import { GlobalLoader } from './components/features/Loader';
 import './global.css';
+import '../styled-system/styles.css';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
