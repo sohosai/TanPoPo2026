@@ -1,5 +1,11 @@
+import { css } from '../../../../styled-system/css';
+
 export default function ShopListItem() {
   return (
-    <div className="item">{/* <img src="/sample/dog.jpg" alt="" /> */}</div>
+    <div
+      className={css({
+        aspectRatio: '1/1',
+      })}
+    ></div>
   );
 }

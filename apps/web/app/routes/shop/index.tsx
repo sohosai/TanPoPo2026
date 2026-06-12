@@ -4,6 +4,17 @@ export default function List() {
   return (
     <div>
       <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
+      <ShopListItem />
     </div>
   );
 }

@@ -23,8 +23,26 @@ export default function View() {
   }, []);
 
   return (
-    <div className={css({ position: 'fixed', top: 0, left: 0, w: '100vw', h: '100dvh', bg: 'gray.100' })}>
-      <div ref={mapContainer} className={css({ position: 'absolute', top: 0, left: 0, w: '100%', h: '100%' })} />
+    <div
+      className={css({
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        w: '100vw',
+        h: '100dvh',
+        bg: 'gray.100',
+      })}
+    >
+      <div
+        ref={mapContainer}
+        className={css({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          w: '100%',
+          h: '100%',
+        })}
+      />
     </div>
   );
 }
