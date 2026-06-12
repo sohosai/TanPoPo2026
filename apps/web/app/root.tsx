@@ -9,7 +9,9 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
-import { GlobalLoader } from './components/features/Loader';
+// 一時的に global-loader を無効化中。
+// import { GlobalLoader } from './components/features/Loader';
+import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 import '../styled-system/styles.css';
 
@@ -28,7 +30,6 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    // デバッグ用のクエリパラメータ (?debug-loader) が指定されている場合は消去しない
     const params = new URLSearchParams(window.location.search);
     if (params.has('debug-loader')) {
       return;
@@ -39,7 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       loader.classList.add('fade-out');
       const timeout = setTimeout(() => {
         loader.remove();
-      }, 600); // transition 0.6s
+      }, 600);
       return () => clearTimeout(timeout);
     }
   }, []);
@@ -53,7 +54,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <GlobalLoader />
+        {/* TODO: 一時的に global-loader を無効化中。元に戻すときはコメントアウトを解除する。 */}
+        {/* <GlobalLoader /> */}
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -63,7 +65,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <TrpcProvider>
+      <Outlet />
+    </TrpcProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

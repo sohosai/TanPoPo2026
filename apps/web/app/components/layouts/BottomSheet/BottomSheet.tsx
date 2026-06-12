@@ -27,11 +27,21 @@ const sheetStyles = css({
   bottom: 0,
   zIndex: 10,
   h: '95vh',
+  display: 'flex',
+  flexDirection: 'column',
   bg: 'sheet.background',
   borderRadius: '16px 16px 0 0',
   boxShadow: '0 -8px 24px {colors.sheet.shadow}',
   transition: 'transform 0.45s cubic-bezier(0.32, 0.72, 0, 1)',
   touchAction: 'none',
+});
+
+const contentStyles = css({
+  flex: 1,
+  minHeight: 0,
+  overflowY: 'auto',
+  overscrollBehavior: 'contain',
+  touchAction: 'pan-y',
 });
 
 const noTransitionStyles = css({
@@ -122,8 +132,8 @@ export default function MapBottomSheet({ children }: MapBottomSheetProps) {
         onPointerCancel={onUp}
       >
         <div className={handleStyles} />
-        {children}
       </div>
+      <div className={contentStyles}>{children}</div>
     </div>
   );
 }

@@ -14,7 +14,6 @@ export default function View() {
       container: mapContainer.current,
       style: sohosaiMap as unknown as StyleSpecification,
     });
-    map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
 
     return () => {
       map.current?.remove();
