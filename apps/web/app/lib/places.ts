@@ -29,7 +29,10 @@ export function usePlaces() {
 }
 
 /** 場所＋部屋番号を表示ラベルに整形する（建物名 + 部屋。部屋が無ければ場所名のみ）。 */
-export function formatLocation(place: Place | undefined, room?: string): string {
+export function formatLocation(
+  place: Place | undefined,
+  room?: string,
+): string {
   if (!place) return '';
   return room ? `${place.name}${room}` : place.name;
 }

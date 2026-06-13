@@ -110,7 +110,9 @@ async function main() {
     if (!place) {
       err(`${where}: placeId が place に存在しない: ${placeId}`);
     } else if (place.kind !== 'building') {
-      err(`${where}: placeId ${placeId} の kind が building でない（${place.kind}）`);
+      err(
+        `${where}: placeId ${placeId} の kind が building でない（${place.kind}）`,
+      );
     }
 
     if (f.geometry?.type !== 'Polygon') {
@@ -125,11 +127,15 @@ async function main() {
     const first = ring[0];
     const last = ring[ring.length - 1];
     if (first[0] !== last[0] || first[1] !== last[1]) {
-      err(`${where} (${placeId}): 外周リングが閉じていない（先頭と末尾が不一致）`);
+      err(
+        `${where} (${placeId}): 外周リングが閉じていない（先頭と末尾が不一致）`,
+      );
     }
     for (const pos of ring) {
       if (!inBbox(pos)) {
-        err(`${where} (${placeId}): 座標が範囲外（取り違え?）: ${JSON.stringify(pos)}`);
+        err(
+          `${where} (${placeId}): 座標が範囲外（取り違え?）: ${JSON.stringify(pos)}`,
+        );
         break;
       }
     }
@@ -138,7 +144,9 @@ async function main() {
   // 建物 place なのにポリゴンが無いものは警告
   for (const p of places) {
     if (p.kind === 'building' && !buildingPlaceIds.has(p.id)) {
-      warn(`place ${p.id}: kind=building だが buildings.geojson にポリゴンが無い`);
+      warn(
+        `place ${p.id}: kind=building だが buildings.geojson にポリゴンが無い`,
+      );
     }
   }
 
@@ -207,9 +215,14 @@ async function main() {
         err(`${where}: kind=entrance だが placeId が無い`);
       } else {
         const place = placeById.get(placeId);
-        if (!place) err(`${where}: entrance の placeId が place に存在しない: ${placeId}`);
+        if (!place)
+          err(
+            `${where}: entrance の placeId が place に存在しない: ${placeId}`,
+          );
         else if (place.kind !== 'building') {
-          warn(`${where}: entrance の placeId ${placeId} が建物でない（${place.kind}）`);
+          warn(
+            `${where}: entrance の placeId ${placeId} が建物でない（${place.kind}）`,
+          );
         }
       }
     }
@@ -238,7 +251,9 @@ async function main() {
     }
     for (const loc of shop.locations) {
       if (!placeById.has(loc.placeId)) {
-        err(`shop ${shop.id} (${shop.name}): locations.placeId が存在しない: ${loc.placeId}`);
+        err(
+          `shop ${shop.id} (${shop.name}): locations.placeId が存在しない: ${loc.placeId}`,
+        );
       }
     }
   }
@@ -255,7 +270,9 @@ async function main() {
     process.exit(0);
   }
   for (const e of errors) console.error(`❌ ${e}`);
-  console.error(`\n検証失敗: ${errors.length} 件のエラー、${warnings.length} 件の警告。`);
+  console.error(
+    `\n検証失敗: ${errors.length} 件のエラー、${warnings.length} 件の警告。`,
+  );
   process.exit(1);
 }
 

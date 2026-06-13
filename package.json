@@ -6,6 +6,8 @@
     "dev": "turbo run dev",
     "check": "turbo run check-types",
     "check:map-data": "bun run scripts/validate-map-data.ts",
+    "ingest:osm": "bun run scripts/ingest-osm.ts",
+    "merge:osm": "bun run scripts/merge-osm.ts",
     "clean": "turbo run clean && rm -rf .turbo",
     "format": "biome format . --write && prettier --write \"**/*.html\"",
     "ci": "bun run check && bun run format",

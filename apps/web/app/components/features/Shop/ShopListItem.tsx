@@ -21,8 +21,14 @@ export default function ShopListItem({
   favorite = false,
   onToggleFavorite,
 }: ShopListItemProps) {
-  const { id, name, organization, schedule, thumbnail, cancelled = false } =
-    shop;
+  const {
+    id,
+    name,
+    organization,
+    schedule,
+    thumbnail,
+    cancelled = false,
+  } = shop;
 
   return (
     <Link

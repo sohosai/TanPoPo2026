@@ -8,12 +8,11 @@
 
 | 種類 | ファイル | 役割 | 結合キー |
 | --- | --- | --- | --- |
-| 属性（正） | `apps/api/trpc/routers/place.ts` | id / 名前 / 種別 / 代表点。`place.list` で配信 | `Place.id` |
+| 属性 | `apps/api/trpc/routers/place.ts` | id / 名前 / 種別 / 代表点。`place.list` で配信 | `Place.id` |
 | 建物ジオメトリ | `apps/web/app/components/features/Map/data/buildings.geojson` | 建物ポリゴン | `properties.placeId` |
 | 入口/接続路 | `apps/web/app/components/features/Map/data/path-network.geojson` | 通路網。`kind:"entrance"` の feature が建物への接続路 | `properties.placeId` |
 | 店舗の紐付け | `apps/api/trpc/routers/shop.ts` | `Shop.locations[].placeId`（建物）＋ `room`（表示） | `placeId` |
 
-> 属性は API（`place.ts`）が単一の正。ジオメトリは地図と密結合のため web 側の GeoJSON に置き、同じ `placeId` で属性とつなぐ。
 
 ## 各データの構造
 
@@ -75,7 +74,7 @@ type Place = {
 - 地図デバッグ表示: URL に `?debug` を付けると、建物ポリゴン・通路・入口（緑）・ノードが地図に重なる（`apps/web/app/components/features/Map/debugLayers.ts`）。
 
 ```
-place.ts(属性の正) ──place.list──> usePlaces() ──> 一覧/詳細/検索/地図フォーカス
+place.ts ──place.list──> usePlaces() ──> 一覧/詳細/検索/地図フォーカス
       ▲ placeId
 buildings.geojson / path-network.geojson(ジオメトリ・入口) ─┘ placeId で結合
 shop.ts: Shop.locations[{ placeId, room }] ──────────────────┘

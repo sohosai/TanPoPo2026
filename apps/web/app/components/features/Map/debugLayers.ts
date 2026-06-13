@@ -4,11 +4,8 @@ import buildingsRaw from './data/buildings.geojson?raw';
 import { pathNetwork } from './paths';
 
 /**
- * デバッグ用オーバーレイ。
- * 現在判明している建物（buildings.geojson）と通路ネットワーク（path-network.geojson）を
- * 地図に重ねて可視化する。正データ投入前の確認用で、本番では外す想定。
+ * 現在判明している建物（buildings.geojson）と通路ネットワーク（path-network.geojson）を地図に重ねて可視化する。
  */
-
 type BuildingFeature = {
   properties: { placeId: string; name?: string };
   geometry: { type: 'Polygon'; coordinates: number[][][] };
@@ -16,8 +13,8 @@ type BuildingFeature = {
 
 const buildingsData = JSON.parse(buildingsRaw);
 const ACCENT = token('colors.accent');
-const PATH_COLOR = '#ff5a36'; // 一般通路を目立たせるデバッグ色
-const ENTRANCE_COLOR = '#2e9e5b'; // 建物に接続する入口/接続路
+const PATH_COLOR = '#ff5a36'; // 一般通路
+const ENTRANCE_COLOR = '#2e9e5b'; // 入口/接続路
 
 /** ポリゴン外周の平均座標（簡易重心）。ラベル設置位置に使う。 */
 function ringCentroid(coords: number[][][]): [number, number] {
@@ -76,7 +73,10 @@ export function addDebugLayers(map: MlMap): void {
   });
 
   // 通路の頂点（ノード）
-  map.addSource('debug-path-nodes', { type: 'geojson', data: buildNodeCollection() });
+  map.addSource('debug-path-nodes', {
+    type: 'geojson',
+    data: buildNodeCollection(),
+  });
   map.addLayer({
     id: 'debug-path-nodes-circle',
     type: 'circle',
@@ -89,7 +89,7 @@ export function addDebugLayers(map: MlMap): void {
     },
   });
 
-  // 建物コードのラベル（glyphs がデモキーで使えないため DOM マーカーで表示）
+  // 建物コードのラベル
   for (const f of buildingsData.features as BuildingFeature[]) {
     const el = document.createElement('div');
     el.textContent = f.properties.placeId.replace(/^bldg-/, '');
