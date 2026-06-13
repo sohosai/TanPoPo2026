@@ -1,8 +1,8 @@
 import maplibregl, { type StyleSpecification } from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import sohosaiMap from './sohosai-map.json';
 import { css } from '../../../../styled-system/css';
+import sohosaiMap from './sohosai-map.json';
 
 export default function View() {
   const mapContainer = useRef<HTMLDivElement | null>(null);

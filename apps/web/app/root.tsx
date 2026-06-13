@@ -54,7 +54,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {/* TODO: 一時的に global-loader を無効化中。元に戻すときはコメントアウトを解除する。 */}
         {/* <GlobalLoader /> */}
         {children}
         <ScrollRestoration />

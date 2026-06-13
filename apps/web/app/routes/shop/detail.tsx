@@ -8,10 +8,10 @@ import {
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router';
+import { useFavorites } from '~/lib/favorites';
 import { trpc } from '~/lib/trcp';
 import { css } from '../../../styled-system/css';
-
-const accentColor = '#3bb6b6';
+import { token } from '../../../styled-system/tokens';
 
 export default function Detail() {
   const { id } = useParams();
@@ -24,7 +24,8 @@ export default function Detail() {
     { enabled: id !== undefined },
   );
 
-  const [favorite, setFavorite] = useState(false);
+  const { isFavorite, toggle } = useFavorites();
+  const favorite = id !== undefined && isFavorite(id);
   const [imageIndex, setImageIndex] = useState(0);
 
   if (status === 'pending') {
@@ -63,7 +64,7 @@ export default function Detail() {
             width: '32px',
             height: '32px',
             borderRadius: '4px',
-            bg: shop.cancelled ? '#9e9e9e' : '#7da7d9',
+            bg: shop.cancelled ? 'surface.muted' : '#7da7d9',
             overflow: 'hidden',
           })}
         >
@@ -89,7 +90,7 @@ export default function Detail() {
             alignItems: 'center',
             gap: '4px 12px',
             fontSize: '13px',
-            color: '#555555',
+            color: 'fg.muted',
             pt: '6px',
           })}
         >
@@ -100,7 +101,7 @@ export default function Detail() {
               gap: '3px',
             })}
           >
-            <IconMapPin size={15} color={accentColor} />
+            <IconMapPin size={15} color={token('colors.accent')} />
             {shop.location}
           </span>
           <span
@@ -110,7 +111,7 @@ export default function Detail() {
               gap: '3px',
             })}
           >
-            <IconClock size={15} color={accentColor} />
+            <IconClock size={15} color={token('colors.accent')} />
             {shop.schedule.join('、')}
           </span>
         </div>
@@ -124,7 +125,7 @@ export default function Detail() {
             alignItems: 'center',
             justifyContent: 'center',
             p: '2px',
-            color: '#999999',
+            color: 'fg.subtle',
           })}
         >
           <IconX size={24} />
@@ -138,12 +139,12 @@ export default function Detail() {
             fontWeight: 'bold',
             fontSize: '18px',
             lineHeight: 1.3,
-            color: '#222222',
+            color: 'fg.strong',
           })}
         >
           {shop.name}
         </h1>
-        <p className={css({ fontSize: '12px', color: '#888888', mt: '2px' })}>
+        <p className={css({ fontSize: '12px', color: 'fg.subtle', mt: '2px' })}>
           {shop.organization}
         </p>
       </div>
@@ -202,7 +203,7 @@ export default function Detail() {
                     width: '7px',
                     height: '7px',
                     borderRadius: '999px',
-                    bg: i === imageIndex ? accentColor : '#cfd8d8',
+                    bg: i === imageIndex ? 'accent' : '#cfd8d8',
                   })}
                 />
               ))}
@@ -218,7 +219,7 @@ export default function Detail() {
           mt: '16px',
           fontSize: '13px',
           lineHeight: 1.7,
-          color: '#444444',
+          color: 'fg',
         })}
       >
         {shop.description}
@@ -249,10 +250,10 @@ export default function Detail() {
             py: '8px',
             borderRadius: '999px',
             border: '1px solid',
-            borderColor: accentColor,
-            color: accentColor,
+            borderColor: 'accent',
+            color: 'accent',
             fontSize: '14px',
-            bg: '#ffffff',
+            bg: 'surface',
             cursor: 'pointer',
           })}
         >
@@ -263,13 +264,13 @@ export default function Detail() {
           type="button"
           aria-label={favorite ? 'お気に入りから削除' : 'お気に入りに追加'}
           aria-pressed={favorite}
-          onClick={() => setFavorite((v) => !v)}
+          onClick={() => id !== undefined && toggle(id)}
           className={css({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             p: '2px',
-            color: favorite ? '#ff6b81' : '#cccccc',
+            color: favorite ? 'favorite' : 'favorite.inactive',
             cursor: 'pointer',
           })}
         >

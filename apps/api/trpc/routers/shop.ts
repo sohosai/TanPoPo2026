@@ -4,13 +4,29 @@ import { t } from '../trpc';
 
 export type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
 
-/** 一覧表示に使う店舗情報（軽量） */
+/**
+ * 企画の主分類。フィルタの主軸として使う。
+ * TODO: 正式な分類体系に合わせて増やす。
+ */
+export type ShopCategory =
+  | '食品'
+  | '物販'
+  | '展示'
+  | '学術'
+  | 'ステージ'
+  | 'その他';
+
+/** 一覧表示・フィルタに使う店舗情報（軽量。画像/長文説明は含めない） */
 export type Shop = {
   id: string;
   name: string;
   organization: string;
   location: string;
   schedule: ScheduleDay[];
+  /** 主分類（単一） */
+  category: ShopCategory;
+  /** 自由拡張のタグ（複数）。今後増えるフィルタ軸を柔軟に吸収する */
+  tags: string[];
   thumbnail?: string;
   cancelled?: boolean;
 };
@@ -34,6 +50,8 @@ const shopDetails: ShopDetail[] = [
     organization: '実施団体名',
     location: '5C305',
     schedule: ['前夜祭', 'Day1', 'Day2'],
+    category: '展示',
+    tags: ['動物', '癒し', '屋内'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
   },
@@ -43,6 +61,8 @@ const shopDetails: ShopDetail[] = [
     organization: '実施団体名',
     location: '5C305',
     schedule: ['前夜祭', 'Day1', 'Day2'],
+    category: '食品',
+    tags: ['屋外', '軽食'],
     cancelled: true,
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg'],
@@ -53,6 +73,8 @@ const shopDetails: ShopDetail[] = [
     organization: '実施団体名',
     location: '5C305',
     schedule: ['Day1', 'Day2'],
+    category: '学術',
+    tags: ['研究', '屋内'],
     description: sampleDescription,
     images: ['/sample/dog.jpg'],
   },
@@ -62,6 +84,8 @@ const shopDetails: ShopDetail[] = [
     organization: '実施団体名',
     location: '5C305',
     schedule: ['Day2'],
+    category: 'ステージ',
+    tags: ['音楽', '屋外'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
   },
@@ -71,6 +95,8 @@ const shopDetails: ShopDetail[] = [
     organization: '実施団体名',
     location: '5C305',
     schedule: ['前夜祭', 'Day1'],
+    category: '物販',
+    tags: ['グッズ', '屋内'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg'],
   },
@@ -80,6 +106,8 @@ const shopDetails: ShopDetail[] = [
     organization: '実施団体名',
     location: '5C305',
     schedule: ['前夜祭', 'Day1', 'Day2'],
+    category: '食品',
+    tags: ['屋外', 'スイーツ'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
   },
