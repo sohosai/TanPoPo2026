@@ -2,24 +2,44 @@ import maplibregl, { type StyleSpecification } from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { css } from '../../../../styled-system/css';
+import { addDebugLayers } from './debugLayers';
+import { useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
 
 export default function View() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
+  const { register } = useMap();
 
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
-    map.current = new maplibregl.Map({
+    const instance = new maplibregl.Map({
       container: mapContainer.current,
       style: sohosaiMap as unknown as StyleSpecification,
     });
+    map.current = instance;
+    // 統一操作 API から参照できるよう登録する。
+    register(instance);
+
+    // デバッグ用：URL に ?debug があるときだけ建物・通路データを重ねる。
+    const debugEnabled = new URLSearchParams(window.location.search).has(
+      'debug',
+    );
+    if (debugEnabled) {
+      const showDebug = () => addDebugLayers(instance);
+      if (instance.isStyleLoaded()) {
+        showDebug();
+      } else {
+        instance.on('load', showDebug);
+      }
+    }
 
     return () => {
-      map.current?.remove();
+      register(null);
+      instance.remove();
       map.current = null;
     };
-  }, []);
+  }, [register]);
 
   return (
     <div

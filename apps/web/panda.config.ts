@@ -28,6 +28,31 @@ export default defineConfig({
           },
         },
       },
+      // いいねの演出。ハートのポップと拡散リング。
+      keyframes: {
+        heartPop: {
+          '0%': { transform: 'scale(1)' },
+          '30%': { transform: 'scale(1.4)' },
+          '55%': { transform: 'scale(0.85)' },
+          '75%': { transform: 'scale(1.1)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        heartBurst: {
+          '0%': {
+            transform: 'translate(-50%, -50%) scale(0.3)',
+            opacity: '0.7',
+          },
+          '100%': {
+            transform: 'translate(-50%, -50%) scale(2)',
+            opacity: '0',
+          },
+        },
+        // 一覧 → 詳細へ入るときの入場アニメ（軽くスライドアップ＋フェード）。
+        detailEnter: {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
       // 役割ベースの色。コンポーネントからはこちらを参照する。
       semanticTokens: {
         colors: {

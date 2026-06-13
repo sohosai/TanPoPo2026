@@ -1,36 +1,28 @@
-import {
-  IconClock,
-  IconHeart,
-  IconHeartFilled,
-  IconMapPin,
-} from '@tabler/icons-react';
+import { IconClock, IconMapPin } from '@tabler/icons-react';
 import type { Shop } from 'api';
 import { Link } from 'react-router';
 import { css } from '../../../../styled-system/css';
 import { token } from '../../../../styled-system/tokens';
+import FavoriteButton from './FavoriteButton';
 
 export type { Shop };
 
 type ShopListItemProps = {
   shop: Shop;
+  /** 場所の表示ラベル（建物名＋部屋番号、例 "5C305"）。places から整形して渡す */
+  locationLabel?: string;
   favorite?: boolean;
   onToggleFavorite?: (id: string) => void;
 };
 
 export default function ShopListItem({
   shop,
+  locationLabel,
   favorite = false,
   onToggleFavorite,
 }: ShopListItemProps) {
-  const {
-    id,
-    name,
-    organization,
-    location,
-    schedule,
-    thumbnail,
-    cancelled = false,
-  } = shop;
+  const { id, name, organization, schedule, thumbnail, cancelled = false } =
+    shop;
 
   return (
     <Link
@@ -100,7 +92,6 @@ export default function ShopListItem({
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
-          pr: '24px',
         })}
       >
         <h3
@@ -110,6 +101,7 @@ export default function ShopListItem({
             lineHeight: 1.3,
             color: 'fg.strong',
             lineClamp: 2,
+            wordBreak: 'break-all',
           })}
         >
           {name}
@@ -133,6 +125,7 @@ export default function ShopListItem({
             gap: '4px 12px',
             fontSize: '12px',
             color: 'fg.muted',
+            pr: '28px',
           })}
         >
           <span
@@ -143,7 +136,7 @@ export default function ShopListItem({
             })}
           >
             <IconMapPin size={14} color={token('colors.accent')} />
-            {location}
+            {locationLabel}
           </span>
           <span
             className={css({
@@ -159,29 +152,16 @@ export default function ShopListItem({
       </div>
 
       {/* お気に入り */}
-      <button
-        type="button"
-        aria-label={favorite ? 'お気に入りから削除' : 'お気に入りに追加'}
-        aria-pressed={favorite}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onToggleFavorite?.(id);
-        }}
+      <FavoriteButton
+        active={favorite}
+        onToggle={() => onToggleFavorite?.(id)}
+        size={26}
         className={css({
           position: 'absolute',
           right: '10px',
           bottom: '10px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          p: '2px',
-          color: favorite ? 'favorite' : 'favorite.inactive',
-          cursor: 'pointer',
         })}
-      >
-        {favorite ? <IconHeartFilled size={26} /> : <IconHeart size={26} />}
-      </button>
+      />
     </Link>
   );
 }

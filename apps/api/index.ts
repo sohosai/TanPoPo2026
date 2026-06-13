@@ -5,11 +5,13 @@ import { createTRPCContext } from './trpc/context';
 import { appRouter } from './trpc/router';
 
 export type { AppRouter } from './trpc/router';
+export type { Place, PlaceKind } from './trpc/routers/place';
 export type {
   ScheduleDay,
   Shop,
   ShopCategory,
   ShopDetail,
+  ShopLocation,
 } from './trpc/routers/shop';
 
 const app = new Hono();

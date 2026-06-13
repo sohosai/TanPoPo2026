@@ -1,4 +1,4 @@
-import type { ScheduleDay, Shop, ShopCategory } from 'api';
+import type { Place, ScheduleDay, Shop, ShopCategory } from 'api';
 
 /**
  * 店舗一覧の検索・絞り込み条件。
@@ -42,11 +42,22 @@ export function normalize(text: string): string {
   return text.normalize('NFKC').toLowerCase().trim();
 }
 
-/** あいまい検索の対象文字列（名称・団体・場所・タグ）に一致するか */
-function matchesQuery(shop: Shop, normalizedQuery: string): boolean {
+/**
+ * あいまい検索の対象文字列（名称・団体・建物名・タグ）に一致するか。
+ * 場所は建物名（Place.name とよみがな）で検索する。部屋番号は表示専用で対象外。
+ */
+function matchesQuery(
+  shop: Shop,
+  normalizedQuery: string,
+  places: ReadonlyMap<string, Place>,
+): boolean {
   if (normalizedQuery === '') return true;
+  const placeTerms = shop.locations.flatMap((loc) => {
+    const place = places.get(loc.placeId);
+    return place ? [place.name, place.reading ?? ''] : [];
+  });
   const haystack = normalize(
-    [shop.name, shop.organization, shop.location, ...shop.tags].join(' '),
+    [shop.name, shop.organization, ...placeTerms, ...shop.tags].join(' '),
   );
   return haystack.includes(normalizedQuery);
 }
@@ -62,11 +73,12 @@ export function filterShops(
   shops: Shop[],
   criteria: ShopFilterCriteria,
   favorites: ReadonlySet<string> = new Set(),
+  places: ReadonlyMap<string, Place> = new Map(),
 ): Shop[] {
   const q = normalize(criteria.q);
   return shops.filter(
     (shop) =>
-      matchesQuery(shop, q) &&
+      matchesQuery(shop, q, places) &&
       (criteria.categories.length === 0 ||
         criteria.categories.includes(shop.category)) &&
       (criteria.days.length === 0 ||

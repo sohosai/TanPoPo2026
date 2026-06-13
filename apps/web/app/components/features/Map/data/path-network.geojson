@@ -1,0 +1,154 @@
+{
+  "type": "FeatureCollection",
+  "name": "path-network",
+  "description": "歩行者の通路ネットワーク（サンプル）。各 LineString の端点座標が一致する箇所を交差ノードとして扱い、geojson-path-finder でグラフ化して道なりルートを計算する。properties.kind='walkway' は一般通路。kind='entrance' かつ placeId を持つ feature は『その建物に接続する入口/接続路』を明示する（建物の入口は複数可。各 entrance の先頭座標が建物側＝入口点）。将来データ側提供の正データに差し替える。",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "南通り" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1016, 36.1034],
+          [140.103, 36.10339]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1016, 36.1034],
+          [140.10195, 36.1044],
+          [140.10225, 36.10546]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.103, 36.10339],
+          [140.10265, 36.1044],
+          [140.10225, 36.10546]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "中央通り" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.10225, 36.10546],
+          [140.10228, 36.1075]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "中央通り" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.10228, 36.1075],
+          [140.1023, 36.10825]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "中央通り" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1023, 36.10825],
+          [140.10225, 36.109],
+          [140.1021, 36.1097]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "中央通り" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1021, 36.1097],
+          [140.10218, 36.1103],
+          [140.10225, 36.111]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "1A前" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1023, 36.10825],
+          [140.1028, 36.10828]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "UNITEDステージ前" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1021, 36.1097],
+          [140.1015, 36.10971]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "walkway", "name": "2Cエリア前" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.10225, 36.111],
+          [140.1011, 36.11147]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "entrance", "placeId": "bldg-5c", "name": "5C 南口" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1030449, 36.1033899],
+          [140.103, 36.10339]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "entrance", "placeId": "bldg-5c", "name": "5C 西口" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1024, 36.10350],
+          [140.1016, 36.1034]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "kind": "entrance", "placeId": "bldg-1a", "name": "1A 正面口" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [140.1027945, 36.108233],
+          [140.1028, 36.10828]
+        ]
+      }
+    }
+  ]
+}

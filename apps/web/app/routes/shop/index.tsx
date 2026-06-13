@@ -17,6 +17,7 @@ import {
 import ShopListItem from '~/components/features/Shop/ShopListItem';
 import ShopSearchBar from '~/components/features/Shop/ShopSearchBar';
 import { useFavorites } from '~/lib/favorites';
+import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trcp';
 
 /** 読み込み中・エラー・該当なしなどの全画面状態を表す共通表示。 */
@@ -92,6 +93,7 @@ function StateMessage({
 export default function List() {
   const { data: shops, status, isError } = trpc.shop.list.useQuery();
   const { favorites, isFavorite, toggle } = useFavorites();
+  const { byId: placesById, formatShopLocation } = usePlaces();
 
   // 検索・絞り込み条件は URL クエリを唯一の状態源とする（共有/戻る操作に対応）。
   const [searchParams, setSearchParams] = useSearchParams();
@@ -108,8 +110,8 @@ export default function List() {
   // 取得済みの全件に対してクライアント側でフィルタする（オフラインでも動く）。
   // お気に入り集合が変わると「いいねのみ」表示が即座に追従する。
   const visibleShops = useMemo(
-    () => (shops ? filterShops(shops, criteria, favorites) : []),
-    [shops, criteria, favorites],
+    () => (shops ? filterShops(shops, criteria, favorites, placesById) : []),
+    [shops, criteria, favorites, placesById],
   );
 
   return (
@@ -150,6 +152,7 @@ export default function List() {
         <ShopListItem
           key={shop.id}
           shop={shop}
+          locationLabel={formatShopLocation(shop)}
           favorite={isFavorite(shop.id)}
           onToggleFavorite={toggle}
         />

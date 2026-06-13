@@ -1,14 +1,10 @@
-import {
-  IconClock,
-  IconHeart,
-  IconHeartFilled,
-  IconMapPin,
-  IconRoute,
-  IconX,
-} from '@tabler/icons-react';
-import { useState } from 'react';
+import { IconClock, IconMapPin, IconRoute, IconX } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
+import { useMap } from '~/components/features/Map/MapController';
+import FavoriteButton from '~/components/features/Shop/FavoriteButton';
 import { useFavorites } from '~/lib/favorites';
+import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trcp';
 import { css } from '../../../styled-system/css';
 import { token } from '../../../styled-system/tokens';
@@ -25,8 +21,19 @@ export default function Detail() {
   );
 
   const { isFavorite, toggle } = useFavorites();
+  const { formatShopLocation, byId: placesById } = usePlaces();
+  const { focusPlace, highlight } = useMap();
   const favorite = id !== undefined && isFavorite(id);
   const [imageIndex, setImageIndex] = useState(0);
+
+  // 詳細を開いたら、紐づく場所へ地図をフォーカスする（シートの外の地図を統一APIで操作）。
+  const primaryPlaceId = shop?.locations[0]?.placeId;
+  useEffect(() => {
+    if (!primaryPlaceId) return;
+    const place = placesById.get(primaryPlaceId);
+    if (place) focusPlace(place);
+    return () => highlight(null);
+  }, [primaryPlaceId, placesById, focusPlace, highlight]);
 
   if (status === 'pending') {
     return <p className={css({ p: '16px' })}>読み込み中...</p>;
@@ -46,6 +53,7 @@ export default function Detail() {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100%',
+        animation: 'detailEnter 0.28s ease-out',
       })}
     >
       {/* ヘッダー */}
@@ -102,7 +110,7 @@ export default function Detail() {
             })}
           >
             <IconMapPin size={15} color={token('colors.accent')} />
-            {shop.location}
+            {formatShopLocation(shop)}
           </span>
           <span
             className={css({
@@ -260,22 +268,11 @@ export default function Detail() {
           <IconRoute size={18} />
           ルート
         </button>
-        <button
-          type="button"
-          aria-label={favorite ? 'お気に入りから削除' : 'お気に入りに追加'}
-          aria-pressed={favorite}
-          onClick={() => id !== undefined && toggle(id)}
-          className={css({
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            p: '2px',
-            color: favorite ? 'favorite' : 'favorite.inactive',
-            cursor: 'pointer',
-          })}
-        >
-          {favorite ? <IconHeartFilled size={30} /> : <IconHeart size={30} />}
-        </button>
+        <FavoriteButton
+          active={favorite}
+          onToggle={() => id !== undefined && toggle(id)}
+          size={30}
+        />
       </div>
     </div>
   );
