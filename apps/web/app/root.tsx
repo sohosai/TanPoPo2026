@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   isRouteErrorResponse,
   Links,
@@ -8,7 +9,11 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
+// 一時的に global-loader を無効化中。
+// import { GlobalLoader } from './components/features/Loader';
+import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
+import '../styled-system/styles.css';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -24,6 +29,22 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('debug-loader')) {
+      return;
+    }
+
+    const loader = document.getElementById('global-loader');
+    if (loader) {
+      loader.classList.add('fade-out');
+      const timeout = setTimeout(() => {
+        loader.remove();
+      }, 600);
+      return () => clearTimeout(timeout);
+    }
+  }, []);
+
   return (
     <html lang="ja">
       <head>
@@ -33,6 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        {/* <GlobalLoader /> */}
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -42,7 +64,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <TrpcProvider>
+      <Outlet />
+    </TrpcProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
