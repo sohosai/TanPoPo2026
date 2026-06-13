@@ -8,7 +8,8 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "check-types": "bun run typecheck",
-    "clean": "rm -rf build .react-router"
+    "clean": "rm -rf build .react-router",
+    "prepare": "panda codegen"
   },
   "dependencies": {
     "@react-router/node": "7.14.0",
