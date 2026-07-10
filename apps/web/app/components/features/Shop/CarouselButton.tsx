@@ -6,7 +6,10 @@ interface CarouselButtonProps {
   onClick: (e: React.MouseEvent) => void;
 }
 
-export default function CarouselButton({ direction, onClick }: CarouselButtonProps) {
+export default function CarouselButton({
+  direction,
+  onClick,
+}: CarouselButtonProps) {
   const isLeft = direction === 'left';
 
   return (

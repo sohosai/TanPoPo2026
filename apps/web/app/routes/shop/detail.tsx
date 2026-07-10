@@ -388,110 +388,113 @@ export default function Detail() {
       </div>
 
       {/* 画像ビューワーモード (Lightbox) */}
-      {isViewerOpen && isMounted && typeof document !== 'undefined' && createPortal(
-        <div
-          onClick={() => setIsViewerOpen(false)}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-          className={css({
-            position: 'fixed',
-            inset: 0,
-            bg: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(8px)',
-            zIndex: 1000,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            touchAction: 'none',
-          })}
-        >
-          {/* 閉じるボタン */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsViewerOpen(false);
-            }}
-            className={css({
-              position: 'absolute',
-              top: '24px',
-              right: '24px',
-              zIndex: 1010,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              bg: 'rgba(255, 255, 255, 0.2)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              color: '#ffffff',
-              cursor: 'pointer',
-              transition: 'background-color 0.2s, transform 0.1s',
-              '&:hover': {
-                bg: 'rgba(255, 255, 255, 0.4)',
-              },
-              '&:active': {
-                transform: 'scale(0.92)',
-              },
-            })}
-            aria-label="閉じる"
-          >
-            <IconX size={24} />
-          </button>
-
-          {/* ビューワー内の画像表示エリア */}
+      {isViewerOpen &&
+        isMounted &&
+        typeof document !== 'undefined' &&
+        createPortal(
           <div
+            onClick={() => setIsViewerOpen(false)}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
             className={css({
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              maxWidth: '100vw',
-              maxHeight: '100vh',
+              position: 'fixed',
+              inset: 0,
+              bg: 'rgba(0, 0, 0, 0.85)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 1000,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              p: '16px',
+              touchAction: 'none',
             })}
           >
-            <img
-              src={shop.images[imageIndex]}
-              alt={`${shop.name} の拡大画像`}
-              onClick={(e) => e.stopPropagation()}
+            {/* 閉じるボタン */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsViewerOpen(false);
+              }}
               className={css({
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+                position: 'absolute',
+                top: '24px',
+                right: '24px',
+                zIndex: 1010,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                bg: 'rgba(255, 255, 255, 0.2)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: '#ffffff',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s, transform 0.1s',
+                '&:hover': {
+                  bg: 'rgba(255, 255, 255, 0.4)',
+                },
+                '&:active': {
+                  transform: 'scale(0.92)',
+                },
               })}
-            />
+              aria-label="閉じる"
+            >
+              <IconX size={24} />
+            </button>
 
-            {/* 左右切り替えボタン */}
-            {imageIndex > 0 && (
-              <CarouselButton
-                direction="left"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePrev();
-                }}
+            {/* ビューワー内の画像表示エリア */}
+            <div
+              className={css({
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                maxWidth: '100vw',
+                maxHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                p: '16px',
+              })}
+            >
+              <img
+                src={shop.images[imageIndex]}
+                alt={`${shop.name} の拡大画像`}
+                onClick={(e) => e.stopPropagation()}
+                className={css({
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+                })}
               />
-            )}
 
-            {imageIndex < shop.images.length - 1 && (
-              <CarouselButton
-                direction="right"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNext();
-                }}
-              />
-            )}
-          </div>
-        </div>,
-        document.body
-      )}
+              {/* 左右切り替えボタン */}
+              {imageIndex > 0 && (
+                <CarouselButton
+                  direction="left"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrev();
+                  }}
+                />
+              )}
+
+              {imageIndex < shop.images.length - 1 && (
+                <CarouselButton
+                  direction="right"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNext();
+                  }}
+                />
+              )}
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
