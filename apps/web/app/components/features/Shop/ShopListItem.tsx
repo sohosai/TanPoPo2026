@@ -1,4 +1,4 @@
-import { IconClock, IconMapPin } from '@tabler/icons-react';
+import { IconClock, IconMapPinFilled } from '@tabler/icons-react';
 import type { Shop } from 'api';
 import { Link } from 'react-router';
 import { css } from '../../../../styled-system/css';
@@ -55,7 +55,7 @@ export default function ShopListItem({
         className={css({
           position: 'relative',
           flexShrink: 0,
-          width: '96px',
+          width: '112px',
           aspectRatio: '1 / 1',
           bg: 'surface.muted',
           borderRadius: '4px',
@@ -66,15 +66,31 @@ export default function ShopListItem({
         })}
       >
         {thumbnail && (
-          <img
-            src={thumbnail}
-            alt=""
-            className={css({
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            })}
-          />
+          <>
+            <img
+              src={thumbnail}
+              alt=""
+              className={css({
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                filter: 'blur(30px) brightness(0.85)',
+                opacity: 1.0,
+              })}
+            />
+            <img
+              src={thumbnail}
+              alt=""
+              className={css({
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                borderRadius: '4px',
+              })}
+            />
+          </>
         )}
         {cancelled && (
           <span
@@ -98,14 +114,16 @@ export default function ShopListItem({
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
+          py: '4px',
+          pr: '4px',
         })}
       >
         <h3
           className={css({
-            fontWeight: 'bold',
-            fontSize: '17px',
+            fontWeight: 500,
+            fontSize: '18px',
             lineHeight: 1.3,
-            color: 'fg.strong',
+            color: '#204262',
             lineClamp: 2,
             wordBreak: 'break-all',
           })}
@@ -115,8 +133,9 @@ export default function ShopListItem({
 
         <p
           className={css({
-            fontSize: '12px',
-            color: 'fg.subtle',
+            fontWeight: 400,
+            fontSize: '11px',
+            color: '#204262',
           })}
         >
           {organization}
@@ -129,7 +148,7 @@ export default function ShopListItem({
             flexWrap: 'wrap',
             alignItems: 'center',
             gap: '4px 12px',
-            fontSize: '12px',
+            fontSize: '13px',
             color: 'fg.muted',
             pr: '28px',
           })}
@@ -141,7 +160,7 @@ export default function ShopListItem({
               gap: '3px',
             })}
           >
-            <IconMapPin size={14} color={token('colors.accent')} />
+            <IconMapPinFilled size={14} color="#204262" />
             {locationLabel}
           </span>
           <span
@@ -151,7 +170,7 @@ export default function ShopListItem({
               gap: '3px',
             })}
           >
-            <IconClock size={14} color={token('colors.accent')} />
+            <IconClock size={14} color="#204262" />
             {schedule.join('、')}
           </span>
         </div>

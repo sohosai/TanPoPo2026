@@ -1,7 +1,9 @@
 import { IconClock, IconMapPin, IconRoute, IconX } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useParams } from 'react-router';
 import { useMap } from '~/components/features/Map/MapController';
+import CarouselButton from '~/components/features/Shop/CarouselButton';
 import FavoriteButton from '~/components/features/Shop/FavoriteButton';
 import { useFavorites } from '~/lib/favorites';
 import { usePlaces } from '~/lib/places';
@@ -25,6 +27,59 @@ export default function Detail() {
   const { focusPlace, highlight } = useMap();
   const favorite = id !== undefined && isFavorite(id);
   const [imageIndex, setImageIndex] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handlePrev = () => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const nextIndex = Math.max(0, imageIndex - 1);
+    el.scrollTo({
+      left: nextIndex * el.clientWidth,
+      behavior: 'smooth',
+    });
+  };
+
+  const handleNext = () => {
+    const el = carouselRef.current;
+    if (!el || !shop) return;
+    const nextIndex = Math.min(shop.images.length - 1, imageIndex + 1);
+    el.scrollTo({
+      left: nextIndex * el.clientWidth,
+      behavior: 'smooth',
+    });
+  };
+
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrev();
+    }
+  };
 
   // 詳細を開いたら、紐づく場所へ地図をフォーカスする（シートの外の地図を統一APIで操作）。
   const primaryPlaceId = shop?.locations[0]?.placeId;
@@ -98,7 +153,7 @@ export default function Detail() {
             alignItems: 'center',
             gap: '4px 12px',
             fontSize: '13px',
-            color: 'fg.muted',
+            color: '#204262',
             pt: '6px',
           })}
         >
@@ -109,7 +164,7 @@ export default function Detail() {
               gap: '3px',
             })}
           >
-            <IconMapPin size={15} color={token('colors.accent')} />
+            <IconMapPin size={15} color="#204262" />
             {formatShopLocation(shop)}
           </span>
           <span
@@ -119,7 +174,7 @@ export default function Detail() {
               gap: '3px',
             })}
           >
-            <IconClock size={15} color={token('colors.accent')} />
+            <IconClock size={15} color="#204262" />
             {shop.schedule.join('、')}
           </span>
         </div>
@@ -144,15 +199,22 @@ export default function Detail() {
       <div className={css({ px: '16px', mt: '8px' })}>
         <h1
           className={css({
-            fontWeight: 'bold',
+            fontWeight: 500,
             fontSize: '18px',
             lineHeight: 1.3,
-            color: 'fg.strong',
+            color: '#204262',
           })}
         >
           {shop.name}
         </h1>
-        <p className={css({ fontSize: '12px', color: 'fg.subtle', mt: '2px' })}>
+        <p
+          className={css({
+            fontWeight: 400,
+            fontSize: '12px',
+            color: '#204262',
+            mt: '2px',
+          })}
+        >
           {shop.organization}
         </p>
       </div>
@@ -160,38 +222,88 @@ export default function Detail() {
       {/* 画像カルーセル */}
       {shop.images.length > 0 && (
         <div className={css({ mt: '12px' })}>
-          <div
-            onScroll={(e) => {
-              const el = e.currentTarget;
-              setImageIndex(Math.round(el.scrollLeft / el.clientWidth));
-            }}
-            className={css({
-              display: 'flex',
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              scrollbarWidth: 'none',
-              px: '16px',
-              gap: '12px',
-              '&::-webkit-scrollbar': { display: 'none' },
-            })}
-          >
-            {shop.images.map((src, i) => (
-              <img
-                // biome-ignore lint/suspicious/noArrayIndexKey: モック画像のため index で十分
-                key={i}
-                src={src}
-                alt={`${shop.name} の画像 ${i + 1}`}
-                className={css({
-                  flex: '0 0 100%',
-                  scrollSnapAlign: 'center',
-                  width: '100%',
-                  aspectRatio: '4 / 3',
-                  objectFit: 'cover',
-                  borderRadius: '8px',
-                  bg: '#eeeeee',
-                })}
+          <div className={css({ position: 'relative' })}>
+            <div
+              ref={carouselRef}
+              onScroll={(e) => {
+                const el = e.currentTarget;
+                setImageIndex(Math.round(el.scrollLeft / el.clientWidth));
+              }}
+              className={css({
+                display: 'flex',
+                overflowX: 'auto',
+                scrollSnapType: 'x mandatory',
+                scrollbarWidth: 'none',
+                px: '16px',
+                gap: '12px',
+                '&::-webkit-scrollbar': { display: 'none' },
+              })}
+            >
+              {shop.images.map((src, i) => (
+                <div
+                  // biome-ignore lint/suspicious/noArrayIndexKey: モック画像のため index で十分
+                  key={i}
+                  className={css({
+                    flex: '0 0 100%',
+                    scrollSnapAlign: 'center',
+                    width: '100%',
+                    aspectRatio: '4 / 3',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderRadius: '8px',
+                    bg: '#eeeeee',
+                  })}
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    className={css({
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      filter: 'blur(4px) brightness(0.85)',
+                      opacity: 1.0,
+                      borderRadius: '8px',
+                    })}
+                  />
+                  <img
+                    src={src}
+                    alt={`${shop.name} の画像 ${i + 1}`}
+                    onClick={() => setIsViewerOpen(true)}
+                    className={css({
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                    })}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* 左右切り替えボタン */}
+            {imageIndex > 0 && (
+              <CarouselButton
+                direction="left"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrev();
+                }}
               />
-            ))}
+            )}
+
+            {imageIndex < shop.images.length - 1 && (
+              <CarouselButton
+                direction="right"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNext();
+                }}
+              />
+            )}
           </div>
 
           {shop.images.length > 1 && (
@@ -227,7 +339,7 @@ export default function Detail() {
           mt: '16px',
           fontSize: '13px',
           lineHeight: 1.7,
-          color: 'fg',
+          color: '#204262',
         })}
       >
         {shop.description}
@@ -274,6 +386,115 @@ export default function Detail() {
           size={30}
         />
       </div>
+
+      {/* 画像ビューワーモード (Lightbox) */}
+      {isViewerOpen &&
+        isMounted &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            onClick={() => setIsViewerOpen(false)}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            className={css({
+              position: 'fixed',
+              inset: 0,
+              bg: 'rgba(0, 0, 0, 0.85)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 1000,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              touchAction: 'none',
+            })}
+          >
+            {/* 閉じるボタン */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsViewerOpen(false);
+              }}
+              className={css({
+                position: 'absolute',
+                top: '24px',
+                right: '24px',
+                zIndex: 1010,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                bg: 'rgba(255, 255, 255, 0.2)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: '#ffffff',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s, transform 0.1s',
+                '&:hover': {
+                  bg: 'rgba(255, 255, 255, 0.4)',
+                },
+                '&:active': {
+                  transform: 'scale(0.92)',
+                },
+              })}
+              aria-label="閉じる"
+            >
+              <IconX size={24} />
+            </button>
+
+            {/* ビューワー内の画像表示エリア */}
+            <div
+              className={css({
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                maxWidth: '100vw',
+                maxHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                p: '16px',
+              })}
+            >
+              <img
+                src={shop.images[imageIndex]}
+                alt={`${shop.name} の拡大画像`}
+                onClick={(e) => e.stopPropagation()}
+                className={css({
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'contain',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+                })}
+              />
+
+              {/* 左右切り替えボタン */}
+              {imageIndex > 0 && (
+                <CarouselButton
+                  direction="left"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrev();
+                  }}
+                />
+              )}
+
+              {imageIndex < shop.images.length - 1 && (
+                <CarouselButton
+                  direction="right"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNext();
+                  }}
+                />
+              )}
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
