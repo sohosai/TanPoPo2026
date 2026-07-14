@@ -81,6 +81,36 @@ export default function ShopSearchBar({
     gap: '8px',
   });
 
+  // フィルタアイコン
+  const FilterIcon = ({ filterOpen }: { filterOpen: boolean }) => (
+    <svg
+      width="23"
+      height="16"
+      viewBox="0 0 23 16"
+      fill="none"
+      style={{ transition: 'all 0.3s ease' }}
+    >
+      <path
+        d="M2 2H21M2 7.5H21M2 13H21"
+        stroke={filterOpen ? '#4A93D7' : 'white'}
+        strokeWidth="1"
+        strokeLinecap="round"
+      />
+      <circle cx="7" cy="2" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
+      <circle cx="16" cy="7.5" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
+      <circle cx="11" cy="13" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
+    </svg>
+  );
+
+  // フィルタ開閉の状態
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  // フィルタ条件の下書き（確定前の状態）
+  const [dcDraft, setDcDraft] = useState({
+    days: criteria.days,
+    categories: criteria.categories,
+  });
+
   return (
     <div
       className={css({
@@ -174,39 +204,139 @@ export default function ShopSearchBar({
         </button>
       </div>
 
-      {/* 開催日フィルタ */}
-      <div className={rowStyle}>
-        {SCHEDULE_OPTIONS.map((day) => (
-          <Chip
-            key={day}
-            label={day}
-            active={criteria.days.includes(day)}
-            onClick={() =>
-              onChange({ ...criteria, days: toggle(criteria.days, day) })
-            }
-          />
-        ))}
-      </div>
+      {/* フィルタ開閉 */}
+      <div>
+        <div className={css({
+          px: '8px',
+          py: '8px',
+          mb: '0px',
+          position: 'relative',
+          zIndex: 10,
+          bg: 'accent.subtle',
+          borderRadius: '8px',
+          border: '1px solid',
+          borderColor: 'border',
+          display: 'flex',
+          alignItems: 'center',
+        })}
+          onClick={() => {
+            setFilterOpen((prev) => !prev);
+          }}>
+          <span className={css({
+            px: '6px',
+            py: '6px',
+            background: filterOpen ? 'white' : '#ACD7FF',
+            display: 'flex',
+            alignItems: 'center',
+            borderRadius: '4px',
+            border: '1px solid #ACD7FF',
+          })}>
+            <FilterIcon filterOpen={filterOpen} />
+          </span>
+          <span className={css({
+            pl: '12px',
+            fontSize: '16px',
+            fontWeight: '400',
+            color: '#3E4D63',
+          })}>絞り込み</span>
+          {hasActiveFilter(criteria) && (
+            <button className={css({
+              pl: '18px',
+              fontSize: '16px',
+              color: '#4A90E2',
+              cursor: 'pointer',
+              fontWeight: '400',
+            })} onClick={(e) => {
+              e.stopPropagation();
+              onChange({ ...emptyCriteria, q: criteria.q });
+              setDcDraft({ days: [], categories: [] });
+            }}>クリア</button>
+          )}
+          <button className={css({
+            ml: 'auto',
+            py: '2px',
+            width: '80px',
+            fontSize: '16px',
+            color: "#FFFFFF",
+            bg: '#4A90E2',
+            borderRadius: '4px',
+            border: 'none',
+            cursor: 'pointer',
+            justifyContent: 'flex-end',
+            fontWeight: '400',
+          })}
+            onClick={(e) => {
+              e.stopPropagation();
+              onChange({ ...criteria, ...dcDraft });
+            }}
+          >確定</button>
+          <span className={css({
+            pl: '4px',
+            fontSize: '12px',
+            color: '#D8D8D8',
+            justifyContent: 'flex-end',
+          })}>▶</span>
+        </div>
 
-      {/* 分類フィルタ */}
-      <div className={rowStyle}>
-        {CATEGORY_OPTIONS.map((category) => (
-          <Chip
-            key={category}
-            label={category}
-            active={criteria.categories.includes(category)}
-            onClick={() =>
-              onChange({
-                ...criteria,
-                categories: toggle(criteria.categories, category),
-              })
-            }
-          />
-        ))}
+        <div className={css({
+          bg: '#F8FCFF',
+          mt: '-8px',
+          px: '8px',
+          pt: '16px',
+          pb: '8px',
+          position: 'relative',
+          zIndex: 1,
+          gap: '8px',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          transition: 'all 0.6s ease',
+          maxHeight: filterOpen ? '500px' : '0',
+          border: '1px solid',
+          borderTop: 'none',
+          borderColor: 'border',
+          borderRadius: '0 0 8px 8px',
+          opacity: filterOpen ? 1 : 0,
+        })}>
+
+          {/* 開催日フィルタ */}
+          <div className={rowStyle}>
+            {SCHEDULE_OPTIONS.map((day) => (
+              <Chip
+                key={day}
+                label={day}
+                active={dcDraft.days.includes(day)}
+                onClick={() =>
+                  setDcDraft({
+                    ...dcDraft,
+                    days: toggle(dcDraft.days, day),
+                  })
+                }
+              />
+            ))}
+          </div>
+
+          {/* 分類フィルタ */}
+          <div className={rowStyle}>
+            {CATEGORY_OPTIONS.map((category) => (
+              <Chip
+                key={category}
+                label={category}
+                active={dcDraft.categories.includes(category)}
+                onClick={() =>
+                  setDcDraft({
+                    ...dcDraft,
+                    categories: toggle(dcDraft.categories, category),
+                  })
+                }
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* クリア */}
-      {hasActiveFilter(criteria) && (
+      {/*{hasActiveFilter(criteria) && (
         <button
           type="button"
           onClick={() => onChange({ ...emptyCriteria, q: criteria.q })}
@@ -223,7 +353,7 @@ export default function ShopSearchBar({
           <IconX size={14} />
           絞り込みをクリア
         </button>
-      )}
+      )}*/}
     </div>
   );
 }
