@@ -2389,6 +2389,18 @@
         "text-halo-color": "#ffffff",
         "text-halo-width": 1
       }
+    },
+    {
+      "id": "3d-buildings",
+      "type": "fill-extrusion",
+      "source": "openmaptiles",
+      "source-layer": "building",
+      "paint": {
+        "fill-extrusion-color": "#d9d9d9",
+        "fill-extrusion-height": ["get", "render_height"],
+        "fill-extrusion-base": ["get", "render_min_height"],
+        "fill-extrusion-opacity": 1
+      }
     }
   ],
   "id": "bright"

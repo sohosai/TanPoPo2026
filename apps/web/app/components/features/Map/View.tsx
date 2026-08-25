@@ -17,6 +17,28 @@ export default function View() {
       container: mapContainer.current,
       style: sohosaiMap as unknown as StyleSpecification,
     });
+
+    instance.on('load', () => {
+      // 建物を初期状態では非表示にする。
+      instance.setLayoutProperty('3d-buildings', 'visibility', 'none');
+
+      // コンパス
+      instance.addControl(
+        new maplibregl.NavigationControl({
+          showZoom: false,
+          showCompass: true,
+          visualizePitch: true,
+        }),
+        'top-right'
+      );
+
+      // 傾き0では建物を非表示にする。
+      instance.on('pitch', () => {
+        const pitch = instance.getPitch();
+        instance.setLayoutProperty('3d-buildings', 'visibility', pitch > 0 ? 'visible' : 'none');
+      });
+    });
+
     map.current = instance;
     // 統一操作 API から参照できるよう登録する。
     register(instance);
