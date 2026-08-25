@@ -81,6 +81,37 @@ export default function ShopSearchBar({
     gap: '8px',
   });
 
+  // フィルタアイコン
+  const FilterIcon = ({ filterOpen }: { filterOpen: boolean }) => (
+    <svg
+      width="23"
+      height="16"
+      viewBox="0 0 23 16"
+      fill="none"
+      style={{ transition: 'all 0.3s ease' }}
+    >
+      <path
+        d="M2 2H21M2 7.5H21M2 13H21"
+        stroke={filterOpen ? '#4A93D7' : 'white'}
+        strokeWidth="1"
+        strokeLinecap="round"
+      />
+      <circle cx="7" cy="2" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
+      <circle cx="16" cy="7.5" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
+      <circle cx="11" cy="13" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
+    </svg>
+  );
+
+  // フィルタ開閉の状態
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  // フィルタ条件の下書き（確定前の状態）
+  const [fdcDraft, setFdcDraft] = useState({
+    favorite: criteria.favorite,
+    days: criteria.days,
+    categories: criteria.categories,
+  });
+
   return (
     <div
       className={css({
@@ -140,73 +171,197 @@ export default function ShopSearchBar({
         />
       </div>
 
-      {/* いいねのみ */}
-      <div className={rowStyle}>
-        <button
-          type="button"
-          aria-pressed={criteria.favorite}
-          onClick={() =>
-            onChange({ ...criteria, favorite: !criteria.favorite })
-          }
+      {/* フィルタ開閉 */}
+      <div>
+        <div
           className={css({
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '4px',
-            flexShrink: 0,
-            px: '12px',
-            py: '5px',
-            borderRadius: '999px',
+            px: '8px',
+            py: '8px',
+            bg: 'accent.subtle',
+            borderRadius: filterOpen ?
+              '8px 8px 0 0' :
+              '8px',
             border: '1px solid',
-            borderColor: criteria.favorite ? 'favorite' : 'border',
-            bg: criteria.favorite ? 'favorite' : 'surface',
-            color: criteria.favorite ? 'surface' : 'fg.muted',
-            fontSize: '13px',
-            cursor: 'pointer',
-            transition: 'background 0.15s, color 0.15s, border-color 0.15s',
+            borderColor: 'border',
+            display: 'flex',
+            alignItems: 'center',
+            transition: 'all 0.6s ease',
+          })}
+          onClick={() => {
+            setFilterOpen((prev) => !prev);
+          }}
+        >
+          <span
+            className={css({
+              px: '6px',
+              py: '6px',
+              height: '32px',
+              background: filterOpen ? 'white' : '#ACD7FF',
+              display: 'flex',
+              alignItems: 'center',
+              borderRadius: '4px',
+              border: '1px solid #ACD7FF',
+            })}
+          >
+            <FilterIcon filterOpen={filterOpen} />
+          </span>
+          <span
+            className={css({
+              pl: '12px',
+              fontSize: '16px',
+              fontWeight: '400',
+              color: '#3E4D63',
+            })}
+          >
+            絞り込み
+          </span>
+          {hasActiveFilter(criteria) && (
+            <button
+              className={css({
+                pl: '18px',
+                fontSize: '16px',
+                color: '#4A90E2',
+                cursor: 'pointer',
+                fontWeight: '400',
+              })}
+              onClick={(e) => {
+                e.stopPropagation();
+                onChange({ ...emptyCriteria, q: criteria.q });
+                setFdcDraft({ days: [], categories: [], favorite: false });
+              }}
+            >
+              クリア
+            </button>
+          )}
+          <button
+            className={css({
+              ml: 'auto',
+              py: '6px',
+              width: '80px',
+              height: '32px',
+              fontSize: '16px',
+              color: '#FFFFFF',
+              bg: '#4A90E2',
+              borderRadius: '4px',
+              border: 'none',
+              justifyContent: 'center',
+              alignItems: 'center',
+              display: 'flex',
+              cursor: 'pointer',
+              fontWeight: '400',
+            })}
+            onClick={(e) => {
+              e.stopPropagation();
+              onChange({ ...criteria, ...fdcDraft });
+            }}
+          >
+            確定
+          </button>
+          <span
+            className={css({
+              pl: '4px',
+              fontSize: '12px',
+              color: '#D8D8D8',
+              justifyContent: 'flex-end',
+            })}
+          >
+            ▶
+          </span>
+        </div>
+
+        <div
+          className={css({
+            bg: 'transparent',
+            px: '8px',
+            py: '8px',
+            gap: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            transition: 'all 0.6s ease',
+            maxHeight: filterOpen ? '500px' : '0',
+            border: '1px solid',
+            borderTop: 'none',
+            borderColor: 'border',
+            borderRadius: '0 0 8px 8px',
+            opacity: filterOpen ? 1 : 0,
           })}
         >
-          {criteria.favorite ? (
-            <IconHeartFilled size={14} />
-          ) : (
-            <IconHeart size={14} />
-          )}
-          いいねのみ
-        </button>
-      </div>
+          {/* いいねのみ */}
+          <div className={rowStyle}>
+            <button
+              type="button"
+              aria-pressed={criteria.favorite}
+              onClick={() =>
+                setFdcDraft({
+                  ...fdcDraft,
+                  favorite: !fdcDraft.favorite,
+                })
+              }
+              className={css({
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                flexShrink: 0,
+                px: '12px',
+                py: '5px',
+                borderRadius: '999px',
+                border: '1px solid',
+                borderColor: fdcDraft.favorite ? 'favorite' : 'border',
+                bg: fdcDraft.favorite ? 'favorite' : 'surface',
+                color: fdcDraft.favorite ? 'surface' : 'fg.muted',
+                fontSize: '13px',
+                cursor: 'pointer',
+                transition: 'background 0.15s, color 0.15s, border-color 0.15s',
+              })}
+            >
+              {fdcDraft.favorite ? (
+                <IconHeartFilled size={14} />
+              ) : (
+                <IconHeart size={14} />
+              )}
+              いいねのみ
+            </button>
+          </div>
 
-      {/* 開催日フィルタ */}
-      <div className={rowStyle}>
-        {SCHEDULE_OPTIONS.map((day) => (
-          <Chip
-            key={day}
-            label={day}
-            active={criteria.days.includes(day)}
-            onClick={() =>
-              onChange({ ...criteria, days: toggle(criteria.days, day) })
-            }
-          />
-        ))}
-      </div>
+          {/* 開催日フィルタ */}
+          <div className={rowStyle}>
+            {SCHEDULE_OPTIONS.map((day) => (
+              <Chip
+                key={day}
+                label={day}
+                active={fdcDraft.days.includes(day)}
+                onClick={() =>
+                  setFdcDraft({
+                    ...fdcDraft,
+                    days: toggle(fdcDraft.days, day),
+                  })
+                }
+              />
+            ))}
+          </div>
 
-      {/* 分類フィルタ */}
-      <div className={rowStyle}>
-        {CATEGORY_OPTIONS.map((category) => (
-          <Chip
-            key={category}
-            label={category}
-            active={criteria.categories.includes(category)}
-            onClick={() =>
-              onChange({
-                ...criteria,
-                categories: toggle(criteria.categories, category),
-              })
-            }
-          />
-        ))}
+          {/* 分類フィルタ */}
+          <div className={rowStyle}>
+            {CATEGORY_OPTIONS.map((category) => (
+              <Chip
+                key={category}
+                label={category}
+                active={fdcDraft.categories.includes(category)}
+                onClick={() =>
+                  setFdcDraft({
+                    ...fdcDraft,
+                    categories: toggle(fdcDraft.categories, category),
+                  })
+                }
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* クリア */}
-      {hasActiveFilter(criteria) && (
+      {/*{hasActiveFilter(criteria) && (
         <button
           type="button"
           onClick={() => onChange({ ...emptyCriteria, q: criteria.q })}
@@ -223,7 +378,7 @@ export default function ShopSearchBar({
           <IconX size={14} />
           絞り込みをクリア
         </button>
-      )}
+      )}*/}
     </div>
   );
 }
