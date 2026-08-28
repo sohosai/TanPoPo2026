@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { t } from '../trpc';
-import { sosClient } from '../../services/sos';
+import { SosClientError, sosClient } from '../../services/sos';
 
 export type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
 
@@ -57,7 +57,14 @@ export type ShopDetail = Shop & {
 export const shopRouter = t.router({
   shop: t.router({
     list: t.procedure.query(async (): Promise<Shop[]> => {
-      return sosClient.getShops();
+      try {
+        return await sosClient.getShops();
+      } catch {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '店舗一覧の取得に失敗しました',
+        });
+      }
     }),
 
     detail: t.procedure
@@ -65,10 +72,17 @@ export const shopRouter = t.router({
       .query(async ({ input }): Promise<ShopDetail> => {
         try {
           return await sosClient.getShopDetail(input.id);
-        } catch (error: any) {
+        } catch (error: unknown) {
+          if (error instanceof SosClientError && error.code === 'NOT_FOUND') {
+            throw new TRPCError({
+              code: 'NOT_FOUND',
+              message: error.message,
+            });
+          }
+
           throw new TRPCError({
-            code: 'NOT_FOUND',
-            message: error.message || `店舗が見つかりません: ${input.id}`,
+            code: 'INTERNAL_SERVER_ERROR',
+            message: '店舗詳細の取得に失敗しました',
           });
         }
       }),
