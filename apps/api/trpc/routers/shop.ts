@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { t } from '../trpc';
+import { SosClientError, sosClient } from '../../services/sos';
 
 export type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
 
@@ -53,102 +54,37 @@ export type ShopDetail = Shop & {
   images: string[];
 };
 
-const sampleDescription =
-  '詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ';
-
-// TODO: 現状は暫定の固定データ。将来 DB / 外部データソースに置き換える。
-const shopDetails: ShopDetail[] = [
-  {
-    id: '1',
-    name: '猫大好き委員会',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-5c', room: '305' }],
-    schedule: ['前夜祭', 'Day1', 'Day2'],
-    category: '展示',
-    tags: ['動物', '癒し', '屋内'],
-    description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
-  },
-  {
-    id: '2',
-    name: 'あああああああああああああああああああああ',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-1a', room: '101' }],
-    schedule: ['前夜祭', 'Day1', 'Day2'],
-    category: '食品',
-    tags: ['屋外', '軽食'],
-    cancelled: true,
-    description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg'],
-  },
-  {
-    id: '3',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-2c', room: '204' }],
-    schedule: ['Day1', 'Day2'],
-    category: '学術',
-    tags: ['研究', '屋内'],
-    description: sampleDescription,
-    images: ['/sample/dog.jpg'],
-  },
-  {
-    id: '4',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    locations: [{ placeId: 'stage-united' }],
-    schedule: ['Day2'],
-    category: 'ステージ',
-    tags: ['音楽', '屋外'],
-    description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
-  },
-  {
-    id: '5',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-1b', room: '110' }],
-    schedule: ['前夜祭', 'Day1'],
-    category: '物販',
-    tags: ['グッズ', '屋内'],
-    description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg'],
-  },
-  {
-    id: '6',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    // ステージ共有の例: 店舗4 と同じ stage-united を指す（M:N）
-    locations: [{ placeId: 'stage-united' }],
-    schedule: ['前夜祭', 'Day1', 'Day2'],
-    category: '食品',
-    tags: ['屋外', 'スイーツ'],
-    description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
-  },
-];
-
-/** ShopDetail から一覧用の軽量な Shop を取り出す */
-function toShop(detail: ShopDetail): Shop {
-  const { description: _description, images: _images, ...shop } = detail;
-  return shop;
-}
-
 export const shopRouter = t.router({
   shop: t.router({
-    list: t.procedure.query((): Shop[] => shopDetails.map(toShop)),
+    list: t.procedure.query(async (): Promise<Shop[]> => {
+      try {
+        return await sosClient.getShops();
+      } catch {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '店舗一覧の取得に失敗しました',
+        });
+      }
+    }),
 
     detail: t.procedure
       .input(z.object({ id: z.string() }))
-      .query(({ input }): ShopDetail => {
-        const detail = shopDetails.find((s) => s.id === input.id);
-        if (!detail) {
+      .query(async ({ input }): Promise<ShopDetail> => {
+        try {
+          return await sosClient.getShopDetail(input.id);
+        } catch (error: unknown) {
+          if (error instanceof SosClientError && error.code === 'NOT_FOUND') {
+            throw new TRPCError({
+              code: 'NOT_FOUND',
+              message: error.message,
+            });
+          }
+
           throw new TRPCError({
-            code: 'NOT_FOUND',
-            message: `店舗が見つかりません: ${input.id}`,
+            code: 'INTERNAL_SERVER_ERROR',
+            message: '店舗詳細の取得に失敗しました',
           });
         }
-        return detail;
       }),
   }),
 });
