@@ -72,7 +72,7 @@ function mapToShop(project: SosPublicProject, baseUrl: string): Shop {
     schedule: ['Day1', 'Day2'] as ScheduleDay[], // スケジュールはTanPoPo側で一律設定
     category: mapCategory(project.type),
     tags: mapTags(project.type, project.location),
-    thumbnail: iconUrl || '/sample/dog.jpg',
+    thumbnail: iconUrl,
     cancelled: project.publicInfo.openStatus === 'CLOSED',
   };
 }
@@ -85,7 +85,7 @@ function mapToShopDetail(project: SosPublicProject, baseUrl: string): ShopDetail
   return {
     ...mapToShop(project, baseUrl),
     description: project.publicInfo.description || '詳細説明はありません。',
-    images: images.length > 0 ? images : ['/sample/dog.jpg'],
+    images,
   };
 }
 

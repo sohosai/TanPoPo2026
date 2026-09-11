@@ -18,6 +18,7 @@ import {
 type ShopSearchBarProps = {
   criteria: ShopFilterCriteria;
   onChange: (next: ShopFilterCriteria) => void;
+  tagOptions: string[];
 };
 
 /** 配列要素のトグル（あれば外す / なければ足す） */
@@ -63,6 +64,7 @@ function Chip({
 export default function ShopSearchBar({
   criteria,
   onChange,
+  tagOptions,
 }: ShopSearchBarProps) {
   // IME 変換中は value を外から書き換えると確定文字がダブるため、
   // 入力欄はローカル下書きで制御し、変換確定後にだけ URL 状態へ反映する。
@@ -104,13 +106,6 @@ export default function ShopSearchBar({
 
   // フィルタ開閉の状態
   const [filterOpen, setFilterOpen] = useState(false);
-
-  // フィルタ条件の下書き（確定前の状態）
-  const [fdcDraft, setFdcDraft] = useState({
-    favorite: criteria.favorite,
-    days: criteria.days,
-    categories: criteria.categories,
-  });
 
   return (
     <div
@@ -227,38 +222,14 @@ export default function ShopSearchBar({
               onClick={(e) => {
                 e.stopPropagation();
                 onChange({ ...emptyCriteria, q: criteria.q });
-                setFdcDraft({ days: [], categories: [], favorite: false });
               }}
             >
               クリア
             </button>
           )}
-          <button
-            className={css({
-              ml: 'auto',
-              py: '6px',
-              width: '80px',
-              height: '32px',
-              fontSize: '16px',
-              color: '#FFFFFF',
-              bg: '#4A90E2',
-              borderRadius: '4px',
-              border: 'none',
-              justifyContent: 'center',
-              alignItems: 'center',
-              display: 'flex',
-              cursor: 'pointer',
-              fontWeight: '400',
-            })}
-            onClick={(e) => {
-              e.stopPropagation();
-              onChange({ ...criteria, ...fdcDraft });
-            }}
-          >
-            確定
-          </button>
           <span
             className={css({
+              ml: 'auto',
               pl: '4px',
               fontSize: '12px',
               color: '#D8D8D8',
@@ -293,10 +264,7 @@ export default function ShopSearchBar({
               type="button"
               aria-pressed={criteria.favorite}
               onClick={() =>
-                setFdcDraft({
-                  ...fdcDraft,
-                  favorite: !fdcDraft.favorite,
-                })
+                onChange({ ...criteria, favorite: !criteria.favorite })
               }
               className={css({
                 display: 'inline-flex',
@@ -307,15 +275,15 @@ export default function ShopSearchBar({
                 py: '5px',
                 borderRadius: '999px',
                 border: '1px solid',
-                borderColor: fdcDraft.favorite ? 'favorite' : 'border',
-                bg: fdcDraft.favorite ? 'favorite' : 'surface',
-                color: fdcDraft.favorite ? 'surface' : 'fg.muted',
+                borderColor: criteria.favorite ? 'favorite' : 'border',
+                bg: criteria.favorite ? 'favorite' : 'surface',
+                color: criteria.favorite ? 'surface' : 'fg.muted',
                 fontSize: '13px',
                 cursor: 'pointer',
                 transition: 'background 0.15s, color 0.15s, border-color 0.15s',
               })}
             >
-              {fdcDraft.favorite ? (
+              {criteria.favorite ? (
                 <IconHeartFilled size={14} />
               ) : (
                 <IconHeart size={14} />
@@ -330,12 +298,9 @@ export default function ShopSearchBar({
               <Chip
                 key={day}
                 label={day}
-                active={fdcDraft.days.includes(day)}
+                active={criteria.days.includes(day)}
                 onClick={() =>
-                  setFdcDraft({
-                    ...fdcDraft,
-                    days: toggle(fdcDraft.days, day),
-                  })
+                  onChange({ ...criteria, days: toggle(criteria.days, day) })
                 }
               />
             ))}
@@ -347,16 +312,32 @@ export default function ShopSearchBar({
               <Chip
                 key={category}
                 label={category}
-                active={fdcDraft.categories.includes(category)}
+                active={criteria.categories.includes(category)}
                 onClick={() =>
-                  setFdcDraft({
-                    ...fdcDraft,
-                    categories: toggle(fdcDraft.categories, category),
+                  onChange({
+                    ...criteria,
+                    categories: toggle(criteria.categories, category),
                   })
                 }
               />
             ))}
           </div>
+
+          {/* タグフィルタ */}
+          {tagOptions.length > 0 && (
+            <div className={rowStyle}>
+              {tagOptions.map((tag) => (
+                <Chip
+                  key={tag}
+                  label={tag}
+                  active={criteria.tags.includes(tag)}
+                  onClick={() =>
+                    onChange({ ...criteria, tags: toggle(criteria.tags, tag) })
+                  }
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
