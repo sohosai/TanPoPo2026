@@ -114,9 +114,19 @@ export default function List() {
     [shops, criteria, favorites, placesById],
   );
 
+  // タグは自由文字列で固定の選択肢を持たないため、取得済みデータから動的に選択肢を作る。
+  const tagOptions = useMemo(
+    () => [...new Set((shops ?? []).flatMap((shop) => shop.tags))].sort(),
+    [shops],
+  );
+
   return (
     <div>
-      <ShopSearchBar criteria={criteria} onChange={updateCriteria} />
+      <ShopSearchBar
+        criteria={criteria}
+        onChange={updateCriteria}
+        tagOptions={tagOptions}
+      />
 
       {status === 'pending' && (
         <StateMessage icon={IconLoader2} title="読み込み中..." spinning />

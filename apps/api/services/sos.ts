@@ -1,5 +1,11 @@
 import { z } from 'zod';
-import type { Shop, ShopDetail, ShopCategory, ShopLocation, ScheduleDay } from '../trpc/routers/shop';
+import type {
+  Shop,
+  ShopDetail,
+  ShopCategory,
+  ShopLocation,
+  ScheduleDay,
+} from '../trpc/routers/shop';
 
 // SOS OpenAPIのレスポンスZodスキーマ定義
 const SosPublicInfoSchema = z.object({
@@ -36,7 +42,9 @@ function mapCategory(type: 'STAGE' | 'FOOD' | 'NORMAL'): ShopCategory {
   }
 }
 
-function mapLocations(location: 'INDOOR' | 'OUTDOOR' | 'STAGE'): ShopLocation[] {
+function mapLocations(
+  location: 'INDOOR' | 'OUTDOOR' | 'STAGE',
+): ShopLocation[] {
   switch (location) {
     case 'STAGE':
       return [{ placeId: 'stage-united' }];
@@ -48,7 +56,10 @@ function mapLocations(location: 'INDOOR' | 'OUTDOOR' | 'STAGE'): ShopLocation[] 
   }
 }
 
-function mapTags(type: 'STAGE' | 'FOOD' | 'NORMAL', location: 'INDOOR' | 'OUTDOOR' | 'STAGE'): string[] {
+function mapTags(
+  type: 'STAGE' | 'FOOD' | 'NORMAL',
+  location: 'INDOOR' | 'OUTDOOR' | 'STAGE',
+): string[] {
   const tags: string[] = [];
   if (type === 'FOOD') tags.push('飲食');
   if (type === 'STAGE') tags.push('音楽');
@@ -57,7 +68,10 @@ function mapTags(type: 'STAGE' | 'FOOD' | 'NORMAL', location: 'INDOOR' | 'OUTDOO
   return tags;
 }
 
-function getFileUrl(baseUrl: string, fileId: string | null | undefined): string | undefined {
+function getFileUrl(
+  baseUrl: string,
+  fileId: string | null | undefined,
+): string | undefined {
   if (!fileId) return undefined;
   return `${baseUrl}/files/${fileId}/content`;
 }
@@ -72,20 +86,23 @@ function mapToShop(project: SosPublicProject, baseUrl: string): Shop {
     schedule: ['Day1', 'Day2'] as ScheduleDay[], // スケジュールはTanPoPo側で一律設定
     category: mapCategory(project.type),
     tags: mapTags(project.type, project.location),
-    thumbnail: iconUrl || '/sample/dog.jpg',
+    thumbnail: iconUrl,
     cancelled: project.publicInfo.openStatus === 'CLOSED',
   };
 }
 
-function mapToShopDetail(project: SosPublicProject, baseUrl: string): ShopDetail {
+function mapToShopDetail(
+  project: SosPublicProject,
+  baseUrl: string,
+): ShopDetail {
   const images = (project.publicInfo.mapImageFileIds || [])
-    .map(fileId => getFileUrl(baseUrl, fileId))
+    .map((fileId) => getFileUrl(baseUrl, fileId))
     .filter((url): url is string => !!url);
 
   return {
     ...mapToShop(project, baseUrl),
     description: project.publicInfo.description || '詳細説明はありません。',
-    images: images.length > 0 ? images : ['/sample/dog.jpg'],
+    images,
   };
 }
 
@@ -195,7 +212,9 @@ export class SosClient {
    */
   async getShops(): Promise<Shop[]> {
     if (!this.baseUrl) {
-      console.warn('SOS_API_URL is not defined. Falling back to dummy shop data.');
+      console.warn(
+        'SOS_API_URL is not defined. Falling back to dummy shop data.',
+      );
       return fallbackShopDetails.map(toFallbackShop);
     }
 
@@ -212,7 +231,10 @@ export class SosClient {
       const parsed = SosPublicProjectListSchema.parse(json);
       return parsed.map((project) => mapToShop(project, this.baseUrl));
     } catch (error) {
-      console.warn('Failed to fetch SOS projects. Falling back to dummy shop data.', error);
+      console.warn(
+        'Failed to fetch SOS projects. Falling back to dummy shop data.',
+        error,
+      );
       return fallbackShopDetails.map(toFallbackShop);
     }
   }
@@ -222,10 +244,15 @@ export class SosClient {
    */
   async getShopDetail(id: string): Promise<ShopDetail> {
     if (!this.baseUrl) {
-      console.warn('SOS_API_URL is not defined. Falling back to dummy shop detail.');
+      console.warn(
+        'SOS_API_URL is not defined. Falling back to dummy shop detail.',
+      );
       const fallbackDetail = fallbackShopDetails.find((shop) => shop.id === id);
       if (!fallbackDetail) {
-        throw new SosClientError('UPSTREAM', `SOS API is unavailable and fallback data has no shop: ${id}`);
+        throw new SosClientError(
+          'UPSTREAM',
+          `SOS API is unavailable and fallback data has no shop: ${id}`,
+        );
       }
       return fallbackDetail;
     }
@@ -240,7 +267,10 @@ export class SosClient {
       }
 
       if (!response.ok) {
-        throw new SosClientError('UPSTREAM', `Failed to fetch project detail for ${id}: ${response.statusText}`);
+        throw new SosClientError(
+          'UPSTREAM',
+          `Failed to fetch project detail for ${id}: ${response.statusText}`,
+        );
       }
 
       const json = await response.json();
@@ -253,11 +283,17 @@ export class SosClient {
 
       const fallbackDetail = fallbackShopDetails.find((shop) => shop.id === id);
       if (fallbackDetail) {
-        console.warn(`Failed to fetch SOS project detail for ${id}. Falling back to dummy data.`, error);
+        console.warn(
+          `Failed to fetch SOS project detail for ${id}. Falling back to dummy data.`,
+          error,
+        );
         return fallbackDetail;
       }
 
-      throw new SosClientError('UPSTREAM', `Failed to fetch project detail for ${id}`);
+      throw new SosClientError(
+        'UPSTREAM',
+        `Failed to fetch project detail for ${id}`,
+      );
     }
   }
 }
