@@ -173,9 +173,7 @@ export default function ShopSearchBar({
             px: '8px',
             py: '8px',
             bg: 'accent.subtle',
-            borderRadius: filterOpen ?
-              '8px 8px 0 0' :
-              '8px',
+            borderRadius: filterOpen ? '8px 8px 0 0' : '8px',
             border: '1px solid',
             borderColor: 'border',
             display: 'flex',

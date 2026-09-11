@@ -12,9 +12,13 @@ import { css, cx } from '../../../../styled-system/css';
 const peek = 50;
 const flingVelocity = 0.5;
 const rubberDim = 200;
+// initiallyRaised時、収納状態(max)からどこまで引き上げて開始するかの割合。小さいほど大きく開く。
+const raisedFraction = 0.4;
 
 interface MapBottomSheetProps {
   children?: ReactNode;
+  /** trueの場合、初期表示をpeekまで畳まず、ある程度引き上げた状態で開始する。 */
+  initiallyRaised?: boolean;
 }
 
 const rubberband = (overflow: number) =>
@@ -63,7 +67,10 @@ const handleStyles = css({
   bg: 'sheet.handle',
 });
 
-export default function MapBottomSheet({ children }: MapBottomSheetProps) {
+export default function MapBottomSheet({
+  children,
+  initiallyRaised = false,
+}: MapBottomSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [y, setY] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -75,13 +82,18 @@ export default function MapBottomSheet({ children }: MapBottomSheetProps) {
     velocity: 0,
   });
 
+  // 初回マウント時点の値のみを使う。以後 initiallyRaised が変化しても
+  // (例: シートを開いたまま検索条件だけ変わっても)勝手に開閉させない。
+  const initiallyRaisedRef = useRef(initiallyRaised);
+
   const getMax = useCallback(
     () => Math.max((ref.current?.offsetHeight ?? 0) - peek, 0),
     [],
   );
 
   useLayoutEffect(() => {
-    setY(getMax());
+    const max = getMax();
+    setY(initiallyRaisedRef.current ? max * raisedFraction : max);
   }, [getMax]);
 
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
