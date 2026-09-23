@@ -19,12 +19,18 @@ type Pages = {
       "id": string;
     };
   };
+  "/grandprix": {
+    params: {};
+  };
+  "/questionnaire": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/shop/:id";
+    page: "/" | "/shop/:id" | "/grandprix" | "/questionnaire";
   };
   "routes/index.tsx": {
     id: "routes/index";
@@ -38,6 +44,14 @@ type RouteFiles = {
     id: "routes/shop/detail";
     page: "/shop/:id";
   };
+  "routes/grandprix/index.tsx": {
+    id: "routes/grandprix/index";
+    page: "/grandprix";
+  };
+  "routes/questionnaire/index.tsx": {
+    id: "routes/questionnaire/index";
+    page: "/questionnaire";
+  };
 };
 
 type RouteModules = {
@@ -45,4 +59,6 @@ type RouteModules = {
   "routes/index": typeof import("./app/routes/index.tsx");
   "routes/shop/index": typeof import("./app/routes/shop/index.tsx");
   "routes/shop/detail": typeof import("./app/routes/shop/detail.tsx");
+  "routes/grandprix/index": typeof import("./app/routes/grandprix/index.tsx");
+  "routes/questionnaire/index": typeof import("./app/routes/questionnaire/index.tsx");
 };

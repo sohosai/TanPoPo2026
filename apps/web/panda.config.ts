@@ -52,6 +52,54 @@ export default defineConfig({
           '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        // グランプリ抽選演出：ルーレットが高速回転してから止まる。
+        rouletteSpin: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(1080deg)' },
+        },
+        // 抽選結果のポップイン（登場時に弾む）。
+        resultReveal: {
+          '0%': { transform: 'scale(0.4)', opacity: '0' },
+          '60%': { transform: 'scale(1.08)', opacity: '1' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        // 当選時のみ：結果の周囲に広がるリング。
+        resultRing: {
+          '0%': { transform: 'scale(0.8)', opacity: '0.6' },
+          '100%': { transform: 'scale(1.6)', opacity: '0' },
+        },
+        // 結果の背後に一瞬広がるグロー。
+        resultGlow: {
+          '0%': { transform: 'scale(0.3)', opacity: '0.9' },
+          '100%': { transform: 'scale(2.4)', opacity: '0' },
+        },
+        // 紙吹雪・キラキラ粒子。--dx/--dy/--rot を個別に渡して飛散方向を変える。
+        confettiPop: {
+          '0%': {
+            transform: 'translate(-50%, -50%) scale(0) rotate(0deg)',
+            opacity: '1',
+          },
+          '65%': { opacity: '1' },
+          '100%': {
+            transform:
+              'translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--rot))',
+            opacity: '0',
+          },
+        },
+        // キラキラの明滅。
+        sparkleTwinkle: {
+          '0%, 100%': { opacity: '0.25', transform: 'scale(0.6) rotate(0deg)' },
+          '50%': { opacity: '1', transform: 'scale(1.15) rotate(20deg)' },
+        },
+        // はずれ演出：結果が出た瞬間の小さな首振り。
+        resultShake: {
+          '0%': { transform: 'rotate(0deg)' },
+          '20%': { transform: 'rotate(-8deg)' },
+          '40%': { transform: 'rotate(7deg)' },
+          '60%': { transform: 'rotate(-5deg)' },
+          '80%': { transform: 'rotate(3deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
       },
       // 役割ベースの色。コンポーネントからはこちらを参照する。
       semanticTokens: {

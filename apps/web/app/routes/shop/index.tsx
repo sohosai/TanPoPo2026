@@ -7,7 +7,6 @@ import {
 } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
-import { css } from '../../../styled-system/css';
 import {
   criteriaFromParams,
   criteriaToParams,
@@ -19,6 +18,7 @@ import ShopSearchBar from '~/components/features/Shop/ShopSearchBar';
 import { useFavorites } from '~/lib/favorites';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trcp';
+import { css } from '../../../styled-system/css';
 
 /** 読み込み中・エラー・該当なしなどの全画面状態を表す共通表示。 */
 function StateMessage({

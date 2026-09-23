@@ -1,10 +1,10 @@
 import {
+  IconChevronDown,
   IconHeart,
   IconHeartFilled,
   IconSearch,
-  IconX,
 } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { css } from '../../../../styled-system/css';
 import { token } from '../../../../styled-system/tokens';
 import {
@@ -83,29 +83,22 @@ export default function ShopSearchBar({
     gap: '8px',
   });
 
-  // フィルタアイコン
-  const FilterIcon = ({ filterOpen }: { filterOpen: boolean }) => (
-    <svg
-      width="23"
-      height="16"
-      viewBox="0 0 23 16"
-      fill="none"
-      style={{ transition: 'all 0.3s ease' }}
-    >
-      <path
-        d="M2 2H21M2 7.5H21M2 13H21"
-        stroke={filterOpen ? '#4A93D7' : 'white'}
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
-      <circle cx="7" cy="2" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
-      <circle cx="16" cy="7.5" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
-      <circle cx="11" cy="13" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
-    </svg>
-  );
+  const groupLabelStyle = css({
+    fontSize: '12px',
+    fontWeight: '500',
+    color: 'fg.subtle',
+  });
 
   // フィルタ開閉の状態
   const [filterOpen, setFilterOpen] = useState(false);
+  const filterPanelId = useId();
+
+  // 現在有効な絞り込み条件の件数（キーワード検索は含めない）。
+  const activeFilterCount =
+    criteria.categories.length +
+    criteria.days.length +
+    criteria.tags.length +
+    (criteria.favorite ? 1 : 0);
 
   return (
     <div
@@ -170,52 +163,95 @@ export default function ShopSearchBar({
       <div>
         <div
           className={css({
-            px: '8px',
-            py: '8px',
+            display: 'flex',
+            alignItems: 'center',
             bg: 'accent.subtle',
             borderRadius: filterOpen ? '8px 8px 0 0' : '8px',
             border: '1px solid',
             borderColor: 'border',
-            display: 'flex',
-            alignItems: 'center',
-            transition: 'all 0.6s ease',
+            transition: 'border-radius 0.2s ease',
+            overflow: 'hidden',
           })}
-          onClick={() => {
-            setFilterOpen((prev) => !prev);
-          }}
         >
-          <span
+          <button
+            type="button"
+            aria-expanded={filterOpen}
+            aria-controls={filterPanelId}
+            onClick={() => setFilterOpen((prev) => !prev)}
             className={css({
-              px: '6px',
-              py: '6px',
-              height: '32px',
-              background: filterOpen ? 'white' : '#ACD7FF',
+              flex: 1,
+              minWidth: 0,
               display: 'flex',
               alignItems: 'center',
-              borderRadius: '4px',
-              border: '1px solid #ACD7FF',
+              justifyContent: 'space-between',
+              px: '12px',
+              py: '9px',
+              border: 'none',
+              bg: 'transparent',
+              cursor: 'pointer',
+              color: 'fg.strong',
+              fontSize: '14px',
+              fontWeight: '500',
+              textAlign: 'left',
+              outline: 'none',
+              _hover: {
+                bg: 'rgba(0, 0, 0, 0.02)',
+              },
             })}
           >
-            <FilterIcon filterOpen={filterOpen} />
-          </span>
-          <span
-            className={css({
-              pl: '12px',
-              fontSize: '16px',
-              fontWeight: '400',
-              color: '#3E4D63',
-            })}
-          >
-            絞り込み
-          </span>
+            <span
+              className={css({
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+              })}
+            >
+              <span>絞り込み</span>
+              {activeFilterCount > 0 && (
+                <span
+                  className={css({
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minWidth: '18px',
+                    height: '18px',
+                    px: '5px',
+                    borderRadius: '999px',
+                    bg: 'accent',
+                    color: 'surface',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                  })}
+                >
+                  {activeFilterCount}
+                </span>
+              )}
+            </span>
+            <IconChevronDown
+              size={18}
+              className={css({
+                color: 'fg.subtle',
+                flexShrink: 0,
+                transition: 'transform 0.2s ease',
+                transform: filterOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              })}
+            />
+          </button>
           {hasActiveFilter(criteria) && (
             <button
+              type="button"
               className={css({
-                pl: '18px',
-                fontSize: '16px',
-                color: '#4A90E2',
+                flexShrink: 0,
+                border: 'none',
+                bg: 'transparent',
+                px: '12px',
+                py: '9px',
+                fontSize: '13px',
+                color: 'accent',
                 cursor: 'pointer',
-                fontWeight: '400',
+                fontWeight: '500',
+                outline: 'none',
+                _hover: { textDecoration: 'underline' },
               })}
               onClick={(e) => {
                 e.stopPropagation();
@@ -225,29 +261,19 @@ export default function ShopSearchBar({
               クリア
             </button>
           )}
-          <span
-            className={css({
-              ml: 'auto',
-              pl: '4px',
-              fontSize: '12px',
-              color: '#D8D8D8',
-              justifyContent: 'flex-end',
-            })}
-          >
-            ▶
-          </span>
         </div>
 
         <div
+          id={filterPanelId}
           className={css({
-            bg: 'transparent',
-            px: '8px',
-            py: '8px',
-            gap: '8px',
+            bg: 'surface',
+            px: '12px',
+            py: '12px',
+            gap: '12px',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            transition: 'all 0.6s ease',
+            transition: 'all 0.25s ease',
             maxHeight: filterOpen ? '500px' : '0',
             border: '1px solid',
             borderTop: 'none',
@@ -291,73 +317,83 @@ export default function ShopSearchBar({
           </div>
 
           {/* 開催日フィルタ */}
-          <div className={rowStyle}>
-            {SCHEDULE_OPTIONS.map((day) => (
-              <Chip
-                key={day}
-                label={day}
-                active={criteria.days.includes(day)}
-                onClick={() =>
-                  onChange({ ...criteria, days: toggle(criteria.days, day) })
-                }
-              />
-            ))}
-          </div>
-
-          {/* 分類フィルタ */}
-          <div className={rowStyle}>
-            {CATEGORY_OPTIONS.map((category) => (
-              <Chip
-                key={category}
-                label={category}
-                active={criteria.categories.includes(category)}
-                onClick={() =>
-                  onChange({
-                    ...criteria,
-                    categories: toggle(criteria.categories, category),
-                  })
-                }
-              />
-            ))}
-          </div>
-
-          {/* タグフィルタ */}
-          {tagOptions.length > 0 && (
+          <div
+            className={css({
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+            })}
+          >
+            <span className={groupLabelStyle}>開催日</span>
             <div className={rowStyle}>
-              {tagOptions.map((tag) => (
+              {SCHEDULE_OPTIONS.map((day) => (
                 <Chip
-                  key={tag}
-                  label={tag}
-                  active={criteria.tags.includes(tag)}
+                  key={day}
+                  label={day}
+                  active={criteria.days.includes(day)}
                   onClick={() =>
-                    onChange({ ...criteria, tags: toggle(criteria.tags, tag) })
+                    onChange({ ...criteria, days: toggle(criteria.days, day) })
                   }
                 />
               ))}
             </div>
+          </div>
+
+          {/* 分類フィルタ */}
+          <div
+            className={css({
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+            })}
+          >
+            <span className={groupLabelStyle}>分類</span>
+            <div className={rowStyle}>
+              {CATEGORY_OPTIONS.map((category) => (
+                <Chip
+                  key={category}
+                  label={category}
+                  active={criteria.categories.includes(category)}
+                  onClick={() =>
+                    onChange({
+                      ...criteria,
+                      categories: toggle(criteria.categories, category),
+                    })
+                  }
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* タグフィルタ */}
+          {tagOptions.length > 0 && (
+            <div
+              className={css({
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px',
+              })}
+            >
+              <span className={groupLabelStyle}>タグ</span>
+              <div className={rowStyle}>
+                {tagOptions.map((tag) => (
+                  <Chip
+                    key={tag}
+                    label={tag}
+                    active={criteria.tags.includes(tag)}
+                    onClick={() =>
+                      onChange({
+                        ...criteria,
+                        tags: toggle(criteria.tags, tag),
+                      })
+                    }
+                  />
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
-
-      {/* クリア */}
-      {/*{hasActiveFilter(criteria) && (
-        <button
-          type="button"
-          onClick={() => onChange({ ...emptyCriteria, q: criteria.q })}
-          className={css({
-            alignSelf: 'flex-start',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '4px',
-            fontSize: '12px',
-            color: 'fg.subtle',
-            cursor: 'pointer',
-          })}
-        >
-          <IconX size={14} />
-          絞り込みをクリア
-        </button>
-      )}*/}
     </div>
   );
 }

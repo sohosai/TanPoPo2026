@@ -20,8 +20,19 @@ TanPoPo は、2026年度 筑波大学 雙峰祭向けの企画検索システム
 セットアップ:
 
 ```bash
+cp .env.example .env
+cp apps/api/.env.example apps/api/.env
 bun install
 ```
+
+DB(MySQL)起動 + マイグレーション（初回・スキーマ変更時）:
+
+```bash
+bun run db:up
+bun run --cwd apps/api db:migrate
+```
+
+詳細は [docs/api/database.md](docs/api/database.md) を参照。
 
 サーバー起動:
 
@@ -34,6 +45,7 @@ bun run dev
 | 用途 | コマンド |
 | --- | --- |
 | 開発 | `bun run dev` |
+| DB(MySQL)起動 | `bun run db:up` |
 | 型チェック | `bun run check` |
 | フォーマット | `bun run format` |
 | CI チェック | `bun run ci` |

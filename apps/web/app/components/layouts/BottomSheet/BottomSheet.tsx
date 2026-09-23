@@ -30,7 +30,7 @@ const sheetStyles = css({
   right: 0,
   bottom: 0,
   zIndex: 10,
-  h: '95vh',
+  h: 'calc(100dvh - 64px - env(safe-area-inset-top, 0px))',
   display: 'flex',
   flexDirection: 'column',
   bg: 'sheet.background',

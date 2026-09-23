@@ -1,6 +1,7 @@
 import { trpcServer } from '@hono/trpc-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { authRoutes } from './auth/routes';
 import { createTRPCContext } from './trpc/context';
 import { appRouter } from './trpc/router';
 
@@ -20,14 +21,17 @@ app.use(
   '/*',
   cors({
     origin: process.env.ORIGIN ?? 'http://localhost:5173',
+    credentials: true,
   }),
 );
+
+app.route('/auth', authRoutes);
 
 app.use(
   '/trpc/*',
   trpcServer({
     router: appRouter,
-    createContext: () => createTRPCContext(),
+    createContext: (_opts, c) => createTRPCContext(c),
   }),
 );
 
