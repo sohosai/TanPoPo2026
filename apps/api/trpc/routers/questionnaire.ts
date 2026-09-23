@@ -21,26 +21,28 @@ const submitInputSchema = z.object({
 export const questionnaireRouter = t.router({
   questionnaire: t.router({
     myTickets: protectedProcedure.query(async ({ ctx }) => {
-      const rows = await db
-        .select({
-          ticketId: questionnaireTickets.id,
-          status: questionnaireTickets.status,
-          usedAt: questionnaireTickets.usedAt,
-          personIndex: questionnaireResponses.personIndex,
-          submittedAt: questionnaireSubmissions.submittedAt,
-        })
-        .from(questionnaireTickets)
-        .innerJoin(
-          questionnaireResponses,
-          eq(questionnaireTickets.responseId, questionnaireResponses.id),
-        )
-        .innerJoin(
-          questionnaireSubmissions,
-          eq(questionnaireResponses.submissionId, questionnaireSubmissions.id),
-        )
-        .where(eq(questionnaireSubmissions.userId, ctx.user.id));
+      const submissions = await db.query.questionnaireSubmissions.findMany({
+        where: eq(questionnaireSubmissions.userId, ctx.user.id),
+        with: { responses: { with: { ticket: true } } },
+      });
 
-      return [...rows].sort(
+      const tickets = submissions.flatMap((submission) =>
+        submission.responses.flatMap((response) =>
+          response.ticket
+            ? [
+                {
+                  ticketId: response.ticket.id,
+                  status: response.ticket.status,
+                  usedAt: response.ticket.usedAt,
+                  personIndex: response.personIndex,
+                  submittedAt: submission.submittedAt,
+                },
+              ]
+            : [],
+        ),
+      );
+
+      return tickets.sort(
         (a, b) => b.submittedAt.getTime() - a.submittedAt.getTime(),
       );
     }),
@@ -57,6 +59,16 @@ export const questionnaireRouter = t.router({
         }
 
         const submissionId = crypto.randomUUID();
+        const responseRows = input.responses.map((answers, index) => ({
+          id: crypto.randomUUID(),
+          submissionId,
+          personIndex: index + 1,
+          answers,
+        }));
+        const ticketRows = responseRows.map((response) => ({
+          id: crypto.randomUUID(),
+          responseId: response.id,
+        }));
 
         await db.transaction(async (tx) => {
           await tx.insert(questionnaireSubmissions).values({
@@ -64,20 +76,8 @@ export const questionnaireRouter = t.router({
             userId: ctx.user.id,
             headcount: input.headcount,
           });
-
-          for (const [index, answers] of input.responses.entries()) {
-            const responseId = crypto.randomUUID();
-            await tx.insert(questionnaireResponses).values({
-              id: responseId,
-              submissionId,
-              personIndex: index + 1,
-              answers,
-            });
-            await tx.insert(questionnaireTickets).values({
-              id: crypto.randomUUID(),
-              responseId,
-            });
-          }
+          await tx.insert(questionnaireResponses).values(responseRows);
+          await tx.insert(questionnaireTickets).values(ticketRows);
         });
 
         return { submissionId };

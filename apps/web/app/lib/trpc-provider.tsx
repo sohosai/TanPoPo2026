@@ -3,7 +3,8 @@ import { httpBatchLink } from '@trpc/client';
 import { type ReactNode, useState } from 'react';
 import { trpc } from './trcp';
 
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001/trpc';
+export const API_URL =
+  import.meta.env.VITE_API_URL ?? 'http://localhost:3001/trpc';
 
 export function TrpcProvider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());

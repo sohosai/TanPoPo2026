@@ -193,9 +193,15 @@ export class SosClientError extends Error {
   }
 }
 
+// getShops() の結果をこの期間キャッシュする。企画一覧は頻繁には変わらない一方、
+// shop.list（一覧表示）と grandprix.submit（投票時のID検証）の双方から
+// 呼ばれるため、毎回外部APIを叩かないようにする。
+const SHOPS_CACHE_TTL_MS = 30_000;
+
 // HTTPクライアント
 export class SosClient {
   private baseUrl: string;
+  private shopsCache: { shops: Shop[]; expiresAt: number } | null = null;
 
   constructor() {
     this.baseUrl = process.env.SOS_API_URL || '';
@@ -209,8 +215,19 @@ export class SosClient {
 
   /**
    * SOS API から企画一覧を取得し、Shop配列にマッピングして返却します。
+   * 短時間キャッシュするため、連続した呼び出しは外部APIを叩きません。
    */
   async getShops(): Promise<Shop[]> {
+    if (this.shopsCache && this.shopsCache.expiresAt > Date.now()) {
+      return this.shopsCache.shops;
+    }
+
+    const shops = await this.fetchShops();
+    this.shopsCache = { shops, expiresAt: Date.now() + SHOPS_CACHE_TTL_MS };
+    return shops;
+  }
+
+  private async fetchShops(): Promise<Shop[]> {
     if (!this.baseUrl) {
       console.warn(
         'SOS_API_URL is not defined. Falling back to dummy shop data.',

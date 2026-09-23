@@ -4,6 +4,7 @@ import { Hono } from 'hono';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
 import { db } from '../db/client';
 import { users } from '../db/schema';
+import { getEnv } from '../env';
 import {
   exchangeCodeForIdToken,
   getAuthorizationUrl,
@@ -21,7 +22,7 @@ const SESSION_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30日
 const isProd = process.env.NODE_ENV === 'production';
 
 function getWebAppUrl(): string {
-  return process.env.WEB_APP_URL ?? 'http://localhost:5173';
+  return getEnv('WEB_APP_URL', 'http://localhost:5173');
 }
 
 /** オープンリダイレクト対策。相対パス以外は許可しない。 */

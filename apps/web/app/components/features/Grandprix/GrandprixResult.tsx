@@ -61,8 +61,10 @@ export default function GrandprixResult({
       >
         {phase === 'drawing' ? (
           <RouletteWheel />
+        ) : isWin ? (
+          <WinBadge key={result} />
         ) : (
-          <ResultBadge key={result} win={isWin} />
+          <LoseBadge key={result} />
         )}
       </div>
 
@@ -211,9 +213,7 @@ function Sparkle({ style }: { style: CSSProperties }) {
   );
 }
 
-function ResultBadge({ win }: { win: boolean }) {
-  return win ? <WinBadge /> : <LoseBadge />;
-}
+const RING_DELAYS = [0, 0.35];
 
 function WinBadge() {
   const confetti = useParticles(18, WIN_CONFETTI_COLORS, 110);
@@ -243,28 +243,20 @@ function WinBadge() {
         style={{ bottom: '0px', right: '18px', animationDelay: '1.3s' }}
       />
 
-      <div
-        className={css({
-          position: 'absolute',
-          width: '160px',
-          height: '160px',
-          borderRadius: '50%',
-          border: '3px solid',
-          borderColor: 'accent',
-          animation: 'resultRing 1.3s ease-out 1',
-        })}
-      />
-      <div
-        className={css({
-          position: 'absolute',
-          width: '160px',
-          height: '160px',
-          borderRadius: '50%',
-          border: '3px solid',
-          borderColor: 'accent',
-          animation: 'resultRing 1.3s ease-out 0.35s 1',
-        })}
-      />
+      {RING_DELAYS.map((delay) => (
+        <div
+          key={delay}
+          className={css({
+            position: 'absolute',
+            width: '160px',
+            height: '160px',
+            borderRadius: '50%',
+            border: '3px solid',
+            borderColor: 'accent',
+          })}
+          style={{ animation: `resultRing 1.3s ease-out ${delay}s 1` }}
+        />
+      ))}
 
       <div
         className={css({

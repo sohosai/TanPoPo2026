@@ -1,17 +1,12 @@
 import { jwtVerify } from 'jose';
 import { z } from 'zod';
+import { requireEnv } from '../env';
 
 const LINE_AUTHORIZE_URL = 'https://access.line.me/oauth2/v2.1/authorize';
 const LINE_TOKEN_URL = 'https://api.line.me/oauth2/v2.1/token';
 const LINE_ISSUER = 'https://access.line.me';
 
 export class LineAuthError extends Error {}
-
-function requireEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) throw new Error(`${name} is not set`);
-  return value;
-}
 
 /** LINEの認可エンドポイントURLを組み立てる。 */
 export function getAuthorizationUrl(state: string, nonce: string): string {

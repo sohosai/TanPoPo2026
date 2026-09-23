@@ -1,10 +1,18 @@
-import { trpc } from '~/lib/trcp';
 import { css } from '../../../../styled-system/css';
 import TicketCard from './TicketCard';
 
-export default function TicketList() {
-  const { data: tickets, refetch } = trpc.questionnaire.myTickets.useQuery();
+type Ticket = {
+  ticketId: string;
+  status: 'unused' | 'used';
+  personIndex: number;
+};
 
+type TicketListProps = {
+  tickets: Ticket[];
+  onChanged: () => void;
+};
+
+export default function TicketList({ tickets, onChanged }: TicketListProps) {
   return (
     <div
       className={css({
@@ -17,11 +25,11 @@ export default function TicketList() {
       <p className={css({ fontSize: '13px', color: 'fg.subtle' })}>
         ご回答ありがとうございました。以下の福引券を福引所でお見せください。
       </p>
-      {(tickets ?? []).map((ticket) => (
+      {tickets.map((ticket) => (
         <TicketCard
           key={ticket.ticketId}
           ticket={ticket}
-          onChanged={() => refetch()}
+          onChanged={onChanged}
         />
       ))}
     </div>

@@ -1,4 +1,5 @@
 import { Outlet, useSearchParams } from 'react-router';
+import EventLinkButtons from '~/components/features/EventLinks/EventLinkButtons';
 import { MapProvider } from '~/components/features/Map/MapController';
 import MapView from '~/components/features/Map/View';
 import OverButtons from '~/components/features/OverButtons/OverButtons';
@@ -14,6 +15,7 @@ export default function AppLayout() {
     // 地図実体を MapProvider で共有し、シート内（Outlet）からも統一APIで操作する。
     <MapProvider>
       <div>
+        <EventLinkButtons />
         <OverButtons />
         <MapView />
 

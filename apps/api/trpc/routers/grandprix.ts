@@ -10,6 +10,7 @@ import {
   grandprixVotes,
   users,
 } from '../../db/schema';
+import { getEnv } from '../../env';
 import { sosClient } from '../../services/sos';
 import { protectedProcedure, t } from '../trpc';
 
@@ -26,7 +27,7 @@ function isDuplicateKeyError(error: unknown): boolean {
 }
 
 function drawResult(): GrandprixResult {
-  const winRate = Number.parseFloat(process.env.GRANDPRIX_WIN_RATE ?? '0.2');
+  const winRate = Number.parseFloat(getEnv('GRANDPRIX_WIN_RATE', '0.2'));
   return Math.random() < winRate ? 'win' : 'lose';
 }
 

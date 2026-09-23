@@ -19,22 +19,27 @@ export default function SurveyForm({
   onComplete,
 }: SurveyFormProps) {
   const [personIndex, setPersonIndex] = useState(0);
-  const [collected, setCollected] = useState<Answers[]>([]);
-  const [current, setCurrent] = useState<Answers>({});
+  const [answers, setAnswers] = useState<Answers[]>([]);
+  const current = answers[personIndex] ?? {};
 
   const isLastPerson = personIndex === headcount - 1;
   const canProceed = QUESTIONNAIRE_QUESTIONS.every(
     (q) => q.type === 'text' || Boolean(current[q.id]),
   );
 
+  const setCurrentAnswer = (questionId: string, value: string) => {
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[personIndex] = { ...current, [questionId]: value };
+      return next;
+    });
+  };
+
   const handleNext = () => {
-    const next = [...collected, current];
     if (isLastPerson) {
-      onComplete(next);
+      onComplete(answers);
       return;
     }
-    setCollected(next);
-    setCurrent({});
     setPersonIndex((i) => i + 1);
   };
 
@@ -76,9 +81,7 @@ export default function SurveyForm({
                   key={option}
                   type="button"
                   aria-pressed={current[question.id] === option}
-                  onClick={() =>
-                    setCurrent((prev) => ({ ...prev, [question.id]: option }))
-                  }
+                  onClick={() => setCurrentAnswer(question.id, option)}
                   className={css({
                     px: '16px',
                     py: '8px',
@@ -102,12 +105,7 @@ export default function SurveyForm({
           {question.type === 'text' && (
             <textarea
               value={current[question.id] ?? ''}
-              onChange={(e) =>
-                setCurrent((prev) => ({
-                  ...prev,
-                  [question.id]: e.target.value,
-                }))
-              }
+              onChange={(e) => setCurrentAnswer(question.id, e.target.value)}
               rows={3}
               className={css({
                 width: '100%',

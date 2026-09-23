@@ -1,9 +1,7 @@
-import { IconX } from '@tabler/icons-react';
 import { useState } from 'react';
-import { Link } from 'react-router';
-import RequireLineLogin from '~/components/features/Auth/RequireLineLogin';
 import GrandprixForm from '~/components/features/Grandprix/GrandprixForm';
 import GrandprixResult from '~/components/features/Grandprix/GrandprixResult';
+import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
 import { trpc } from '~/lib/trcp';
 import { css } from '../../../styled-system/css';
 
@@ -36,53 +34,8 @@ function GrandprixContent() {
 
 export default function GrandprixPage() {
   return (
-    <div
-      className={css({
-        height: '100%',
-        overflowY: 'auto',
-        overscrollBehavior: 'contain',
-        bg: 'surface',
-      })}
-    >
-      <header
-        className={css({
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: '16px',
-          py: '14px',
-          bg: 'sheet.background',
-          borderBottom: '1px solid token(colors.border.subtle)',
-        })}
-      >
-        <h1
-          className={css({
-            fontSize: '16px',
-            fontWeight: 'bold',
-            color: 'fg.strong',
-          })}
-        >
-          雙峰祭グランプリ投票
-        </h1>
-        <Link
-          to="/"
-          aria-label="閉じる"
-          className={css({
-            display: 'flex',
-            alignItems: 'center',
-            color: 'fg.subtle',
-          })}
-        >
-          <IconX size={22} />
-        </Link>
-      </header>
-
-      <RequireLineLogin redirectPath="/grandprix">
-        <GrandprixContent />
-      </RequireLineLogin>
-    </div>
+    <EventPageShell title="雙峰祭グランプリ投票" redirectPath="/grandprix">
+      <GrandprixContent />
+    </EventPageShell>
   );
 }

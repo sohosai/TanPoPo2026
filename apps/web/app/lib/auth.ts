@@ -1,8 +1,7 @@
 import { trpc } from '~/lib/trcp';
+import { API_URL } from '~/lib/trpc-provider';
 
-const API_BASE_URL = (
-  import.meta.env.VITE_API_URL ?? 'http://localhost:3001/trpc'
-).replace(/\/trpc\/?$/, '');
+const API_BASE_URL = API_URL.replace(/\/trpc\/?$/, '');
 
 /** LINEログイン状態を取得するフック。未ログイン時は `user: null`（エラーにはならない）。 */
 export function useAuth() {
