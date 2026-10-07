@@ -1,19 +1,17 @@
-import {
-  IconHeart,
-  IconHeartFilled,
-  IconSearch,
-  IconX,
-} from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { IconChevronDown, IconSearch, IconX } from '@tabler/icons-react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { css } from '../../../../styled-system/css';
-import { token } from '../../../../styled-system/tokens';
 import {
   CATEGORY_OPTIONS,
   emptyCriteria,
   hasActiveFilter,
   SCHEDULE_OPTIONS,
   type ShopFilterCriteria,
+  toggleItem,
 } from './filter';
+import { ChipDivider, FavoriteFilterChip, FilterChip } from './FilterChip';
+import { DAY_LABELS } from './labels';
 
 type ShopSearchBarProps = {
   criteria: ShopFilterCriteria;
@@ -21,51 +19,13 @@ type ShopSearchBarProps = {
   tagOptions: string[];
 };
 
-/** 配列要素のトグル（あれば外す / なければ足す） */
-function toggle<T>(list: T[], value: T): T[] {
-  return list.includes(value)
-    ? list.filter((v) => v !== value)
-    : [...list, value];
-}
-
-function Chip({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={css({
-        flexShrink: 0,
-        px: '12px',
-        py: '5px',
-        borderRadius: '999px',
-        border: '1px solid',
-        borderColor: active ? 'accent' : 'border',
-        bg: active ? 'accent' : 'surface',
-        color: active ? 'surface' : 'fg.muted',
-        fontSize: '13px',
-        cursor: 'pointer',
-        transition: 'background 0.15s, color 0.15s, border-color 0.15s',
-      })}
-    >
-      {label}
-    </button>
-  );
-}
-
 export default function ShopSearchBar({
   criteria,
   onChange,
   tagOptions,
 }: ShopSearchBarProps) {
+  const panel = useMapPanel();
+
   // IME 変換中は value を外から書き換えると確定文字がダブるため、
   // 入力欄はローカル下書きで制御し、変換確定後にだけ URL 状態へ反映する。
   const [qDraft, setQDraft] = useState(criteria.q);
@@ -77,68 +37,48 @@ export default function ShopSearchBar({
     if (!composingRef.current) setQDraft(criteria.q);
   }, [criteria.q]);
 
-  const rowStyle = css({
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '8px',
-  });
-
-  // フィルタアイコン
-  const FilterIcon = ({ filterOpen }: { filterOpen: boolean }) => (
-    <svg
-      width="23"
-      height="16"
-      viewBox="0 0 23 16"
-      fill="none"
-      style={{ transition: 'all 0.3s ease' }}
-    >
-      <path
-        d="M2 2H21M2 7.5H21M2 13H21"
-        stroke={filterOpen ? '#4A93D7' : 'white'}
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
-      <circle cx="7" cy="2" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
-      <circle cx="16" cy="7.5" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
-      <circle cx="11" cy="13" r="2" fill={filterOpen ? '#4A93D7' : 'white'} />
-    </svg>
-  );
-
-  // フィルタ開閉の状態
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [tagsOpen, setTagsOpen] = useState(false);
+  const tagPanelId = useId();
+  const canClear = hasActiveFilter(criteria) || criteria.q !== '';
 
   return (
+    // スクロール領域の外に置いて固定する（sticky だとスクロール中に振動・隙間が出るため）。
     <div
       className={css({
-        position: 'sticky',
-        top: 0,
-        zIndex: 1,
+        flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        px: '12px',
-        py: '10px',
+        px: '16px',
+        pt: '4px',
+        pb: '8px',
         bg: 'sheet.background',
         borderBottom: '1px solid token(colors.border.subtle)',
       })}
     >
-      {/* あいまい検索 */}
-      <div
+      <label
         className={css({
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          px: '12px',
-          py: '8px',
-          borderRadius: '999px',
-          bg: 'accent.subtle',
+          h: '44px',
+          px: '14px',
+          borderRadius: '12px',
+          bg: 'border.subtle',
+          color: 'fg.subtle',
+          cursor: 'text',
+          _focusWithin: {
+            bg: 'surface',
+            outline: '2px solid token(colors.accent)',
+          },
         })}
       >
-        <IconSearch size={18} color={token('colors.fg.placeholder')} />
+        <IconSearch size={18} />
         <input
           type="search"
           value={qDraft}
-          placeholder="企画名・団体名で検索"
+          placeholder="企画名・団体名・場所で検索"
+          onFocus={panel.expand}
           onChange={(e) => {
             const value = e.target.value;
             setQDraft(value);
@@ -159,205 +99,131 @@ export default function ShopSearchBar({
             border: 'none',
             outline: 'none',
             bg: 'transparent',
-            fontSize: '14px',
-            color: 'fg',
+            fontSize: '16px',
+            color: 'fg.strong',
             _placeholder: { color: 'fg.placeholder' },
+            '&::-webkit-search-cancel-button': { display: 'none' },
           })}
         />
-      </div>
-
-      {/* フィルタ開閉 */}
-      <div>
-        <div
-          className={css({
-            px: '8px',
-            py: '8px',
-            bg: 'accent.subtle',
-            borderRadius: filterOpen ? '8px 8px 0 0' : '8px',
-            border: '1px solid',
-            borderColor: 'border',
-            display: 'flex',
-            alignItems: 'center',
-            transition: 'all 0.6s ease',
-          })}
-          onClick={() => {
-            setFilterOpen((prev) => !prev);
-          }}
-        >
-          <span
+        {qDraft !== '' && (
+          <button
+            type="button"
+            aria-label="検索キーワードを消す"
+            onClick={() => onChange({ ...criteria, q: '' })}
             className={css({
-              px: '6px',
-              py: '6px',
-              height: '32px',
-              background: filterOpen ? 'white' : '#ACD7FF',
               display: 'flex',
-              alignItems: 'center',
-              borderRadius: '4px',
-              border: '1px solid #ACD7FF',
+              p: '4px',
+              mr: '-4px',
+              color: 'fg.subtle',
+              cursor: 'pointer',
             })}
           >
-            <FilterIcon filterOpen={filterOpen} />
-          </span>
-          <span
-            className={css({
-              pl: '12px',
-              fontSize: '16px',
-              fontWeight: '400',
-              color: '#3E4D63',
-            })}
+            <IconX size={16} />
+          </button>
+        )}
+      </label>
+
+      <div
+        className={css({
+          display: 'flex',
+          gap: '8px',
+          mx: '-16px',
+          px: '16px',
+          overflowX: 'auto',
+          scrollbarWidth: 'none',
+          '&::-webkit-scrollbar': { display: 'none' },
+          // マウスでは隠れた横スクロールに気づけず操作もしづらいため、PC では折り返して全部見せる。
+          md: { flexWrap: 'wrap', overflowX: 'visible' },
+        })}
+      >
+        <FavoriteFilterChip
+          active={criteria.favorite}
+          onClick={() =>
+            onChange({ ...criteria, favorite: !criteria.favorite })
+          }
+        />
+        <ChipDivider />
+        {SCHEDULE_OPTIONS.map((day) => (
+          <FilterChip
+            key={day}
+            active={criteria.days.includes(day)}
+            onClick={() =>
+              onChange({ ...criteria, days: toggleItem(criteria.days, day) })
+            }
           >
-            絞り込み
-          </span>
-          {hasActiveFilter(criteria) && (
-            <button
-              className={css({
-                pl: '18px',
-                fontSize: '16px',
-                color: '#4A90E2',
-                cursor: 'pointer',
-                fontWeight: '400',
-              })}
-              onClick={(e) => {
-                e.stopPropagation();
-                onChange({ ...emptyCriteria, q: criteria.q });
-              }}
+            {DAY_LABELS[day]}
+          </FilterChip>
+        ))}
+        <ChipDivider />
+        {CATEGORY_OPTIONS.map((category) => (
+          <FilterChip
+            key={category}
+            active={criteria.categories.includes(category)}
+            onClick={() =>
+              onChange({
+                ...criteria,
+                categories: toggleItem(criteria.categories, category),
+              })
+            }
+          >
+            {category}
+          </FilterChip>
+        ))}
+        {tagOptions.length > 0 && (
+          <>
+            <ChipDivider />
+            <FilterChip
+              active={criteria.tags.length > 0}
+              aria-expanded={tagsOpen}
+              aria-controls={tagPanelId}
+              onClick={() => setTagsOpen((open) => !open)}
             >
-              クリア
-            </button>
-          )}
-          <span
-            className={css({
-              ml: 'auto',
-              pl: '4px',
-              fontSize: '12px',
-              color: '#D8D8D8',
-              justifyContent: 'flex-end',
-            })}
-          >
-            ▶
-          </span>
-        </div>
-
-        <div
-          className={css({
-            bg: 'transparent',
-            px: '8px',
-            py: '8px',
-            gap: '8px',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            transition: 'all 0.6s ease',
-            maxHeight: filterOpen ? '500px' : '0',
-            border: '1px solid',
-            borderTop: 'none',
-            borderColor: 'border',
-            borderRadius: '0 0 8px 8px',
-            opacity: filterOpen ? 1 : 0,
-          })}
-        >
-          {/* いいねのみ */}
-          <div className={rowStyle}>
-            <button
-              type="button"
-              aria-pressed={criteria.favorite}
-              onClick={() =>
-                onChange({ ...criteria, favorite: !criteria.favorite })
-              }
-              className={css({
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                flexShrink: 0,
-                px: '12px',
-                py: '5px',
-                borderRadius: '999px',
-                border: '1px solid',
-                borderColor: criteria.favorite ? 'favorite' : 'border',
-                bg: criteria.favorite ? 'favorite' : 'surface',
-                color: criteria.favorite ? 'surface' : 'fg.muted',
-                fontSize: '13px',
-                cursor: 'pointer',
-                transition: 'background 0.15s, color 0.15s, border-color 0.15s',
-              })}
-            >
-              {criteria.favorite ? (
-                <IconHeartFilled size={14} />
-              ) : (
-                <IconHeart size={14} />
-              )}
-              いいねのみ
-            </button>
-          </div>
-
-          {/* 開催日フィルタ */}
-          <div className={rowStyle}>
-            {SCHEDULE_OPTIONS.map((day) => (
-              <Chip
-                key={day}
-                label={day}
-                active={criteria.days.includes(day)}
-                onClick={() =>
-                  onChange({ ...criteria, days: toggle(criteria.days, day) })
-                }
+              タグ
+              {criteria.tags.length > 0 && ` ${criteria.tags.length}`}
+              <IconChevronDown
+                size={14}
+                className={css({ transition: 'transform 0.2s' })}
+                style={{ transform: tagsOpen ? 'rotate(180deg)' : undefined }}
               />
-            ))}
-          </div>
-
-          {/* 分類フィルタ */}
-          <div className={rowStyle}>
-            {CATEGORY_OPTIONS.map((category) => (
-              <Chip
-                key={category}
-                label={category}
-                active={criteria.categories.includes(category)}
-                onClick={() =>
-                  onChange({
-                    ...criteria,
-                    categories: toggle(criteria.categories, category),
-                  })
-                }
-              />
-            ))}
-          </div>
-
-          {/* タグフィルタ */}
-          {tagOptions.length > 0 && (
-            <div className={rowStyle}>
-              {tagOptions.map((tag) => (
-                <Chip
-                  key={tag}
-                  label={tag}
-                  active={criteria.tags.includes(tag)}
-                  onClick={() =>
-                    onChange({ ...criteria, tags: toggle(criteria.tags, tag) })
-                  }
-                />
-              ))}
-            </div>
-          )}
-        </div>
+            </FilterChip>
+          </>
+        )}
       </div>
 
-      {/* クリア */}
-      {/*{hasActiveFilter(criteria) && (
+      {tagsOpen && (
+        <div
+          id={tagPanelId}
+          className={css({ display: 'flex', flexWrap: 'wrap', gap: '8px' })}
+        >
+          {tagOptions.map((tag) => (
+            <FilterChip
+              key={tag}
+              active={criteria.tags.includes(tag)}
+              onClick={() =>
+                onChange({ ...criteria, tags: toggleItem(criteria.tags, tag) })
+              }
+            >
+              #{tag}
+            </FilterChip>
+          ))}
+        </div>
+      )}
+
+      {canClear && (
         <button
           type="button"
-          onClick={() => onChange({ ...emptyCriteria, q: criteria.q })}
+          onClick={() => onChange(emptyCriteria)}
           className={css({
-            alignSelf: 'flex-start',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '4px',
+            alignSelf: 'flex-end',
             fontSize: '12px',
-            color: 'fg.subtle',
+            color: 'accent.text',
+            fontWeight: 500,
             cursor: 'pointer',
           })}
         >
-          <IconX size={14} />
-          絞り込みをクリア
+          条件をクリア
         </button>
-      )}*/}
+      )}
     </div>
   );
 }

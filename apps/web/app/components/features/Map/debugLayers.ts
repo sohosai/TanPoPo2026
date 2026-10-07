@@ -1,6 +1,7 @@
 import maplibregl, { type Map as MlMap } from 'maplibre-gl';
 import { token } from '../../../../styled-system/tokens';
 import buildingsRaw from './data/buildings.geojson?raw';
+import { type LngLat, ringCenter } from './geo';
 import { pathNetwork } from './paths';
 
 /**
@@ -8,21 +9,13 @@ import { pathNetwork } from './paths';
  */
 type BuildingFeature = {
   properties: { placeId: string; name?: string };
-  geometry: { type: 'Polygon'; coordinates: number[][][] };
+  geometry: { type: 'Polygon'; coordinates: LngLat[][] };
 };
 
 const buildingsData = JSON.parse(buildingsRaw);
 const ACCENT = token('colors.accent');
 const PATH_COLOR = '#ff5a36'; // 一般通路
 const ENTRANCE_COLOR = '#2e9e5b'; // 入口/接続路
-
-/** ポリゴン外周の平均座標（簡易重心）。ラベル設置位置に使う。 */
-function ringCentroid(coords: number[][][]): [number, number] {
-  const ring = coords[0];
-  const pts = ring[0] === ring[ring.length - 1] ? ring.slice(0, -1) : ring;
-  const sum = pts.reduce((a, p) => [a[0] + p[0], a[1] + p[1]], [0, 0]);
-  return [sum[0] / pts.length, sum[1] / pts.length];
-}
 
 /** 通路の全頂点を点として可視化するためのソースを作る（ノード接続の確認用）。 */
 function buildNodeCollection() {
@@ -96,7 +89,7 @@ export function addDebugLayers(map: MlMap): void {
     el.style.cssText =
       'font-size:10px;font-weight:700;color:#0a6b6b;background:rgba(255,255,255,0.82);padding:1px 4px;border-radius:4px;white-space:nowrap;pointer-events:none;';
     new maplibregl.Marker({ element: el })
-      .setLngLat(ringCentroid(f.geometry.coordinates))
+      .setLngLat(ringCenter(f.geometry.coordinates[0]))
       .addTo(map);
   }
 }

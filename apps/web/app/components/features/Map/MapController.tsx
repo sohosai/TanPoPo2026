@@ -1,4 +1,3 @@
-import type { Place } from 'api';
 import maplibregl from 'maplibre-gl';
 import {
   createContext,
@@ -9,22 +8,24 @@ import {
   useRef,
   useState,
 } from 'react';
+import { isDesktopViewport } from '~/lib/viewport';
 import { token } from '../../../../styled-system/tokens';
-
-export type LngLat = [number, number];
+import type { LngLat } from './geo';
+import sohosaiMap from './sohosai-map.json';
 
 export type FocusOptions = {
   zoom?: number;
   duration?: number;
   /**
-   * 中心からのピクセルオフセット。下部シートに隠れないよう既定で上方に寄せる。
+   * 中心からのピクセルオフセット。スマホでは下部シートに隠れないよう既定で上方に寄せる。
+   * PC ではサイドパネル分を地図の padding で空けているため既定ではずらさない。
    */
   offset?: [number, number];
 };
 
 /**
  * 地図操作の統一 API。
- * 視点移動（flyTo/focusPlace/fitToPoints）やハイライトをここに集約し、
+ * 視点移動やハイライトをここに集約し、
  * 検索結果・詳細など地図の外側のUIからも同じ操作で扱えるようにする。
  */
 export type MapController = {
@@ -36,25 +37,29 @@ export type MapController = {
   getMap: () => maplibregl.Map | null;
   /** 指定座標へアニメーションで移動 */
   flyTo: (center: LngLat, options?: FocusOptions) => void;
-  /** 指定座標へ即時移動 */
-  jumpTo: (center: LngLat, options?: FocusOptions) => void;
   /** 座標へ移動しハイライトを置く */
   focusPoint: (point: LngLat, options?: FocusOptions) => void;
-  /** Place へ移動しハイライトを置く */
-  focusPlace: (place: Place, options?: FocusOptions) => void;
-  /** 複数座標が収まるよう移動 */
-  fitToPoints: (
-    points: LngLat[],
-    options?: { padding?: number; duration?: number },
-  ) => void;
   /** ハイライトマーカーを置く（null で消す） */
   highlight: (point: LngLat | null) => void;
+  /** 地図を初期表示（会場全体）に戻す */
+  resetView: () => void;
 };
 
-const DEFAULT_FOCUS_ZOOM = 18;
+/** 地図の初期表示（会場全体）。地図スタイルの中心とズームに合わせる。 */
+export const INITIAL_VIEW = {
+  center: sohosaiMap.center as LngLat,
+  zoom: sohosaiMap.zoom,
+};
+
+// 周りの建物も見える程度に引いておく。
+const DEFAULT_FOCUS_ZOOM = 17.3;
+/** 屋外ブースに寄せるときのズーム。テントの形が見える（地図がテントを描き始める 18 より寄った）ところ。 */
+export const BOOTH_FOCUS_ZOOM = 18.5;
 const DEFAULT_DURATION = 800;
 // 下部シートに隠れないよう、フォーカス点を画面上方へ寄せる既定オフセット。
-const DEFAULT_OFFSET: [number, number] = [0, -120];
+const SHEET_OFFSET: [number, number] = [0, -120];
+const defaultOffset = (): [number, number] =>
+  isDesktopViewport() ? [0, 0] : SHEET_OFFSET;
 
 const MapContext = createContext<MapController | null>(null);
 
@@ -77,14 +82,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
       center,
       zoom: options.zoom ?? DEFAULT_FOCUS_ZOOM,
       duration: options.duration ?? DEFAULT_DURATION,
-      offset: options.offset ?? DEFAULT_OFFSET,
-    });
-  }, []);
-
-  const jumpTo = useCallback((center: LngLat, options: FocusOptions = {}) => {
-    mapRef.current?.jumpTo({
-      center,
-      zoom: options.zoom ?? DEFAULT_FOCUS_ZOOM,
+      offset: options.offset ?? defaultOffset(),
     });
   }, []);
 
@@ -112,31 +110,15 @@ export function MapProvider({ children }: { children: ReactNode }) {
     [flyTo, highlight],
   );
 
-  const focusPlace = useCallback(
-    (place: Place, options?: FocusOptions) => {
-      focusPoint(place.point, options);
-    },
-    [focusPoint],
-  );
-
-  const fitToPoints = useCallback(
-    (
-      points: LngLat[],
-      options: { padding?: number; duration?: number } = {},
-    ) => {
-      const map = mapRef.current;
-      if (!map || points.length === 0) return;
-      const bounds = points.reduce(
-        (b, p) => b.extend(p),
-        new maplibregl.LngLatBounds(points[0], points[0]),
-      );
-      map.fitBounds(bounds, {
-        padding: options.padding ?? 64,
-        duration: options.duration ?? DEFAULT_DURATION,
-      });
-    },
-    [],
-  );
+  const resetView = useCallback(() => {
+    mapRef.current?.flyTo({
+      center: INITIAL_VIEW.center,
+      zoom: INITIAL_VIEW.zoom,
+      bearing: 0,
+      pitch: 0,
+      duration: DEFAULT_DURATION,
+    });
+  }, []);
 
   const value = useMemo<MapController>(
     () => ({
@@ -144,22 +126,11 @@ export function MapProvider({ children }: { children: ReactNode }) {
       register,
       getMap: () => mapRef.current,
       flyTo,
-      jumpTo,
       focusPoint,
-      focusPlace,
-      fitToPoints,
       highlight,
+      resetView,
     }),
-    [
-      isReady,
-      register,
-      flyTo,
-      jumpTo,
-      focusPoint,
-      focusPlace,
-      fitToPoints,
-      highlight,
-    ],
+    [isReady, register, flyTo, focusPoint, highlight, resetView],
   );
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

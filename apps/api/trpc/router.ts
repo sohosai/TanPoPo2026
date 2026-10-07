@@ -1,8 +1,16 @@
-import { helloRouter } from './routers/hello';
+import { authRouter } from './routers/auth';
+import { grandprixRouter } from './routers/grandprix';
 import { placeRouter } from './routers/place';
+import { questionnaireRouter } from './routers/questionnaire';
 import { shopRouter } from './routers/shop';
 import { t } from './trpc';
 
-export const appRouter = t.mergeRouters(helloRouter, shopRouter, placeRouter);
+export const appRouter = t.mergeRouters(
+  shopRouter,
+  placeRouter,
+  authRouter,
+  grandprixRouter,
+  questionnaireRouter,
+);
 
 export type AppRouter = typeof appRouter;

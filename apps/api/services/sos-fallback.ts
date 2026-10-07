@@ -1,0 +1,90 @@
+import type { ShopDetail, ShopImage } from '../domain/shop';
+
+// SOS_API_URL が未設定・SOS に繋がらないときに表示する仮の企画（ローカル開発用）。
+
+const sampleImage: ShopImage = { src: '/sample/dog.jpg' };
+
+const sampleDescription =
+  '詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ';
+
+export const fallbackShopDetails: ShopDetail[] = [
+  {
+    id: '1',
+    number: '001',
+    name: '猫大好き委員会',
+    organization: '実施団体名',
+    locations: [{ placeId: 'bldg-5c', room: '305' }],
+    schedule: ['前夜祭', 'Day1', 'Day2'],
+    category: '展示',
+    tags: ['動物', '癒し', '屋内'],
+    description: sampleDescription,
+    images: [sampleImage, sampleImage, sampleImage],
+    links: [],
+  },
+  {
+    id: '2',
+    number: '002',
+    name: 'あああああああああああああああああああああ',
+    organization: '実施団体名',
+    locations: [{ placeId: 'bldg-1a', room: '101' }],
+    schedule: ['前夜祭', 'Day1', 'Day2'],
+    category: '食品',
+    tags: ['屋外', '軽食'],
+    cancelled: true,
+    description: sampleDescription,
+    images: [sampleImage, sampleImage],
+    links: [],
+  },
+  {
+    id: '3',
+    number: '003',
+    name: 'つくば学園祭企画名企画名企画名企画名',
+    organization: '実施団体名',
+    locations: [{ placeId: 'bldg-2c', room: '204' }],
+    schedule: ['Day1', 'Day2'],
+    category: '学術',
+    tags: ['研究', '屋内'],
+    description: sampleDescription,
+    images: [sampleImage],
+    links: [],
+  },
+  {
+    id: '4',
+    number: '004',
+    name: 'つくば学園祭企画名企画名企画名企画名',
+    organization: '実施団体名',
+    locations: [{ placeId: 'stage-united' }],
+    schedule: ['Day2'],
+    category: 'ステージ',
+    tags: ['音楽', '屋外'],
+    description: sampleDescription,
+    images: [sampleImage, sampleImage, sampleImage],
+    links: [],
+  },
+  {
+    id: '5',
+    number: '005',
+    name: 'つくば学園祭企画名企画名企画名企画名',
+    organization: '実施団体名',
+    locations: [{ placeId: 'bldg-1b', room: '110' }],
+    schedule: ['前夜祭', 'Day1'],
+    category: '物販',
+    tags: ['グッズ', '屋内'],
+    description: sampleDescription,
+    images: [sampleImage, sampleImage],
+    links: [],
+  },
+  {
+    id: '6',
+    number: '006',
+    name: 'つくば学園祭企画名企画名企画名企画名',
+    organization: '実施団体名',
+    locations: [{ placeId: 'stage-united' }],
+    schedule: ['前夜祭', 'Day1', 'Day2'],
+    category: '食品',
+    tags: ['屋外', 'スイーツ'],
+    description: sampleDescription,
+    images: [sampleImage, sampleImage, sampleImage],
+    links: [],
+  },
+];

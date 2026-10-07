@@ -1,9 +1,24 @@
+import { getSessionUser, type SessionUser } from '../auth/session';
+import { createDb, type Database } from '../db/client';
+import type { AppEnv } from '../env';
+import { getSosClient, type SosClient } from '../services/sos';
+
 export type TRPCContext = {
-  env: NodeJS.ProcessEnv;
+  env: AppEnv;
+  db: Database;
+  sos: SosClient;
+  user: SessionUser | null;
 };
 
-export async function createTRPCContext(): Promise<TRPCContext> {
+export async function createTRPCContext(
+  env: AppEnv,
+  sessionToken: string | undefined,
+): Promise<TRPCContext> {
+  const db = createDb(env.DB);
   return {
-    env: process.env,
+    env,
+    db,
+    sos: getSosClient(env.SOS_API_URL),
+    user: await getSessionUser(db, sessionToken),
   };
 }

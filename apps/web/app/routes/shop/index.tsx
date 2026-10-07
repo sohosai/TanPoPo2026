@@ -5,20 +5,29 @@ import {
   IconSearchOff,
   type TablerIcon,
 } from '@tabler/icons-react';
-import { useMemo } from 'react';
-import { useSearchParams } from 'react-router';
-import { css } from '../../../styled-system/css';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router';
+import {
+  type FromDetailState,
+  itemEnterStyle,
+  itemEnterStyles,
+  listEnterStyles,
+} from '~/components/features/Detail/useDetailClose';
+import EventBanner from '~/components/features/EventLinks/EventBanner';
 import {
   criteriaFromParams,
   criteriaToParams,
   filterShops,
+  hasActiveFilter,
   type ShopFilterCriteria,
+  tagOptionsOf,
 } from '~/components/features/Shop/filter';
 import ShopListItem from '~/components/features/Shop/ShopListItem';
 import ShopSearchBar from '~/components/features/Shop/ShopSearchBar';
 import { useFavorites } from '~/lib/favorites';
 import { usePlaces } from '~/lib/places';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
+import { css, cx } from '../../../styled-system/css';
 
 /** 読み込み中・エラー・該当なしなどの全画面状態を表す共通表示。 */
 function StateMessage({
@@ -114,59 +123,94 @@ export default function List() {
     [shops, criteria, favorites, placesById],
   );
 
-  // タグは自由文字列で固定の選択肢を持たないため、取得済みデータから動的に選択肢を作る。
-  const tagOptions = useMemo(
-    () => [...new Set((shops ?? []).flatMap((shop) => shop.tags))].sort(),
-    [shops],
-  );
+  const tagOptions = useMemo(() => tagOptionsOf(shops ?? []), [shops]);
+
+  // 詳細を × で閉じて戻ってきたときだけ、企画を上から順にふわっと出す。
+  // 戻った直後だけに限定し、その後の絞り込みで現れた行には演出をかけない。
+  const fromDetail = !!(useLocation().state as FromDetailState | null)
+    ?.fromDetail;
+  const [entering, setEntering] = useState(fromDetail);
+  useEffect(() => {
+    if (!entering) return;
+    const timer = window.setTimeout(() => setEntering(false), 1000);
+    return () => window.clearTimeout(timer);
+  }, [entering]);
+
+  const showBanner = !hasActiveFilter(criteria) && criteria.q === '';
+  const enterProps = (index: number) =>
+    entering
+      ? { className: itemEnterStyles, style: itemEnterStyle(index) }
+      : {};
 
   return (
-    <div>
+    // 検索バーは固定し、その下の一覧だけをスクロールさせる。
+    <div
+      className={cx(
+        css({ display: 'flex', flexDirection: 'column', h: '100%' }),
+        entering && listEnterStyles,
+      )}
+    >
       <ShopSearchBar
         criteria={criteria}
         onChange={updateCriteria}
         tagOptions={tagOptions}
       />
 
-      {status === 'pending' && (
-        <StateMessage icon={IconLoader2} title="読み込み中..." spinning />
-      )}
-      {isError && !shops && (
-        <StateMessage
-          icon={IconAlertTriangle}
-          title="店舗一覧を取得できませんでした"
-          description={'通信環境を確認して\nもう一度お試しください。'}
-        />
-      )}
-      {shops &&
-        visibleShops.length === 0 &&
-        (criteria.favorite ? (
+      <div
+        className={css({
+          flex: 1,
+          minHeight: 0,
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
+        })}
+      >
+        {showBanner && (
+          <div {...enterProps(0)}>
+            <EventBanner />
+          </div>
+        )}
+
+        {status === 'pending' && (
+          <StateMessage icon={IconLoader2} title="読み込み中..." spinning />
+        )}
+        {isError && !shops && (
           <StateMessage
-            icon={IconHeartOff}
-            title="いいねした企画がありません"
-            description={
-              'ハートを押してお気に入りに追加すると\nここに表示されます。'
-            }
+            icon={IconAlertTriangle}
+            title="店舗一覧を取得できませんでした"
+            description={'通信環境を確認して\nもう一度お試しください。'}
           />
-        ) : (
-          <StateMessage
-            icon={IconSearchOff}
-            title="企画が見つかりませんでした"
-            description={
-              'キーワードを変えるか、絞り込み条件を\nゆるめてもう一度お試しください。'
-            }
+        )}
+        {shops &&
+          visibleShops.length === 0 &&
+          (criteria.favorite ? (
+            <StateMessage
+              icon={IconHeartOff}
+              title="いいねした企画がありません"
+              description={
+                'ハートを押してお気に入りに追加すると\nここに表示されます。'
+              }
+            />
+          ) : (
+            <StateMessage
+              icon={IconSearchOff}
+              title="企画が見つかりませんでした"
+              description={
+                'キーワードを変えるか、絞り込み条件を\nゆるめてもう一度お試しください。'
+              }
+            />
+          ))}
+
+        {visibleShops.map((shop, i) => (
+          <ShopListItem
+            key={shop.id}
+            shop={shop}
+            locationLabel={formatShopLocation(shop)}
+            favorite={isFavorite(shop.id)}
+            onToggleFavorite={toggle}
+            {...enterProps(i + (showBanner ? 1 : 0))}
           />
         ))}
-
-      {visibleShops.map((shop) => (
-        <ShopListItem
-          key={shop.id}
-          shop={shop}
-          locationLabel={formatShopLocation(shop)}
-          favorite={isFavorite(shop.id)}
-          onToggleFavorite={toggle}
-        />
-      ))}
+      </div>
     </div>
   );
 }

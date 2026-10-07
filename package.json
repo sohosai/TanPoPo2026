@@ -4,21 +4,27 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "db:reset": "bun run --cwd apps/api db:reset",
     "check": "turbo run check-types",
     "check:map-data": "bun run scripts/validate-map-data.ts",
+    "import:shop-locations": "bun run scripts/import-shop-locations.ts",
+    "import:stage-projects": "bun run scripts/import-stage-projects.ts",
     "ingest:osm": "bun run scripts/ingest-osm.ts",
+    "ingest:campus-buildings": "bun run scripts/ingest-campus-buildings.ts",
     "merge:osm": "bun run scripts/merge-osm.ts",
     "clean": "turbo run clean && rm -rf .turbo",
     "format": "biome format . --write && prettier --write \"**/*.html\"",
-    "ci": "bun run check && bun run format",
-    "prepare": "lefthook install"
+    "ci": "bun run format:check && bun run check && bun run check:map-data",
+    "db:migrate": "bun run --cwd apps/api db:migrate",
+    "deploy": "bun run build && bun run --cwd apps/api deploy",
+    "format:check": "biome format . && prettier --check \"**/*.html\""
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
-    "lefthook": "^2.1.5",
     "prettier": "^3.8.2",
     "turbo": "^2.9.5",
-    "typescript": "6.0.2"
+    "typescript": "6.0.2",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "engines": {
     "node": ">=18"

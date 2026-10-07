@@ -10,17 +10,22 @@ TanPoPo は、2026年度 筑波大学 雙峰祭向けの企画検索システム
 ## 技術構成
 
 - Monorepo: Turborepo
-- Runtime / Package Manager: Bun
-- Frontend: React Router + Vite
-- Backend: Hono + tRPC
+- Package Manager: Bun
+- Frontend: React Router（SPA）+ Vite
+- Backend: Hono + tRPC（Cloudflare Workers）
+- DB: Cloudflare D1 + Drizzle ORM
 - 型共有: API の AppRouter 型を Web から参照
+
+本番では 1 つの Worker が Web の静的ファイルと API（`/trpc/*`, `/auth/*`）を同一オリジンで配信する。詳細は [docs/api/deployment.md](docs/api/deployment.md) を参照。
 
 ## はじめに
 
 セットアップ:
 
 ```bash
+cp apps/api/.env.example apps/api/.env
 bun install
+bun run db:migrate
 ```
 
 サーバー起動:
@@ -29,23 +34,30 @@ bun install
 bun run dev
 ```
 
+`http://localhost:5173` を開く。Vite が `/trpc` と `/auth` を `wrangler dev`（`http://localhost:8787`）へ転送する。
+
 ## コマンド
 
 | 用途 | コマンド |
 | --- | --- |
 | 開発 | `bun run dev` |
+| ローカルDBへのマイグレーション適用 | `bun run db:migrate` |
+| ローカルDBのリセット | `bun run db:reset` |
 | 型チェック | `bun run check` |
 | フォーマット | `bun run format` |
-| CI チェック | `bun run ci` |
+| フォーマットの検査（書き換えない） | `bun run format:check` |
+| CI と同じチェック | `bun run ci` |
+| ビルド + デプロイ | `bun run deploy` |
 | 生成物などのクリーン | `bun run clean` |
 
+push（`main` / `dev`）と Pull Request では GitHub Actions（`.github/workflows/ci.yml`）がフォーマット検査・型チェック・地図データ検証・ビルドを行う。
 
 ## ディレクトリ概要
 
 ```text
 apps/
 	web/      # React Router + Vite
-	api/      # Hono + tRPC
+	api/      # Hono + tRPC（Cloudflare Worker。wrangler.jsonc もここ）
 packages/
 	typescript-config/  # 共有TS設定
 ```

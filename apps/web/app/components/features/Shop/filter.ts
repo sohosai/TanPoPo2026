@@ -1,4 +1,5 @@
 import type { Place, ScheduleDay, Shop, ShopCategory } from 'api';
+import { formatLocation } from '~/lib/places';
 
 /**
  * 店舗一覧の検索・絞り込み条件。
@@ -37,14 +38,26 @@ export const CATEGORY_OPTIONS: ShopCategory[] = [
 
 export const SCHEDULE_OPTIONS: ScheduleDay[] = ['前夜祭', 'Day1', 'Day2'];
 
+/** 配列に値が無ければ足し、あれば除いた新しい配列を返す（複数選択のオン/オフ）。 */
+export function toggleItem<T>(list: T[], value: T): T[] {
+  return list.includes(value)
+    ? list.filter((v) => v !== value)
+    : [...list, value];
+}
+
+/** タグは自由文字列で固定の選択肢を持たないため、企画が持つタグから選択肢を作る。 */
+export function tagOptionsOf(shops: Shop[]): string[] {
+  return [...new Set(shops.flatMap((shop) => shop.tags))].sort();
+}
+
 /** 全角/半角・大文字小文字を吸収して比較しやすい形に正規化する */
-export function normalize(text: string): string {
+function normalize(text: string): string {
   return text.normalize('NFKC').toLowerCase().trim();
 }
 
 /**
- * あいまい検索の対象文字列（名称・団体・建物名・タグ）に一致するか。
- * 場所は建物名（Place.name とよみがな）で検索する。部屋番号は表示専用で対象外。
+ * あいまい検索の対象文字列（名称・団体・場所・タグ）に一致するか。
+ * 場所は場所名・よみがなに加え、"1B208" のような表示ラベルでも引ける。
  */
 function matchesQuery(
   shop: Shop,
@@ -54,7 +67,9 @@ function matchesQuery(
   if (normalizedQuery === '') return true;
   const placeTerms = shop.locations.flatMap((loc) => {
     const place = places.get(loc.placeId);
-    return place ? [place.name, place.reading ?? ''] : [];
+    return place
+      ? [place.name, place.reading ?? '', formatLocation(place, loc.room)]
+      : [];
   });
   const haystack = normalize(
     [shop.name, shop.organization, ...placeTerms, ...shop.tags].join(' '),
