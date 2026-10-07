@@ -20,7 +20,7 @@
   "vars": {
     "SOS_API_URL": "https://sos26-api.sohosai.com",
     "GRANDPRIX_WIN_RATE": "0.2",
-    "LINE_CHANNEL_ID": "",
-    "LINE_CALLBACK_URL": ""
+    "LINE_CHANNEL_ID": "2011922916",
+    "LINE_CALLBACK_URL": "https://zoo.search.sohosai.com/auth/line/callback"
   }
 }
