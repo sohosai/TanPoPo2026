@@ -1,11 +1,12 @@
-import {
-  IconCalendarEvent,
-  IconMap,
-  IconMapPin,
-  IconX,
-} from '@tabler/icons-react';
+import { IconCalendarEvent, IconMap, IconMapPin } from '@tabler/icons-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router';
+import { useParams } from 'react-router';
+import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
+import {
+  detailEnterStyles,
+  detailExitStyles,
+  useDetailClose,
+} from '~/components/features/Detail/useDetailClose';
 import { boothCenter } from '~/components/features/Map/booths';
 import {
   BOOTH_FOCUS_ZOOM,
@@ -109,6 +110,7 @@ export default function Detail() {
   const [imageIndex, setImageIndex] = useState(0);
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const { closing, close } = useDetailClose();
 
   const scrollCarouselTo = (index: number, behavior: ScrollBehavior) => {
     const el = carouselRef.current;
@@ -151,12 +153,14 @@ export default function Detail() {
 
   return (
     <div
-      className={css({
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100%',
-        animation: 'detailEnter 0.28s ease-out',
-      })}
+      className={cx(
+        css({
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100%',
+        }),
+        closing ? detailExitStyles : detailEnterStyles,
+      )}
     >
       {/* シートを畳んだ状態でもこのヘッダーだけは見えるため、企画を識別できる情報を集める */}
       <header
@@ -211,24 +215,7 @@ export default function Detail() {
           </p>
         </div>
 
-        <Link
-          to="/"
-          aria-label="閉じる"
-          className={css({
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            w: '36px',
-            h: '36px',
-            borderRadius: '999px',
-            bg: 'border.subtle',
-            color: 'fg.muted',
-            _active: { bg: 'border' },
-          })}
-        >
-          <IconX size={20} />
-        </Link>
+        <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
       {shop.cancelled && (

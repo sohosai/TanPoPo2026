@@ -121,11 +121,10 @@ export default function ShopSearchBar({
   const canClear = hasActiveFilter(criteria) || criteria.q !== '';
 
   return (
+    // スクロール領域の外に置いて固定する（sticky だとスクロール中に振動・隙間が出るため）。
     <div
       className={css({
-        position: 'sticky',
-        top: 0,
-        zIndex: 1,
+        flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
@@ -212,6 +211,8 @@ export default function ShopSearchBar({
           overflowX: 'auto',
           scrollbarWidth: 'none',
           '&::-webkit-scrollbar': { display: 'none' },
+          // マウスでは隠れた横スクロールに気づけず操作もしづらいため、PC では折り返して全部見せる。
+          md: { flexWrap: 'wrap', overflowX: 'visible' },
         })}
       >
         <Chip

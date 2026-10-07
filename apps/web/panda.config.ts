@@ -52,6 +52,21 @@ export default defineConfig({
           '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        // 詳細を × で閉じるときの退場アニメ（沈み込みながらフェードアウト）。
+        detailExit: {
+          '0%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+          '100%': { opacity: '0', transform: 'translateY(24px) scale(0.97)' },
+        },
+        // 閉じるボタンの × が回りながら縮む。
+        closeSpin: {
+          '0%': { transform: 'rotate(0deg) scale(1)' },
+          '100%': { transform: 'rotate(90deg) scale(0.75)' },
+        },
+        // 詳細から一覧へ戻ったときに、各企画が順に下からふわっと出てくる。
+        itemEnter: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
         viewerFade: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

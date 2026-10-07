@@ -1,5 +1,6 @@
 import { IconCalendarEvent, IconMapPin } from '@tabler/icons-react';
 import type { Shop } from 'api';
+import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
 import FavoriteButton from './FavoriteButton';
@@ -14,6 +15,9 @@ type ShopListItemProps = {
   locationLabel?: string;
   favorite?: boolean;
   onToggleFavorite?: (id: string) => void;
+  /** 入場演出などを外から足すため */
+  className?: string;
+  style?: CSSProperties;
 };
 
 const metaClass = css({
@@ -28,6 +32,8 @@ export default function ShopListItem({
   locationLabel,
   favorite = false,
   onToggleFavorite,
+  className,
+  style,
 }: ShopListItemProps) {
   const {
     id,
@@ -42,19 +48,22 @@ export default function ShopListItem({
   return (
     <Link
       to={`/shop/${number}`}
-      className={css({
-        display: 'flex',
-        gap: '12px',
-        alignItems: 'flex-start',
-        px: '16px',
-        py: '12px',
-        color: 'inherit',
-        textDecoration: 'none',
-        borderBottom: '1px solid token(colors.border.subtle)',
-        transition: 'background 0.15s',
-        _active: { bg: 'border.subtle' },
-      })}
-      style={{ opacity: cancelled ? 0.55 : undefined }}
+      className={cx(
+        css({
+          display: 'flex',
+          gap: '12px',
+          alignItems: 'flex-start',
+          px: '16px',
+          py: '12px',
+          color: 'inherit',
+          textDecoration: 'none',
+          borderBottom: '1px solid token(colors.border.subtle)',
+          transition: 'background 0.15s',
+          _active: { bg: 'border.subtle' },
+        }),
+        className,
+      )}
+      style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
     >
       <ShopIcon shop={shop} size={64} />
 
@@ -67,14 +76,14 @@ export default function ShopListItem({
           gap: '2px',
         })}
       >
+        {/* 一覧の行の高さを揃えるため、各行は1行に収めて溢れた分は省略する */}
         <h3
           className={css({
             fontSize: '16px',
             fontWeight: 700,
             lineHeight: 1.4,
             color: 'fg.strong',
-            lineClamp: 2,
-            wordBreak: 'break-all',
+            truncate: true,
           })}
         >
           {name}
@@ -94,11 +103,12 @@ export default function ShopListItem({
           className={css({
             mt: '6px',
             display: 'flex',
-            flexWrap: 'wrap',
             alignItems: 'center',
-            gap: '4px 10px',
+            gap: '10px',
             fontSize: '12px',
             color: 'fg.muted',
+            whiteSpace: 'nowrap',
+            '& > *': { flexShrink: 0 },
           })}
         >
           {cancelled ? (
@@ -129,10 +139,14 @@ export default function ShopListItem({
               {category}
             </span>
           )}
+          {/* 場所は長さのばらつきが大きいため、ここだけ縮めて残り幅で省略する */}
           {locationLabel && (
-            <span className={metaClass}>
-              <IconMapPin size={13} />
-              {locationLabel}
+            <span
+              className={cx(metaClass, css({ flexShrink: '1!' }))}
+              title={locationLabel}
+            >
+              <IconMapPin size={13} className={css({ flexShrink: 0 })} />
+              <span className={css({ truncate: true })}>{locationLabel}</span>
             </span>
           )}
           {schedule.length > 0 && (

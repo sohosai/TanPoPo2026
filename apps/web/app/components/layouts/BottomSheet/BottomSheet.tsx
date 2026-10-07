@@ -26,11 +26,14 @@ interface MapBottomSheetProps {
   initiallyRaised?: boolean;
 }
 
-const BottomSheetContext = createContext<{
+/** シートの開閉操作。PC 版のサイドパネルも同じ操作を提供する。 */
+export interface SheetApi {
   expand: () => void;
   raise: () => void;
   collapse: () => void;
-}>({
+}
+
+export const BottomSheetContext = createContext<SheetApi>({
   expand: () => {},
   raise: () => {},
   collapse: () => {},
@@ -163,7 +166,8 @@ export default function MapBottomSheet({
     <div
       ref={ref}
       className={cx(sheetStyles, dragging && noTransitionStyles)}
-      style={{ transform: `translateY(${y}px)` }}
+      // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
+      style={{ transform: `translate3d(0, ${Math.round(y)}px, 0)` }}
     >
       <div
         className={handleAreaStyles}

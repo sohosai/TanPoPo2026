@@ -2,12 +2,17 @@ import {
   IconBuilding,
   IconMicrophone,
   IconTent,
-  IconX,
   type TablerIcon,
 } from '@tabler/icons-react';
 import type { Place, PlaceKind, Shop } from 'api';
 import { useEffect, useMemo } from 'react';
-import { Link, useParams } from 'react-router';
+import { useParams } from 'react-router';
+import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
+import {
+  detailEnterStyles,
+  detailExitStyles,
+  useDetailClose,
+} from '~/components/features/Detail/useDetailClose';
 import {
   BOOTH_FOCUS_ZOOM,
   useMap,
@@ -24,7 +29,8 @@ import {
   usePlaces,
 } from '~/lib/places';
 import { trpc } from '~/lib/trcp';
-import { css } from '../../../styled-system/css';
+import { isDesktopViewport } from '~/lib/viewport';
+import { css, cx } from '../../../styled-system/css';
 
 const KIND_INFO: Partial<
   Record<PlaceKind, { icon: TablerIcon; label: string }>
@@ -78,6 +84,7 @@ export default function PlaceDetail() {
   const { isFavorite, toggle } = useFavorites();
   const { flyTo } = useMap();
   const sheet = useBottomSheet();
+  const { closing, close } = useDetailClose();
 
   // 地図から開いたときに、場所と一覧の両方が見えるようにする。
   // biome-ignore lint/correctness/useExhaustiveDependencies: 場所が変わったときだけ開く
@@ -87,11 +94,13 @@ export default function PlaceDetail() {
 
   useEffect(() => {
     if (!place) return;
-    // シートを半分開いているので、残りの地図の中央に来るよう上へずらす。
     flyTo(place.point, {
       // 屋外はテントの形が見えるところまで寄る。
       zoom: place.kind === 'outdoor' ? BOOTH_FOCUS_ZOOM : 17.6,
-      offset: [0, -Math.round(window.innerHeight * 0.25)],
+      // スマホではシートを半分開いているので、残りの地図の中央に来るよう上へずらす。
+      offset: isDesktopViewport()
+        ? undefined
+        : [0, -Math.round(window.innerHeight * 0.25)],
     });
   }, [place, flyTo]);
 
@@ -118,9 +127,16 @@ export default function PlaceDetail() {
   const Icon = info?.icon ?? IconBuilding;
 
   return (
-    <div className={css({ animation: 'detailEnter 0.28s ease-out' })}>
+    // 建物のヘッダーは固定し、その下のフロアごとの一覧だけをスクロールさせる。
+    <div
+      className={cx(
+        css({ display: 'flex', flexDirection: 'column', h: '100%' }),
+        closing ? detailExitStyles : detailEnterStyles,
+      )}
+    >
       <header
         className={css({
+          flexShrink: 0,
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
@@ -161,71 +177,65 @@ export default function PlaceDetail() {
             {status === 'success' && ` · ${count}企画`}
           </p>
         </div>
-        <Link
-          to="/"
-          aria-label="閉じる"
-          className={css({
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            w: '36px',
-            h: '36px',
-            borderRadius: '999px',
-            bg: 'border.subtle',
-            color: 'fg.muted',
-            _active: { bg: 'border' },
-          })}
-        >
-          <IconX size={20} />
-        </Link>
+        <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
-      {status === 'pending' && (
-        <p className={css({ p: '16px', color: 'fg.subtle' })}>読み込み中...</p>
-      )}
-      {status === 'success' && count === 0 && (
-        <p className={css({ p: '16px', color: 'fg.subtle' })}>
-          この場所の企画はありません。
-        </p>
-      )}
+      <div
+        className={css({
+          flex: 1,
+          minHeight: 0,
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
+        })}
+      >
+        {status === 'pending' && (
+          <p className={css({ p: '16px', color: 'fg.subtle' })}>
+            読み込み中...
+          </p>
+        )}
+        {status === 'success' && count === 0 && (
+          <p className={css({ p: '16px', color: 'fg.subtle' })}>
+            この場所の企画はありません。
+          </p>
+        )}
 
-      {sections.map((section) => (
-        <section key={section.title ?? 'all'}>
-          {section.title && (
-            <h2
-              className={css({
-                position: 'sticky',
-                top: 0,
-                zIndex: 1,
-                px: '16px',
-                py: '6px',
-                bg: 'border.subtle',
-                fontSize: '12px',
-                fontWeight: 700,
-                color: 'fg.muted',
-              })}
-            >
-              {section.title}
-            </h2>
-          )}
-          {section.rows.map(({ shop, rooms }) => {
-            const [first, ...rest] = rooms;
-            const label = formatLocation(place, first);
-            return (
-              <ShopListItem
-                key={shop.id}
-                shop={shop}
-                locationLabel={
-                  rest.length > 0 ? `${label} ほか${rest.length}室` : label
-                }
-                favorite={isFavorite(shop.id)}
-                onToggleFavorite={toggle}
-              />
-            );
-          })}
-        </section>
-      ))}
+        {sections.map((section) => (
+          <section key={section.title ?? 'all'}>
+            {section.title && (
+              <h2
+                className={css({
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1,
+                  px: '16px',
+                  py: '6px',
+                  bg: 'border.subtle',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  color: 'fg.muted',
+                })}
+              >
+                {section.title}
+              </h2>
+            )}
+            {section.rows.map(({ shop, rooms }) => {
+              const [first, ...rest] = rooms;
+              const label = formatLocation(place, first);
+              return (
+                <ShopListItem
+                  key={shop.id}
+                  shop={shop}
+                  locationLabel={
+                    rest.length > 0 ? `${label} ほか${rest.length}室` : label
+                  }
+                  favorite={isFavorite(shop.id)}
+                  onToggleFavorite={toggle}
+                />
+              );
+            })}
+          </section>
+        ))}
+      </div>
     </div>
   );
 }

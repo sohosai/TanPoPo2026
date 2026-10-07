@@ -7,6 +7,7 @@ import {
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef, useState } from 'react';
 import { SHEET_PEEK } from '~/components/layouts/BottomSheet/BottomSheet';
+import { useIsDesktop } from '~/lib/viewport';
 import { css, cx } from '../../../../styled-system/css';
 import { useMap } from './MapController';
 
@@ -35,17 +36,21 @@ const roundButton = css({
   _active: { transform: 'scale(0.92)' },
 });
 
+const PITCH_3D = 60;
+
 /**
- * 地図右下の操作ボタン（現在地の表示・追従、初期表示へ戻る）。
+ * 地図右下の操作ボタン（初期表示へ戻る、現在地の表示・追従、3D/2D の切り替え）。
  * 現在地の点・精度の円・追従は MapLibre の GeolocateControl に任せ、標準のボタンは隠して
  * このボタンから操作する。
  */
 export default function MapControls() {
   const { isReady, getMap, resetView } = useMap();
+  const isDesktop = useIsDesktop();
   const geolocateRef = useRef<maplibregl.GeolocateControl | null>(null);
   const stateRef = useRef<LocateState>('off');
   const [state, setStateValue] = useState<LocateState>('off');
   const [message, setMessage] = useState<string | null>(null);
+  const [is3d, setIs3d] = useState(false);
 
   const setState = (next: LocateState) => {
     stateRef.current = next;
@@ -95,6 +100,28 @@ export default function MapControls() {
     };
   }, [isReady, getMap]);
 
+  // 右ドラッグや2本指での傾け、初期表示へ戻る操作でも表示を追従させる。
+  useEffect(() => {
+    const map = getMap();
+    if (!isReady || !map) return;
+    const sync = () => setIs3d(map.getPitch() > 0);
+    sync();
+    map.on('pitchend', sync);
+    return () => {
+      map.off('pitchend', sync);
+    };
+  }, [isReady, getMap]);
+
+  const toggle3d = () => {
+    const map = getMap();
+    if (!map) return;
+    map.easeTo(
+      is3d
+        ? { pitch: 0, bearing: 0, duration: 500 }
+        : { pitch: PITCH_3D, duration: 500 },
+    );
+  };
+
   const goHome = () => {
     // 追従中のままだと次の位置更新で現在地へ引き戻される。GeolocateControl はズームを伴う移動では
     // 追従を外さないため、先にズームなしで動かして追従だけ外す（現在地の点は残る）。
@@ -139,7 +166,8 @@ export default function MapControls() {
         gap: '10px',
       })}
       style={{
-        bottom: `calc(env(safe-area-inset-bottom, 0px) + ${SHEET_PEEK + 16}px)`,
+        // PC ではシートが下に無いため、地図右下の著作権表記のすぐ上に寄せる。
+        bottom: `calc(env(safe-area-inset-bottom, 0px) + ${isDesktop ? 40 : SHEET_PEEK + 16}px)`,
       }}
     >
       {message && (
@@ -190,6 +218,17 @@ export default function MapControls() {
               : undefined
           }
         />
+      </button>
+      <button
+        type="button"
+        onClick={toggle3d}
+        aria-label={is3d ? '2D表示に切り替える' : '3D表示に切り替える'}
+        className={cx(
+          roundButton,
+          css({ fontSize: '14px', fontWeight: 700, letterSpacing: '0.02em' }),
+        )}
+      >
+        {is3d ? '2D' : '3D'}
       </button>
     </div>
   );

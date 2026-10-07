@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { isDesktopViewport } from '~/lib/viewport';
 import { token } from '../../../../styled-system/tokens';
 import sohosaiMap from './sohosai-map.json';
 
@@ -18,7 +19,8 @@ export type FocusOptions = {
   zoom?: number;
   duration?: number;
   /**
-   * 中心からのピクセルオフセット。下部シートに隠れないよう既定で上方に寄せる。
+   * 中心からのピクセルオフセット。スマホでは下部シートに隠れないよう既定で上方に寄せる。
+   * PC ではサイドパネル分を地図の padding で空けているため既定ではずらさない。
    */
   offset?: [number, number];
 };
@@ -66,7 +68,9 @@ const DEFAULT_FOCUS_ZOOM = 17.3;
 export const BOOTH_FOCUS_ZOOM = 18.5;
 const DEFAULT_DURATION = 800;
 // 下部シートに隠れないよう、フォーカス点を画面上方へ寄せる既定オフセット。
-const DEFAULT_OFFSET: [number, number] = [0, -120];
+const SHEET_OFFSET: [number, number] = [0, -120];
+const defaultOffset = (): [number, number] =>
+  isDesktopViewport() ? [0, 0] : SHEET_OFFSET;
 
 const MapContext = createContext<MapController | null>(null);
 
@@ -89,7 +93,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
       center,
       zoom: options.zoom ?? DEFAULT_FOCUS_ZOOM,
       duration: options.duration ?? DEFAULT_DURATION,
-      offset: options.offset ?? DEFAULT_OFFSET,
+      offset: options.offset ?? defaultOffset(),
     });
   }, []);
 
