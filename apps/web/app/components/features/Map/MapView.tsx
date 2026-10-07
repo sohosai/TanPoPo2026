@@ -6,6 +6,24 @@ import { addDebugLayers } from './debugLayers';
 import { INITIAL_VIEW, useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
 
+const MAPTILER_KEY = import.meta.env.VITE_MAPTILER_KEY;
+if (!MAPTILER_KEY) {
+  console.warn(
+    'VITE_MAPTILER_KEY が未設定のため、地図の背景を読み込めません。',
+  );
+}
+
+/**
+ * MapTiler へのリクエストにキーを付ける。キーはスタイル JSON に書かず環境変数で渡すため、
+ * スタイルから辿るタイル定義・タイル・フォントのすべてのリクエストでここを通す。
+ */
+function withMapTilerKey(url: string) {
+  if (!MAPTILER_KEY || !url.startsWith('https://api.maptiler.com/')) return;
+  const withKey = new URL(url);
+  withKey.searchParams.set('key', MAPTILER_KEY);
+  return { url: withKey.toString() };
+}
+
 export default function MapView() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -16,6 +34,7 @@ export default function MapView() {
     const instance = new maplibregl.Map({
       container: mapContainer.current,
       style: sohosaiMap as unknown as StyleSpecification,
+      transformRequest: withMapTilerKey,
       // maxBounds を渡すと既定の中心 [0, 0] が範囲の端に寄せられ、スタイルの中心が使われなくなるため明示する。
       ...INITIAL_VIEW,
       // 会場の外まで迷い出ないよう、キャンパス周辺に動かせる範囲を絞る。

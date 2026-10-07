@@ -28,6 +28,7 @@ Web と API が同一オリジンになるため、CORS や cookie のクロス�
    ```
 
 4. LINE Developers Console に本番のコールバックURL（`https://<本番のドメイン>/auth/line/callback`）を登録する。
+5. MapTiler の API キーを `apps/web/.env` の `VITE_MAPTILER_KEY` に書く（Web のビルド時に埋め込まれる。詳細は [web/environment-variables.md](../web/environment-variables.md)）。
 
 ## デプロイ
 
@@ -39,7 +40,7 @@ bun run deploy
 
 Web のビルド → 本番 D1 へのマイグレーション適用（`wrangler d1 migrations apply DB --remote`）→ `wrangler deploy` の順に実行される。
 
-CI から実行する場合は、環境変数 `CLOUDFLARE_API_TOKEN`（Workers Scripts と D1 の編集権限）と `CLOUDFLARE_ACCOUNT_ID` を渡す。
+CI から実行する場合は、環境変数 `CLOUDFLARE_API_TOKEN`（Workers Scripts と D1 の編集権限）と `CLOUDFLARE_ACCOUNT_ID`、Web のビルド用に `VITE_MAPTILER_KEY` を渡す。
 
 ## 注意点
 
