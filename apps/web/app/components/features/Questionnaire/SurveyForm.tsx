@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { css } from '../../../../styled-system/css';
-import { QUESTIONNAIRE_QUESTIONS } from './questions';
-
-type Answers = Record<string, string>;
+import { type Answers, QUESTIONNAIRE_QUESTIONS } from './questions';
 
 type SurveyFormProps = {
   headcount: number;

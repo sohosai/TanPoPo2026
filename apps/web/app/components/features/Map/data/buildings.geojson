@@ -6,7 +6,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-3a",
-        "name": "3A"
+        "name": "3A",
+        "osmId": 277756501,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -100,7 +102,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-3b",
-        "name": "3B"
+        "name": "3B",
+        "osmId": 277756505,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -186,7 +190,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-2c",
-        "name": "2C棟"
+        "name": "2C棟",
+        "osmId": 318787319,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -260,7 +266,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-2d",
-        "name": "2D棟"
+        "name": "2D棟",
+        "osmId": 318787320,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -366,7 +374,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-2b",
-        "name": "2B"
+        "name": "2B",
+        "osmId": 318787318,
+        "levels": 5
       },
       "geometry": {
         "type": "Polygon",
@@ -444,7 +454,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-2a",
-        "name": "2A"
+        "name": "2A",
+        "osmId": 318787317,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -514,7 +526,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-2h",
-        "name": "2H"
+        "name": "2H",
+        "osmId": 318787327,
+        "levels": 2
       },
       "geometry": {
         "type": "Polygon",
@@ -564,7 +578,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-1d",
-        "name": "1D"
+        "name": "1D",
+        "osmId": 318789176,
+        "levels": 3
       },
       "geometry": {
         "type": "Polygon",
@@ -634,7 +650,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-1e",
-        "name": "1E"
+        "name": "1E",
+        "osmId": 318789177,
+        "levels": 5
       },
       "geometry": {
         "type": "Polygon",
@@ -700,7 +718,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-1c",
-        "name": "1C"
+        "name": "1C",
+        "osmId": 318789179,
+        "levels": 5
       },
       "geometry": {
         "type": "Polygon",
@@ -798,7 +818,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-1b",
-        "name": "1B"
+        "name": "1B",
+        "osmId": 318789180,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -860,7 +882,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-1a",
-        "name": "1A"
+        "name": "1A",
+        "osmId": 318789178,
+        "levels": 3
       },
       "geometry": {
         "type": "Polygon",
@@ -922,7 +946,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-1h",
-        "name": "1H"
+        "name": "1H",
+        "osmId": 318789181,
+        "levels": 2
       },
       "geometry": {
         "type": "Polygon",
@@ -968,7 +994,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-kaikan",
-        "name": "大学会館"
+        "name": "大学会館",
+        "osmId": 318789183,
+        "levels": 3
       },
       "geometry": {
         "type": "Polygon",
@@ -1146,7 +1174,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-6b",
-        "name": "6B"
+        "name": "6B",
+        "osmId": 561126081,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -1188,7 +1218,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-6a",
-        "name": "6A"
+        "name": "6A",
+        "osmId": 561126082,
+        "levels": 4
       },
       "geometry": {
         "type": "Polygon",
@@ -1222,7 +1254,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-chuo-gym",
-        "name": "中央体育館"
+        "name": "中央体育館",
+        "osmId": 766911072,
+        "levels": 3
       },
       "geometry": {
         "type": "Polygon",
@@ -1280,7 +1314,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-kyugi-gym",
-        "name": "球技体育館"
+        "name": "球技体育館",
+        "osmId": 487627486,
+        "levels": 2
       },
       "geometry": {
         "type": "Polygon",
@@ -1330,7 +1366,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-budokan",
-        "name": "武道館"
+        "name": "武道館",
+        "osmId": 560633555,
+        "levels": 2
       },
       "geometry": {
         "type": "Polygon",
@@ -1396,7 +1434,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-pool",
-        "name": "屋内プール"
+        "name": "屋内プール",
+        "osmId": 344436575,
+        "levels": 2
       },
       "geometry": {
         "type": "Polygon",
@@ -1446,7 +1486,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-5c",
-        "name": "5C"
+        "name": "5C",
+        "osmId": 318789187,
+        "levels": 6
       },
       "geometry": {
         "type": "Polygon",
@@ -1544,7 +1586,9 @@
       "type": "Feature",
       "properties": {
         "placeId": "bldg-library",
-        "name": "中央図書館"
+        "name": "中央図書館",
+        "osmId": 161298151,
+        "levels": 6
       },
       "geometry": {
         "type": "Polygon",

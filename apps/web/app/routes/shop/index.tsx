@@ -20,12 +20,13 @@ import {
   filterShops,
   hasActiveFilter,
   type ShopFilterCriteria,
+  tagOptionsOf,
 } from '~/components/features/Shop/filter';
 import ShopListItem from '~/components/features/Shop/ShopListItem';
 import ShopSearchBar from '~/components/features/Shop/ShopSearchBar';
 import { useFavorites } from '~/lib/favorites';
 import { usePlaces } from '~/lib/places';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
 /** 読み込み中・エラー・該当なしなどの全画面状態を表す共通表示。 */
@@ -122,11 +123,7 @@ export default function List() {
     [shops, criteria, favorites, placesById],
   );
 
-  // タグは自由文字列で固定の選択肢を持たないため、取得済みデータから動的に選択肢を作る。
-  const tagOptions = useMemo(
-    () => [...new Set((shops ?? []).flatMap((shop) => shop.tags))].sort(),
-    [shops],
-  );
+  const tagOptions = useMemo(() => tagOptionsOf(shops ?? []), [shops]);
 
   // 詳細を × で閉じて戻ってきたときだけ、企画を上から順にふわっと出す。
   // 戻った直後だけに限定し、その後の絞り込みで現れた行には演出をかけない。

@@ -39,12 +39,15 @@ type Place = {
 ```jsonc
 {
   "type": "Feature",
-  "properties": { "placeId": "bldg-5c", "name": "5C" },
+  "properties": { "placeId": "bldg-5c", "name": "5C", "osmId": 318789187, "levels": 6 },
   "geometry": { "type": "Polygon", "coordinates": [[[lng, lat], ...]] }
 }
 ```
 
 `properties.placeId` が `place.ts` の `Place.id` と一致することで属性と結合する。
+
+- `osmId`: その建物の OSM way id。3D 表示で、地図タイル側の同じ建物を立体の対象から外すのに使う（タイルの建物の id は OSM の way id）。
+- `levels`: 地上の階数。3D 表示で「階数 × 4m」の高さに立てる。OSM の `building:levels` を基本とし、OSM に無い建物は大学の講義室一覧や部屋番号から最上階を調べて入れる。
 
 ### 入口/接続路（`path-network.geojson`）
 
@@ -63,8 +66,7 @@ type Place = {
 ```
 
 - 「その建物に接続する道」は `placeId` で明示される（座標の近さに依存しない）。
-- web からは `apps/web/app/components/features/Map/paths.ts` の
-  `entrancesForBuilding(placeId)` / `entrancePointsForBuilding(placeId)` で取得できる。
+- web では `apps/web/app/components/features/Map/paths.ts` の `pathNetwork` として読み込む（現状は `?debug` の表示だけが使う）。
 
 ## 参照・表示の流れ
 
@@ -96,10 +98,12 @@ shop-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
 3. **ポリゴンを追加** — `buildings.geojson` の `features` に建物の輪郭を足す。
    `properties.placeId` は手順1の id と一致させる。
 
+   `osmId` と `levels` も入れる（上記「建物ポリゴン」参照）。
+
    ```jsonc
    {
      "type": "Feature",
-     "properties": { "placeId": "bldg-7a", "name": "7A" },
+     "properties": { "placeId": "bldg-7a", "name": "7A", "osmId": 123456789, "levels": 4 },
      "geometry": { "type": "Polygon", "coordinates": [[[lng, lat], ...]] }
    }
    ```
@@ -120,7 +124,7 @@ shop-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
    取り込みスクリプトが `{ placeId: 'bldg-7a', room: '101' }` に変換する（[shop-locations.md](./shop-locations.md)）。
 
 6. **確認**
-   - データ整合性: `bun run check:map-data`（id 重複・placeId 参照切れ・座標の取り違え・通路の連結性などを検査）
+   - データ整合性: `bun run check:map-data`（id 重複・placeId 参照切れ・座標の取り違え・osmId と階数・通路の連結性などを検査）
    - 型チェック: `bun run check`
    - 目視: `bun run dev` → `http://localhost:5173/?debug` で建物・入口が表示されるか
    - 検索: 建物名（"7A"）や表示ラベル（"7A101"）でヒットするか。

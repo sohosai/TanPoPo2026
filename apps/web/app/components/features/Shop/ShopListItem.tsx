@@ -4,10 +4,8 @@ import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
 import FavoriteButton from './FavoriteButton';
-import { CATEGORY_COLOR_CLASS, formatSchedule } from './labels';
+import { badgeClass, CATEGORY_COLOR_CLASS, formatSchedule } from './labels';
 import ShopIcon from './ShopIcon';
-
-export type { Shop };
 
 type ShopListItemProps = {
   shop: Shop;
@@ -27,44 +25,18 @@ const metaClass = css({
   minWidth: 0,
 });
 
-export default function ShopListItem({
+/** 企画一覧の1行の中身（アイコン・名前・団体・分類・場所・日程）。行の外枠と右端の操作は使う側で付ける。 */
+export function ShopRowContent({
   shop,
   locationLabel,
-  favorite = false,
-  onToggleFavorite,
-  className,
-  style,
-}: ShopListItemProps) {
-  const {
-    id,
-    number,
-    name,
-    organization,
-    category,
-    schedule,
-    cancelled = false,
-  } = shop;
+}: {
+  shop: Shop;
+  locationLabel?: string;
+}) {
+  const { name, organization, category, schedule, cancelled = false } = shop;
 
   return (
-    <Link
-      to={`/shop/${number}`}
-      className={cx(
-        css({
-          display: 'flex',
-          gap: '12px',
-          alignItems: 'flex-start',
-          px: '16px',
-          py: '12px',
-          color: 'inherit',
-          textDecoration: 'none',
-          borderBottom: '1px solid token(colors.border.subtle)',
-          transition: 'background 0.15s',
-          _active: { bg: 'border.subtle' },
-        }),
-        className,
-      )}
-      style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
-    >
+    <>
       <ShopIcon shop={shop} size={64} />
 
       <div
@@ -113,29 +85,15 @@ export default function ShopListItem({
         >
           {cancelled ? (
             <span
-              className={css({
-                px: '6px',
-                py: '1px',
-                borderRadius: '4px',
-                bg: 'fg.strong',
-                color: 'surface',
-                fontWeight: 700,
-              })}
+              className={cx(
+                badgeClass,
+                css({ bg: 'fg.strong', color: 'surface' }),
+              )}
             >
               中止
             </span>
           ) : (
-            <span
-              className={cx(
-                css({
-                  px: '6px',
-                  py: '1px',
-                  borderRadius: '4px',
-                  fontWeight: 700,
-                }),
-                CATEGORY_COLOR_CLASS[category],
-              )}
-            >
+            <span className={cx(badgeClass, CATEGORY_COLOR_CLASS[category])}>
               {category}
             </span>
           )}
@@ -157,6 +115,42 @@ export default function ShopListItem({
           )}
         </div>
       </div>
+    </>
+  );
+}
+
+/** 一覧の行の外枠。ShopListItem と投票の行で見た目を揃える。 */
+export const shopRowClass = css({
+  display: 'flex',
+  gap: '12px',
+  alignItems: 'flex-start',
+  px: '16px',
+  py: '12px',
+  color: 'inherit',
+  textDecoration: 'none',
+  textAlign: 'left',
+  borderBottom: '1px solid token(colors.border.subtle)',
+  transition: 'background 0.15s',
+  _active: { bg: 'border.subtle' },
+});
+
+export default function ShopListItem({
+  shop,
+  locationLabel,
+  favorite = false,
+  onToggleFavorite,
+  className,
+  style,
+}: ShopListItemProps) {
+  const { id, number, cancelled = false } = shop;
+
+  return (
+    <Link
+      to={`/shop/${number}`}
+      className={cx(shopRowClass, className)}
+      style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
+    >
+      <ShopRowContent shop={shop} locationLabel={locationLabel} />
 
       <FavoriteButton
         active={favorite}

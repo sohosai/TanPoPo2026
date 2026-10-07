@@ -11,6 +11,14 @@ export function formatSchedule(days: ScheduleDay[]): string {
   return days.map((day) => DAY_LABELS[day]).join('・');
 }
 
+/** 分類・中止などの小さなラベルの形。色は CATEGORY_COLOR_CLASS などと組み合わせる。 */
+export const badgeClass = css({
+  px: '6px',
+  py: '1px',
+  borderRadius: '4px',
+  fontWeight: 700,
+});
+
 // Panda は css() の引数を静的解析するため、分類ごとのクラスは動的に組み立てず列挙しておく。
 export const CATEGORY_COLOR_CLASS: Record<ShopCategory, string> = {
   食品: css({ color: 'category.food', bg: 'category.food.bg' }),

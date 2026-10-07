@@ -7,7 +7,7 @@ LINEログイン・雙峰祭グランプリ投票・来場者アンケートの�
 - マイグレーション: `apps/api/db/migrations`（`drizzle-kit` で生成し、`wrangler d1 migrations apply` で適用）
 - Worker からは binding `DB` として参照する（`apps/api/wrangler.jsonc`）
 
-Place（建物・ステージ等）や Shop（企画）は DB 化せず、インメモリ／外部 SOS API から配信する。グランプリ投票の `shopId` / ステージ選択などは文字列として保存するのみで、外部キー制約は持たない。
+Place（建物・ステージ等）や Shop（企画）は DB 化せず、インメモリ／外部 SOS API から配信する。グランプリ投票の `shopId`（一般部門・ステージ部門とも）などは文字列として保存するのみで、外部キー制約は持たない。ステージ部門は `grandprix_stage_votes` に「ステージ・企画」を保存し、`(vote_id, stage)` の複合主キーで1ステージにつき1企画までに制限する。
 
 ## ローカル開発
 

@@ -6,7 +6,7 @@ import {
 } from '@tabler/icons-react';
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef, useState } from 'react';
-import { SHEET_PEEK } from '~/components/layouts/BottomSheet/BottomSheet';
+import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
 import { useIsDesktop } from '~/lib/viewport';
 import { css, cx } from '../../../../styled-system/css';
 import { useMap } from './MapController';
@@ -94,7 +94,9 @@ export default function MapControls() {
     geolocateRef.current = geolocate;
 
     return () => {
-      map.removeControl(geolocate);
+      // 地図ごと画面を離れるときは View の後片付けで map.remove() が先に走り、
+      // コントロールも外し済みになる。そこで再度外すと MapLibre 内部で例外になる。
+      if (map.hasControl(geolocate)) map.removeControl(geolocate);
       geolocateRef.current = null;
       setState('off');
     };

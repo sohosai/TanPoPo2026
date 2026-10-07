@@ -18,7 +18,7 @@ import {
   useMap,
 } from '~/components/features/Map/MapController';
 import ShopListItem from '~/components/features/Shop/ShopListItem';
-import { useBottomSheet } from '~/components/layouts/BottomSheet/BottomSheet';
+import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { useFavorites } from '~/lib/favorites';
 import {
   compareRoom,
@@ -28,7 +28,7 @@ import {
   type PlaceEntry,
   usePlaces,
 } from '~/lib/places';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 import { isDesktopViewport } from '~/lib/viewport';
 import { css, cx } from '../../../styled-system/css';
 
@@ -83,13 +83,13 @@ export default function PlaceDetail() {
   const { data: shops, status } = trpc.shop.list.useQuery();
   const { isFavorite, toggle } = useFavorites();
   const { flyTo } = useMap();
-  const sheet = useBottomSheet();
+  const panel = useMapPanel();
   const { closing, close } = useDetailClose();
 
   // 地図から開いたときに、場所と一覧の両方が見えるようにする。
   // biome-ignore lint/correctness/useExhaustiveDependencies: 場所が変わったときだけ開く
   useEffect(() => {
-    sheet.raise();
+    panel.raise();
   }, [placeId]);
 
   useEffect(() => {

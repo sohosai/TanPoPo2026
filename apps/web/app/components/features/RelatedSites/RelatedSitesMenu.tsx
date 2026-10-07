@@ -22,7 +22,7 @@ const RELATED_SITES: RelatedSiteItem[] = [
   },
 ];
 
-export default function OverButtons() {
+export default function RelatedSitesMenu() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 

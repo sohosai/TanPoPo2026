@@ -38,8 +38,20 @@ export const CATEGORY_OPTIONS: ShopCategory[] = [
 
 export const SCHEDULE_OPTIONS: ScheduleDay[] = ['前夜祭', 'Day1', 'Day2'];
 
+/** 配列に値が無ければ足し、あれば除いた新しい配列を返す（複数選択のオン/オフ）。 */
+export function toggleItem<T>(list: T[], value: T): T[] {
+  return list.includes(value)
+    ? list.filter((v) => v !== value)
+    : [...list, value];
+}
+
+/** タグは自由文字列で固定の選択肢を持たないため、企画が持つタグから選択肢を作る。 */
+export function tagOptionsOf(shops: Shop[]): string[] {
+  return [...new Set(shops.flatMap((shop) => shop.tags))].sort();
+}
+
 /** 全角/半角・大文字小文字を吸収して比較しやすい形に正規化する */
-export function normalize(text: string): string {
+function normalize(text: string): string {
   return text.normalize('NFKC').toLowerCase().trim();
 }
 

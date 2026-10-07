@@ -7,7 +7,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { httpBatchLink } from '@trpc/client';
 import { del, get, set } from 'idb-keyval';
 import { type ReactNode, useState } from 'react';
-import { trpc } from './trcp';
+import { trpc } from './trpc';
 
 // キャッシュの互換性が壊れるような変更(APIレスポンス形状の変更など)をしたら値を上げる。
 // 値を変えると、ユーザーのIndexedDBに残っている古いキャッシュ(ダミーデータ等)が破棄される。

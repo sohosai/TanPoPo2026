@@ -31,6 +31,31 @@ const PREVIEW_ZOOM = 18.2;
 const BOOTH_ZOOM = 18;
 const BOOTH_NAME_ZOOM = 18.3;
 
+// 階数から高さ(m)にする係数。大学の建物は1フロアが高めなので一般的な 3m より大きく取る。
+const FLOOR_HEIGHT = 4;
+const BOOTH_HEIGHT = 2.5;
+const SELECTED_BOOTH_HEIGHT = 3.5;
+// 地図スタイルの sohosai-buildings（平面の建物の塗り）と揃える。
+const CAMPUS_BUILDING_COLOR = '#97bbdc';
+const BASEMAP_BUILDING_COLOR = '#d9d9d2';
+const BASEMAP_3D_OPACITY = 0.6;
+
+/** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤ。 */
+const EXTRUSION_LAYERS = {
+  'basemap-building-3d': BASEMAP_3D_OPACITY,
+  'campus-building-3d': 1,
+  'campus-booth-3d': 1,
+} as const;
+/** 3D 表示では立体の色で強調・タップ判定するため隠す平面のレイヤ。 */
+const FLAT_LAYERS = [
+  'campus-building-fill',
+  'campus-building-selected',
+  'campus-building-selected-line',
+  'campus-booth-fill',
+  'campus-booth-outline',
+  'campus-booth-selected',
+];
+
 /** データの種類ごとの地図ソース id。 */
 export const SOURCES = {
   areas: 'campus-areas',
@@ -93,11 +118,13 @@ const steppedLabelIds = (id: string, steps: LabelStep[]) =>
 /** タップで企画詳細・場所ページを開く地図レイヤ。 */
 export const INTERACTIVE_LAYERS = [
   'campus-booth-fill',
+  'campus-booth-3d',
   'campus-building-pin',
   'campus-outdoor-pin',
   'campus-stage-pin',
   ...steppedLabelIds(BUILDING_LABEL, BUILDING_LABEL_STEPS),
   'campus-building-fill',
+  'campus-building-3d',
 ];
 
 /**
@@ -136,14 +163,95 @@ const countLayout: SymbolLayerSpecification['layout'] = {
   'text-ignore-placement': true,
 };
 
-/** 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。 */
-export function addCampusLayers(map: MlMap) {
+const buildingColor = (placeIds: string[]): ExpressionSpecification => [
+  'case',
+  ['in', ['get', 'placeId'], ['literal', placeIds]],
+  ACCENT,
+  CAMPUS_BUILDING_COLOR,
+];
+
+/**
+ * 建物とテントの立体を追加する（はじめは非表示）。
+ * 道路などの平面のレイヤより後に描かないと立体の上に道路が重なるため、地図スタイルの最初の文字レイヤの前に差し込む。
+ */
+function addExtrusionLayers(map: MlMap, basemapBuildingIds: number[]) {
+  const beforeId = map.getStyle().layers.find((l) => l.type === 'symbol')?.id;
+  const hidden = { visibility: 'none' } as const;
+
+  map.addLayer(
+    {
+      id: 'basemap-building-3d',
+      type: 'fill-extrusion',
+      source: 'openmaptiles',
+      'source-layer': 'building',
+      minzoom: 15,
+      // タイルの建物の id は OSM の way id。
+      filter: ['in', ['id'], ['literal', basemapBuildingIds]],
+      layout: hidden,
+      paint: {
+        'fill-extrusion-color': BASEMAP_BUILDING_COLOR,
+        'fill-extrusion-height': ['get', 'render_height'],
+        'fill-extrusion-base': ['get', 'render_min_height'],
+        'fill-extrusion-opacity': 0,
+      },
+    },
+    beforeId,
+  );
+  map.addLayer(
+    {
+      id: 'campus-building-3d',
+      type: 'fill-extrusion',
+      source: SOURCES.buildings,
+      layout: hidden,
+      paint: {
+        'fill-extrusion-color': buildingColor([]),
+        'fill-extrusion-height': ['*', ['get', 'levels'], FLOOR_HEIGHT],
+        'fill-extrusion-opacity': 0,
+      },
+    },
+    beforeId,
+  );
+  map.addLayer(
+    {
+      id: 'campus-booth-3d',
+      type: 'fill-extrusion',
+      source: SOURCES.boothShapes,
+      minzoom: BOOTH_ZOOM,
+      layout: hidden,
+      paint: {
+        'fill-extrusion-color': ['get', 'color'],
+        'fill-extrusion-height': BOOTH_HEIGHT,
+        'fill-extrusion-opacity': 0,
+      },
+    },
+    beforeId,
+  );
+}
+
+/** 立体の表示/非表示を切り替え、平面の建物・テントはその逆にする。 */
+export function setExtrusionVisible(map: MlMap, visible: boolean) {
+  for (const [id, opacity] of Object.entries(EXTRUSION_LAYERS)) {
+    map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
+    // 非表示の間に 0 へ戻しておき、表示したときに transition でふわっと出す。
+    map.setPaintProperty(id, 'fill-extrusion-opacity', visible ? opacity : 0);
+  }
+  for (const id of FLAT_LAYERS) {
+    map.setLayoutProperty(id, 'visibility', visible ? 'none' : 'visible');
+  }
+}
+
+/**
+ * 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。
+ * basemapBuildingIds は地図タイルの建物のうち 3D 表示で立体にするものの id。
+ */
+export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
   for (const id of Object.values(SOURCES)) {
     map.addSource(id, {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
     });
   }
+  addExtrusionLayers(map, basemapBuildingIds);
 
   map.addLayer({
     id: 'campus-building-fill',
@@ -353,7 +461,7 @@ export type Selection = { placeIds: string[]; booths: string[] };
 
 /** 強調表示のレイヤを、選択中の場所・ブースに合わせる。 */
 export function applySelection(map: MlMap, { placeIds, booths }: Selection) {
-  const inPlaces: FilterSpecification = [
+  const inPlaces: ExpressionSpecification = [
     'in',
     ['get', 'placeId'],
     ['literal', placeIds],
@@ -366,10 +474,28 @@ export function applySelection(map: MlMap, { placeIds, booths }: Selection) {
     ['!=', ['get', 'kind'], 'building'],
   ]);
   // 企画詳細ではそのブース、テント列のページでは列のブースすべてを強調する。
-  map.setFilter(
-    'campus-booth-selected',
+  const selectedBooth: ExpressionSpecification =
     booths.length > 0
       ? ['in', ['get', 'booth'], ['literal', booths]]
-      : inPlaces,
+      : inPlaces;
+  map.setFilter('campus-booth-selected', selectedBooth);
+
+  // 3D では地面の強調が立体に埋もれるため、立体そのものの色・高さで強調する。
+  map.setPaintProperty(
+    'campus-building-3d',
+    'fill-extrusion-color',
+    buildingColor(placeIds),
   );
+  map.setPaintProperty('campus-booth-3d', 'fill-extrusion-color', [
+    'case',
+    selectedBooth,
+    ACCENT_TEXT,
+    ['get', 'color'],
+  ]);
+  map.setPaintProperty('campus-booth-3d', 'fill-extrusion-height', [
+    'case',
+    selectedBooth,
+    SELECTED_BOOTH_HEIGHT,
+    BOOTH_HEIGHT,
+  ]);
 }

@@ -1,5 +1,8 @@
 export type QuestionType = 'radio' | 'text';
 
+/** 1人分の回答（質問 id → 回答）。 */
+export type Answers = Record<string, string>;
+
 export type QuestionDef = {
   id: string;
   label: string;

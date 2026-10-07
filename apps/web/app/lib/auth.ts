@@ -1,4 +1,4 @@
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 
 /** LINEログイン状態を取得するフック。未ログイン時は `user: null`（エラーにはならない）。 */
 export function useAuth() {

@@ -1,20 +1,16 @@
-import {
-  IconChevronDown,
-  IconHeart,
-  IconHeartFilled,
-  IconSearch,
-  IconX,
-} from '@tabler/icons-react';
-import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
-import { useBottomSheet } from '~/components/layouts/BottomSheet/BottomSheet';
-import { css, cx } from '../../../../styled-system/css';
+import { IconChevronDown, IconSearch, IconX } from '@tabler/icons-react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
+import { css } from '../../../../styled-system/css';
 import {
   CATEGORY_OPTIONS,
   emptyCriteria,
   hasActiveFilter,
   SCHEDULE_OPTIONS,
   type ShopFilterCriteria,
+  toggleItem,
 } from './filter';
+import { ChipDivider, FavoriteFilterChip, FilterChip } from './FilterChip';
 import { DAY_LABELS } from './labels';
 
 type ShopSearchBarProps = {
@@ -23,87 +19,12 @@ type ShopSearchBarProps = {
   tagOptions: string[];
 };
 
-function toggle<T>(list: T[], value: T): T[] {
-  return list.includes(value)
-    ? list.filter((v) => v !== value)
-    : [...list, value];
-}
-
-function Chip({
-  active,
-  onClick,
-  tone = 'accent',
-  children,
-  ...aria
-}: {
-  active: boolean;
-  onClick: () => void;
-  tone?: 'accent' | 'favorite';
-  children: ReactNode;
-  'aria-expanded'?: boolean;
-  'aria-controls'?: string;
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={aria['aria-expanded'] === undefined ? active : undefined}
-      {...aria}
-      onClick={onClick}
-      className={cx(
-        chipClass,
-        active ? chipActiveClass[tone] : chipInactiveClass,
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-
-const chipClass = css({
-  flexShrink: 0,
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '4px',
-  h: '32px',
-  px: '12px',
-  borderRadius: '999px',
-  border: '1px solid',
-  fontSize: '13px',
-  fontWeight: 500,
-  whiteSpace: 'nowrap',
-  cursor: 'pointer',
-  transition: 'background 0.15s, color 0.15s, border-color 0.15s',
-});
-
-const chipInactiveClass = css({
-  borderColor: 'border',
-  bg: 'surface',
-  color: 'fg.muted',
-});
-
-const chipActiveClass = {
-  accent: css({
-    borderColor: 'accent.text',
-    bg: 'accent.text',
-    color: 'surface',
-  }),
-  favorite: css({ borderColor: 'favorite', bg: 'favorite', color: 'surface' }),
-};
-
-const dividerClass = css({
-  flexShrink: 0,
-  alignSelf: 'center',
-  w: '1px',
-  h: '20px',
-  bg: 'border',
-});
-
 export default function ShopSearchBar({
   criteria,
   onChange,
   tagOptions,
 }: ShopSearchBarProps) {
-  const sheet = useBottomSheet();
+  const panel = useMapPanel();
 
   // IME 変換中は value を外から書き換えると確定文字がダブるため、
   // 入力欄はローカル下書きで制御し、変換確定後にだけ URL 状態へ反映する。
@@ -157,7 +78,7 @@ export default function ShopSearchBar({
           type="search"
           value={qDraft}
           placeholder="企画名・団体名・場所で検索"
-          onFocus={sheet.expand}
+          onFocus={panel.expand}
           onChange={(e) => {
             const value = e.target.value;
             setQDraft(value);
@@ -215,51 +136,43 @@ export default function ShopSearchBar({
           md: { flexWrap: 'wrap', overflowX: 'visible' },
         })}
       >
-        <Chip
-          tone="favorite"
+        <FavoriteFilterChip
           active={criteria.favorite}
           onClick={() =>
             onChange({ ...criteria, favorite: !criteria.favorite })
           }
-        >
-          {criteria.favorite ? (
-            <IconHeartFilled size={14} />
-          ) : (
-            <IconHeart size={14} />
-          )}
-          いいね
-        </Chip>
-        <span className={dividerClass} />
+        />
+        <ChipDivider />
         {SCHEDULE_OPTIONS.map((day) => (
-          <Chip
+          <FilterChip
             key={day}
             active={criteria.days.includes(day)}
             onClick={() =>
-              onChange({ ...criteria, days: toggle(criteria.days, day) })
+              onChange({ ...criteria, days: toggleItem(criteria.days, day) })
             }
           >
             {DAY_LABELS[day]}
-          </Chip>
+          </FilterChip>
         ))}
-        <span className={dividerClass} />
+        <ChipDivider />
         {CATEGORY_OPTIONS.map((category) => (
-          <Chip
+          <FilterChip
             key={category}
             active={criteria.categories.includes(category)}
             onClick={() =>
               onChange({
                 ...criteria,
-                categories: toggle(criteria.categories, category),
+                categories: toggleItem(criteria.categories, category),
               })
             }
           >
             {category}
-          </Chip>
+          </FilterChip>
         ))}
         {tagOptions.length > 0 && (
           <>
-            <span className={dividerClass} />
-            <Chip
+            <ChipDivider />
+            <FilterChip
               active={criteria.tags.length > 0}
               aria-expanded={tagsOpen}
               aria-controls={tagPanelId}
@@ -272,7 +185,7 @@ export default function ShopSearchBar({
                 className={css({ transition: 'transform 0.2s' })}
                 style={{ transform: tagsOpen ? 'rotate(180deg)' : undefined }}
               />
-            </Chip>
+            </FilterChip>
           </>
         )}
       </div>
@@ -283,15 +196,15 @@ export default function ShopSearchBar({
           className={css({ display: 'flex', flexWrap: 'wrap', gap: '8px' })}
         >
           {tagOptions.map((tag) => (
-            <Chip
+            <FilterChip
               key={tag}
               active={criteria.tags.includes(tag)}
               onClick={() =>
-                onChange({ ...criteria, tags: toggle(criteria.tags, tag) })
+                onChange({ ...criteria, tags: toggleItem(criteria.tags, tag) })
               }
             >
               #{tag}
-            </Chip>
+            </FilterChip>
           ))}
         </div>
       )}

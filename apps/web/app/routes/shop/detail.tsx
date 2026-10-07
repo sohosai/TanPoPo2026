@@ -16,15 +16,16 @@ import CarouselButton from '~/components/features/Shop/CarouselButton';
 import FavoriteButton from '~/components/features/Shop/FavoriteButton';
 import ImageViewer from '~/components/features/Shop/ImageViewer';
 import {
+  badgeClass,
   CATEGORY_COLOR_CLASS,
   formatSchedule,
 } from '~/components/features/Shop/labels';
 import ShopIcon from '~/components/features/Shop/ShopIcon';
 import ShopLinks from '~/components/features/Shop/ShopLinks';
-import { useBottomSheet } from '~/components/layouts/BottomSheet/BottomSheet';
+import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { useFavorites } from '~/lib/favorites';
 import { formatLocation, usePlaces } from '~/lib/places';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
 /** 場所・日程。未確定の項目は「未定」と表示する。 */
@@ -105,7 +106,7 @@ export default function Detail() {
   const { isFavorite, toggle } = useFavorites();
   const { byId: placesById } = usePlaces();
   const { flyTo, focusPoint, highlight } = useMap();
-  const sheet = useBottomSheet();
+  const panel = useMapPanel();
   const favorite = shop !== undefined && isFavorite(shop.id);
   const [imageIndex, setImageIndex] = useState(0);
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
@@ -148,7 +149,7 @@ export default function Detail() {
 
   const showOnMap = () => {
     focusShop();
-    sheet.collapse();
+    panel.collapse();
   };
 
   return (
@@ -198,14 +199,8 @@ export default function Detail() {
           >
             <span
               className={cx(
-                css({
-                  flexShrink: 0,
-                  px: '6px',
-                  py: '1px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                }),
+                badgeClass,
+                css({ flexShrink: 0, fontSize: '11px' }),
                 CATEGORY_COLOR_CLASS[shop.category],
               )}
             >

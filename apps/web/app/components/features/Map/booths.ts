@@ -1,8 +1,8 @@
 import type { Place } from 'api';
 import boothsRaw from './data/booths.geojson?raw';
+import { type LngLat, ringCenter } from './geo';
 
-type Position = [number, number];
-type BoothShape = { type: 'Polygon'; coordinates: Position[][] };
+type BoothShape = { type: 'Polygon'; coordinates: LngLat[][] };
 
 const features = (
   JSON.parse(boothsRaw) as {
@@ -15,24 +15,18 @@ export const boothShapes: ReadonlyMap<string, BoothShape> = new Map(
   features.map(({ properties, geometry }) => [properties.booth, geometry]),
 );
 
-/** ブース番号 → テントの中心 [経度, 緯度]。 */
-const boothCenters: ReadonlyMap<string, Position> = new Map(
-  features.map(({ properties, geometry }) => {
-    const ring = geometry.coordinates[0].slice(0, -1);
-    return [
-      properties.booth,
-      [
-        ring.reduce((sum, [x]) => sum + x, 0) / ring.length,
-        ring.reduce((sum, [, y]) => sum + y, 0) / ring.length,
-      ],
-    ];
-  }),
+/** ブース番号 → テントの中心。 */
+const boothCenters: ReadonlyMap<string, LngLat> = new Map(
+  features.map(({ properties, geometry }) => [
+    properties.booth,
+    ringCenter(geometry.coordinates[0]),
+  ]),
 );
 
 /** 屋外の場所でのブースのテントの中心。屋外ブースでなければ undefined。 */
 export function boothCenter(
   place: Place | undefined,
   room: string | undefined,
-): Position | undefined {
+): LngLat | undefined {
   return place?.kind === 'outdoor' && room ? boothCenters.get(room) : undefined;
 }

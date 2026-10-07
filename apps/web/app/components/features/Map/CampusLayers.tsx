@@ -7,16 +7,18 @@ import type {
 import { useEffect, useMemo, useState } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router';
 import { usePlaces } from '~/lib/places';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 import { boothCenter } from './booths';
-import { buildCampusData, type Position } from './campusData';
+import { buildCampusData, otherCampusBuildingIds } from './campusData';
 import {
   addCampusLayers,
   applySelection,
   INTERACTIVE_LAYERS,
   type Selection,
   SOURCES,
+  setExtrusionVisible,
 } from './campusStyle';
+import type { LngLat } from './geo';
 import { useMap } from './MapController';
 
 /** 現在のページ（場所ページ・企画詳細）で強調すべき場所とブース。 */
@@ -43,12 +45,12 @@ function useSelection(
 }
 
 /** 地図上の対象の基準点（テントの形は中心、点はその位置）。基準点が無ければ null。 */
-function featureCenter(feature: MapGeoJSONFeature): Position | null {
+function featureCenter(feature: MapGeoJSONFeature): LngLat | null {
   // 地図から取り出したプロパティの配列は JSON 文字列になっている。
   const raw = feature.properties.center;
-  if (raw) return (typeof raw === 'string' ? JSON.parse(raw) : raw) as Position;
+  if (raw) return (typeof raw === 'string' ? JSON.parse(raw) : raw) as LngLat;
   return feature.geometry.type === 'Point'
-    ? (feature.geometry.coordinates as Position)
+    ? (feature.geometry.coordinates as LngLat)
     : null;
 }
 
@@ -99,14 +101,25 @@ export default function CampusLayers() {
 
     // 'load' は登録前に発火済みのことがあり、styledata の時点ではまだ読み込み中のこともあるため、
     // 地図が落ち着いたとき（idle）にも試して一度だけ追加する。
+    // 傾けている間（3D/2D ボタン、右ドラッグ・2本指での傾け）だけ建物とテントを立体にする。
+    let extruded = false;
+    const syncExtrusion = () => {
+      const next = map.getPitch() > 0;
+      if (next === extruded || !map.getSource(SOURCES.places)) return;
+      extruded = next;
+      setExtrusionVisible(map, next);
+    };
+
     const setup = () => {
       if (!map.isStyleLoaded() || map.getSource(SOURCES.places)) return;
-      addCampusLayers(map);
+      addCampusLayers(map, otherCampusBuildingIds);
+      syncExtrusion();
       setLoaded(true);
     };
     setup();
     map.on('styledata', setup);
     map.on('idle', setup);
+    map.on('pitch', syncExtrusion);
 
     const onClick = (e: { point: { x: number; y: number } }) => {
       const target = tapTarget(map, e.point);
@@ -125,6 +138,7 @@ export default function CampusLayers() {
     return () => {
       map.off('styledata', setup);
       map.off('idle', setup);
+      map.off('pitch', syncExtrusion);
       map.off('click', onClick);
       for (const id of INTERACTIVE_LAYERS) {
         map.off('mouseenter', id, pointer);

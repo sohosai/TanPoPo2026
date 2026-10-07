@@ -10,7 +10,7 @@ import { appRouter } from './trpc/router';
 export type { GrandprixStage } from './db/schema';
 export type { AppRouter } from './trpc/router';
 export type { MaxGeneralVotes } from './trpc/routers/grandprix';
-export type { Place, PlaceKind } from './trpc/routers/place';
+export type { Place, PlaceKind } from './domain/place';
 export type { MaxHeadcount } from './trpc/routers/questionnaire';
 export type {
   ScheduleDay,
@@ -21,7 +21,7 @@ export type {
   ShopLink,
   ShopLinkKind,
   ShopLocation,
-} from './trpc/routers/shop';
+} from './domain/shop';
 
 // web の静的アセットと同一オリジンで配信するため CORS は不要。
 // /trpc/* と /auth/* 以外は wrangler.jsonc の assets 設定で静的配信される。

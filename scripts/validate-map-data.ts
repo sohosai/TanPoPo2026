@@ -3,7 +3,7 @@
  *
  * 検証対象:
  *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性
- *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応
+ *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
  *  - 企画実施場所（apps/api/data/shop-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
  *  - 店舗の場所参照（apps/api: shop.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
@@ -86,7 +86,7 @@ async function main() {
   const buildings = readJson('buildings.geojson') as {
     type: string;
     features: Array<{
-      properties?: { placeId?: string };
+      properties?: { placeId?: string; osmId?: unknown; levels?: unknown };
       geometry?: { type?: string; coordinates?: Position[][] };
     }>;
   };
@@ -113,6 +113,15 @@ async function main() {
       err(
         `${where}: placeId ${placeId} の kind が building でない（${place.kind}）`,
       );
+    }
+
+    // 3D 表示で階数から高さを出し、osmId で地図タイルの同じ建物を除くために使う。
+    const { osmId, levels } = f.properties ?? {};
+    if (!Number.isInteger(osmId) || (osmId as number) <= 0) {
+      err(`${where} (${placeId}): properties.osmId が正の整数でない`);
+    }
+    if (!Number.isInteger(levels) || (levels as number) <= 0) {
+      err(`${where} (${placeId}): properties.levels が正の整数でない`);
     }
 
     if (f.geometry?.type !== 'Polygon') {

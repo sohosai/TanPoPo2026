@@ -1,11 +1,8 @@
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { useMap } from '~/components/features/Map/MapController';
-import {
-  BottomSheetContext,
-  type SheetApi,
-} from '~/components/layouts/BottomSheet/BottomSheet';
 import { css } from '../../../../styled-system/css';
+import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
 const PANEL_WIDTH = 408;
 // panelStyles の transition と揃える。
@@ -76,7 +73,7 @@ export default function SidePanel({ children }: { children?: ReactNode }) {
     [getMap],
   );
 
-  const panelApi = useMemo<SheetApi>(
+  const panelApi = useMemo<MapPanelApi>(
     () => ({
       expand: () => setOpen(true),
       raise: () => setOpen(true),
@@ -91,11 +88,11 @@ export default function SidePanel({ children }: { children?: ReactNode }) {
       className={panelStyles}
       style={{ width: PANEL_WIDTH, left: open ? 0 : -PANEL_WIDTH }}
     >
-      <BottomSheetContext.Provider value={panelApi}>
+      <MapPanelContext.Provider value={panelApi}>
         <div className={contentStyles} inert={!open}>
           {children}
         </div>
-      </BottomSheetContext.Provider>
+      </MapPanelContext.Provider>
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}

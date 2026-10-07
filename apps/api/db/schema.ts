@@ -60,7 +60,7 @@ export const grandprixGeneralVotes = sqliteTable(
   (table) => [primaryKey({ columns: [table.voteId, table.shopId] })],
 );
 
-// ステージ部門の投票先。1〜3ステージまで独立して選択でき、重複投票不可。
+// ステージ部門の投票先（ステージ企画の Shop.id）。複合PKで「1ステージにつき1企画まで」をDB層で強制する。
 export const grandprixStageVotes = sqliteTable(
   'grandprix_stage_votes',
   {
@@ -68,6 +68,7 @@ export const grandprixStageVotes = sqliteTable(
       .notNull()
       .references(() => grandprixVotes.id),
     stage: text('stage', { enum: grandprixStages }).notNull(),
+    shopId: text('shop_id').notNull(),
   },
   (table) => [primaryKey({ columns: [table.voteId, table.stage] })],
 );

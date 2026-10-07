@@ -6,7 +6,7 @@ import { addDebugLayers } from './debugLayers';
 import { INITIAL_VIEW, useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
 
-export default function View() {
+export default function MapView() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const { register } = useMap();

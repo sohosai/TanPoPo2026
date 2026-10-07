@@ -1,4 +1,3 @@
-import type { Place } from 'api';
 import maplibregl from 'maplibre-gl';
 import {
   createContext,
@@ -11,9 +10,8 @@ import {
 } from 'react';
 import { isDesktopViewport } from '~/lib/viewport';
 import { token } from '../../../../styled-system/tokens';
+import type { LngLat } from './geo';
 import sohosaiMap from './sohosai-map.json';
-
-export type LngLat = [number, number];
 
 export type FocusOptions = {
   zoom?: number;
@@ -27,7 +25,7 @@ export type FocusOptions = {
 
 /**
  * 地図操作の統一 API。
- * 視点移動（flyTo/focusPlace/fitToPoints）やハイライトをここに集約し、
+ * 視点移動やハイライトをここに集約し、
  * 検索結果・詳細など地図の外側のUIからも同じ操作で扱えるようにする。
  */
 export type MapController = {
@@ -39,17 +37,8 @@ export type MapController = {
   getMap: () => maplibregl.Map | null;
   /** 指定座標へアニメーションで移動 */
   flyTo: (center: LngLat, options?: FocusOptions) => void;
-  /** 指定座標へ即時移動 */
-  jumpTo: (center: LngLat, options?: FocusOptions) => void;
   /** 座標へ移動しハイライトを置く */
   focusPoint: (point: LngLat, options?: FocusOptions) => void;
-  /** Place へ移動しハイライトを置く */
-  focusPlace: (place: Place, options?: FocusOptions) => void;
-  /** 複数座標が収まるよう移動 */
-  fitToPoints: (
-    points: LngLat[],
-    options?: { padding?: number; duration?: number },
-  ) => void;
   /** ハイライトマーカーを置く（null で消す） */
   highlight: (point: LngLat | null) => void;
   /** 地図を初期表示（会場全体）に戻す */
@@ -97,13 +86,6 @@ export function MapProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const jumpTo = useCallback((center: LngLat, options: FocusOptions = {}) => {
-    mapRef.current?.jumpTo({
-      center,
-      zoom: options.zoom ?? DEFAULT_FOCUS_ZOOM,
-    });
-  }, []);
-
   const highlight = useCallback((point: LngLat | null) => {
     const map = mapRef.current;
     if (!map) return;
@@ -128,32 +110,6 @@ export function MapProvider({ children }: { children: ReactNode }) {
     [flyTo, highlight],
   );
 
-  const focusPlace = useCallback(
-    (place: Place, options?: FocusOptions) => {
-      focusPoint(place.point, options);
-    },
-    [focusPoint],
-  );
-
-  const fitToPoints = useCallback(
-    (
-      points: LngLat[],
-      options: { padding?: number; duration?: number } = {},
-    ) => {
-      const map = mapRef.current;
-      if (!map || points.length === 0) return;
-      const bounds = points.reduce(
-        (b, p) => b.extend(p),
-        new maplibregl.LngLatBounds(points[0], points[0]),
-      );
-      map.fitBounds(bounds, {
-        padding: options.padding ?? 64,
-        duration: options.duration ?? DEFAULT_DURATION,
-      });
-    },
-    [],
-  );
-
   const resetView = useCallback(() => {
     mapRef.current?.flyTo({
       center: INITIAL_VIEW.center,
@@ -170,24 +126,11 @@ export function MapProvider({ children }: { children: ReactNode }) {
       register,
       getMap: () => mapRef.current,
       flyTo,
-      jumpTo,
       focusPoint,
-      focusPlace,
-      fitToPoints,
       highlight,
       resetView,
     }),
-    [
-      isReady,
-      register,
-      flyTo,
-      jumpTo,
-      focusPoint,
-      focusPlace,
-      fitToPoints,
-      highlight,
-      resetView,
-    ],
+    [isReady, register, flyTo, focusPoint, highlight, resetView],
   );
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

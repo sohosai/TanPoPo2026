@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import shopLocationsJson from '../data/shop-locations.json';
+import stageProjectsJson from '../data/stage-projects.json';
 import type {
   ScheduleDay,
   Shop,
@@ -8,7 +9,8 @@ import type {
   ShopImage,
   ShopLink,
   ShopLocation,
-} from '../trpc/routers/shop';
+} from '../domain/shop';
+import { fallbackShopDetails } from './sos-fallback';
 
 // SOS OpenAPIのレスポンスZodスキーマ定義
 const SosPublicInfoSchema = z.object({
@@ -31,25 +33,17 @@ const SosPublicProjectSchema = z.object({
   type: z.enum(['STAGE', 'FOOD', 'NORMAL']),
   location: z.enum(['INDOOR', 'OUTDOOR', 'STAGE']),
   publicInfo: SosPublicInfoSchema,
-  customFields: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
 const SosPublicProjectListSchema = z.array(SosPublicProjectSchema);
 
-export type SosPublicProject = z.infer<typeof SosPublicProjectSchema>;
+type SosPublicProject = z.infer<typeof SosPublicProjectSchema>;
 
-// マッピング用ヘルパー関数
-function mapCategory(type: 'STAGE' | 'FOOD' | 'NORMAL'): ShopCategory {
-  switch (type) {
-    case 'FOOD':
-      return '食品';
-    case 'STAGE':
-      return 'ステージ';
-    case 'NORMAL':
-    default:
-      return 'その他';
-  }
-}
+const CATEGORY_BY_TYPE: Record<SosPublicProject['type'], ShopCategory> = {
+  FOOD: '食品',
+  STAGE: 'ステージ',
+  NORMAL: 'その他',
+};
 
 const SCHEDULE_DAYS = [
   '前夜祭',
@@ -71,23 +65,17 @@ const SHOP_LOCATIONS: Record<string, ShopLocation[]> = z
   )
   .parse(shopLocationsJson);
 
-// ステージ企画の会場は、SOS のカスタム項目に入る略称で決まる。
-const STAGE_FIELD = 'ステージ実施場所 確定';
-const STAGE_PLACE_IDS: Record<string, string> = {
-  '1A': 'stage-1a',
-  UNI: 'stage-united',
-  '会館（講堂）': 'stage-kaikan-kodo',
-  '会館（ホール）': 'stage-kaikan-hall',
-};
+// 企画番号 → 実施ステージの placeId。scripts/import-stage-projects.ts で SOS から生成する。
+const STAGE_PROJECTS: Record<string, string> = z
+  .record(z.string(), z.string())
+  .parse(stageProjectsJson);
 
 /** 企画の実施場所を返す。分からない企画は空配列（表示上は「未定」）。 */
 function mapLocations(project: SosPublicProject): ShopLocation[] {
   const listed = SHOP_LOCATIONS[project.number];
   if (listed) return listed;
-  const stage = project.customFields?.[STAGE_FIELD];
-  const placeId =
-    typeof stage === 'string' ? STAGE_PLACE_IDS[stage] : undefined;
-  return placeId ? [{ placeId }] : [];
+  const stage = STAGE_PROJECTS[project.number];
+  return stage ? [{ placeId: stage }] : [];
 }
 
 /** 実施場所ごとの実施日を合わせた、企画全体の実施日。日付の分からない企画は本祭2日間とする。 */
@@ -99,8 +87,8 @@ function scheduleOf(locations: ShopLocation[]): ScheduleDay[] {
 }
 
 function mapTags(
-  type: 'STAGE' | 'FOOD' | 'NORMAL',
-  location: 'INDOOR' | 'OUTDOOR' | 'STAGE',
+  type: SosPublicProject['type'],
+  location: SosPublicProject['location'],
 ): string[] {
   const tags: string[] = [];
   if (type === 'FOOD') tags.push('飲食');
@@ -136,7 +124,7 @@ function mapToShop(project: SosPublicProject, baseUrl: string): Shop {
     organization: project.organizationName,
     locations,
     schedule: scheduleOf(locations),
-    category: mapCategory(project.type),
+    category: CATEGORY_BY_TYPE[project.type],
     tags: mapTags(project.type, project.location),
     thumbnail: iconFileId ? toShopImage(baseUrl, iconFileId) : undefined,
     cancelled: project.publicInfo.openStatus === 'CLOSED',
@@ -258,93 +246,6 @@ function mapToShopDetail(
     links: mapLinks(project.publicInfo),
   };
 }
-
-const sampleImage: ShopImage = { src: '/sample/dog.jpg' };
-
-const sampleDescription =
-  '詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ';
-
-const fallbackShopDetails: ShopDetail[] = [
-  {
-    id: '1',
-    number: '001',
-    name: '猫大好き委員会',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-5c', room: '305' }],
-    schedule: ['前夜祭', 'Day1', 'Day2'],
-    category: '展示',
-    tags: ['動物', '癒し', '屋内'],
-    description: sampleDescription,
-    images: [sampleImage, sampleImage, sampleImage],
-    links: [],
-  },
-  {
-    id: '2',
-    number: '002',
-    name: 'あああああああああああああああああああああ',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-1a', room: '101' }],
-    schedule: ['前夜祭', 'Day1', 'Day2'],
-    category: '食品',
-    tags: ['屋外', '軽食'],
-    cancelled: true,
-    description: sampleDescription,
-    images: [sampleImage, sampleImage],
-    links: [],
-  },
-  {
-    id: '3',
-    number: '003',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-2c', room: '204' }],
-    schedule: ['Day1', 'Day2'],
-    category: '学術',
-    tags: ['研究', '屋内'],
-    description: sampleDescription,
-    images: [sampleImage],
-    links: [],
-  },
-  {
-    id: '4',
-    number: '004',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    locations: [{ placeId: 'stage-united' }],
-    schedule: ['Day2'],
-    category: 'ステージ',
-    tags: ['音楽', '屋外'],
-    description: sampleDescription,
-    images: [sampleImage, sampleImage, sampleImage],
-    links: [],
-  },
-  {
-    id: '5',
-    number: '005',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    locations: [{ placeId: 'bldg-1b', room: '110' }],
-    schedule: ['前夜祭', 'Day1'],
-    category: '物販',
-    tags: ['グッズ', '屋内'],
-    description: sampleDescription,
-    images: [sampleImage, sampleImage],
-    links: [],
-  },
-  {
-    id: '6',
-    number: '006',
-    name: 'つくば学園祭企画名企画名企画名企画名',
-    organization: '実施団体名',
-    locations: [{ placeId: 'stage-united' }],
-    schedule: ['前夜祭', 'Day1', 'Day2'],
-    category: '食品',
-    tags: ['屋外', 'スイーツ'],
-    description: sampleDescription,
-    images: [sampleImage, sampleImage, sampleImage],
-    links: [],
-  },
-];
 
 function toShop(detail: ShopDetail): Shop {
   const {

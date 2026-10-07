@@ -2,7 +2,7 @@ import { useState } from 'react';
 import GrandprixForm from '~/components/features/Grandprix/GrandprixForm';
 import GrandprixResult from '~/components/features/Grandprix/GrandprixResult';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
 
 function GrandprixContent() {

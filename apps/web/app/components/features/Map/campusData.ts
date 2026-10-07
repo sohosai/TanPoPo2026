@@ -8,9 +8,9 @@ import {
 import { boothCenter, boothShapes } from './booths';
 import { ACCENT, CATEGORY_COLORS } from './campusStyle';
 import buildingsRaw from './data/buildings.geojson?raw';
+import campusBuildingIds from './data/campus-building-ids.json';
+import { type LngLat, ringCenter, ringContains } from './geo';
 import sohosaiMap from './sohosai-map.json';
-
-export type Position = [number, number];
 
 // 地図スタイルに塗り分けとして入っている会場エリア。
 const AREAS = [
@@ -26,7 +26,7 @@ const areaPolygons = AREAS.map(({ source, name }) => {
   const data = (
     sohosaiMap.sources as unknown as Record<
       string,
-      { data: { features: { geometry: { coordinates: Position[][] } }[] } }
+      { data: { features: { geometry: { coordinates: LngLat[][] } }[] } }
     >
   )[source].data;
   return { name, ring: data.features[0].geometry.coordinates[0] };
@@ -35,35 +35,32 @@ const areaPolygons = AREAS.map(({ source, name }) => {
 const buildings = JSON.parse(buildingsRaw) as {
   features: {
     type: 'Feature';
-    properties: { placeId: string; name: string };
-    geometry: { type: 'Polygon'; coordinates: Position[][] };
+    properties: {
+      placeId: string;
+      name: string;
+      osmId: number;
+      levels: number;
+    };
+    geometry: { type: 'Polygon'; coordinates: LngLat[][] };
   }[];
 };
 
-function contains(ring: Position[], [x, y]: Position): boolean {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, yi] = ring[i];
-    const [xj, yj] = ring[j];
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
-      inside = !inside;
-    }
-  }
-  return inside;
-}
+const venueBuildingIds = new Set(
+  buildings.features.map((feature) => feature.properties.osmId),
+);
 
-function centroid(ring: Position[]): Position {
-  const sum = ring.reduce<Position>(
-    (acc, [x, y]) => [acc[0] + x, acc[1] + y],
-    [0, 0],
-  );
-  return [sum[0] / ring.length, sum[1] / ring.length];
-}
+/**
+ * 地図タイルの建物のうち 3D 表示で立体にするもの（学内の、会場以外の建物）の OSM way id。
+ * 会場の建物は階数から別に立てるため、同じ輪郭が二重に立って壁がちらつかないよう除く。
+ */
+export const otherCampusBuildingIds = campusBuildingIds.filter(
+  (id) => !venueBuildingIds.has(id),
+);
 
 const truncate = (text: string, max: number) =>
   text.length > max ? `${text.slice(0, max)}…` : text;
 
-const point = (coordinates: Position, properties: Record<string, unknown>) => ({
+const point = (coordinates: LngLat, properties: Record<string, unknown>) => ({
   type: 'Feature' as const,
   properties,
   geometry: { type: 'Point' as const, coordinates },
@@ -103,7 +100,7 @@ function shopPreview(entries: PlaceEntry[]): string {
 function boothFeatures(shops: Shop[], placesById: ReadonlyMap<string, Place>) {
   const booths = new Map<
     string,
-    { placeId: string; center: Position; shops: Shop[] }
+    { placeId: string; center: LngLat; shops: Shop[] }
   >();
   for (const shop of shops) {
     for (const { placeId, room } of shop.locations) {
@@ -114,28 +111,33 @@ function boothFeatures(shops: Shop[], placesById: ReadonlyMap<string, Place>) {
       booths.set(room, booth);
     }
   }
-  const points = [...booths].map(([room, { placeId, center, shops: list }]) => {
-    const [first] = list;
-    const name = truncate(first.name, 12);
-    return point(center, {
-      booth: room,
-      placeId,
-      count: list.length,
-      // 1企画だけのブースはタップで企画詳細を開く。
-      shopNumber: list.length === 1 ? first.number : '',
-      label: list.length > 1 ? `${name} ほか${list.length - 1}件` : name,
-      color: CATEGORY_COLORS[first.category],
-      // テントの形をタップしたときに、タップ位置との近さを測る基準点。
-      center,
-    });
-  });
-  const shapes = points.flatMap((feature) => {
-    const geometry = boothShapes.get(feature.properties.booth as string);
-    return geometry
-      ? [{ type: 'Feature' as const, properties: feature.properties, geometry }]
-      : [];
-  });
-  return { points, shapes };
+  const entries = [...booths].map(
+    ([room, { placeId, center, shops: list }]) => {
+      const [first] = list;
+      const name = truncate(first.name, 12);
+      const properties = {
+        booth: room,
+        placeId,
+        count: list.length,
+        // 1企画だけのブースはタップで企画詳細を開く。
+        shopNumber: list.length === 1 ? first.number : '',
+        label: list.length > 1 ? `${name} ほか${list.length - 1}件` : name,
+        color: CATEGORY_COLORS[first.category],
+        // テントの形をタップしたときに、タップ位置との近さを測る基準点。
+        center,
+      };
+      return { room, center, properties };
+    },
+  );
+  return {
+    points: entries.map(({ center, properties }) => point(center, properties)),
+    shapes: entries.flatMap(({ room, properties }) => {
+      const geometry = boothShapes.get(room);
+      return geometry
+        ? [{ type: 'Feature' as const, properties, geometry }]
+        : [];
+    }),
+  };
 }
 
 /** 地図の各ソースに流すデータを、企画と場所から組み立てる。 */
@@ -148,12 +150,13 @@ export function buildCampusData(shops: Shop[], places: Place[]) {
   for (const shop of shops) {
     const primary = placesById.get(shop.locations[0]?.placeId ?? '');
     const area =
-      primary && areaPolygons.find(({ ring }) => contains(ring, primary.point));
+      primary &&
+      areaPolygons.find(({ ring }) => ringContains(ring, primary.point));
     if (area) areaCounts.set(area.name, (areaCounts.get(area.name) ?? 0) + 1);
   }
 
   const areaFeatures = areaPolygons.map(({ name, ring }) =>
-    point(centroid(ring), {
+    point(ringCenter(ring), {
       name,
       countLabel: `${areaCounts.get(name) ?? 0}企画`,
     }),

@@ -3,10 +3,8 @@ import HeadcountStep from '~/components/features/Questionnaire/HeadcountStep';
 import SurveyForm from '~/components/features/Questionnaire/SurveyForm';
 import TicketList from '~/components/features/Questionnaire/TicketList';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
-
-type Answers = Record<string, string>;
 
 function QuestionnaireContent() {
   const {
@@ -55,9 +53,7 @@ function QuestionnaireContent() {
             '送信に失敗しました。もう一度お試しください。'
           : undefined
       }
-      onComplete={(responses: Answers[]) =>
-        submit.mutate({ headcount, responses })
-      }
+      onComplete={(responses) => submit.mutate({ headcount, responses })}
     />
   );
 }

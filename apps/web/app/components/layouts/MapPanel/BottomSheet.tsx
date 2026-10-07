@@ -1,15 +1,14 @@
 import {
-  createContext,
   type PointerEvent,
   type ReactNode,
   useCallback,
-  useContext,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import { css, cx } from '../../../../styled-system/css';
+import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
 /** 畳んだ状態でも取っ手と検索欄（ShopSearchBar の1段目）が見える高さ(px)。 */
 export const SHEET_PEEK = 78;
@@ -20,28 +19,10 @@ const raisedFraction = 0.4;
 // raise() で地図とシートを半々に見せるときの割合。
 const halfFraction = 0.5;
 
-interface MapBottomSheetProps {
+interface BottomSheetProps {
   children?: ReactNode;
   /** trueの場合、初期表示をSHEET_PEEKまで畳まず、ある程度引き上げた状態で開始する。 */
   initiallyRaised?: boolean;
-}
-
-/** シートの開閉操作。PC 版のサイドパネルも同じ操作を提供する。 */
-export interface SheetApi {
-  expand: () => void;
-  raise: () => void;
-  collapse: () => void;
-}
-
-export const BottomSheetContext = createContext<SheetApi>({
-  expand: () => {},
-  raise: () => {},
-  collapse: () => {},
-});
-
-/** シート内のコンポーネントからシートを開閉する（検索欄のフォーカス時、地図を見せたいときなど）。 */
-export function useBottomSheet() {
-  return useContext(BottomSheetContext);
 }
 
 const rubberband = (overflow: number) =>
@@ -90,10 +71,10 @@ const handleStyles = css({
   bg: 'sheet.handle',
 });
 
-export default function MapBottomSheet({
+export default function BottomSheet({
   children,
   initiallyRaised = false,
-}: MapBottomSheetProps) {
+}: BottomSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [y, setY] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -153,7 +134,7 @@ export default function MapBottomSheet({
     setDragging(false);
   };
 
-  const sheetApi = useMemo(
+  const panelApi = useMemo<MapPanelApi>(
     () => ({
       expand: () => setY(0),
       raise: () => setY(getMax() * halfFraction),
@@ -178,9 +159,9 @@ export default function MapBottomSheet({
       >
         <div className={handleStyles} />
       </div>
-      <BottomSheetContext.Provider value={sheetApi}>
+      <MapPanelContext.Provider value={panelApi}>
         <div className={contentStyles}>{children}</div>
-      </BottomSheetContext.Provider>
+      </MapPanelContext.Provider>
     </div>
   );
 }

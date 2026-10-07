@@ -5,7 +5,7 @@ import {
 } from '@tabler/icons-react';
 import type { inferRouterOutputs } from '@trpc/server';
 import type { AppRouter } from 'api';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 import { css } from '../../../../styled-system/css';
 import RedemptionSchedule from './RedemptionSchedule';
 

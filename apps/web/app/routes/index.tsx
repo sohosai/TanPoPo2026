@@ -1,5 +1,5 @@
 import AppLayout from '~/components/layouts/AppLayout/AppLayout';
 
-export default function ShopRouteLayout() {
+export default function MapRouteLayout() {
   return <AppLayout />;
 }

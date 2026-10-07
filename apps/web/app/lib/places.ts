@@ -1,6 +1,6 @@
 import type { Place, Shop, ShopLocation } from 'api';
 import { useMemo } from 'react';
-import { trpc } from '~/lib/trcp';
+import { trpc } from '~/lib/trpc';
 
 /**
  * 場所（Place）の参照ユーティリティ。
@@ -21,8 +21,6 @@ export function usePlaces() {
     places: places ?? [],
     /** id から Place を引く Map */
     byId,
-    /** id から Place を取得 */
-    getPlace: (id: string) => byId.get(id),
     /** 店舗の代表的な場所ラベル（例 "5C305"、複数あれば "1B208 ほか1か所"） */
     formatShopLocation: (shop: Shop) => formatShopLocation(shop, byId),
   };
