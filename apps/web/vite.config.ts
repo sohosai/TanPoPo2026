@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const parsedWebPort = Number.parseInt(env.PORT ?? '5173', 10);
   const webPort = Number.isNaN(parsedWebPort) ? 5173 : parsedWebPort;
+  const apiDevUrl = 'http://localhost:8787';
 
   return {
     plugins: [
@@ -34,6 +35,9 @@ export default defineConfig(({ mode }) => {
         },
         workbox: {
           navigateFallback: '/',
+          // API と同一オリジンのため、LINEログインのリダイレクト等のページ遷移を
+          // Service Worker が index.html で横取りしないよう除外する。
+          navigateFallbackDenylist: [/^\/auth\//, /^\/trpc\//],
           globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
           runtimeCaching: [
             {
@@ -57,6 +61,11 @@ export default defineConfig(({ mode }) => {
     server: {
       host: 'localhost',
       port: webPort,
+      // 本番と同じく同一オリジンで API を叩けるよう、wrangler dev へ転送する。
+      proxy: {
+        '/trpc': apiDevUrl,
+        '/auth': apiDevUrl,
+      },
     },
   };
 });

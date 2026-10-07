@@ -1,7 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { db } from '../../db/client';
 import { isDuplicateKeyError } from '../../db/errors';
 import {
   grandprixDraws,
@@ -11,18 +10,13 @@ import {
   grandprixVotes,
   users,
 } from '../../db/schema';
-import { getEnv } from '../../env';
-import { sosClient } from '../../services/sos';
 import { protectedProcedure, t } from '../trpc';
-
-type GrandprixResult = 'win' | 'lose';
 
 const MAX_GENERAL_VOTES = 4;
 export type MaxGeneralVotes = typeof MAX_GENERAL_VOTES;
 
-function drawResult(): GrandprixResult {
-  const winRate = Number.parseFloat(getEnv('GRANDPRIX_WIN_RATE', '0.2'));
-  return Math.random() < winRate ? 'win' : 'lose';
+function drawResult(winRate: string): 'win' | 'lose' {
+  return Math.random() < Number.parseFloat(winRate) ? 'win' : 'lose';
 }
 
 const submitInputSchema = z.object({
@@ -47,7 +41,7 @@ const submitInputSchema = z.object({
 export const grandprixRouter = t.router({
   grandprix: t.router({
     status: protectedProcedure.query(async ({ ctx }) => {
-      const vote = await db.query.grandprixVotes.findFirst({
+      const vote = await ctx.db.query.grandprixVotes.findFirst({
         where: eq(grandprixVotes.userId, ctx.user.id),
         with: { draw: true },
       });
@@ -56,10 +50,7 @@ export const grandprixRouter = t.router({
         return { hasVoted: false as const, result: null };
       }
 
-      return {
-        hasVoted: true as const,
-        result: (vote.draw?.result ?? null) as GrandprixResult | null,
-      };
+      return { hasVoted: true as const, result: vote.draw?.result ?? null };
     }),
 
     submit: protectedProcedure
@@ -74,7 +65,7 @@ export const grandprixRouter = t.router({
           });
         }
 
-        const shops = await sosClient.getLiveShops().catch(() => {
+        const shops = await ctx.sos.getLiveShops().catch(() => {
           throw new TRPCError({
             code: 'SERVICE_UNAVAILABLE',
             message:
@@ -92,38 +83,31 @@ export const grandprixRouter = t.router({
         }
 
         const voteId = crypto.randomUUID();
+        const result = drawResult(ctx.env.GRANDPRIX_WIN_RATE);
+        const { db } = ctx;
 
         try {
-          const result = await db.transaction(async (tx) => {
-            await tx.insert(grandprixVotes).values({
-              id: voteId,
-              userId: ctx.user.id,
-            });
-
-            await tx
+          // D1 は対話的トランザクションを持たないため、batch で全件を原子的に書き込む。
+          await db.batch([
+            db
+              .insert(grandprixVotes)
+              .values({ id: voteId, userId: ctx.user.id }),
+            db
               .insert(grandprixGeneralVotes)
               .values(
                 input.generalShopIds.map((shopId) => ({ voteId, shopId })),
-              );
-
-            await tx
+              ),
+            db
               .insert(grandprixStageVotes)
-              .values(input.stagePlaceIds.map((stage) => ({ voteId, stage })));
-
-            await tx
+              .values(input.stagePlaceIds.map((stage) => ({ voteId, stage }))),
+            db
               .update(users)
               .set({ isTsukubaStudent: input.isTsukubaStudent })
-              .where(eq(users.id, ctx.user.id));
-
-            const result = drawResult();
-            await tx.insert(grandprixDraws).values({
-              id: crypto.randomUUID(),
-              voteId,
-              result,
-            });
-
-            return result;
-          });
+              .where(eq(users.id, ctx.user.id)),
+            db
+              .insert(grandprixDraws)
+              .values({ id: crypto.randomUUID(), voteId, result }),
+          ]);
 
           return { result };
         } catch (error) {

@@ -1,34 +1,33 @@
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
-  boolean,
-  foreignKey,
-  int,
-  json,
-  mysqlEnum,
-  mysqlTable,
+  integer,
   primaryKey,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/mysql-core';
+  sqliteTable,
+  text,
+} from 'drizzle-orm/sqlite-core';
 
 // ---- users / sessions（LINEログイン） ----
 
-export const users = mysqlTable('users', {
-  id: varchar('id', { length: 36 }).primaryKey(),
-  lineUserId: varchar('line_user_id', { length: 64 }).notNull().unique(),
-  displayName: varchar('display_name', { length: 255 }),
-  isTsukubaStudent: boolean('is_tsukuba_student'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+// D1(SQLite)に日時型は無いため、UNIX秒の整数として保存する。
+const createdAt = (name: string) =>
+  integer(name, { mode: 'timestamp' }).notNull().default(sql`(unixepoch())`);
+
+export const users = sqliteTable('users', {
+  id: text('id').primaryKey(),
+  lineUserId: text('line_user_id').notNull().unique(),
+  displayName: text('display_name'),
+  isTsukubaStudent: integer('is_tsukuba_student', { mode: 'boolean' }),
+  createdAt: createdAt('created_at'),
 });
 
-export const sessions = mysqlTable('sessions', {
+export const sessions = sqliteTable('sessions', {
   // cookieの生トークンではなく、そのSHA-256ハッシュを保存する。
-  id: varchar('id', { length: 64 }).primaryKey(),
-  userId: varchar('user_id', { length: 36 })
+  id: text('id').primaryKey(),
+  userId: text('user_id')
     .notNull()
     .references(() => users.id),
-  expiresAt: timestamp('expires_at').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+  createdAt: createdAt('created_at'),
 });
 
 // ---- 雙峰祭グランプリ投票 ----
@@ -38,103 +37,90 @@ export const sessions = mysqlTable('sessions', {
 export const grandprixStages = ['1a', 'united', 'kaikan'] as const;
 export type GrandprixStage = (typeof grandprixStages)[number];
 
-export const grandprixVotes = mysqlTable('grandprix_votes', {
-  id: varchar('id', { length: 36 }).primaryKey(),
+export const grandprixVotes = sqliteTable('grandprix_votes', {
+  id: text('id').primaryKey(),
   // UNIQUE制約で「1人1回」をDB層で強制する。
-  userId: varchar('user_id', { length: 36 })
+  userId: text('user_id')
     .notNull()
     .unique()
     .references(() => users.id),
-  submittedAt: timestamp('submitted_at').notNull().defaultNow(),
+  submittedAt: createdAt('submitted_at'),
 });
 
 // 一般部門の投票先（Shop.id）。複合PKで同一企画への重複投票をDB層で防止する。
-export const grandprixGeneralVotes = mysqlTable(
+export const grandprixGeneralVotes = sqliteTable(
   'grandprix_general_votes',
   {
-    voteId: varchar('vote_id', { length: 36 })
+    voteId: text('vote_id')
       .notNull()
       .references(() => grandprixVotes.id),
     // apps/api の Shop はDB化されていないため、外部キー制約は持たせない。
-    shopId: varchar('shop_id', { length: 64 }).notNull(),
+    shopId: text('shop_id').notNull(),
   },
   (table) => [primaryKey({ columns: [table.voteId, table.shopId] })],
 );
 
 // ステージ部門の投票先。1〜3ステージまで独立して選択でき、重複投票不可。
-export const grandprixStageVotes = mysqlTable(
+export const grandprixStageVotes = sqliteTable(
   'grandprix_stage_votes',
   {
-    voteId: varchar('vote_id', { length: 36 })
+    voteId: text('vote_id')
       .notNull()
       .references(() => grandprixVotes.id),
-    stage: mysqlEnum('stage', grandprixStages).notNull(),
+    stage: text('stage', { enum: grandprixStages }).notNull(),
   },
   (table) => [primaryKey({ columns: [table.voteId, table.stage] })],
 );
 
-export const grandprixDraws = mysqlTable('grandprix_draws', {
-  id: varchar('id', { length: 36 }).primaryKey(),
-  voteId: varchar('vote_id', { length: 36 })
+export const grandprixDraws = sqliteTable('grandprix_draws', {
+  id: text('id').primaryKey(),
+  voteId: text('vote_id')
     .notNull()
     .unique()
     .references(() => grandprixVotes.id),
-  result: mysqlEnum('result', ['win', 'lose']).notNull(),
-  drawnAt: timestamp('drawn_at').notNull().defaultNow(),
+  result: text('result', { enum: ['win', 'lose'] }).notNull(),
+  drawnAt: createdAt('drawn_at'),
 });
 
 // ---- 来場者アンケート・福引券 ----
 
-export const questionnaireSubmissions = mysqlTable(
+export const questionnaireSubmissions = sqliteTable(
   'questionnaire_submissions',
   {
-    id: varchar('id', { length: 36 }).primaryKey(),
+    id: text('id').primaryKey(),
     // 回答ごとに福引券が発行されるため、UNIQUE制約で「1人1回」をDB層で強制する。
-    userId: varchar('user_id', { length: 36 })
+    userId: text('user_id')
       .notNull()
       .unique()
       .references(() => users.id),
-    headcount: int('headcount').notNull(),
-    submittedAt: timestamp('submitted_at').notNull().defaultNow(),
+    headcount: integer('headcount').notNull(),
+    submittedAt: createdAt('submitted_at'),
   },
 );
 
-// MySQLの識別子は64文字までのため、自動生成される制約名が長くなりすぎる
-// 参照は foreignKey() で明示的に短い名前を付ける。
-export const questionnaireResponses = mysqlTable(
-  'questionnaire_responses',
-  {
-    id: varchar('id', { length: 36 }).primaryKey(),
-    submissionId: varchar('submission_id', { length: 36 }).notNull(),
-    personIndex: int('person_index').notNull(),
-    // 質問内容が未確定のため、汎用的なJSONで保持する。
-    answers: json('answers').notNull(),
-  },
-  (table) => [
-    foreignKey({
-      columns: [table.submissionId],
-      foreignColumns: [questionnaireSubmissions.id],
-      name: 'questionnaire_responses_submission_id_fk',
-    }),
-  ],
-);
+export const questionnaireResponses = sqliteTable('questionnaire_responses', {
+  id: text('id').primaryKey(),
+  submissionId: text('submission_id')
+    .notNull()
+    .references(() => questionnaireSubmissions.id),
+  personIndex: integer('person_index').notNull(),
+  // 質問内容が未確定のため、汎用的なJSONで保持する。
+  answers: text('answers', { mode: 'json' })
+    .$type<Record<string, unknown>>()
+    .notNull(),
+});
 
-export const questionnaireTickets = mysqlTable(
-  'questionnaire_tickets',
-  {
-    id: varchar('id', { length: 36 }).primaryKey(),
-    responseId: varchar('response_id', { length: 36 }).notNull().unique(),
-    status: mysqlEnum('status', ['unused', 'used']).notNull().default('unused'),
-    usedAt: timestamp('used_at'),
-  },
-  (table) => [
-    foreignKey({
-      columns: [table.responseId],
-      foreignColumns: [questionnaireResponses.id],
-      name: 'questionnaire_tickets_response_id_fk',
-    }),
-  ],
-);
+export const questionnaireTickets = sqliteTable('questionnaire_tickets', {
+  id: text('id').primaryKey(),
+  responseId: text('response_id')
+    .notNull()
+    .unique()
+    .references(() => questionnaireResponses.id),
+  status: text('status', { enum: ['unused', 'used'] })
+    .notNull()
+    .default('unused'),
+  usedAt: integer('used_at', { mode: 'timestamp' }),
+});
 
 // ---- リレーション定義（クエリビルダーでのjoinを簡潔にするため） ----
 

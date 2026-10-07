@@ -1,14 +1,8 @@
 import { defineConfig } from 'drizzle-kit';
 
-if (!process.env.DATABASE_URL) {
-  throw new Error('DATABASE_URL is not set');
-}
-
+// マイグレーションSQLの生成専用。適用は wrangler d1 migrations apply で行う。
 export default defineConfig({
-  dialect: 'mysql',
+  dialect: 'sqlite',
   schema: './db/schema.ts',
   out: './db/migrations',
-  dbCredentials: {
-    url: process.env.DATABASE_URL,
-  },
 });

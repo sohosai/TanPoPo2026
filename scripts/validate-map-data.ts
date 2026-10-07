@@ -13,8 +13,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { createTRPCContext } from '../apps/api/trpc/context';
-import { appRouter } from '../apps/api/trpc/router';
+import { createMapDataCaller } from './api-caller';
 
 // place.ts の PlaceKind と一致させる（型は実行時に取れないためここで定義）。
 const PLACE_KINDS = [
@@ -58,8 +57,7 @@ function readJson(file: string): unknown {
 }
 
 async function main() {
-  const ctx = await createTRPCContext();
-  const caller = appRouter.createCaller(ctx);
+  const caller = createMapDataCaller();
   const places = await caller.place.list();
   const shops = await caller.shop.list();
 

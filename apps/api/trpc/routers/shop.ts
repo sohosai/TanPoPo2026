@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
+import { SosClientError } from '../../services/sos';
 import { t } from '../trpc';
-import { SosClientError, sosClient } from '../../services/sos';
 
 export type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
 
@@ -56,9 +56,9 @@ export type ShopDetail = Shop & {
 
 export const shopRouter = t.router({
   shop: t.router({
-    list: t.procedure.query(async (): Promise<Shop[]> => {
+    list: t.procedure.query(async ({ ctx }): Promise<Shop[]> => {
       try {
-        return await sosClient.getShops();
+        return await ctx.sos.getShops();
       } catch {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
@@ -69,9 +69,9 @@ export const shopRouter = t.router({
 
     detail: t.procedure
       .input(z.object({ id: z.string() }))
-      .query(async ({ input }): Promise<ShopDetail> => {
+      .query(async ({ ctx, input }): Promise<ShopDetail> => {
         try {
-          return await sosClient.getShopDetail(input.id);
+          return await ctx.sos.getShopDetail(input.id);
         } catch (error: unknown) {
           if (error instanceof SosClientError && error.code === 'NOT_FOUND') {
             throw new TRPCError({

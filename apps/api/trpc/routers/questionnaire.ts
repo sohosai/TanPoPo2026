@@ -1,7 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { db } from '../../db/client';
 import { isDuplicateKeyError } from '../../db/errors';
 import {
   questionnaireResponses,
@@ -23,7 +22,7 @@ const submitInputSchema = z.object({
 export const questionnaireRouter = t.router({
   questionnaire: t.router({
     myTickets: protectedProcedure.query(async ({ ctx }) => {
-      const submissions = await db.query.questionnaireSubmissions.findMany({
+      const submissions = await ctx.db.query.questionnaireSubmissions.findMany({
         where: eq(questionnaireSubmissions.userId, ctx.user.id),
         with: { responses: { with: { ticket: true } } },
       });
@@ -72,16 +71,17 @@ export const questionnaireRouter = t.router({
           responseId: response.id,
         }));
 
+        const { db } = ctx;
         try {
-          await db.transaction(async (tx) => {
-            await tx.insert(questionnaireSubmissions).values({
+          await db.batch([
+            db.insert(questionnaireSubmissions).values({
               id: submissionId,
               userId: ctx.user.id,
               headcount: input.headcount,
-            });
-            await tx.insert(questionnaireResponses).values(responseRows);
-            await tx.insert(questionnaireTickets).values(ticketRows);
-          });
+            }),
+            db.insert(questionnaireResponses).values(responseRows),
+            db.insert(questionnaireTickets).values(ticketRows),
+          ]);
         } catch (error) {
           if (isDuplicateKeyError(error)) {
             throw new TRPCError({
@@ -100,7 +100,7 @@ export const questionnaireRouter = t.router({
       .mutation(async ({ ctx, input }) => {
         // 「係員が操作する」はUI上の運用であって認可境界ではないため、
         // 他人のticketIdを渡されても更新できないよう本人のチケットか必ず確認する。
-        const rows = await db
+        const rows = await ctx.db
           .select({ userId: questionnaireSubmissions.userId })
           .from(questionnaireTickets)
           .innerJoin(
@@ -125,7 +125,7 @@ export const questionnaireRouter = t.router({
           });
         }
 
-        await db
+        await ctx.db
           .update(questionnaireTickets)
           .set({ status: 'used', usedAt: new Date() })
           .where(eq(questionnaireTickets.id, input.ticketId));

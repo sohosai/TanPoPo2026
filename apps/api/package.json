@@ -4,18 +4,18 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run --watch index.ts",
+    "dev": "mkdir -p ../web/build/client && wrangler dev --port 8787",
     "check-types": "tsc --noEmit",
     "clean": "rm -rf .turbo",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "bun run db/migrate.ts",
-    "db:reset": "bun run db/reset.ts"
+    "db:migrate": "wrangler d1 migrations apply DB --local",
+    "db:reset": "rm -rf .wrangler/state/v3/d1 && wrangler d1 migrations apply DB --local",
+    "deploy": "wrangler d1 migrations apply DB --remote && wrangler deploy"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/node": "^25.6.0",
-    "bun-types": "^1.3.12",
-    "drizzle-kit": "^0.31.11"
+    "@cloudflare/workers-types": "^5.20261007.1",
+    "drizzle-kit": "^0.31.11",
+    "wrangler": "^4.148.0"
   },
   "peerDependencies": {
     "typescript": "^6.0.2"
@@ -26,7 +26,6 @@
     "drizzle-orm": "^0.45.3",
     "hono": "^4.12.12",
     "jose": "^6.2.12",
-    "mysql2": "^3.24.4",
     "zod": "^4.3.6"
   }
 }

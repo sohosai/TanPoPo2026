@@ -1,14 +1,25 @@
-import { createHash, randomBytes } from 'node:crypto';
 import { eq } from 'drizzle-orm';
-import { db } from '../db/client';
+import type { Database } from '../db/client';
 import { sessions, users } from '../db/schema';
 
 export const SESSION_COOKIE_NAME = 'tanpopo_session';
 export const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 30; // 30日
 
+function toHex(bytes: ArrayBuffer | Uint8Array): string {
+  return Array.from(new Uint8Array(bytes), (b) =>
+    b.toString(16).padStart(2, '0'),
+  ).join('');
+}
+
+export function randomHex(byteLength: number): string {
+  return toHex(crypto.getRandomValues(new Uint8Array(byteLength)));
+}
+
 /** cookieには生トークンを、DBにはそのSHA-256ハッシュのみを保存する。 */
-function hashToken(token: string): string {
-  return createHash('sha256').update(token).digest('hex');
+async function hashToken(token: string): Promise<string> {
+  return toHex(
+    await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token)),
+  );
 }
 
 export type SessionUser = {
@@ -17,13 +28,14 @@ export type SessionUser = {
 };
 
 export async function createSession(
+  db: Database,
   userId: string,
 ): Promise<{ token: string; expiresAt: Date }> {
-  const token = randomBytes(32).toString('hex');
+  const token = randomHex(32);
   const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
 
   await db.insert(sessions).values({
-    id: hashToken(token),
+    id: await hashToken(token),
     userId,
     expiresAt,
   });
@@ -32,11 +44,12 @@ export async function createSession(
 }
 
 export async function getSessionUser(
+  db: Database,
   token: string | undefined,
 ): Promise<SessionUser | null> {
   if (!token) return null;
 
-  const rows = await db
+  const row = await db
     .select({
       id: users.id,
       displayName: users.displayName,
@@ -44,20 +57,18 @@ export async function getSessionUser(
     })
     .from(sessions)
     .innerJoin(users, eq(sessions.userId, users.id))
-    .where(eq(sessions.id, hashToken(token)))
-    .limit(1);
+    .where(eq(sessions.id, await hashToken(token)))
+    .get();
 
-  const row = rows[0];
-  if (!row) return null;
-  if (row.expiresAt.getTime() < Date.now()) return null;
+  if (!row || row.expiresAt.getTime() < Date.now()) return null;
 
-  return {
-    id: row.id,
-    displayName: row.displayName,
-  };
+  return { id: row.id, displayName: row.displayName };
 }
 
-export async function destroySession(token: string | undefined): Promise<void> {
+export async function destroySession(
+  db: Database,
+  token: string | undefined,
+): Promise<void> {
   if (!token) return;
-  await db.delete(sessions).where(eq(sessions.id, hashToken(token)));
+  await db.delete(sessions).where(eq(sessions.id, await hashToken(token)));
 }

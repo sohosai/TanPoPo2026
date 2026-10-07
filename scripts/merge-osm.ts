@@ -12,8 +12,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { createTRPCContext } from '../apps/api/trpc/context';
-import { appRouter } from '../apps/api/trpc/router';
+import { createMapDataCaller } from './api-caller';
 
 type Pos = [number, number];
 
@@ -131,7 +130,7 @@ function matchBuildings(
 }
 
 async function main() {
-  const caller = appRouter.createCaller(await createTRPCContext());
+  const caller = createMapDataCaller();
   const places = await caller.place.list();
   const buildingPlaces = places.filter((p) => p.kind === 'building');
 

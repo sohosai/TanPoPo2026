@@ -9,9 +9,6 @@ import { del, get, set } from 'idb-keyval';
 import { type ReactNode, useState } from 'react';
 import { trpc } from './trcp';
 
-export const API_URL =
-  import.meta.env.VITE_API_URL ?? 'http://localhost:3001/trpc';
-
 // キャッシュの互換性が壊れるような変更(APIレスポンス形状の変更など)をしたら値を上げる。
 // 値を変えると、ユーザーのIndexedDBに残っている古いキャッシュ(ダミーデータ等)が破棄される。
 const CACHE_BUSTER = '3';
@@ -49,12 +46,8 @@ export function TrpcProvider({ children }: { children: ReactNode }) {
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
-        httpBatchLink({
-          url: API_URL,
-          // LINEログインのセッションcookieを往復させるために必要。
-          fetch: (url, options) =>
-            fetch(url, { ...options, credentials: 'include' }),
-        }),
+        // API は同一オリジン（本番は同じ Worker、開発は Vite のプロキシ）で提供される。
+        httpBatchLink({ url: '/trpc' }),
       ],
     }),
   );

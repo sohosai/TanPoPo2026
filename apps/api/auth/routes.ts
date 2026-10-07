@@ -1,17 +1,22 @@
-import { randomBytes } from 'node:crypto';
 import { eq } from 'drizzle-orm';
+import type { Context } from 'hono';
 import { Hono } from 'hono';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
-import { db } from '../db/client';
+import { createDb } from '../db/client';
 import { users } from '../db/schema';
-import { getEnv } from '../env';
+import type { AppEnv } from '../env';
 import {
   exchangeCodeForIdToken,
   getAuthorizationUrl,
   LineAuthError,
   verifyIdToken,
 } from '../services/line-auth';
-import { createSession, destroySession, SESSION_COOKIE_NAME } from './session';
+import {
+  createSession,
+  destroySession,
+  randomHex,
+  SESSION_COOKIE_NAME,
+} from './session';
 
 const OAUTH_STATE_COOKIE = 'line_oauth_state';
 const OAUTH_NONCE_COOKIE = 'line_oauth_nonce';
@@ -19,10 +24,11 @@ const OAUTH_REDIRECT_COOKIE = 'line_oauth_redirect';
 const OAUTH_COOKIE_MAX_AGE = 600; // 10分
 const SESSION_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30日
 
-const isProd = process.env.NODE_ENV === 'production';
+type AppContext = Context<{ Bindings: AppEnv }>;
 
-function getWebAppUrl(): string {
-  return getEnv('WEB_APP_URL', 'http://localhost:5173');
+// ローカル開発は http のため、Secure 属性は https で配信されているときだけ付ける。
+function isSecureRequest(c: AppContext): boolean {
+  return new URL(c.req.url).protocol === 'https:';
 }
 
 /** オープンリダイレクト対策。相対パス以外は許可しない。 */
@@ -31,16 +37,16 @@ function sanitizeRedirectPath(raw: string | undefined): string {
   return raw;
 }
 
-export const authRoutes = new Hono();
+export const authRoutes = new Hono<{ Bindings: AppEnv }>();
 
 authRoutes.get('/line/login', (c) => {
-  const state = randomBytes(16).toString('hex');
-  const nonce = randomBytes(16).toString('hex');
+  const state = randomHex(16);
+  const nonce = randomHex(16);
   const redirect = sanitizeRedirectPath(c.req.query('redirect'));
 
   const oauthCookieOptions = {
     httpOnly: true,
-    secure: isProd,
+    secure: isSecureRequest(c),
     sameSite: 'Lax' as const,
     maxAge: OAUTH_COOKIE_MAX_AGE,
     path: '/auth/line',
@@ -49,7 +55,7 @@ authRoutes.get('/line/login', (c) => {
   setCookie(c, OAUTH_NONCE_COOKIE, nonce, oauthCookieOptions);
   setCookie(c, OAUTH_REDIRECT_COOKIE, redirect, oauthCookieOptions);
 
-  return c.redirect(getAuthorizationUrl(state, nonce));
+  return c.redirect(getAuthorizationUrl(c.env, state, nonce));
 });
 
 authRoutes.get('/line/callback', async (c) => {
@@ -77,17 +83,17 @@ authRoutes.get('/line/callback', async (c) => {
   }
 
   try {
-    const idToken = await exchangeCodeForIdToken(code);
-    const profile = await verifyIdToken(idToken, nonce);
+    const db = createDb(c.env.DB);
+    const idToken = await exchangeCodeForIdToken(c.env, code);
+    const profile = await verifyIdToken(c.env, idToken, nonce);
 
-    const existing = await db
+    const existingUser = await db
       .select()
       .from(users)
       .where(eq(users.lineUserId, profile.sub))
-      .limit(1);
+      .get();
 
     let userId: string;
-    const existingUser = existing[0];
     if (existingUser) {
       userId = existingUser.id;
       if (profile.name && profile.name !== existingUser.displayName) {
@@ -105,16 +111,16 @@ authRoutes.get('/line/callback', async (c) => {
       });
     }
 
-    const { token } = await createSession(userId);
+    const { token } = await createSession(db, userId);
     setCookie(c, SESSION_COOKIE_NAME, token, {
       httpOnly: true,
-      secure: isProd,
+      secure: isSecureRequest(c),
       sameSite: 'Lax',
       maxAge: SESSION_COOKIE_MAX_AGE,
       path: '/',
     });
 
-    return c.redirect(`${getWebAppUrl()}${redirect}`);
+    return c.redirect(redirect);
   } catch (error) {
     console.error('LINE login failed', error);
     const message =
@@ -126,10 +132,7 @@ authRoutes.get('/line/callback', async (c) => {
 });
 
 authRoutes.get('/logout', async (c) => {
-  const token = getCookie(c, SESSION_COOKIE_NAME);
-  await destroySession(token);
+  await destroySession(createDb(c.env.DB), getCookie(c, SESSION_COOKIE_NAME));
   deleteCookie(c, SESSION_COOKIE_NAME, { path: '/' });
-  return c.redirect(
-    `${getWebAppUrl()}${sanitizeRedirectPath(c.req.query('redirect'))}`,
-  );
+  return c.redirect(sanitizeRedirectPath(c.req.query('redirect')));
 });

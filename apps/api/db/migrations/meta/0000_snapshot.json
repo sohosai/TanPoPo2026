@@ -1,7 +1,7 @@
 {
-  "version": "5",
-  "dialect": "mysql",
-  "id": "212f3ae9-48d0-40a9-be0b-fb46d389e80c",
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "de825c4b-68d3-45bf-9ffb-0e1aaecea553",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "grandprix_draws": {
@@ -9,35 +9,41 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(36)",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "vote_id": {
           "name": "vote_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "result": {
           "name": "result",
-          "type": "enum('win','lose')",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "drawn_at": {
           "name": "drawn_at",
-          "type": "timestamp",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "(unixepoch())"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "grandprix_draws_vote_id_unique": {
+          "name": "grandprix_draws_vote_id_unique",
+          "columns": ["vote_id"],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "grandprix_draws_vote_id_grandprix_votes_id_fk": {
           "name": "grandprix_draws_vote_id_grandprix_votes_id_fk",
@@ -49,33 +55,23 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "grandprix_draws_id": {
-          "name": "grandprix_draws_id",
-          "columns": ["id"]
-        }
-      },
-      "uniqueConstraints": {
-        "grandprix_draws_vote_id_unique": {
-          "name": "grandprix_draws_vote_id_unique",
-          "columns": ["vote_id"]
-        }
-      },
-      "checkConstraint": {}
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "grandprix_general_votes": {
       "name": "grandprix_general_votes",
       "columns": {
         "vote_id": {
           "name": "vote_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "shop_id": {
           "name": "shop_id",
-          "type": "varchar(64)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -95,26 +91,26 @@
       },
       "compositePrimaryKeys": {
         "grandprix_general_votes_vote_id_shop_id_pk": {
-          "name": "grandprix_general_votes_vote_id_shop_id_pk",
-          "columns": ["vote_id", "shop_id"]
+          "columns": ["vote_id", "shop_id"],
+          "name": "grandprix_general_votes_vote_id_shop_id_pk"
         }
       },
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "checkConstraints": {}
     },
     "grandprix_stage_votes": {
       "name": "grandprix_stage_votes",
       "columns": {
         "vote_id": {
           "name": "vote_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "stage": {
           "name": "stage",
-          "type": "enum('1a','united','kaikan')",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -134,40 +130,46 @@
       },
       "compositePrimaryKeys": {
         "grandprix_stage_votes_vote_id_stage_pk": {
-          "name": "grandprix_stage_votes_vote_id_stage_pk",
-          "columns": ["vote_id", "stage"]
+          "columns": ["vote_id", "stage"],
+          "name": "grandprix_stage_votes_vote_id_stage_pk"
         }
       },
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "checkConstraints": {}
     },
     "grandprix_votes": {
       "name": "grandprix_votes",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(36)",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "submitted_at": {
           "name": "submitted_at",
-          "type": "timestamp",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "(unixepoch())"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "grandprix_votes_user_id_unique": {
+          "name": "grandprix_votes_user_id_unique",
+          "columns": ["user_id"],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "grandprix_votes_user_id_users_id_fk": {
           "name": "grandprix_votes_user_id_users_id_fk",
@@ -179,47 +181,37 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "grandprix_votes_id": {
-          "name": "grandprix_votes_id",
-          "columns": ["id"]
-        }
-      },
-      "uniqueConstraints": {
-        "grandprix_votes_user_id_unique": {
-          "name": "grandprix_votes_user_id_unique",
-          "columns": ["user_id"]
-        }
-      },
-      "checkConstraint": {}
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "questionnaire_responses": {
       "name": "questionnaire_responses",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(36)",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "submission_id": {
           "name": "submission_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "person_index": {
           "name": "person_index",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "answers": {
           "name": "answers",
-          "type": "json",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -227,8 +219,8 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "questionnaire_responses_submission_id_fk": {
-          "name": "questionnaire_responses_submission_id_fk",
+        "questionnaire_responses_submission_id_questionnaire_submissions_id_fk": {
+          "name": "questionnaire_responses_submission_id_questionnaire_submissions_id_fk",
           "tableFrom": "questionnaire_responses",
           "tableTo": "questionnaire_submissions",
           "columnsFrom": ["submission_id"],
@@ -237,49 +229,50 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "questionnaire_responses_id": {
-          "name": "questionnaire_responses_id",
-          "columns": ["id"]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "checkConstraints": {}
     },
     "questionnaire_submissions": {
       "name": "questionnaire_submissions",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(36)",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "headcount": {
           "name": "headcount",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "submitted_at": {
           "name": "submitted_at",
-          "type": "timestamp",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "(unixepoch())"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "questionnaire_submissions_user_id_unique": {
+          "name": "questionnaire_submissions_user_id_unique",
+          "columns": ["user_id"],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "questionnaire_submissions_user_id_users_id_fk": {
           "name": "questionnaire_submissions_user_id_users_id_fk",
@@ -291,35 +284,30 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "questionnaire_submissions_id": {
-          "name": "questionnaire_submissions_id",
-          "columns": ["id"]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "checkConstraints": {}
     },
     "questionnaire_tickets": {
       "name": "questionnaire_tickets",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(36)",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "response_id": {
           "name": "response_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "status": {
           "name": "status",
-          "type": "enum('unused','used')",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -327,16 +315,22 @@
         },
         "used_at": {
           "name": "used_at",
-          "type": "timestamp",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "questionnaire_tickets_response_id_unique": {
+          "name": "questionnaire_tickets_response_id_unique",
+          "columns": ["response_id"],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
-        "questionnaire_tickets_response_id_fk": {
-          "name": "questionnaire_tickets_response_id_fk",
+        "questionnaire_tickets_response_id_questionnaire_responses_id_fk": {
+          "name": "questionnaire_tickets_response_id_questionnaire_responses_id_fk",
           "tableFrom": "questionnaire_tickets",
           "tableTo": "questionnaire_responses",
           "columnsFrom": ["response_id"],
@@ -345,51 +339,41 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "questionnaire_tickets_id": {
-          "name": "questionnaire_tickets_id",
-          "columns": ["id"]
-        }
-      },
-      "uniqueConstraints": {
-        "questionnaire_tickets_response_id_unique": {
-          "name": "questionnaire_tickets_response_id_unique",
-          "columns": ["response_id"]
-        }
-      },
-      "checkConstraint": {}
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "sessions": {
       "name": "sessions",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(64)",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar(36)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "expires_at": {
           "name": "expires_at",
-          "type": "timestamp",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "(unixepoch())"
         }
       },
       "indexes": {},
@@ -404,80 +388,71 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "sessions_id": {
-          "name": "sessions_id",
-          "columns": ["id"]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "checkConstraint": {}
+      "checkConstraints": {}
     },
     "users": {
       "name": "users",
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(36)",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
         "line_user_id": {
           "name": "line_user_id",
-          "type": "varchar(64)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "display_name": {
           "name": "display_name",
-          "type": "varchar(255)",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "is_tsukuba_student": {
           "name": "is_tsukuba_student",
-          "type": "boolean",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "(unixepoch())"
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "users_id": {
-          "name": "users_id",
-          "columns": ["id"]
-        }
-      },
-      "uniqueConstraints": {
+      "indexes": {
         "users_line_user_id_unique": {
           "name": "users_line_user_id_unique",
-          "columns": ["line_user_id"]
+          "columns": ["line_user_id"],
+          "isUnique": true
         }
       },
-      "checkConstraint": {}
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
   "views": {},
+  "enums": {},
   "_meta": {
     "schemas": {},
     "tables": {},
     "columns": {}
   },
   "internal": {
-    "tables": {},
     "indexes": {}
   }
 }

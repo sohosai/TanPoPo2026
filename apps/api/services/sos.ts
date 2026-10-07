@@ -1,10 +1,10 @@
 import { z } from 'zod';
 import type {
-  Shop,
-  ShopDetail,
-  ShopCategory,
-  ShopLocation,
   ScheduleDay,
+  Shop,
+  ShopCategory,
+  ShopDetail,
+  ShopLocation,
 } from '../trpc/routers/shop';
 
 // SOS OpenAPIのレスポンスZodスキーマ定義
@@ -207,8 +207,8 @@ export class SosClient {
     expiresAt: number;
   } | null = null;
 
-  constructor() {
-    this.baseUrl = process.env.SOS_API_URL || '';
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
   }
 
   private getHeaders() {
@@ -349,4 +349,15 @@ export class SosClient {
   }
 }
 
-export const sosClient = new SosClient();
+// Workers ではリクエストごとに env が渡されるが、企画一覧のキャッシュは
+// isolate が生きている間リクエストをまたいで使い回したいので、インスタンスを保持する。
+const clients = new Map<string, SosClient>();
+
+export function getSosClient(baseUrl: string): SosClient {
+  let client = clients.get(baseUrl);
+  if (!client) {
+    client = new SosClient(baseUrl);
+    clients.set(baseUrl, client);
+  }
+  return client;
+}

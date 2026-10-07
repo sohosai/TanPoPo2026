@@ -1,10 +1,9 @@
 import { trpcServer } from '@hono/trpc-server';
 import { Hono } from 'hono';
 import { getCookie } from 'hono/cookie';
-import { cors } from 'hono/cors';
 import { authRoutes } from './auth/routes';
 import { SESSION_COOKIE_NAME } from './auth/session';
-import { requireEnv } from './env';
+import type { AppEnv } from './env';
 import { createTRPCContext } from './trpc/context';
 import { appRouter } from './trpc/router';
 
@@ -21,17 +20,9 @@ export type {
   ShopLocation,
 } from './trpc/routers/shop';
 
-requireEnv('DATABASE_URL');
-
-const app = new Hono();
-
-app.use(
-  '/*',
-  cors({
-    origin: process.env.ORIGIN ?? 'http://localhost:5173',
-    credentials: true,
-  }),
-);
+// web の静的アセットと同一オリジンで配信するため CORS は不要。
+// /trpc/* と /auth/* 以外は wrangler.jsonc の assets 設定で静的配信される。
+const app = new Hono<{ Bindings: AppEnv }>();
 
 app.route('/auth', authRoutes);
 
@@ -40,11 +31,8 @@ app.use(
   trpcServer({
     router: appRouter,
     createContext: (_opts, c) =>
-      createTRPCContext(getCookie(c, SESSION_COOKIE_NAME)),
+      createTRPCContext(c.env, getCookie(c, SESSION_COOKIE_NAME)),
   }),
 );
 
-export default {
-  port: Number.parseInt(process.env.PORT ?? '3001', 10),
-  fetch: app.fetch,
-};
+export default app;
