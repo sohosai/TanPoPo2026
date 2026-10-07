@@ -1,13 +1,8 @@
-import { IconCheck, IconX } from '@tabler/icons-react';
-import type { Shop } from 'api';
+import { IconCheck } from '@tabler/icons-react';
 import { css, cx } from '../../../../styled-system/css';
 import { contentWidth } from './styles';
 
 type SubmitBarProps = {
-  /** 一般部門で選んだ企画 */
-  selectedShops: Shop[];
-  maxGeneralVotes: number;
-  onRemoveShop: (id: string) => void;
   /** 送信に必要な条件と、それを満たしたか */
   requirements: { label: string; done: boolean }[];
   canSubmit: boolean;
@@ -15,11 +10,8 @@ type SubmitBarProps = {
   onSubmit: () => void;
 };
 
-/** 画面下に固定する投票ボタンの欄。選んだ企画と、送信にあと何が必要かもここに出す。 */
+/** 画面下に固定する投票ボタンの欄。送信にあと何が必要かもここに出す。 */
 export default function SubmitBar({
-  selectedShops,
-  maxGeneralVotes,
-  onRemoveShop,
   requirements,
   canSubmit,
   submitting,
@@ -50,13 +42,6 @@ export default function SubmitBar({
           }),
         )}
       >
-        {selectedShops.length > 0 && (
-          <SelectedShops
-            shops={selectedShops}
-            max={maxGeneralVotes}
-            onRemove={onRemoveShop}
-          />
-        )}
         {!canSubmit && !submitting && (
           <ul
             className={css({
@@ -123,75 +108,5 @@ function ChecklistItem({ done, label }: { done: boolean; label: string }) {
       </span>
       {label}
     </li>
-  );
-}
-
-/** 一覧のどこまでスクロールしていても、選んだ企画を確かめて外せるようにする。 */
-function SelectedShops({
-  shops,
-  max,
-  onRemove,
-}: {
-  shops: Shop[];
-  max: number;
-  onRemove: (id: string) => void;
-}) {
-  return (
-    <div
-      className={css({
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        fontSize: '12px',
-      })}
-    >
-      <span
-        className={css({
-          flexShrink: 0,
-          color: 'fg.subtle',
-          fontWeight: 'bold',
-        })}
-      >
-        一般部門 {shops.length}/{max}
-      </span>
-      <ul
-        className={css({
-          display: 'flex',
-          gap: '6px',
-          minWidth: 0,
-          overflowX: 'auto',
-          scrollbarWidth: 'none',
-          '&::-webkit-scrollbar': { display: 'none' },
-          md: { flexWrap: 'wrap', overflowX: 'visible' },
-        })}
-      >
-        {shops.map((shop) => (
-          <li key={shop.id} className={css({ flexShrink: 0 })}>
-            <button
-              type="button"
-              onClick={() => onRemove(shop.id)}
-              aria-label={`${shop.name} の選択を外す`}
-              className={css({
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                maxW: '180px',
-                h: '28px',
-                pl: '10px',
-                pr: '6px',
-                borderRadius: '999px',
-                bg: 'accent.subtle',
-                color: 'accent.text',
-                fontWeight: 500,
-                cursor: 'pointer',
-              })}
-            >
-              <span className={css({ truncate: true })}>{shop.name}</span>
-              <IconX size={14} className={css({ flexShrink: 0 })} />
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

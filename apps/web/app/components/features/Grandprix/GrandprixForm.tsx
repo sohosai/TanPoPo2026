@@ -67,11 +67,6 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
   const [isTsukubaStudent, setIsTsukubaStudent] = useState<boolean | null>(
     null,
   );
-  const selectedShops = useMemo(
-    () =>
-      generalIds.flatMap((id) => shops?.find((shop) => shop.id === id) ?? []),
-    [generalIds, shops],
-  );
 
   const submit = trpc.grandprix.submit.useMutation({
     onSuccess: (data) => onSubmitted(data.result),
@@ -281,9 +276,6 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
       </div>
 
       <SubmitBar
-        selectedShops={selectedShops}
-        maxGeneralVotes={MAX_GENERAL_VOTES}
-        onRemoveShop={toggleGeneral}
         requirements={[
           { label: '筑波大学の学生かどうかを選択', done: hasStudentAnswer },
           {
