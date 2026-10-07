@@ -43,5 +43,4 @@ apps/web/.react-router
 styled-system
 styled-system-studio
 ## Cloudflare
-.dev.vars
 .wrangler

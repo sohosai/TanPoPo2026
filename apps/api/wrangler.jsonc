@@ -18,7 +18,7 @@
       "migrations_dir": "db/migrations"
     }
   ],
-  // 本番用の値。ローカルでは .dev.vars の値で上書きされる。
+  // 本番用の値。ローカルでは apps/api/.env の値で上書きされる。
   // LINE_CHANNEL_SECRET は `wrangler secret put LINE_CHANNEL_SECRET` で登録する。
   "vars": {
     "SOS_API_URL": "https://sos26-api.sohosai.com",

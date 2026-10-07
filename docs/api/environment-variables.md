@@ -1,6 +1,6 @@
 # API Environment Variables
 
-Worker の環境変数は、本番では `apps/api/wrangler.jsonc` の `vars`（秘密情報は `wrangler secret`）、ローカルでは `apps/api/.dev.vars` で渡す。型は `apps/api/env.ts` の `AppEnv`。
+Worker の環境変数は、本番では `apps/api/wrangler.jsonc` の `vars`（秘密情報は `wrangler secret`）、ローカルでは `apps/api/.env` で渡す。型は `apps/api/env.ts` の `AppEnv`。
 
 | 名前 | 種別 | 説明 |
 | --- | --- | --- |

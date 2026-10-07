@@ -40,4 +40,4 @@ PWA の Service Worker は `/auth/*` と `/trpc/*` へのページ遷移を横�
   - 開発: `http://localhost:5173/auth/line/callback`
   - 本番: `https://<本番のドメイン>/auth/line/callback`
 
-ローカルでは `apps/api/.dev.vars`（`.gitignore`済み）に設定する。詳細は [environment-variables.md](./environment-variables.md)。
+ローカルでは `apps/api/.env`（`.gitignore`済み）に設定する。詳細は [environment-variables.md](./environment-variables.md)。

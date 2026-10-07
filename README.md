@@ -23,7 +23,7 @@ TanPoPo は、2026年度 筑波大学 雙峰祭向けの企画検索システム
 セットアップ:
 
 ```bash
-cp apps/api/.dev.vars.example apps/api/.dev.vars
+cp apps/api/.env.example apps/api/.env
 bun install
 bun run db:migrate
 ```
@@ -45,9 +45,12 @@ bun run dev
 | ローカルDBのリセット | `bun run db:reset` |
 | 型チェック | `bun run check` |
 | フォーマット | `bun run format` |
-| CI チェック | `bun run ci` |
+| フォーマットの検査（書き換えない） | `bun run format:check` |
+| CI と同じチェック | `bun run ci` |
 | ビルド + デプロイ | `bun run deploy` |
 | 生成物などのクリーン | `bun run clean` |
+
+push（`main` / `dev`）と Pull Request では GitHub Actions（`.github/workflows/ci.yml`）がフォーマット検査・型チェック・地図データ検証・ビルドを行う。
 
 ## ディレクトリ概要
 

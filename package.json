@@ -11,14 +11,13 @@
     "merge:osm": "bun run scripts/merge-osm.ts",
     "clean": "turbo run clean && rm -rf .turbo",
     "format": "biome format . --write && prettier --write \"**/*.html\"",
-    "ci": "bun run check && bun run format",
-    "prepare": "lefthook install",
+    "ci": "bun run format:check && bun run check && bun run check:map-data",
     "db:migrate": "bun run --cwd apps/api db:migrate",
-    "deploy": "bun run build && bun run --cwd apps/api deploy"
+    "deploy": "bun run build && bun run --cwd apps/api deploy",
+    "format:check": "biome format . && prettier --check \"**/*.html\""
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
-    "lefthook": "^2.1.5",
     "prettier": "^3.8.2",
     "turbo": "^2.9.5",
     "typescript": "6.0.2"
