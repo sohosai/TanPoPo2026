@@ -17,6 +17,7 @@ export type {
   Shop,
   ShopCategory,
   ShopDetail,
+  ShopImage,
   ShopLink,
   ShopLinkKind,
   ShopLocation,

@@ -4,6 +4,7 @@ import type {
   Shop,
   ShopCategory,
   ShopDetail,
+  ShopImage,
   ShopLink,
   ShopLocation,
 } from '../trpc/routers/shop';
@@ -23,6 +24,7 @@ const SosPublicInfoSchema = z.object({
 
 const SosPublicProjectSchema = z.object({
   id: z.string(),
+  number: z.number().int(),
   name: z.string(),
   organizationName: z.string(),
   type: z.enum(['STAGE', 'FOOD', 'NORMAL']),
@@ -73,25 +75,34 @@ function mapTags(
   return tags;
 }
 
-function getFileUrl(
-  baseUrl: string,
-  fileId: string | null | undefined,
-): string | undefined {
-  if (!fileId) return undefined;
-  return `${baseUrl}/files/${fileId}/content`;
+// SOS の画像 API が縮小を受け付ける幅（px）。
+const IMAGE_WIDTHS = [160, 320, 640, 1280] as const;
+
+function toShopImage(baseUrl: string, fileId: string): ShopImage {
+  const url = `${baseUrl}/openapi/images/${fileId}`;
+  return {
+    src: `${url}?width=640`,
+    srcSet: IMAGE_WIDTHS.map((w) => `${url}?width=${w} ${w}w`).join(', '),
+  };
+}
+
+// URL に使うため、桁数をそろえて辞書順と番号順を一致させる。
+function formatShopNumber(number: number): string {
+  return String(number).padStart(3, '0');
 }
 
 function mapToShop(project: SosPublicProject, baseUrl: string): Shop {
-  const iconUrl = getFileUrl(baseUrl, project.publicInfo.iconFileId);
+  const { iconFileId } = project.publicInfo;
   return {
     id: project.id,
+    number: formatShopNumber(project.number),
     name: project.name,
     organization: project.organizationName,
     locations: mapLocations(project.location),
     schedule: ['Day1', 'Day2'] as ScheduleDay[], // スケジュールはTanPoPo側で一律設定
     category: mapCategory(project.type),
     tags: mapTags(project.type, project.location),
-    thumbnail: iconUrl,
+    thumbnail: iconFileId ? toShopImage(baseUrl, iconFileId) : undefined,
     cancelled: project.publicInfo.openStatus === 'CLOSED',
   };
 }
@@ -200,9 +211,9 @@ function mapToShopDetail(
   project: SosPublicProject,
   baseUrl: string,
 ): ShopDetail {
-  const images = (project.publicInfo.mapImageFileIds || [])
-    .map((fileId) => getFileUrl(baseUrl, fileId))
-    .filter((url): url is string => !!url);
+  const images = (project.publicInfo.mapImageFileIds ?? []).map((fileId) =>
+    toShopImage(baseUrl, fileId),
+  );
 
   return {
     ...mapToShop(project, baseUrl),
@@ -212,12 +223,15 @@ function mapToShopDetail(
   };
 }
 
+const sampleImage: ShopImage = { src: '/sample/dog.jpg' };
+
 const sampleDescription =
   '詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ';
 
 const fallbackShopDetails: ShopDetail[] = [
   {
     id: '1',
+    number: '001',
     name: '猫大好き委員会',
     organization: '実施団体名',
     locations: [{ placeId: 'bldg-5c', room: '305' }],
@@ -225,11 +239,12 @@ const fallbackShopDetails: ShopDetail[] = [
     category: '展示',
     tags: ['動物', '癒し', '屋内'],
     description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
+    images: [sampleImage, sampleImage, sampleImage],
     links: [],
   },
   {
     id: '2',
+    number: '002',
     name: 'あああああああああああああああああああああ',
     organization: '実施団体名',
     locations: [{ placeId: 'bldg-1a', room: '101' }],
@@ -238,11 +253,12 @@ const fallbackShopDetails: ShopDetail[] = [
     tags: ['屋外', '軽食'],
     cancelled: true,
     description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg'],
+    images: [sampleImage, sampleImage],
     links: [],
   },
   {
     id: '3',
+    number: '003',
     name: 'つくば学園祭企画名企画名企画名企画名',
     organization: '実施団体名',
     locations: [{ placeId: 'bldg-2c', room: '204' }],
@@ -250,11 +266,12 @@ const fallbackShopDetails: ShopDetail[] = [
     category: '学術',
     tags: ['研究', '屋内'],
     description: sampleDescription,
-    images: ['/sample/dog.jpg'],
+    images: [sampleImage],
     links: [],
   },
   {
     id: '4',
+    number: '004',
     name: 'つくば学園祭企画名企画名企画名企画名',
     organization: '実施団体名',
     locations: [{ placeId: 'stage-united' }],
@@ -262,11 +279,12 @@ const fallbackShopDetails: ShopDetail[] = [
     category: 'ステージ',
     tags: ['音楽', '屋外'],
     description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
+    images: [sampleImage, sampleImage, sampleImage],
     links: [],
   },
   {
     id: '5',
+    number: '005',
     name: 'つくば学園祭企画名企画名企画名企画名',
     organization: '実施団体名',
     locations: [{ placeId: 'bldg-1b', room: '110' }],
@@ -274,11 +292,12 @@ const fallbackShopDetails: ShopDetail[] = [
     category: '物販',
     tags: ['グッズ', '屋内'],
     description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg'],
+    images: [sampleImage, sampleImage],
     links: [],
   },
   {
     id: '6',
+    number: '006',
     name: 'つくば学園祭企画名企画名企画名企画名',
     organization: '実施団体名',
     locations: [{ placeId: 'stage-united' }],
@@ -286,12 +305,12 @@ const fallbackShopDetails: ShopDetail[] = [
     category: '食品',
     tags: ['屋外', 'スイーツ'],
     description: sampleDescription,
-    images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
+    images: [sampleImage, sampleImage, sampleImage],
     links: [],
   },
 ];
 
-function toFallbackShop(detail: ShopDetail): Shop {
+function toShop(detail: ShopDetail): Shop {
   const {
     description: _description,
     images: _images,
@@ -310,28 +329,20 @@ export class SosClientError extends Error {
   }
 }
 
-// getShops() の結果をこの期間キャッシュする。企画一覧は頻繁には変わらない一方、
-// shop.list（一覧表示）と grandprix.submit（投票時のID検証）の双方から
+// 企画一覧をこの期間キャッシュする。企画一覧は頻繁には変わらない一方、
+// shop.list・shop.detail・grandprix.submit（投票時のID検証）から
 // 呼ばれるため、毎回外部APIを叩かないようにする。
 const SHOPS_CACHE_TTL_MS = 30_000;
+
+type ShopDetails = { details: ShopDetail[]; isFallback: boolean };
 
 // HTTPクライアント
 export class SosClient {
   private baseUrl: string;
-  private shopsCache: {
-    shops: Shop[];
-    isFallback: boolean;
-    expiresAt: number;
-  } | null = null;
+  private cache: (ShopDetails & { expiresAt: number }) | null = null;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-  }
-
-  private getHeaders() {
-    return {
-      'Content-Type': 'application/json',
-    };
   }
 
   /**
@@ -339,7 +350,7 @@ export class SosClient {
    * 短時間キャッシュするため、連続した呼び出しは外部APIを叩きません。
    */
   async getShops(): Promise<Shop[]> {
-    return (await this.getCachedShops()).shops;
+    return (await this.getCachedDetails()).details.map(toShop);
   }
 
   /**
@@ -347,34 +358,46 @@ export class SosClient {
    * フォールバックした場合は投票の検証に使えないため、例外を投げる。
    */
   async getLiveShops(): Promise<Shop[]> {
-    const { shops, isFallback } = await this.getCachedShops();
+    const { details, isFallback } = await this.getCachedDetails();
     if (isFallback) {
       throw new SosClientError(
         'UPSTREAM',
         'SOS API から企画一覧を取得できません',
       );
     }
-    return shops;
+    return details.map(toShop);
   }
 
-  private async getCachedShops(): Promise<{
-    shops: Shop[];
-    isFallback: boolean;
-  }> {
-    if (this.shopsCache && this.shopsCache.expiresAt > Date.now()) {
-      return this.shopsCache;
+  /**
+   * 3桁ゼロ埋めの企画番号（例: "001"）から企画詳細を返す。
+   */
+  async getShopDetail(number: string): Promise<ShopDetail> {
+    const { details, isFallback } = await this.getCachedDetails();
+    const detail = details.find((shop) => shop.number === number);
+    if (detail) return detail;
+    if (isFallback) {
+      throw new SosClientError(
+        'UPSTREAM',
+        `SOS API is unavailable and fallback data has no shop: ${number}`,
+      );
+    }
+    throw new SosClientError('NOT_FOUND', `店舗が見つかりません: ${number}`);
+  }
+
+  private async getCachedDetails(): Promise<ShopDetails> {
+    if (this.cache && this.cache.expiresAt > Date.now()) {
+      return this.cache;
     }
 
-    const shops = await this.fetchShops();
-    this.shopsCache = { ...shops, expiresAt: Date.now() + SHOPS_CACHE_TTL_MS };
-    return shops;
+    const details = await this.fetchDetails();
+    this.cache = { ...details, expiresAt: Date.now() + SHOPS_CACHE_TTL_MS };
+    return details;
   }
 
-  private async fetchShops(): Promise<{ shops: Shop[]; isFallback: boolean }> {
-    const fallback = {
-      shops: fallbackShopDetails.map(toFallbackShop),
-      isFallback: true,
-    };
+  // 公開APIの一覧は詳細と同じ項目を返し、企画番号で引くエンドポイントもないため、
+  // 詳細も一覧から作る。
+  private async fetchDetails(): Promise<ShopDetails> {
+    const fallback = { details: fallbackShopDetails, isFallback: true };
 
     if (!this.baseUrl) {
       console.warn(
@@ -385,7 +408,7 @@ export class SosClient {
 
     try {
       const response = await fetch(`${this.baseUrl}/openapi/projects`, {
-        headers: this.getHeaders(),
+        headers: { 'Content-Type': 'application/json' },
       });
 
       if (!response.ok) {
@@ -395,7 +418,9 @@ export class SosClient {
       const json = await response.json();
       const parsed = SosPublicProjectListSchema.parse(json);
       return {
-        shops: parsed.map((project) => mapToShop(project, this.baseUrl)),
+        details: parsed.map((project) =>
+          mapToShopDetail(project, this.baseUrl),
+        ),
         isFallback: false,
       };
     } catch (error) {
@@ -404,64 +429,6 @@ export class SosClient {
         error,
       );
       return fallback;
-    }
-  }
-
-  /**
-   * SOS API から特定の企画詳細を取得し、ShopDetailにマッピングして返却します。
-   */
-  async getShopDetail(id: string): Promise<ShopDetail> {
-    if (!this.baseUrl) {
-      console.warn(
-        'SOS_API_URL is not defined. Falling back to dummy shop detail.',
-      );
-      const fallbackDetail = fallbackShopDetails.find((shop) => shop.id === id);
-      if (!fallbackDetail) {
-        throw new SosClientError(
-          'UPSTREAM',
-          `SOS API is unavailable and fallback data has no shop: ${id}`,
-        );
-      }
-      return fallbackDetail;
-    }
-
-    try {
-      const response = await fetch(`${this.baseUrl}/openapi/projects/${id}`, {
-        headers: this.getHeaders(),
-      });
-
-      if (response.status === 404) {
-        throw new SosClientError('NOT_FOUND', `店舗が見つかりません: ${id}`);
-      }
-
-      if (!response.ok) {
-        throw new SosClientError(
-          'UPSTREAM',
-          `Failed to fetch project detail for ${id}: ${response.statusText}`,
-        );
-      }
-
-      const json = await response.json();
-      const parsed = SosPublicProjectSchema.parse(json);
-      return mapToShopDetail(parsed, this.baseUrl);
-    } catch (error) {
-      if (error instanceof SosClientError) {
-        throw error;
-      }
-
-      const fallbackDetail = fallbackShopDetails.find((shop) => shop.id === id);
-      if (fallbackDetail) {
-        console.warn(
-          `Failed to fetch SOS project detail for ${id}. Falling back to dummy data.`,
-          error,
-        );
-        return fallbackDetail;
-      }
-
-      throw new SosClientError(
-        'UPSTREAM',
-        `Failed to fetch project detail for ${id}`,
-      );
     }
   }
 }

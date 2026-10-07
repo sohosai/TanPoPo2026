@@ -31,6 +31,7 @@ export default function ShopListItem({
 }: ShopListItemProps) {
   const {
     id,
+    number,
     name,
     organization,
     category,
@@ -40,7 +41,7 @@ export default function ShopListItem({
 
   return (
     <Link
-      to={`/shop/${id}`}
+      to={`/shop/${number}`}
       className={css({
         display: 'flex',
         gap: '12px',
@@ -66,34 +67,18 @@ export default function ShopListItem({
           gap: '2px',
         })}
       >
-        <div
+        <h3
           className={css({
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '8px',
+            fontSize: '16px',
+            fontWeight: 700,
+            lineHeight: 1.4,
+            color: 'fg.strong',
+            lineClamp: 2,
+            wordBreak: 'break-all',
           })}
         >
-          <h3
-            className={css({
-              flex: 1,
-              minWidth: 0,
-              fontSize: '16px',
-              fontWeight: 700,
-              lineHeight: 1.4,
-              color: 'fg.strong',
-              lineClamp: 2,
-              wordBreak: 'break-all',
-            })}
-          >
-            {name}
-          </h3>
-          <FavoriteButton
-            active={favorite}
-            onToggle={() => onToggleFavorite?.(id)}
-            size={22}
-            className={css({ flexShrink: 0, mt: '-2px', mr: '-4px' })}
-          />
-        </div>
+          {name}
+        </h3>
 
         <p
           className={css({
@@ -158,6 +143,18 @@ export default function ShopListItem({
           )}
         </div>
       </div>
+
+      <FavoriteButton
+        active={favorite}
+        onToggle={() => onToggleFavorite?.(id)}
+        size={22}
+        className={css({
+          flexShrink: 0,
+          alignSelf: 'flex-end',
+          mb: '-2px',
+          mr: '-4px',
+        })}
+      />
     </Link>
   );
 }

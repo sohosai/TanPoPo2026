@@ -52,6 +52,14 @@ export default defineConfig({
           '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        viewerFade: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        viewerZoom: {
+          '0%': { opacity: '0', transform: 'scale(0.94)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
         rouletteSpin: {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(1080deg)' },

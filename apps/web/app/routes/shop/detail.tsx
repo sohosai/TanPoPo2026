@@ -5,11 +5,11 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { Link, useParams } from 'react-router';
 import { useMap } from '~/components/features/Map/MapController';
 import CarouselButton from '~/components/features/Shop/CarouselButton';
 import FavoriteButton from '~/components/features/Shop/FavoriteButton';
+import ImageViewer from '~/components/features/Shop/ImageViewer';
 import {
   CATEGORY_COLOR_CLASS,
   formatSchedule,
@@ -79,74 +79,29 @@ function ShopFacts({
 }
 
 export default function Detail() {
-  const { id } = useParams();
+  const { number } = useParams();
   const {
     data: shop,
     status,
     isError,
   } = trpc.shop.detail.useQuery(
-    { id: id ?? '' },
-    { enabled: id !== undefined },
+    { number: number ?? '' },
+    { enabled: number !== undefined },
   );
 
   const { isFavorite, toggle } = useFavorites();
   const { formatShopLocation, byId: placesById } = usePlaces();
   const { focusPlace, highlight } = useMap();
   const sheet = useBottomSheet();
-  const favorite = id !== undefined && isFavorite(id);
+  const favorite = shop !== undefined && isFavorite(shop.id);
   const [imageIndex, setImageIndex] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const handlePrev = () => {
+  const scrollCarouselTo = (index: number, behavior: ScrollBehavior) => {
     const el = carouselRef.current;
     if (!el) return;
-    const nextIndex = Math.max(0, imageIndex - 1);
-    el.scrollTo({
-      left: nextIndex * el.clientWidth,
-      behavior: 'smooth',
-    });
-  };
-
-  const handleNext = () => {
-    const el = carouselRef.current;
-    if (!el || !shop) return;
-    const nextIndex = Math.min(shop.images.length - 1, imageIndex + 1);
-    el.scrollTo({
-      left: nextIndex * el.clientWidth,
-      behavior: 'smooth',
-    });
-  };
-
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-  const minSwipeDistance = 50;
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchEndX.current = null;
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      handleNext();
-    } else if (isRightSwipe) {
-      handlePrev();
-    }
+    el.scrollTo({ left: index * el.clientWidth, behavior });
   };
 
   // 詳細を開いたら、紐づく場所へ地図をフォーカスする（シートの外の地図を統一APIで操作）。
@@ -307,12 +262,12 @@ export default function Detail() {
                 '&::-webkit-scrollbar': { display: 'none' },
               })}
             >
-              {shop.images.map((src, i) => (
+              {shop.images.map((image, i) => (
                 <button
                   // biome-ignore lint/suspicious/noArrayIndexKey: 同じ画像が複数登録されることがあり URL は一意でない
                   key={i}
                   type="button"
-                  onClick={() => setIsViewerOpen(true)}
+                  onClick={() => setViewerIndex(i)}
                   aria-label={`${shop.name} の画像 ${i + 1} を拡大`}
                   className={css({
                     flex: '0 0 100%',
@@ -325,7 +280,9 @@ export default function Detail() {
                   })}
                 >
                   <img
-                    src={src}
+                    src={image.src}
+                    srcSet={image.srcSet}
+                    sizes="100vw"
                     alt=""
                     loading={i === 0 ? 'eager' : 'lazy'}
                     className={css({
@@ -341,19 +298,13 @@ export default function Detail() {
             {imageIndex > 0 && (
               <CarouselButton
                 direction="left"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePrev();
-                }}
+                onClick={() => scrollCarouselTo(imageIndex - 1, 'smooth')}
               />
             )}
             {imageIndex < shop.images.length - 1 && (
               <CarouselButton
                 direction="right"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNext();
-                }}
+                onClick={() => scrollCarouselTo(imageIndex + 1, 'smooth')}
               />
             )}
 
@@ -422,7 +373,7 @@ export default function Detail() {
       >
         <FavoriteButton
           active={favorite}
-          onToggle={() => id !== undefined && toggle(id)}
+          onToggle={() => toggle(shop.id)}
           size={24}
           className={css({
             flexShrink: 0,
@@ -457,114 +408,17 @@ export default function Detail() {
         </button>
       </div>
 
-      {/* 画像ビューワーモード (Lightbox) */}
-      {isViewerOpen &&
-        isMounted &&
-        typeof document !== 'undefined' &&
-        createPortal(
-          <div
-            onClick={() => setIsViewerOpen(false)}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
-            className={css({
-              position: 'fixed',
-              inset: 0,
-              bg: 'rgba(0, 0, 0, 0.85)',
-              backdropFilter: 'blur(8px)',
-              zIndex: 1000,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              touchAction: 'none',
-            })}
-          >
-            {/* 閉じるボタン */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsViewerOpen(false);
-              }}
-              className={css({
-                position: 'absolute',
-                top: '24px',
-                right: '24px',
-                zIndex: 1010,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                bg: 'rgba(255, 255, 255, 0.2)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#ffffff',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s, transform 0.1s',
-                '&:hover': {
-                  bg: 'rgba(255, 255, 255, 0.4)',
-                },
-                '&:active': {
-                  transform: 'scale(0.92)',
-                },
-              })}
-              aria-label="閉じる"
-            >
-              <IconX size={24} />
-            </button>
-
-            {/* ビューワー内の画像表示エリア */}
-            <div
-              className={css({
-                position: 'relative',
-                width: '100%',
-                height: '100%',
-                maxWidth: '100vw',
-                maxHeight: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                p: '16px',
-              })}
-            >
-              <img
-                src={shop.images[imageIndex]}
-                alt={`${shop.name} の拡大画像`}
-                onClick={(e) => e.stopPropagation()}
-                className={css({
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  objectFit: 'contain',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
-                })}
-              />
-
-              {/* 左右切り替えボタン */}
-              {imageIndex > 0 && (
-                <CarouselButton
-                  direction="left"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePrev();
-                  }}
-                />
-              )}
-
-              {imageIndex < shop.images.length - 1 && (
-                <CarouselButton
-                  direction="right"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNext();
-                  }}
-                />
-              )}
-            </div>
-          </div>,
-          document.body,
-        )}
+      {viewerIndex !== null && (
+        <ImageViewer
+          images={shop.images}
+          initialIndex={viewerIndex}
+          title={shop.name}
+          onClose={(index) => {
+            setViewerIndex(null);
+            scrollCarouselTo(index, 'instant');
+          }}
+        />
+      )}
     </div>
   );
 }

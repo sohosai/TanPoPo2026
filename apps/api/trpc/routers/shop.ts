@@ -30,6 +30,8 @@ export type ShopLocation = {
 /** 一覧表示・フィルタに使う店舗情報（軽量。画像/長文説明は含めない） */
 export type Shop = {
   id: string;
+  /** 3桁ゼロ埋めの企画番号（例: "001"）。URL に使う */
+  number: string;
   name: string;
   organization: string;
   /**
@@ -42,8 +44,14 @@ export type Shop = {
   category: ShopCategory;
   /** 自由拡張のタグ（複数）。今後増えるフィルタ軸を柔軟に吸収する */
   tags: string[];
-  thumbnail?: string;
+  thumbnail?: ShopImage;
   cancelled?: boolean;
+};
+
+/** 表示する画像。`srcSet` は幅違いの候補（`<img srcset>` 形式）で、無い場合は `src` だけを使う */
+export type ShopImage = {
+  src: string;
+  srcSet?: string;
 };
 
 export type ShopLinkKind = 'website' | 'x' | 'instagram' | 'youtube';
@@ -61,7 +69,7 @@ export type ShopDetail = Shop & {
   /** 詳細説明文 */
   description: string;
   /** ギャラリー画像URLの配列 */
-  images: string[];
+  images: ShopImage[];
   links: ShopLink[];
 };
 
@@ -79,10 +87,10 @@ export const shopRouter = t.router({
     }),
 
     detail: t.procedure
-      .input(z.object({ id: z.string() }))
+      .input(z.object({ number: z.string() }))
       .query(async ({ ctx, input }): Promise<ShopDetail> => {
         try {
-          return await ctx.sos.getShopDetail(input.id);
+          return await ctx.sos.getShopDetail(input.number);
         } catch (error: unknown) {
           if (error instanceof SosClientError && error.code === 'NOT_FOUND') {
             throw new TRPCError({

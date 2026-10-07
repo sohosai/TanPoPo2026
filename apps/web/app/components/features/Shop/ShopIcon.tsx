@@ -45,9 +45,12 @@ export default function ShopIcon({
   return (
     <div className={cx(iconClass, css({ bg: 'surface' }))} style={style}>
       <img
-        src={shop.thumbnail}
+        src={shop.thumbnail.src}
+        srcSet={shop.thumbnail.srcSet}
+        sizes={`${size}px`}
         alt=""
         loading="lazy"
+        decoding="async"
         className={css({ w: '100%', h: '100%', objectFit: 'cover' })}
       />
     </div>
