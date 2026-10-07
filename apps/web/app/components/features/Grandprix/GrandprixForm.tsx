@@ -1,18 +1,17 @@
 import { IconCheck } from '@tabler/icons-react';
-import type { Shop, ShopCategory } from 'api';
+import type { GrandprixStage, MaxGeneralVotes, Shop, ShopCategory } from 'api';
 import { useMemo, useState } from 'react';
 import { trpc } from '~/lib/trcp';
 import { css } from '../../../../styled-system/css';
 
-const STAGE_OPTIONS = [
-  { id: '1a', label: '1Aステージ' },
-  { id: 'united', label: 'UNITEDステージ' },
-  { id: 'kaikan', label: '会館ステージ' },
-] as const;
+const STAGE_LABELS: Record<GrandprixStage, string> = {
+  '1a': '1Aステージ',
+  united: 'UNITEDステージ',
+  kaikan: '会館ステージ',
+};
+const STAGE_IDS = Object.keys(STAGE_LABELS) as GrandprixStage[];
 
-type StageId = (typeof STAGE_OPTIONS)[number]['id'];
-
-const MAX_GENERAL_VOTES = 4;
+const MAX_GENERAL_VOTES: MaxGeneralVotes = 4;
 
 // 一般部門の一覧をこの順で分類ごとにグループ表示する。
 const CATEGORY_ORDER: ShopCategory[] = [
@@ -46,7 +45,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
     })).filter((group) => group.shops.length > 0);
   }, [shops]);
   const [generalIds, setGeneralIds] = useState<string[]>([]);
-  const [stageIds, setStageIds] = useState<StageId[]>([]);
+  const [stageIds, setStageIds] = useState<GrandprixStage[]>([]);
   const [isTsukubaStudent, setIsTsukubaStudent] = useState<boolean | null>(
     null,
   );
@@ -63,7 +62,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
     });
   };
 
-  const toggleStage = (id: StageId) => {
+  const toggleStage = (id: GrandprixStage) => {
     setStageIds((prev) =>
       prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id],
     );
@@ -164,12 +163,12 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
             mt: '8px',
           })}
         >
-          {STAGE_OPTIONS.map((stage) => (
+          {STAGE_IDS.map((stage) => (
             <ToggleButton
-              key={stage.id}
-              label={stage.label}
-              active={stageIds.includes(stage.id)}
-              onClick={() => toggleStage(stage.id)}
+              key={stage}
+              label={STAGE_LABELS[stage]}
+              active={stageIds.includes(stage)}
+              onClick={() => toggleStage(stage)}
             />
           ))}
         </div>

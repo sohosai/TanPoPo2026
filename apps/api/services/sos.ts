@@ -201,7 +201,11 @@ const SHOPS_CACHE_TTL_MS = 30_000;
 // HTTPクライアント
 export class SosClient {
   private baseUrl: string;
-  private shopsCache: { shops: Shop[]; expiresAt: number } | null = null;
+  private shopsCache: {
+    shops: Shop[];
+    isFallback: boolean;
+    expiresAt: number;
+  } | null = null;
 
   constructor() {
     this.baseUrl = process.env.SOS_API_URL || '';
@@ -218,21 +222,48 @@ export class SosClient {
    * 短時間キャッシュするため、連続した呼び出しは外部APIを叩きません。
    */
   async getShops(): Promise<Shop[]> {
-    if (this.shopsCache && this.shopsCache.expiresAt > Date.now()) {
-      return this.shopsCache.shops;
-    }
+    return (await this.getCachedShops()).shops;
+  }
 
-    const shops = await this.fetchShops();
-    this.shopsCache = { shops, expiresAt: Date.now() + SHOPS_CACHE_TTL_MS };
+  /**
+   * SOS API から実際に取得できた企画一覧だけを返す。取得に失敗してダミーデータに
+   * フォールバックした場合は投票の検証に使えないため、例外を投げる。
+   */
+  async getLiveShops(): Promise<Shop[]> {
+    const { shops, isFallback } = await this.getCachedShops();
+    if (isFallback) {
+      throw new SosClientError(
+        'UPSTREAM',
+        'SOS API から企画一覧を取得できません',
+      );
+    }
     return shops;
   }
 
-  private async fetchShops(): Promise<Shop[]> {
+  private async getCachedShops(): Promise<{
+    shops: Shop[];
+    isFallback: boolean;
+  }> {
+    if (this.shopsCache && this.shopsCache.expiresAt > Date.now()) {
+      return this.shopsCache;
+    }
+
+    const shops = await this.fetchShops();
+    this.shopsCache = { ...shops, expiresAt: Date.now() + SHOPS_CACHE_TTL_MS };
+    return shops;
+  }
+
+  private async fetchShops(): Promise<{ shops: Shop[]; isFallback: boolean }> {
+    const fallback = {
+      shops: fallbackShopDetails.map(toFallbackShop),
+      isFallback: true,
+    };
+
     if (!this.baseUrl) {
       console.warn(
         'SOS_API_URL is not defined. Falling back to dummy shop data.',
       );
-      return fallbackShopDetails.map(toFallbackShop);
+      return fallback;
     }
 
     try {
@@ -246,13 +277,16 @@ export class SosClient {
 
       const json = await response.json();
       const parsed = SosPublicProjectListSchema.parse(json);
-      return parsed.map((project) => mapToShop(project, this.baseUrl));
+      return {
+        shops: parsed.map((project) => mapToShop(project, this.baseUrl)),
+        isFallback: false,
+      };
     } catch (error) {
       console.warn(
         'Failed to fetch SOS projects. Falling back to dummy shop data.',
         error,
       );
-      return fallbackShopDetails.map(toFallbackShop);
+      return fallback;
     }
   }
 

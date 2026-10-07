@@ -88,7 +88,6 @@ export default function GrandprixResult({
 function RouletteWheel() {
   return (
     <>
-      {/* ルーレットの位置マーカー */}
       <div
         className={css({
           position: 'absolute',

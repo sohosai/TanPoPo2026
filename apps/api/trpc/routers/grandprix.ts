@@ -1,7 +1,8 @@
 import { TRPCError } from '@trpc/server';
-import { DrizzleQueryError, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../../db/client';
+import { isDuplicateKeyError } from '../../db/errors';
 import {
   grandprixDraws,
   grandprixGeneralVotes,
@@ -16,15 +17,8 @@ import { protectedProcedure, t } from '../trpc';
 
 type GrandprixResult = 'win' | 'lose';
 
-function isDuplicateKeyError(error: unknown): boolean {
-  const cause = error instanceof DrizzleQueryError ? error.cause : undefined;
-  return (
-    !!cause &&
-    typeof cause === 'object' &&
-    'code' in cause &&
-    cause.code === 'ER_DUP_ENTRY'
-  );
-}
+const MAX_GENERAL_VOTES = 4;
+export type MaxGeneralVotes = typeof MAX_GENERAL_VOTES;
 
 function drawResult(): GrandprixResult {
   const winRate = Number.parseFloat(getEnv('GRANDPRIX_WIN_RATE', '0.2'));
@@ -35,7 +29,7 @@ const submitInputSchema = z.object({
   // 一般部門: 最大4件、重複投票不可（同一企画への複数投票は禁止）。
   generalShopIds: z
     .array(z.string())
-    .max(4)
+    .max(MAX_GENERAL_VOTES)
     .refine((ids) => new Set(ids).size === ids.length, {
       message: '同じ企画に複数回投票することはできません',
     }),
@@ -80,16 +74,20 @@ export const grandprixRouter = t.router({
           });
         }
 
-        if (input.generalShopIds.length > 0) {
-          const shops = await sosClient.getShops();
-          const validShopIds = new Set(shops.map((shop) => shop.id));
-          for (const shopId of input.generalShopIds) {
-            if (!validShopIds.has(shopId)) {
-              throw new TRPCError({
-                code: 'BAD_REQUEST',
-                message: `無効な企画IDです: ${shopId}`,
-              });
-            }
+        const shops = await sosClient.getLiveShops().catch(() => {
+          throw new TRPCError({
+            code: 'SERVICE_UNAVAILABLE',
+            message:
+              '企画一覧を取得できませんでした。時間をおいて再度お試しください',
+          });
+        });
+        const validShopIds = new Set(shops.map((shop) => shop.id));
+        for (const shopId of input.generalShopIds) {
+          if (!validShopIds.has(shopId)) {
+            throw new TRPCError({
+              code: 'BAD_REQUEST',
+              message: `無効な企画IDです: ${shopId}`,
+            });
           }
         }
 
@@ -102,13 +100,11 @@ export const grandprixRouter = t.router({
               userId: ctx.user.id,
             });
 
-            if (input.generalShopIds.length > 0) {
-              await tx
-                .insert(grandprixGeneralVotes)
-                .values(
-                  input.generalShopIds.map((shopId) => ({ voteId, shopId })),
-                );
-            }
+            await tx
+              .insert(grandprixGeneralVotes)
+              .values(
+                input.generalShopIds.map((shopId) => ({ voteId, shopId })),
+              );
 
             await tx
               .insert(grandprixStageVotes)

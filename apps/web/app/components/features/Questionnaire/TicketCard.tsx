@@ -3,15 +3,14 @@ import {
   IconCircleCheckFilled,
   IconTicket,
 } from '@tabler/icons-react';
+import type { inferRouterOutputs } from '@trpc/server';
+import type { AppRouter } from 'api';
 import { trpc } from '~/lib/trcp';
 import { css } from '../../../../styled-system/css';
 import RedemptionSchedule from './RedemptionSchedule';
 
-type Ticket = {
-  ticketId: string;
-  status: 'unused' | 'used';
-  personIndex: number;
-};
+export type Ticket =
+  inferRouterOutputs<AppRouter>['questionnaire']['myTickets'][number];
 
 type TicketCardProps = {
   ticket: Ticket;

@@ -46,6 +46,7 @@ bun run dev
 | --- | --- |
 | 開発 | `bun run dev` |
 | DB(MySQL)起動 | `bun run db:up` |
+| ローカルDBのリセット | `bun run db:reset` |
 | 型チェック | `bun run check` |
 | フォーマット | `bun run format` |
 | CI チェック | `bun run ci` |

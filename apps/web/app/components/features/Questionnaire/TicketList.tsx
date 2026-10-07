@@ -1,11 +1,5 @@
 import { css } from '../../../../styled-system/css';
-import TicketCard from './TicketCard';
-
-type Ticket = {
-  ticketId: string;
-  status: 'unused' | 'used';
-  personIndex: number;
-};
+import TicketCard, { type Ticket } from './TicketCard';
 
 type TicketListProps = {
   tickets: Ticket[];

@@ -8,7 +8,6 @@ const LINE_ISSUER = 'https://access.line.me';
 
 export class LineAuthError extends Error {}
 
-/** LINEの認可エンドポイントURLを組み立てる。 */
 export function getAuthorizationUrl(state: string, nonce: string): string {
   const url = new URL(LINE_AUTHORIZE_URL);
   url.searchParams.set('response_type', 'code');
@@ -27,7 +26,6 @@ const TokenResponseSchema = z.object({
   expires_in: z.number(),
 });
 
-/** 認可コードをLINEのトークンエンドポイントでID Tokenに交換する。 */
 export async function exchangeCodeForIdToken(code: string): Promise<string> {
   const response = await fetch(LINE_TOKEN_URL, {
     method: 'POST',
@@ -58,10 +56,8 @@ export type LineProfile = {
 };
 
 /**
- * ID Token(JWT)を検証し、プロフィールを取り出す。
  * LINEのID TokenはHS256（チャネルシークレットを鍵とする対称鍵署名）で発行されるため、
  * JWKS（公開鍵）ではなくチャネルシークレットで検証する。
- * nonce の一致確認もここで行う。
  */
 export async function verifyIdToken(
   idToken: string,

@@ -1,0 +1,1 @@
+ALTER TABLE `questionnaire_submissions` ADD CONSTRAINT `questionnaire_submissions_user_id_unique` UNIQUE(`user_id`);

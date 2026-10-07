@@ -2,6 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../../db/client';
+import { isDuplicateKeyError } from '../../db/errors';
 import {
   questionnaireResponses,
   questionnaireSubmissions,
@@ -11,6 +12,7 @@ import { protectedProcedure, t } from '../trpc';
 
 // 子供の分もまとめて回答するケースを想定した人数上限。
 const MAX_HEADCOUNT = 10;
+export type MaxHeadcount = typeof MAX_HEADCOUNT;
 
 const submitInputSchema = z.object({
   headcount: z.number().int().min(1).max(MAX_HEADCOUNT),
@@ -70,15 +72,25 @@ export const questionnaireRouter = t.router({
           responseId: response.id,
         }));
 
-        await db.transaction(async (tx) => {
-          await tx.insert(questionnaireSubmissions).values({
-            id: submissionId,
-            userId: ctx.user.id,
-            headcount: input.headcount,
+        try {
+          await db.transaction(async (tx) => {
+            await tx.insert(questionnaireSubmissions).values({
+              id: submissionId,
+              userId: ctx.user.id,
+              headcount: input.headcount,
+            });
+            await tx.insert(questionnaireResponses).values(responseRows);
+            await tx.insert(questionnaireTickets).values(ticketRows);
           });
-          await tx.insert(questionnaireResponses).values(responseRows);
-          await tx.insert(questionnaireTickets).values(ticketRows);
-        });
+        } catch (error) {
+          if (isDuplicateKeyError(error)) {
+            throw new TRPCError({
+              code: 'CONFLICT',
+              message: '既に回答済みです',
+            });
+          }
+          throw error;
+        }
 
         return { submissionId };
       }),

@@ -8,7 +8,8 @@
     "check-types": "tsc --noEmit",
     "clean": "rm -rf .turbo",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "bun run db/migrate.ts"
+    "db:migrate": "bun run db/migrate.ts",
+    "db:reset": "bun run db/reset.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",

@@ -13,6 +13,10 @@
 
 ログアウトは `GET /auth/logout`。セッションを削除しcookieを消してWebへリダイレクトする。
 
+## デプロイ時の制約
+
+セッションcookieは `SameSite=Lax` で発行する。そのため Web と API は同一サイト（`tanpopo.example.com` と `api.example.com` のように登録可能ドメインが同じ）に配置する必要がある。別サイトに置くと、Web からの tRPC リクエストに cookie が付かず、ログイン状態が維持されない。
+
 ## 関連ファイル
 
 - `apps/api/services/line-auth.ts` — LINEとのHTTPやりとり・ID Token検証
@@ -23,7 +27,7 @@
 
 ## Web側の利用方法
 
-- ログイン状態の確認は `trpc.auth.me.useQuery()`。ログイン済みならユーザー情報、未ログインなら `null` を返す（エラーにはならない）。
+- ログイン状態の確認は `trpc.auth.me.useQuery()`。ログイン済みならユーザー情報（`id` と `displayName`）、未ログインなら `null` を返す（エラーにはならない）。
 - 未ログイン時は `<a href={`${API_URL_BASE}/auth/line/login?redirect=/grandprix`}>` のような通常のリンク遷移でログインを開始する（`fetch`ではなくブラウザの実遷移が必要）。
 - tRPCの `httpBatchLink` はセッションcookieを送るため `fetch` オプションで `credentials: 'include'` を指定している（`apps/web/app/lib/trpc-provider.tsx`）。
 

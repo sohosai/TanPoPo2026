@@ -89,8 +89,10 @@ export const questionnaireSubmissions = mysqlTable(
   'questionnaire_submissions',
   {
     id: varchar('id', { length: 36 }).primaryKey(),
+    // 回答ごとに福引券が発行されるため、UNIQUE制約で「1人1回」をDB層で強制する。
     userId: varchar('user_id', { length: 36 })
       .notNull()
+      .unique()
       .references(() => users.id),
     headcount: int('headcount').notNull(),
     submittedAt: timestamp('submitted_at').notNull().defaultNow(),

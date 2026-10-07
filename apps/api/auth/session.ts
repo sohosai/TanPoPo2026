@@ -13,9 +13,7 @@ function hashToken(token: string): string {
 
 export type SessionUser = {
   id: string;
-  lineUserId: string;
   displayName: string | null;
-  isTsukubaStudent: boolean | null;
 };
 
 export async function createSession(
@@ -41,9 +39,7 @@ export async function getSessionUser(
   const rows = await db
     .select({
       id: users.id,
-      lineUserId: users.lineUserId,
       displayName: users.displayName,
-      isTsukubaStudent: users.isTsukubaStudent,
       expiresAt: sessions.expiresAt,
     })
     .from(sessions)
@@ -57,9 +53,7 @@ export async function getSessionUser(
 
   return {
     id: row.id,
-    lineUserId: row.lineUserId,
     displayName: row.displayName,
-    isTsukubaStudent: row.isTsukubaStudent,
   };
 }
 

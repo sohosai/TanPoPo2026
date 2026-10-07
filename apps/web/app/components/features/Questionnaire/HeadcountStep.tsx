@@ -1,9 +1,10 @@
 import { IconMinus, IconPlus } from '@tabler/icons-react';
+import type { MaxHeadcount } from 'api';
 import { useState } from 'react';
 import { css } from '../../../../styled-system/css';
 
 const MIN_HEADCOUNT = 1;
-const MAX_HEADCOUNT = 10;
+const MAX_HEADCOUNT: MaxHeadcount = 10;
 
 type HeadcountStepProps = {
   onConfirm: (headcount: number) => void;

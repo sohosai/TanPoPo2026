@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "db:up": "docker compose up -d mysql",
+    "db:reset": "bun run --cwd apps/api db:reset",
     "check": "turbo run check-types",
     "check:map-data": "bun run scripts/validate-map-data.ts",
     "ingest:osm": "bun run scripts/ingest-osm.ts",

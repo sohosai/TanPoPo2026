@@ -26,7 +26,6 @@ export default function OverButtons() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // メニュー外部のクリックおよび Escape キー押下でメニューを閉じる
   useEffect(() => {
     if (!open) return;
 
@@ -68,7 +67,6 @@ export default function OverButtons() {
         userSelect: 'none',
       })}
     >
-      {/* メイントグルボタン */}
       <button
         type="button"
         aria-expanded={open}
@@ -118,7 +116,6 @@ export default function OverButtons() {
         />
       </button>
 
-      {/* ドロップダウン項目リスト */}
       <div
         role="menu"
         aria-hidden={!open}
@@ -182,8 +179,8 @@ export default function OverButtons() {
                 },
               })}
             >
-              {item.lines.map((line, i) => (
-                <span key={i}>{line}</span>
+              {item.lines.map((line) => (
+                <span key={line}>{line}</span>
               ))}
             </button>
           );
