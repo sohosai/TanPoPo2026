@@ -7,10 +7,12 @@ import {
 } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
+import EventBanner from '~/components/features/EventLinks/EventBanner';
 import {
   criteriaFromParams,
   criteriaToParams,
   filterShops,
+  hasActiveFilter,
   type ShopFilterCriteria,
 } from '~/components/features/Shop/filter';
 import ShopListItem from '~/components/features/Shop/ShopListItem';
@@ -127,6 +129,8 @@ export default function List() {
         onChange={updateCriteria}
         tagOptions={tagOptions}
       />
+
+      {!hasActiveFilter(criteria) && criteria.q === '' && <EventBanner />}
 
       {status === 'pending' && (
         <StateMessage icon={IconLoader2} title="読み込み中..." spinning />

@@ -100,8 +100,25 @@ export default defineConfig({
         colors: {
           accent: {
             DEFAULT: { value: '{colors.brand.500}' },
+            // brand.500 は白背景上の文字としてはコントラストが足りないため、文字用に濃い版を持つ。
+            text: { value: '#1d7f7f' },
             subtle: { value: '{colors.brand.50}' },
             border: { value: '{colors.brand.100}' },
+          },
+          // 企画の分類バッジ用。分類の識別にだけ使い、操作色(accent)とは混ぜない。
+          category: {
+            food: { DEFAULT: { value: '#c2410c' }, bg: { value: '#fff1e6' } },
+            goods: { DEFAULT: { value: '#be185d' }, bg: { value: '#fdeef5' } },
+            exhibit: {
+              DEFAULT: { value: '#1d4ed8' },
+              bg: { value: '#ebf1ff' },
+            },
+            academic: {
+              DEFAULT: { value: '#6d28d9' },
+              bg: { value: '#f3edff' },
+            },
+            stage: { DEFAULT: { value: '#0f766e' }, bg: { value: '#e6f6f4' } },
+            other: { DEFAULT: { value: '#525866' }, bg: { value: '#f0f1f3' } },
           },
           fg: {
             DEFAULT: { value: '#333333' },
@@ -132,6 +149,14 @@ export default defineConfig({
       width: '100%',
       height: '100%',
       overflow: 'hidden',
+    },
+    body: {
+      fontFamily: "'Inter', 'Noto Sans JP', sans-serif",
+      color: 'fg',
+      WebkitFontSmoothing: 'antialiased',
+    },
+    'button, input, textarea': {
+      fontFamily: 'inherit',
     },
   },
 

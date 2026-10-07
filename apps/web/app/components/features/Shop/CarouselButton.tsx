@@ -31,7 +31,7 @@ export default function CarouselButton({
         bg: 'rgba(255, 255, 255, 0.4)',
         backdropFilter: 'blur(8px)',
         border: '1px solid rgba(255, 255, 255, 0.3)',
-        color: '#204262',
+        color: 'fg.strong',
         cursor: 'pointer',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
         transition: 'background-color 0.2s, transform 0.1s',

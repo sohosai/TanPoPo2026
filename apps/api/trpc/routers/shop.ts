@@ -46,12 +46,23 @@ export type Shop = {
   cancelled?: boolean;
 };
 
+export type ShopLinkKind = 'website' | 'x' | 'instagram' | 'youtube';
+
+/** 企画の外部リンク（公式サイト・SNS）。URL は API 側で組み立て済み。 */
+export type ShopLink = {
+  kind: ShopLinkKind;
+  /** 表示用の短いラベル（@ユーザー名やドメイン名） */
+  label: string;
+  url: string;
+};
+
 /** 詳細ページに使う店舗情報（Shop + 詳細フィールド） */
 export type ShopDetail = Shop & {
   /** 詳細説明文 */
   description: string;
   /** ギャラリー画像URLの配列 */
   images: string[];
+  links: ShopLink[];
 };
 
 export const shopRouter = t.router({

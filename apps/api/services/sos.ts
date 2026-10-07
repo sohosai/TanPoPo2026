@@ -4,6 +4,7 @@ import type {
   Shop,
   ShopCategory,
   ShopDetail,
+  ShopLink,
   ShopLocation,
 } from '../trpc/routers/shop';
 
@@ -12,6 +13,10 @@ const SosPublicInfoSchema = z.object({
   description: z.string().nullable().optional(),
   iconFileId: z.string().nullable().optional(),
   mapImageFileIds: z.array(z.string()).optional(),
+  websiteUrls: z.array(z.string()).optional(),
+  xIds: z.array(z.string()).optional(),
+  instagramIds: z.array(z.string()).optional(),
+  youtubeIds: z.array(z.string()).optional(),
   openStatus: z.enum(['OPEN', 'CLOSED', 'NOT_APPLICABLE']),
   stockStatus: z.enum(['IN_STOCK', 'OUT_OF_STOCK', 'NOT_APPLICABLE']),
 });
@@ -91,6 +96,106 @@ function mapToShop(project: SosPublicProject, baseUrl: string): Shop {
   };
 }
 
+const HANDLE_PATTERN = /^[\w.-]+$/;
+
+const xLink = (id: string): ShopLink => ({
+  kind: 'x',
+  label: `@${id}`,
+  url: `https://x.com/${id}`,
+});
+
+const instagramLink = (id: string): ShopLink => ({
+  kind: 'instagram',
+  label: `@${id}`,
+  url: `https://www.instagram.com/${id}/`,
+});
+
+// YouTube はハンドル（例: folktkb）とチャンネル名（例: 「〇〇班げんしけん」）が混在して
+// 登録されている。チャンネル名からはチャンネル URL を作れないため検索結果へ飛ばす。
+function youtubeLink(id: string): ShopLink {
+  if (/^UC[\w-]{22}$/.test(id)) {
+    return {
+      kind: 'youtube',
+      label: 'YouTube',
+      url: `https://www.youtube.com/channel/${id}`,
+    };
+  }
+  if (HANDLE_PATTERN.test(id)) {
+    return {
+      kind: 'youtube',
+      label: `@${id}`,
+      url: `https://www.youtube.com/@${id}`,
+    };
+  }
+  return {
+    kind: 'youtube',
+    label: id,
+    url: `https://www.youtube.com/results?search_query=${encodeURIComponent(id)}`,
+  };
+}
+
+// Webサイト欄に SNS のプロフィール URL が入っていることがあるため、
+// ドメインで種類を判定し、SNS ならユーザー名に正規化して重複を除けるようにする。
+function linkFromUrl(raw: string): ShopLink | null {
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    return null;
+  }
+  const host = url.host.replace(/^(www|mobile|m)\./, '');
+  // Instagram / Facebook のプロフィールからコピーした URL は転送用ラッパーになっている。
+  const wrapped = url.searchParams.get('u');
+  if ((host === 'l.instagram.com' || host === 'l.facebook.com') && wrapped) {
+    return linkFromUrl(wrapped);
+  }
+  const first = url.pathname.split('/').find((s) => s !== '');
+
+  if ((host === 'x.com' || host === 'twitter.com') && first) {
+    return xLink(first.replace(/^@/, ''));
+  }
+  if (host === 'instagram.com' && first) return instagramLink(first);
+  if (host === 'youtube.com' && first?.startsWith('@')) {
+    return youtubeLink(first.slice(1));
+  }
+  if (host === 'youtube.com' || host === 'youtu.be') {
+    return { kind: 'youtube', label: 'YouTube', url: raw };
+  }
+  return { kind: 'website', label: host, url: raw };
+}
+
+// SNS の ID 欄には "@xxx" や URL そのものが入ることがあるため正規化する。
+function linkFromId(
+  raw: string,
+  fromHandle: (id: string) => ShopLink,
+): ShopLink | null {
+  const value = raw.trim();
+  if (value === '') return null;
+  if (/^https?:\/\//.test(value)) return linkFromUrl(value);
+  return fromHandle(value.replace(/^@/, ''));
+}
+
+function mapLinks(info: SosPublicProject['publicInfo']): ShopLink[] {
+  const links = [
+    ...(info.websiteUrls ?? []).map((url) => linkFromUrl(url.trim())),
+    ...(info.xIds ?? []).map((id) => linkFromId(id, xLink)),
+    ...(info.instagramIds ?? []).map((id) => linkFromId(id, instagramLink)),
+    ...(info.youtubeIds ?? []).map((id) => linkFromId(id, youtubeLink)),
+  ].filter((link): link is ShopLink => link !== null);
+
+  const seen = new Set<string>();
+  return links
+    .filter((link) => {
+      const key = `${link.kind}:${link.label.toLowerCase()}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort((a, b) => LINK_ORDER.indexOf(a.kind) - LINK_ORDER.indexOf(b.kind));
+}
+
+const LINK_ORDER: ShopLink['kind'][] = ['website', 'x', 'instagram', 'youtube'];
+
 function mapToShopDetail(
   project: SosPublicProject,
   baseUrl: string,
@@ -103,6 +208,7 @@ function mapToShopDetail(
     ...mapToShop(project, baseUrl),
     description: project.publicInfo.description || '詳細説明はありません。',
     images,
+    links: mapLinks(project.publicInfo),
   };
 }
 
@@ -120,6 +226,7 @@ const fallbackShopDetails: ShopDetail[] = [
     tags: ['動物', '癒し', '屋内'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
+    links: [],
   },
   {
     id: '2',
@@ -132,6 +239,7 @@ const fallbackShopDetails: ShopDetail[] = [
     cancelled: true,
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg'],
+    links: [],
   },
   {
     id: '3',
@@ -143,6 +251,7 @@ const fallbackShopDetails: ShopDetail[] = [
     tags: ['研究', '屋内'],
     description: sampleDescription,
     images: ['/sample/dog.jpg'],
+    links: [],
   },
   {
     id: '4',
@@ -154,6 +263,7 @@ const fallbackShopDetails: ShopDetail[] = [
     tags: ['音楽', '屋外'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
+    links: [],
   },
   {
     id: '5',
@@ -165,6 +275,7 @@ const fallbackShopDetails: ShopDetail[] = [
     tags: ['グッズ', '屋内'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg'],
+    links: [],
   },
   {
     id: '6',
@@ -176,11 +287,17 @@ const fallbackShopDetails: ShopDetail[] = [
     tags: ['屋外', 'スイーツ'],
     description: sampleDescription,
     images: ['/sample/dog.jpg', '/sample/dog.jpg', '/sample/dog.jpg'],
+    links: [],
   },
 ];
 
 function toFallbackShop(detail: ShopDetail): Shop {
-  const { description: _description, images: _images, ...shop } = detail;
+  const {
+    description: _description,
+    images: _images,
+    links: _links,
+    ...shop
+  } = detail;
   return shop;
 }
 

@@ -17,6 +17,8 @@ export type {
   Shop,
   ShopCategory,
   ShopDetail,
+  ShopLink,
+  ShopLinkKind,
   ShopLocation,
 } from './trpc/routers/shop';
 

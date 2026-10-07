@@ -1,15 +1,82 @@
-import { IconClock, IconMapPin, IconRoute, IconX } from '@tabler/icons-react';
+import {
+  IconCalendarEvent,
+  IconMap,
+  IconMapPin,
+  IconX,
+} from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useParams } from 'react-router';
 import { useMap } from '~/components/features/Map/MapController';
 import CarouselButton from '~/components/features/Shop/CarouselButton';
 import FavoriteButton from '~/components/features/Shop/FavoriteButton';
+import {
+  CATEGORY_COLOR_CLASS,
+  formatSchedule,
+} from '~/components/features/Shop/labels';
+import ShopIcon from '~/components/features/Shop/ShopIcon';
+import ShopLinks from '~/components/features/Shop/ShopLinks';
+import { useBottomSheet } from '~/components/layouts/BottomSheet/BottomSheet';
 import { useFavorites } from '~/lib/favorites';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trcp';
-import { css } from '../../../styled-system/css';
-import { token } from '../../../styled-system/tokens';
+import { css, cx } from '../../../styled-system/css';
+
+/** 場所・日程。未確定の項目は「未定」と表示する。 */
+function ShopFacts({
+  location,
+  schedule,
+}: {
+  location: string;
+  schedule: string;
+}) {
+  return (
+    <dl
+      className={css({
+        mx: '16px',
+        mt: '16px',
+        borderRadius: '12px',
+        bg: 'border.subtle',
+        '& > div': {
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          px: '14px',
+          py: '10px',
+          fontSize: '14px',
+        },
+        '& > div + div': {
+          borderTop: '1px solid token(colors.surface)',
+        },
+        '& dt': {
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          w: '64px',
+          flexShrink: 0,
+          color: 'fg.subtle',
+          fontSize: '12px',
+        },
+        '& dd': { flex: 1, minWidth: 0, color: 'fg.strong', fontWeight: 500 },
+      })}
+    >
+      <div>
+        <dt>
+          <IconMapPin size={16} />
+          場所
+        </dt>
+        <dd>{location || '未定'}</dd>
+      </div>
+      <div>
+        <dt>
+          <IconCalendarEvent size={16} />
+          日程
+        </dt>
+        <dd>{schedule || '未定'}</dd>
+      </div>
+    </dl>
+  );
+}
 
 export default function Detail() {
   const { id } = useParams();
@@ -25,6 +92,7 @@ export default function Detail() {
   const { isFavorite, toggle } = useFavorites();
   const { formatShopLocation, byId: placesById } = usePlaces();
   const { focusPlace, highlight } = useMap();
+  const sheet = useBottomSheet();
   const favorite = id !== undefined && isFavorite(id);
   const [imageIndex, setImageIndex] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
@@ -102,6 +170,12 @@ export default function Detail() {
 
   if (!shop) return null;
 
+  const showOnMap = () => {
+    const place = primaryPlaceId ? placesById.get(primaryPlaceId) : undefined;
+    if (place) focusPlace(place);
+    sheet.collapse();
+  };
+
   return (
     <div
       className={css({
@@ -111,72 +185,57 @@ export default function Detail() {
         animation: 'detailEnter 0.28s ease-out',
       })}
     >
-      {/* ヘッダー */}
-      <div
+      {/* シートを畳んだ状態でもこのヘッダーだけは見えるため、企画を識別できる情報を集める */}
+      <header
         className={css({
           display: 'flex',
           alignItems: 'flex-start',
-          gap: '10px',
+          gap: '12px',
           px: '16px',
-          pt: '4px',
+          pt: '2px',
         })}
       >
-        <div
-          className={css({
-            flexShrink: 0,
-            width: '32px',
-            height: '32px',
-            borderRadius: '4px',
-            bg: shop.cancelled ? 'surface.muted' : '#7da7d9',
-            overflow: 'hidden',
-          })}
-        >
-          {shop.thumbnail && (
-            <img
-              src={shop.thumbnail}
-              alt=""
-              className={css({
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              })}
-            />
-          )}
-        </div>
+        <ShopIcon shop={shop} size={48} />
 
-        <div
-          className={css({
-            flex: 1,
-            minWidth: 0,
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            gap: '4px 12px',
-            fontSize: '13px',
-            color: '#204262',
-            pt: '6px',
-          })}
-        >
-          <span
+        <div className={css({ flex: 1, minWidth: 0 })}>
+          <h1
             className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '3px',
+              fontSize: '20px',
+              fontWeight: 700,
+              lineHeight: 1.35,
+              color: 'fg.strong',
+              wordBreak: 'break-all',
             })}
           >
-            <IconMapPin size={15} color="#204262" />
-            {formatShopLocation(shop)}
-          </span>
-          <span
+            {shop.name}
+          </h1>
+          <p
             className={css({
-              display: 'inline-flex',
+              mt: '2px',
+              display: 'flex',
               alignItems: 'center',
-              gap: '3px',
+              gap: '6px',
+              fontSize: '13px',
+              color: 'fg.subtle',
             })}
           >
-            <IconClock size={15} color="#204262" />
-            {shop.schedule.join('、')}
-          </span>
+            <span
+              className={cx(
+                css({
+                  flexShrink: 0,
+                  px: '6px',
+                  py: '1px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                }),
+                CATEGORY_COLOR_CLASS[shop.category],
+              )}
+            >
+              {shop.category}
+            </span>
+            <span className={css({ truncate: true })}>{shop.organization}</span>
+          </p>
         </div>
 
         <Link
@@ -187,41 +246,50 @@ export default function Detail() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            p: '2px',
-            color: 'fg.subtle',
+            w: '36px',
+            h: '36px',
+            borderRadius: '999px',
+            bg: 'border.subtle',
+            color: 'fg.muted',
+            _active: { bg: 'border' },
           })}
         >
-          <IconX size={24} />
+          <IconX size={20} />
         </Link>
-      </div>
+      </header>
 
-      {/* タイトル */}
-      <div className={css({ px: '16px', mt: '8px' })}>
-        <h1
-          className={css({
-            fontWeight: 500,
-            fontSize: '18px',
-            lineHeight: 1.3,
-            color: '#204262',
-          })}
-        >
-          {shop.name}
-        </h1>
+      {shop.cancelled && (
         <p
           className={css({
-            fontWeight: 400,
-            fontSize: '12px',
-            color: '#204262',
-            mt: '2px',
+            mx: '16px',
+            mt: '12px',
+            px: '12px',
+            py: '8px',
+            borderRadius: '8px',
+            bg: 'fg.strong',
+            color: 'surface',
+            fontSize: '13px',
+            fontWeight: 700,
           })}
         >
-          {shop.organization}
+          この企画は中止になりました
         </p>
-      </div>
+      )}
+
+      <ShopFacts
+        location={formatShopLocation(shop)}
+        schedule={formatSchedule(shop.schedule)}
+      />
+
+      {shop.links.length > 0 && (
+        <div className={css({ px: '16px', mt: '16px' })}>
+          <ShopLinks links={shop.links} />
+        </div>
+      )}
 
       {/* 画像カルーセル */}
       {shop.images.length > 0 && (
-        <div className={css({ mt: '12px' })}>
+        <div className={css({ mt: '20px' })}>
           <div className={css({ position: 'relative' })}>
             <div
               ref={carouselRef}
@@ -240,51 +308,36 @@ export default function Detail() {
               })}
             >
               {shop.images.map((src, i) => (
-                <div
-                  // biome-ignore lint/suspicious/noArrayIndexKey: モック画像のため index で十分
+                <button
+                  // biome-ignore lint/suspicious/noArrayIndexKey: 同じ画像が複数登録されることがあり URL は一意でない
                   key={i}
+                  type="button"
+                  onClick={() => setIsViewerOpen(true)}
+                  aria-label={`${shop.name} の画像 ${i + 1} を拡大`}
                   className={css({
                     flex: '0 0 100%',
                     scrollSnapAlign: 'center',
-                    width: '100%',
                     aspectRatio: '4 / 3',
-                    position: 'relative',
                     overflow: 'hidden',
-                    borderRadius: '8px',
-                    bg: '#eeeeee',
+                    borderRadius: '12px',
+                    bg: 'border.subtle',
+                    cursor: 'zoom-in',
                   })}
                 >
                   <img
                     src={src}
                     alt=""
+                    loading={i === 0 ? 'eager' : 'lazy'}
                     className={css({
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      filter: 'blur(4px) brightness(0.85)',
-                      opacity: 1.0,
-                      borderRadius: '8px',
-                    })}
-                  />
-                  <img
-                    src={src}
-                    alt={`${shop.name} の画像 ${i + 1}`}
-                    onClick={() => setIsViewerOpen(true)}
-                    className={css({
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
+                      w: '100%',
+                      h: '100%',
                       objectFit: 'contain',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
                     })}
                   />
-                </div>
+                </button>
               ))}
             </div>
 
-            {/* 左右切り替えボタン */}
             {imageIndex > 0 && (
               <CarouselButton
                 direction="left"
@@ -294,7 +347,6 @@ export default function Detail() {
                 }}
               />
             )}
-
             {imageIndex < shop.images.length - 1 && (
               <CarouselButton
                 direction="right"
@@ -304,48 +356,55 @@ export default function Detail() {
                 }}
               />
             )}
-          </div>
 
-          {shop.images.length > 1 && (
-            <div
-              className={css({
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '6px',
-                mt: '8px',
-              })}
-            >
-              {shop.images.map((_, i) => (
-                <span
-                  // biome-ignore lint/suspicious/noArrayIndexKey: ドットは固定個数のため index で十分
-                  key={i}
-                  className={css({
-                    width: '7px',
-                    height: '7px',
-                    borderRadius: '999px',
-                    bg: i === imageIndex ? 'accent' : '#cfd8d8',
-                  })}
-                />
-              ))}
-            </div>
-          )}
+            {shop.images.length > 1 && (
+              <span
+                className={css({
+                  position: 'absolute',
+                  right: '28px',
+                  bottom: '12px',
+                  px: '8px',
+                  py: '2px',
+                  borderRadius: '999px',
+                  bg: 'rgba(0, 0, 0, 0.55)',
+                  color: 'surface',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  pointerEvents: 'none',
+                })}
+              >
+                {imageIndex + 1} / {shop.images.length}
+              </span>
+            )}
+          </div>
         </div>
       )}
 
-      {/* 説明文 */}
-      <p
-        className={css({
-          px: '16px',
-          mt: '16px',
-          fontSize: '13px',
-          lineHeight: 1.7,
-          color: '#204262',
-        })}
-      >
-        {shop.description}
-      </p>
+      <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
+        <h2
+          className={css({
+            fontSize: '15px',
+            fontWeight: 700,
+            color: 'fg.strong',
+          })}
+        >
+          企画紹介
+        </h2>
+        <p
+          className={css({
+            mt: '8px',
+            fontSize: '15px',
+            lineHeight: 1.8,
+            color: 'fg',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+          })}
+        >
+          {shop.description}
+        </p>
+      </section>
 
-      {/* 下部バー（ルート / お気に入り） */}
+      {/* 下部の操作バー */}
       <div
         className={css({
           position: 'sticky',
@@ -353,38 +412,49 @@ export default function Detail() {
           mt: 'auto',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end',
-          gap: '16px',
+          gap: '12px',
           px: '16px',
-          py: '12px',
+          pt: '12px',
+          pb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
           bg: 'sheet.background',
+          borderTop: '1px solid token(colors.border.subtle)',
         })}
       >
-        <button
-          type="button"
-          className={css({
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            px: '16px',
-            py: '8px',
-            borderRadius: '999px',
-            border: '1px solid',
-            borderColor: 'accent',
-            color: 'accent',
-            fontSize: '14px',
-            bg: 'surface',
-            cursor: 'pointer',
-          })}
-        >
-          <IconRoute size={18} />
-          ルート
-        </button>
         <FavoriteButton
           active={favorite}
           onToggle={() => id !== undefined && toggle(id)}
-          size={30}
+          size={24}
+          className={css({
+            flexShrink: 0,
+            w: '48px',
+            h: '48px',
+            borderRadius: '999px',
+            border: '1px solid',
+            borderColor: 'border',
+          })}
         />
+        <button
+          type="button"
+          onClick={showOnMap}
+          className={css({
+            flex: 1,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            h: '48px',
+            borderRadius: '999px',
+            bg: 'accent.text',
+            color: 'surface',
+            fontSize: '15px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            _active: { opacity: 0.85 },
+          })}
+        >
+          <IconMap size={20} />
+          地図で場所を見る
+        </button>
       </div>
 
       {/* 画像ビューワーモード (Lightbox) */}

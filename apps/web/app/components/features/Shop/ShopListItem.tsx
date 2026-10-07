@@ -1,9 +1,10 @@
-import { IconClock, IconMapPinFilled } from '@tabler/icons-react';
+import { IconCalendarEvent, IconMapPin } from '@tabler/icons-react';
 import type { Shop } from 'api';
 import { Link } from 'react-router';
-import { css } from '../../../../styled-system/css';
-import { token } from '../../../../styled-system/tokens';
+import { css, cx } from '../../../../styled-system/css';
 import FavoriteButton from './FavoriteButton';
+import { CATEGORY_COLOR_CLASS, formatSchedule } from './labels';
+import ShopIcon from './ShopIcon';
 
 export type { Shop };
 
@@ -15,6 +16,13 @@ type ShopListItemProps = {
   onToggleFavorite?: (id: string) => void;
 };
 
+const metaClass = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '2px',
+  minWidth: 0,
+});
+
 export default function ShopListItem({
   shop,
   locationLabel,
@@ -25,8 +33,8 @@ export default function ShopListItem({
     id,
     name,
     organization,
+    category,
     schedule,
-    thumbnail,
     cancelled = false,
   } = shop;
 
@@ -36,106 +44,62 @@ export default function ShopListItem({
       className={css({
         display: 'flex',
         gap: '12px',
-        alignItems: 'stretch',
-        position: 'relative',
-        bg: 'surface',
-        border: '1px solid',
-        borderColor: 'accent.border',
-        borderRadius: '8px',
-        p: '10px',
-        mx: '12px',
-        my: '8px',
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.06)',
+        alignItems: 'flex-start',
+        px: '16px',
+        py: '12px',
         color: 'inherit',
         textDecoration: 'none',
+        borderBottom: '1px solid token(colors.border.subtle)',
+        transition: 'background 0.15s',
+        _active: { bg: 'border.subtle' },
       })}
+      style={{ opacity: cancelled ? 0.55 : undefined }}
     >
-      {/* サムネイル */}
-      <div
-        className={css({
-          position: 'relative',
-          flexShrink: 0,
-          width: '112px',
-          aspectRatio: '1 / 1',
-          bg: 'surface.muted',
-          borderRadius: '4px',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        })}
-      >
-        {thumbnail && (
-          <>
-            <img
-              src={thumbnail}
-              alt=""
-              className={css({
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                filter: 'blur(30px) brightness(0.85)',
-                opacity: 1.0,
-              })}
-            />
-            <img
-              src={thumbnail}
-              alt=""
-              className={css({
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                borderRadius: '4px',
-              })}
-            />
-          </>
-        )}
-        {cancelled && (
-          <span
-            className={css({
-              position: 'absolute',
-              fontWeight: 'bold',
-              fontSize: '18px',
-              color: '#000000',
-            })}
-          >
-            中止
-          </span>
-        )}
-      </div>
+      <ShopIcon shop={shop} size={64} />
 
-      {/* 本文 */}
       <div
         className={css({
           flex: 1,
           minWidth: 0,
           display: 'flex',
           flexDirection: 'column',
-          gap: '4px',
-          py: '4px',
-          pr: '4px',
+          gap: '2px',
         })}
       >
-        <h3
+        <div
           className={css({
-            fontWeight: 500,
-            fontSize: '18px',
-            lineHeight: 1.3,
-            color: '#204262',
-            lineClamp: 2,
-            wordBreak: 'break-all',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '8px',
           })}
         >
-          {name}
-        </h3>
+          <h3
+            className={css({
+              flex: 1,
+              minWidth: 0,
+              fontSize: '16px',
+              fontWeight: 700,
+              lineHeight: 1.4,
+              color: 'fg.strong',
+              lineClamp: 2,
+              wordBreak: 'break-all',
+            })}
+          >
+            {name}
+          </h3>
+          <FavoriteButton
+            active={favorite}
+            onToggle={() => onToggleFavorite?.(id)}
+            size={22}
+            className={css({ flexShrink: 0, mt: '-2px', mr: '-4px' })}
+          />
+        </div>
 
         <p
           className={css({
-            fontWeight: 400,
-            fontSize: '11px',
-            color: '#204262',
+            fontSize: '12px',
+            color: 'fg.subtle',
+            truncate: true,
           })}
         >
           {organization}
@@ -143,50 +107,57 @@ export default function ShopListItem({
 
         <div
           className={css({
-            mt: 'auto',
+            mt: '6px',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
-            gap: '4px 12px',
-            fontSize: '13px',
+            gap: '4px 10px',
+            fontSize: '12px',
             color: 'fg.muted',
-            pr: '28px',
           })}
         >
-          <span
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '3px',
-            })}
-          >
-            <IconMapPinFilled size={14} color="#204262" />
-            {locationLabel}
-          </span>
-          <span
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '3px',
-            })}
-          >
-            <IconClock size={14} color="#204262" />
-            {schedule.join('、')}
-          </span>
+          {cancelled ? (
+            <span
+              className={css({
+                px: '6px',
+                py: '1px',
+                borderRadius: '4px',
+                bg: 'fg.strong',
+                color: 'surface',
+                fontWeight: 700,
+              })}
+            >
+              中止
+            </span>
+          ) : (
+            <span
+              className={cx(
+                css({
+                  px: '6px',
+                  py: '1px',
+                  borderRadius: '4px',
+                  fontWeight: 700,
+                }),
+                CATEGORY_COLOR_CLASS[category],
+              )}
+            >
+              {category}
+            </span>
+          )}
+          {locationLabel && (
+            <span className={metaClass}>
+              <IconMapPin size={13} />
+              {locationLabel}
+            </span>
+          )}
+          {schedule.length > 0 && (
+            <span className={metaClass}>
+              <IconCalendarEvent size={13} />
+              {formatSchedule(schedule)}
+            </span>
+          )}
         </div>
       </div>
-
-      {/* お気に入り */}
-      <FavoriteButton
-        active={favorite}
-        onToggle={() => onToggleFavorite?.(id)}
-        size={26}
-        className={css({
-          position: 'absolute',
-          right: '10px',
-          bottom: '10px',
-        })}
-      />
     </Link>
   );
 }

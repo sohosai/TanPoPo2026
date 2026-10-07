@@ -1,15 +1,18 @@
 import {
+  createContext,
   type PointerEvent,
   type ReactNode,
   useCallback,
+  useContext,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
 import { css, cx } from '../../../../styled-system/css';
 
-// デフォルトは50
-const peek = 50;
+// 畳んだ状態でも取っ手と検索欄（ShopSearchBar の1段目）が見える高さ。
+const peek = 78;
 const flingVelocity = 0.5;
 const rubberDim = 200;
 // initiallyRaised時、収納状態(max)からどこまで引き上げて開始するかの割合。小さいほど大きく開く。
@@ -19,6 +22,19 @@ interface MapBottomSheetProps {
   children?: ReactNode;
   /** trueの場合、初期表示をpeekまで畳まず、ある程度引き上げた状態で開始する。 */
   initiallyRaised?: boolean;
+}
+
+const BottomSheetContext = createContext<{
+  expand: () => void;
+  collapse: () => void;
+}>({
+  expand: () => {},
+  collapse: () => {},
+});
+
+/** シート内のコンポーネントからシートを開閉する（検索欄のフォーカス時、地図を見せたいときなど）。 */
+export function useBottomSheet() {
+  return useContext(BottomSheetContext);
 }
 
 const rubberband = (overflow: number) =>
@@ -53,7 +69,7 @@ const noTransitionStyles = css({
 });
 
 const handleAreaStyles = css({
-  h: '40px',
+  h: '24px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -130,6 +146,11 @@ export default function MapBottomSheet({
     setDragging(false);
   };
 
+  const sheetApi = useMemo(
+    () => ({ expand: () => setY(0), collapse: () => setY(getMax()) }),
+    [getMax],
+  );
+
   return (
     <div
       ref={ref}
@@ -145,7 +166,9 @@ export default function MapBottomSheet({
       >
         <div className={handleStyles} />
       </div>
-      <div className={contentStyles}>{children}</div>
+      <BottomSheetContext.Provider value={sheetApi}>
+        <div className={contentStyles}>{children}</div>
+      </BottomSheetContext.Provider>
     </div>
   );
 }

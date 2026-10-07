@@ -3,10 +3,11 @@ import {
   IconHeart,
   IconHeartFilled,
   IconSearch,
+  IconX,
 } from '@tabler/icons-react';
-import { useEffect, useId, useRef, useState } from 'react';
-import { css } from '../../../../styled-system/css';
-import { token } from '../../../../styled-system/tokens';
+import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { useBottomSheet } from '~/components/layouts/BottomSheet/BottomSheet';
+import { css, cx } from '../../../../styled-system/css';
 import {
   CATEGORY_OPTIONS,
   emptyCriteria,
@@ -14,6 +15,7 @@ import {
   SCHEDULE_OPTIONS,
   type ShopFilterCriteria,
 } from './filter';
+import { DAY_LABELS } from './labels';
 
 type ShopSearchBarProps = {
   criteria: ShopFilterCriteria;
@@ -21,7 +23,6 @@ type ShopSearchBarProps = {
   tagOptions: string[];
 };
 
-/** 配列要素のトグル（あれば外す / なければ足す） */
 function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value)
     ? list.filter((v) => v !== value)
@@ -29,43 +30,81 @@ function toggle<T>(list: T[], value: T): T[] {
 }
 
 function Chip({
-  label,
   active,
   onClick,
+  tone = 'accent',
+  children,
+  ...aria
 }: {
-  label: string;
   active: boolean;
   onClick: () => void;
+  tone?: 'accent' | 'favorite';
+  children: ReactNode;
+  'aria-expanded'?: boolean;
+  'aria-controls'?: string;
 }) {
   return (
     <button
       type="button"
-      aria-pressed={active}
+      aria-pressed={aria['aria-expanded'] === undefined ? active : undefined}
+      {...aria}
       onClick={onClick}
-      className={css({
-        flexShrink: 0,
-        px: '12px',
-        py: '5px',
-        borderRadius: '999px',
-        border: '1px solid',
-        borderColor: active ? 'accent' : 'border',
-        bg: active ? 'accent' : 'surface',
-        color: active ? 'surface' : 'fg.muted',
-        fontSize: '13px',
-        cursor: 'pointer',
-        transition: 'background 0.15s, color 0.15s, border-color 0.15s',
-      })}
+      className={cx(
+        chipClass,
+        active ? chipActiveClass[tone] : chipInactiveClass,
+      )}
     >
-      {label}
+      {children}
     </button>
   );
 }
+
+const chipClass = css({
+  flexShrink: 0,
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '4px',
+  h: '32px',
+  px: '12px',
+  borderRadius: '999px',
+  border: '1px solid',
+  fontSize: '13px',
+  fontWeight: 500,
+  whiteSpace: 'nowrap',
+  cursor: 'pointer',
+  transition: 'background 0.15s, color 0.15s, border-color 0.15s',
+});
+
+const chipInactiveClass = css({
+  borderColor: 'border',
+  bg: 'surface',
+  color: 'fg.muted',
+});
+
+const chipActiveClass = {
+  accent: css({
+    borderColor: 'accent.text',
+    bg: 'accent.text',
+    color: 'surface',
+  }),
+  favorite: css({ borderColor: 'favorite', bg: 'favorite', color: 'surface' }),
+};
+
+const dividerClass = css({
+  flexShrink: 0,
+  alignSelf: 'center',
+  w: '1px',
+  h: '20px',
+  bg: 'border',
+});
 
 export default function ShopSearchBar({
   criteria,
   onChange,
   tagOptions,
 }: ShopSearchBarProps) {
+  const sheet = useBottomSheet();
+
   // IME 変換中は value を外から書き換えると確定文字がダブるため、
   // 入力欄はローカル下書きで制御し、変換確定後にだけ URL 状態へ反映する。
   const [qDraft, setQDraft] = useState(criteria.q);
@@ -77,28 +116,9 @@ export default function ShopSearchBar({
     if (!composingRef.current) setQDraft(criteria.q);
   }, [criteria.q]);
 
-  const rowStyle = css({
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '8px',
-  });
-
-  const groupLabelStyle = css({
-    fontSize: '12px',
-    fontWeight: '500',
-    color: 'fg.subtle',
-  });
-
-  // フィルタ開閉の状態
-  const [filterOpen, setFilterOpen] = useState(false);
-  const filterPanelId = useId();
-
-  // 現在有効な絞り込み条件の件数（キーワード検索は含めない）。
-  const activeFilterCount =
-    criteria.categories.length +
-    criteria.days.length +
-    criteria.tags.length +
-    (criteria.favorite ? 1 : 0);
+  const [tagsOpen, setTagsOpen] = useState(false);
+  const tagPanelId = useId();
+  const canClear = hasActiveFilter(criteria) || criteria.q !== '';
 
   return (
     <div
@@ -109,29 +129,36 @@ export default function ShopSearchBar({
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        px: '12px',
-        py: '10px',
+        px: '16px',
+        pt: '4px',
+        pb: '8px',
         bg: 'sheet.background',
         borderBottom: '1px solid token(colors.border.subtle)',
       })}
     >
-      {/* あいまい検索 */}
-      <div
+      <label
         className={css({
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          px: '12px',
-          py: '8px',
-          borderRadius: '999px',
-          bg: 'accent.subtle',
+          h: '44px',
+          px: '14px',
+          borderRadius: '12px',
+          bg: 'border.subtle',
+          color: 'fg.subtle',
+          cursor: 'text',
+          _focusWithin: {
+            bg: 'surface',
+            outline: '2px solid token(colors.accent)',
+          },
         })}
       >
-        <IconSearch size={18} color={token('colors.fg.placeholder')} />
+        <IconSearch size={18} />
         <input
           type="search"
           value={qDraft}
-          placeholder="企画名・団体名で検索"
+          placeholder="企画名・団体名・場所で検索"
+          onFocus={sheet.expand}
           onChange={(e) => {
             const value = e.target.value;
             setQDraft(value);
@@ -152,248 +179,137 @@ export default function ShopSearchBar({
             border: 'none',
             outline: 'none',
             bg: 'transparent',
-            fontSize: '14px',
-            color: 'fg',
+            fontSize: '16px',
+            color: 'fg.strong',
             _placeholder: { color: 'fg.placeholder' },
+            '&::-webkit-search-cancel-button': { display: 'none' },
           })}
         />
-      </div>
-
-      {/* フィルタ開閉 */}
-      <div>
-        <div
-          className={css({
-            display: 'flex',
-            alignItems: 'center',
-            bg: 'accent.subtle',
-            borderRadius: filterOpen ? '8px 8px 0 0' : '8px',
-            border: '1px solid',
-            borderColor: 'border',
-            transition: 'border-radius 0.2s ease',
-            overflow: 'hidden',
-          })}
-        >
+        {qDraft !== '' && (
           <button
             type="button"
-            aria-expanded={filterOpen}
-            aria-controls={filterPanelId}
-            onClick={() => setFilterOpen((prev) => !prev)}
+            aria-label="検索キーワードを消す"
+            onClick={() => onChange({ ...criteria, q: '' })}
             className={css({
-              flex: 1,
-              minWidth: 0,
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              px: '12px',
-              py: '9px',
-              border: 'none',
-              bg: 'transparent',
+              p: '4px',
+              mr: '-4px',
+              color: 'fg.subtle',
               cursor: 'pointer',
-              color: 'fg.strong',
-              fontSize: '14px',
-              fontWeight: '500',
-              textAlign: 'left',
-              outline: 'none',
-              _hover: {
-                bg: 'rgba(0, 0, 0, 0.02)',
-              },
             })}
           >
-            <span
-              className={css({
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-              })}
-            >
-              <span>絞り込み</span>
-              {activeFilterCount > 0 && (
-                <span
-                  className={css({
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minWidth: '18px',
-                    height: '18px',
-                    px: '5px',
-                    borderRadius: '999px',
-                    bg: 'accent',
-                    color: 'surface',
-                    fontSize: '11px',
-                    fontWeight: '600',
-                  })}
-                >
-                  {activeFilterCount}
-                </span>
-              )}
-            </span>
-            <IconChevronDown
-              size={18}
-              className={css({
-                color: 'fg.subtle',
-                flexShrink: 0,
-                transition: 'transform 0.2s ease',
-                transform: filterOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-              })}
-            />
+            <IconX size={16} />
           </button>
-          {hasActiveFilter(criteria) && (
-            <button
-              type="button"
-              className={css({
-                flexShrink: 0,
-                border: 'none',
-                bg: 'transparent',
-                px: '12px',
-                py: '9px',
-                fontSize: '13px',
-                color: 'accent',
-                cursor: 'pointer',
-                fontWeight: '500',
-                outline: 'none',
-                _hover: { textDecoration: 'underline' },
-              })}
-              onClick={(e) => {
-                e.stopPropagation();
-                onChange({ ...emptyCriteria, q: criteria.q });
-              }}
-            >
-              クリア
-            </button>
-          )}
-        </div>
+        )}
+      </label>
 
+      <div
+        className={css({
+          display: 'flex',
+          gap: '8px',
+          mx: '-16px',
+          px: '16px',
+          overflowX: 'auto',
+          scrollbarWidth: 'none',
+          '&::-webkit-scrollbar': { display: 'none' },
+        })}
+      >
+        <Chip
+          tone="favorite"
+          active={criteria.favorite}
+          onClick={() =>
+            onChange({ ...criteria, favorite: !criteria.favorite })
+          }
+        >
+          {criteria.favorite ? (
+            <IconHeartFilled size={14} />
+          ) : (
+            <IconHeart size={14} />
+          )}
+          いいね
+        </Chip>
+        <span className={dividerClass} />
+        {SCHEDULE_OPTIONS.map((day) => (
+          <Chip
+            key={day}
+            active={criteria.days.includes(day)}
+            onClick={() =>
+              onChange({ ...criteria, days: toggle(criteria.days, day) })
+            }
+          >
+            {DAY_LABELS[day]}
+          </Chip>
+        ))}
+        <span className={dividerClass} />
+        {CATEGORY_OPTIONS.map((category) => (
+          <Chip
+            key={category}
+            active={criteria.categories.includes(category)}
+            onClick={() =>
+              onChange({
+                ...criteria,
+                categories: toggle(criteria.categories, category),
+              })
+            }
+          >
+            {category}
+          </Chip>
+        ))}
+        {tagOptions.length > 0 && (
+          <>
+            <span className={dividerClass} />
+            <Chip
+              active={criteria.tags.length > 0}
+              aria-expanded={tagsOpen}
+              aria-controls={tagPanelId}
+              onClick={() => setTagsOpen((open) => !open)}
+            >
+              タグ
+              {criteria.tags.length > 0 && ` ${criteria.tags.length}`}
+              <IconChevronDown
+                size={14}
+                className={css({ transition: 'transform 0.2s' })}
+                style={{ transform: tagsOpen ? 'rotate(180deg)' : undefined }}
+              />
+            </Chip>
+          </>
+        )}
+      </div>
+
+      {tagsOpen && (
         <div
-          id={filterPanelId}
+          id={tagPanelId}
+          className={css({ display: 'flex', flexWrap: 'wrap', gap: '8px' })}
+        >
+          {tagOptions.map((tag) => (
+            <Chip
+              key={tag}
+              active={criteria.tags.includes(tag)}
+              onClick={() =>
+                onChange({ ...criteria, tags: toggle(criteria.tags, tag) })
+              }
+            >
+              #{tag}
+            </Chip>
+          ))}
+        </div>
+      )}
+
+      {canClear && (
+        <button
+          type="button"
+          onClick={() => onChange(emptyCriteria)}
           className={css({
-            bg: 'surface',
-            px: '12px',
-            py: '12px',
-            gap: '12px',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            transition: 'all 0.25s ease',
-            maxHeight: filterOpen ? '500px' : '0',
-            border: '1px solid',
-            borderTop: 'none',
-            borderColor: 'border',
-            borderRadius: '0 0 8px 8px',
-            opacity: filterOpen ? 1 : 0,
+            alignSelf: 'flex-end',
+            fontSize: '12px',
+            color: 'accent.text',
+            fontWeight: 500,
+            cursor: 'pointer',
           })}
         >
-          {/* いいねのみ */}
-          <div className={rowStyle}>
-            <button
-              type="button"
-              aria-pressed={criteria.favorite}
-              onClick={() =>
-                onChange({ ...criteria, favorite: !criteria.favorite })
-              }
-              className={css({
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                flexShrink: 0,
-                px: '12px',
-                py: '5px',
-                borderRadius: '999px',
-                border: '1px solid',
-                borderColor: criteria.favorite ? 'favorite' : 'border',
-                bg: criteria.favorite ? 'favorite' : 'surface',
-                color: criteria.favorite ? 'surface' : 'fg.muted',
-                fontSize: '13px',
-                cursor: 'pointer',
-                transition: 'background 0.15s, color 0.15s, border-color 0.15s',
-              })}
-            >
-              {criteria.favorite ? (
-                <IconHeartFilled size={14} />
-              ) : (
-                <IconHeart size={14} />
-              )}
-              いいねのみ
-            </button>
-          </div>
-
-          {/* 開催日フィルタ */}
-          <div
-            className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '6px',
-            })}
-          >
-            <span className={groupLabelStyle}>開催日</span>
-            <div className={rowStyle}>
-              {SCHEDULE_OPTIONS.map((day) => (
-                <Chip
-                  key={day}
-                  label={day}
-                  active={criteria.days.includes(day)}
-                  onClick={() =>
-                    onChange({ ...criteria, days: toggle(criteria.days, day) })
-                  }
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* 分類フィルタ */}
-          <div
-            className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '6px',
-            })}
-          >
-            <span className={groupLabelStyle}>分類</span>
-            <div className={rowStyle}>
-              {CATEGORY_OPTIONS.map((category) => (
-                <Chip
-                  key={category}
-                  label={category}
-                  active={criteria.categories.includes(category)}
-                  onClick={() =>
-                    onChange({
-                      ...criteria,
-                      categories: toggle(criteria.categories, category),
-                    })
-                  }
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* タグフィルタ */}
-          {tagOptions.length > 0 && (
-            <div
-              className={css({
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '6px',
-              })}
-            >
-              <span className={groupLabelStyle}>タグ</span>
-              <div className={rowStyle}>
-                {tagOptions.map((tag) => (
-                  <Chip
-                    key={tag}
-                    label={tag}
-                    active={criteria.tags.includes(tag)}
-                    onClick={() =>
-                      onChange({
-                        ...criteria,
-                        tags: toggle(criteria.tags, tag),
-                      })
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+          条件をクリア
+        </button>
+      )}
     </div>
   );
 }

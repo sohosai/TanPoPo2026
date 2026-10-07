@@ -65,6 +65,9 @@ export default function OverButtons() {
         flexDirection: 'column',
         alignItems: 'center',
         userSelect: 'none',
+        // 閉じたメニュー分の高さもこの要素の当たり判定になり、下にあるシートの
+        // 閉じるボタン等へのタップを奪うため、コンテナ自体はタップを素通りさせる。
+        pointerEvents: 'none',
       })}
     >
       <button
@@ -74,6 +77,7 @@ export default function OverButtons() {
         aria-label="関連サイトメニュー"
         onClick={() => setOpen((prev) => !prev)}
         className={css({
+          pointerEvents: 'auto',
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -83,14 +87,13 @@ export default function OverButtons() {
           borderRadius: '9999px',
           border: '1px solid',
           borderColor: open ? 'transparent' : 'rgba(255, 255, 255, 0.7)',
-          backgroundColor: open ? '#4A93D7' : 'rgba(255, 255, 255, 0.82)',
-          color: open ? '#FFFFFF' : '#4A93D7',
+          backgroundColor: open ? 'accent' : 'rgba(255, 255, 255, 0.9)',
+          color: open ? 'surface' : 'accent.text',
           backdropFilter: 'blur(8px)',
 
           boxShadow: open
-            ? '0 4px 14px rgba(74, 147, 215, 0.35)'
+            ? '0 4px 14px rgba(59, 182, 182, 0.35)'
             : '0 2px 8px rgba(0, 0, 0, 0.12)',
-          fontFamily: 'Noto Sans JP, sans-serif',
           fontSize: '13px',
           fontWeight: '500',
           cursor: 'pointer',
@@ -98,7 +101,7 @@ export default function OverButtons() {
           transition:
             'background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease',
           '&:hover': {
-            backgroundColor: open ? '#3d82c4' : 'rgba(255, 255, 255, 0.95)',
+            backgroundColor: open ? 'accent.text' : 'surface',
           },
           '&:active': {
             transform: 'scale(0.95)',
@@ -155,8 +158,7 @@ export default function OverButtons() {
 
                 border: '1px solid rgba(255, 255, 255, 0.8)',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.14)',
-                color: '#4A93D7',
-                fontFamily: 'Noto Sans JP, sans-serif',
+                color: 'accent.text',
                 fontSize: '10px',
                 fontWeight: '600',
                 lineHeight: '1.2',
@@ -170,7 +172,7 @@ export default function OverButtons() {
                 transition:
                   'opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1), transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, box-shadow 0.15s ease',
                 '&:hover': {
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'surface',
                   boxShadow: '0 6px 16px rgba(0, 0, 0, 0.18)',
                   transform: 'scale(1.06) !important',
                 },
