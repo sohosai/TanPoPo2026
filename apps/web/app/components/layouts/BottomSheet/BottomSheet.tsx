@@ -11,24 +11,28 @@ import {
 } from 'react';
 import { css, cx } from '../../../../styled-system/css';
 
-// 畳んだ状態でも取っ手と検索欄（ShopSearchBar の1段目）が見える高さ。
-const peek = 78;
+/** 畳んだ状態でも取っ手と検索欄（ShopSearchBar の1段目）が見える高さ(px)。 */
+export const SHEET_PEEK = 78;
 const flingVelocity = 0.5;
 const rubberDim = 200;
 // initiallyRaised時、収納状態(max)からどこまで引き上げて開始するかの割合。小さいほど大きく開く。
 const raisedFraction = 0.4;
+// raise() で地図とシートを半々に見せるときの割合。
+const halfFraction = 0.5;
 
 interface MapBottomSheetProps {
   children?: ReactNode;
-  /** trueの場合、初期表示をpeekまで畳まず、ある程度引き上げた状態で開始する。 */
+  /** trueの場合、初期表示をSHEET_PEEKまで畳まず、ある程度引き上げた状態で開始する。 */
   initiallyRaised?: boolean;
 }
 
 const BottomSheetContext = createContext<{
   expand: () => void;
+  raise: () => void;
   collapse: () => void;
 }>({
   expand: () => {},
+  raise: () => {},
   collapse: () => {},
 });
 
@@ -103,7 +107,7 @@ export default function MapBottomSheet({
   const initiallyRaisedRef = useRef(initiallyRaised);
 
   const getMax = useCallback(
-    () => Math.max((ref.current?.offsetHeight ?? 0) - peek, 0),
+    () => Math.max((ref.current?.offsetHeight ?? 0) - SHEET_PEEK, 0),
     [],
   );
 
@@ -147,7 +151,11 @@ export default function MapBottomSheet({
   };
 
   const sheetApi = useMemo(
-    () => ({ expand: () => setY(0), collapse: () => setY(getMax()) }),
+    () => ({
+      expand: () => setY(0),
+      raise: () => setY(getMax() * halfFraction),
+      collapse: () => setY(getMax()),
+    }),
     [getMax],
   );
 

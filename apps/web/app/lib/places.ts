@@ -1,4 +1,4 @@
-import type { Place, Shop } from 'api';
+import type { Place, Shop, ShopLocation } from 'api';
 import { useMemo } from 'react';
 import { trpc } from '~/lib/trcp';
 
@@ -23,26 +23,56 @@ export function usePlaces() {
     byId,
     /** id から Place を取得 */
     getPlace: (id: string) => byId.get(id),
-    /** 店舗の代表的な場所ラベル（建物名＋部屋番号、例 "5C305"） */
+    /** 店舗の代表的な場所ラベル（例 "5C305"、複数あれば "1B208 ほか1か所"） */
     formatShopLocation: (shop: Shop) => formatShopLocation(shop, byId),
   };
 }
 
-/** 場所＋部屋番号を表示ラベルに整形する（建物名 + 部屋。部屋が無ければ場所名のみ）。 */
+/**
+ * 場所＋場所内の位置を表示ラベルに整形する。
+ * 部屋番号は続けて（"1B208"）、部屋名は空白を挟む（"6A エントランスホール"）。屋外ブースは場所名だけ（"石の広場周辺"）。
+ */
 export function formatLocation(
   place: Place | undefined,
   room?: string,
 ): string {
   if (!place) return '';
-  return room ? `${place.name}${room}` : place.name;
+  // 屋外のブース番号は配置用の内部的な番号なので、利用者には見せない。
+  if (!room || place.kind === 'outdoor') return place.name;
+  return /^\d/.test(room) ? `${place.name}${room}` : `${place.name} ${room}`;
 }
 
-/** 店舗の先頭の場所を表示ラベルに整形する。 */
+/** 店舗の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */
 export function formatShopLocation(
   shop: Shop,
   byId: ReadonlyMap<string, Place>,
 ): string {
-  const primary = shop.locations[0];
+  const [primary, ...rest] = shop.locations;
   if (!primary) return '';
-  return formatLocation(byId.get(primary.placeId), primary.room);
+  const label = formatLocation(byId.get(primary.placeId), primary.room);
+  return rest.length > 0 ? `${label} ほか${rest.length}か所` : label;
 }
+
+/** ある場所で実施する企画と、その場所での位置。 */
+export type PlaceEntry = { shop: Shop; location: ShopLocation };
+
+/** placeId ごとに、その場所で実施する企画をまとめる。 */
+export function groupShopsByPlace(shops: Shop[]): Map<string, PlaceEntry[]> {
+  const map = new Map<string, PlaceEntry[]>();
+  for (const shop of shops) {
+    for (const location of shop.locations) {
+      const entries = map.get(location.placeId);
+      if (entries) entries.push({ shop, location });
+      else map.set(location.placeId, [{ shop, location }]);
+    }
+  }
+  return map;
+}
+
+/** 企画の数。同じ企画が同じ場所の複数の部屋・ブースにまたがっても1件と数える。 */
+export const countShops = (entries: PlaceEntry[]) =>
+  new Set(entries.map(({ shop }) => shop.id)).size;
+
+/** 部屋番号・ブース番号を数字の大小で並べるための比較関数。 */
+export const compareRoom = (a = '', b = '') =>
+  a.localeCompare(b, 'ja', { numeric: true });

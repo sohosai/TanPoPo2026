@@ -1,0 +1,1561 @@
+{
+  "1": [
+    {
+      "placeId": "booth-g",
+      "room": "G1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "2": [
+    {
+      "placeId": "bldg-1e",
+      "room": "401",
+      "days": ["Day2"]
+    }
+  ],
+  "3": [
+    {
+      "placeId": "bldg-6a",
+      "room": "208（デザイン室）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "4": [
+    {
+      "placeId": "bldg-2c",
+      "room": "404",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "6": [
+    {
+      "placeId": "bldg-6a",
+      "room": "階段踊り場(2-3階)",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "10": [
+    {
+      "placeId": "booth-s",
+      "room": "S8",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "11": [
+    {
+      "placeId": "bldg-2b",
+      "room": "206",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-2b",
+      "room": "207",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "15": [
+    {
+      "placeId": "bldg-3a",
+      "room": "305",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-3a",
+      "room": "306",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "16": [
+    {
+      "placeId": "bldg-2a",
+      "room": "409",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "22": [
+    {
+      "placeId": "bldg-2b",
+      "room": "208",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "25": [
+    {
+      "placeId": "bldg-5c",
+      "room": "402",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "27": [
+    {
+      "placeId": "booth-t",
+      "room": "T4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "28": [
+    {
+      "placeId": "booth-m",
+      "room": "M9",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "31": [
+    {
+      "placeId": "bldg-3a",
+      "room": "304",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "33": [
+    {
+      "placeId": "bldg-1e",
+      "room": "303",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "46": [
+    {
+      "placeId": "bldg-6a",
+      "room": "階段踊り場(3-4階)",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "47": [
+    {
+      "placeId": "bldg-2d",
+      "room": "407",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "53": [
+    {
+      "placeId": "bldg-5c",
+      "room": "515",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "55": [
+    {
+      "placeId": "booth-c",
+      "room": "C2",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "56": [
+    {
+      "placeId": "bldg-6a",
+      "room": "401（書実習室）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6a",
+      "room": "402（書実習室）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6a",
+      "room": "403（書演習室）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6a",
+      "room": "404（書演習室）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6a",
+      "room": "405（書演習室）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "57": [
+    {
+      "placeId": "booth-e",
+      "room": "E4",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "59": [
+    {
+      "placeId": "booth-s",
+      "room": "S3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "60": [
+    {
+      "placeId": "booth-c",
+      "room": "C4",
+      "days": ["Day2"]
+    }
+  ],
+  "61": [
+    {
+      "placeId": "bldg-1b",
+      "room": "408",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "63": [
+    {
+      "placeId": "bldg-3a",
+      "room": "204",
+      "days": ["Day2"]
+    }
+  ],
+  "65": [
+    {
+      "placeId": "booth-m",
+      "room": "M2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "66": [
+    {
+      "placeId": "bldg-5c",
+      "room": "504",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "68": [
+    {
+      "placeId": "booth-q",
+      "room": "Q4",
+      "days": ["Day1"]
+    }
+  ],
+  "71": [
+    {
+      "placeId": "bldg-5c",
+      "room": "209",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "field-sekisho",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "72": [
+    {
+      "placeId": "bldg-6a",
+      "room": "305（視聴覚室）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "73": [
+    {
+      "placeId": "booth-s",
+      "room": "S5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "74": [
+    {
+      "placeId": "bldg-1d",
+      "room": "201",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "75": [
+    {
+      "placeId": "bldg-6a",
+      "room": "203（構成室）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "booth-s",
+      "room": "S7",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "76": [
+    {
+      "placeId": "bldg-5c",
+      "room": "302",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "77": [
+    {
+      "placeId": "bldg-3b",
+      "room": "302",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "78": [
+    {
+      "placeId": "booth-l",
+      "room": "L1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "80": [
+    {
+      "placeId": "bldg-5c",
+      "room": "406",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "82": [
+    {
+      "placeId": "booth-d",
+      "room": "D3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "83": [
+    {
+      "placeId": "booth-a",
+      "room": "A1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "84": [
+    {
+      "placeId": "bldg-5c",
+      "room": "412",
+      "days": ["Day2"]
+    }
+  ],
+  "86": [
+    {
+      "placeId": "bldg-2c",
+      "room": "407",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "88": [
+    {
+      "placeId": "bldg-6a",
+      "room": "105（版画室）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "89": [
+    {
+      "placeId": "bldg-3b",
+      "room": "303",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "90": [
+    {
+      "placeId": "booth-j",
+      "room": "J3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "91": [
+    {
+      "placeId": "bldg-1e",
+      "room": "401",
+      "days": ["Day1"]
+    }
+  ],
+  "94": [
+    {
+      "placeId": "bldg-3a",
+      "room": "312",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "96": [
+    {
+      "placeId": "booth-m",
+      "room": "M1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "97": [
+    {
+      "placeId": "bldg-3a",
+      "room": "203",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "99": [
+    {
+      "placeId": "booth-a",
+      "room": "A8",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "100": [
+    {
+      "placeId": "bldg-5c",
+      "room": "316",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "102": [
+    {
+      "placeId": "bldg-5c",
+      "room": "506",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "103": [
+    {
+      "placeId": "booth-s",
+      "room": "S1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "104": [
+    {
+      "placeId": "booth-m",
+      "room": "M13",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "105": [
+    {
+      "placeId": "booth-r",
+      "room": "R11",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "107": [
+    {
+      "placeId": "booth-r",
+      "room": "R4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "109": [
+    {
+      "placeId": "booth-s",
+      "room": "S2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "110": [
+    {
+      "placeId": "booth-s",
+      "room": "S6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "111": [
+    {
+      "placeId": "booth-e",
+      "room": "E6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "112": [
+    {
+      "placeId": "booth-h",
+      "room": "H2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "113": [
+    {
+      "placeId": "booth-j",
+      "room": "J1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "114": [
+    {
+      "placeId": "bldg-2a",
+      "room": "309",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "116": [
+    {
+      "placeId": "bldg-3b",
+      "room": "402",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "117": [
+    {
+      "placeId": "bldg-3b",
+      "room": "209",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "118": [
+    {
+      "placeId": "booth-h",
+      "room": "H3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "119": [
+    {
+      "placeId": "bldg-1e",
+      "room": "201",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "121": [
+    {
+      "placeId": "bldg-5c",
+      "room": "213",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-5c",
+      "room": "220",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "122": [
+    {
+      "placeId": "bldg-5c",
+      "room": "208",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "124": [
+    {
+      "placeId": "booth-a",
+      "room": "A2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "125": [
+    {
+      "placeId": "booth-m",
+      "room": "M3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "126": [
+    {
+      "placeId": "bldg-2b",
+      "room": "309",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "128": [
+    {
+      "placeId": "booth-r",
+      "room": "R2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "130": [
+    {
+      "placeId": "bldg-1b",
+      "room": "402",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "131": [
+    {
+      "placeId": "bldg-1c",
+      "room": "403",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "132": [
+    {
+      "placeId": "bldg-6a",
+      "room": "311（デザイン室）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6b",
+      "room": "401（日本画アトリエ）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6b",
+      "room": "402（日本画アトリエ）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6b",
+      "room": "403（日本画アトリエ）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "133": [
+    {
+      "placeId": "booth-a",
+      "room": "A9",
+      "days": ["Day1"]
+    }
+  ],
+  "136": [
+    {
+      "placeId": "bldg-6a",
+      "room": "212（T＋ギャラリー）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "137": [
+    {
+      "placeId": "bldg-1c",
+      "room": "405",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "139": [
+    {
+      "placeId": "bldg-2a",
+      "room": "410",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "140": [
+    {
+      "placeId": "booth-r",
+      "room": "R1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "141": [
+    {
+      "placeId": "bldg-1e",
+      "room": "402",
+      "days": ["Day1"]
+    }
+  ],
+  "142": [
+    {
+      "placeId": "booth-r",
+      "room": "R6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "145": [
+    {
+      "placeId": "bldg-1b",
+      "room": "410",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "148": [
+    {
+      "placeId": "booth-t",
+      "room": "T2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "149": [
+    {
+      "placeId": "booth-k",
+      "room": "K1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "150": [
+    {
+      "placeId": "booth-h",
+      "room": "H4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "151": [
+    {
+      "placeId": "booth-m",
+      "room": "M5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "153": [
+    {
+      "placeId": "booth-c",
+      "room": "C3",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "154": [
+    {
+      "placeId": "bldg-6a",
+      "room": "413（洋画アトリエ）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "155": [
+    {
+      "placeId": "bldg-1e",
+      "room": "203",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "156": [
+    {
+      "placeId": "booth-e",
+      "room": "E1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "157": [
+    {
+      "placeId": "booth-d",
+      "room": "D4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "158": [
+    {
+      "placeId": "bldg-library",
+      "room": "集会室",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "159": [
+    {
+      "placeId": "booth-h",
+      "room": "H5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "160": [
+    {
+      "placeId": "booth-k",
+      "room": "K2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "161": [
+    {
+      "placeId": "booth-d",
+      "room": "D5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "164": [
+    {
+      "placeId": "bldg-5c",
+      "room": "508",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "165": [
+    {
+      "placeId": "booth-l",
+      "room": "L2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "166": [
+    {
+      "placeId": "bldg-5c",
+      "room": "513",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "169": [
+    {
+      "placeId": "bldg-2c",
+      "room": "310",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "171": [
+    {
+      "placeId": "bldg-5c",
+      "room": "416",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "172": [
+    {
+      "placeId": "bldg-1b",
+      "room": "208",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-1b",
+      "room": "210",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "174": [
+    {
+      "placeId": "bldg-5c",
+      "room": "308",
+      "days": ["Day2"]
+    }
+  ],
+  "175": [
+    {
+      "placeId": "bldg-2d",
+      "room": "305",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "177": [
+    {
+      "placeId": "booth-q",
+      "room": "Q2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "178": [
+    {
+      "placeId": "booth-m",
+      "room": "M6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "182": [
+    {
+      "placeId": "booth-r",
+      "room": "R8",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "184": [
+    {
+      "placeId": "bldg-5c",
+      "room": "301",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "186": [
+    {
+      "placeId": "bldg-5c",
+      "room": "317",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "188": [
+    {
+      "placeId": "booth-d",
+      "room": "D6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "190": [
+    {
+      "placeId": "booth-t",
+      "room": "T6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "191": [
+    {
+      "placeId": "booth-s",
+      "room": "S4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "193": [
+    {
+      "placeId": "bldg-5c",
+      "room": "308",
+      "days": ["Day1"]
+    }
+  ],
+  "194": [
+    {
+      "placeId": "booth-r",
+      "room": "R10",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "195": [
+    {
+      "placeId": "bldg-3b",
+      "room": "405",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "196": [
+    {
+      "placeId": "booth-p",
+      "room": "P2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "199": [
+    {
+      "placeId": "bldg-3a",
+      "room": "204",
+      "days": ["Day1"]
+    }
+  ],
+  "200": [
+    {
+      "placeId": "bldg-2c",
+      "room": "107",
+      "days": ["Day1"]
+    }
+  ],
+  "204": [
+    {
+      "placeId": "bldg-3a",
+      "room": "301",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "209": [
+    {
+      "placeId": "booth-r",
+      "room": "R9",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "211": [
+    {
+      "placeId": "booth-a",
+      "room": "A4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "212": [
+    {
+      "placeId": "bldg-3b",
+      "room": "311",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "214": [
+    {
+      "placeId": "booth-j",
+      "room": "J2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "215": [
+    {
+      "placeId": "bldg-2a",
+      "room": "308",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "218": [
+    {
+      "placeId": "bldg-1b",
+      "room": "403",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "219": [
+    {
+      "placeId": "booth-d",
+      "room": "D7",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "220": [
+    {
+      "placeId": "bldg-3b",
+      "room": "203",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "221": [
+    {
+      "placeId": "bldg-6a",
+      "room": "エントランスホール",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6a",
+      "room": "308（プレゼンテーションルーム）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "222": [
+    {
+      "placeId": "booth-c",
+      "room": "C1",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "224": [
+    {
+      "placeId": "booth-k",
+      "room": "K3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "225": [
+    {
+      "placeId": "bldg-2c",
+      "room": "101",
+      "days": ["Day2"]
+    }
+  ],
+  "227": [
+    {
+      "placeId": "booth-d",
+      "room": "D8",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "228": [
+    {
+      "placeId": "booth-m",
+      "room": "M12",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "230": [
+    {
+      "placeId": "bldg-5c",
+      "room": "502",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "232": [
+    {
+      "placeId": "booth-c",
+      "room": "C4",
+      "days": ["前夜祭", "Day1"]
+    }
+  ],
+  "233": [
+    {
+      "placeId": "bldg-1e",
+      "room": "504",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-1e",
+      "room": "505",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-1e",
+      "room": "506",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "234": [
+    {
+      "placeId": "bldg-1e",
+      "room": "302",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "235": [
+    {
+      "placeId": "bldg-kaigaku",
+      "days": ["Day1"]
+    }
+  ],
+  "236": [
+    {
+      "placeId": "booth-a",
+      "room": "A9",
+      "days": ["Day2"]
+    }
+  ],
+  "237": [
+    {
+      "placeId": "booth-q",
+      "room": "Q3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "238": [
+    {
+      "placeId": "booth-q",
+      "room": "Q1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "239": [
+    {
+      "placeId": "booth-c",
+      "room": "C5",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "240": [
+    {
+      "placeId": "bldg-6a",
+      "room": "410-1（洋画アトリエ）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6a",
+      "room": "410-2（洋画アトリエ）",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-6a",
+      "room": "410-3（洋画アトリエ）",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "241": [
+    {
+      "placeId": "bldg-2c",
+      "room": "409",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-2c",
+      "room": "410",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "243": [
+    {
+      "placeId": "booth-r",
+      "room": "R7",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "246": [
+    {
+      "placeId": "bldg-1e",
+      "room": "501",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "247": [
+    {
+      "placeId": "bldg-2d",
+      "room": "307",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "248": [
+    {
+      "placeId": "booth-g",
+      "room": "G3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "249": [
+    {
+      "placeId": "booth-j",
+      "room": "J4",
+      "days": ["Day1"]
+    }
+  ],
+  "252": [
+    {
+      "placeId": "booth-r",
+      "room": "R5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "253": [
+    {
+      "placeId": "bldg-3b",
+      "room": "304",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-3b",
+      "room": "305",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "254": [
+    {
+      "placeId": "booth-e",
+      "room": "E5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "255": [
+    {
+      "placeId": "booth-m",
+      "room": "M10",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "256": [
+    {
+      "placeId": "bldg-1e",
+      "room": "204",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-1e",
+      "room": "205",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "257": [
+    {
+      "placeId": "booth-t",
+      "room": "T1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "258": [
+    {
+      "placeId": "booth-g",
+      "room": "G5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "262": [
+    {
+      "placeId": "bldg-1e",
+      "room": "202",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "267": [
+    {
+      "placeId": "bldg-5c",
+      "room": "501",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "268": [
+    {
+      "placeId": "bldg-1c",
+      "room": "310",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "271": [
+    {
+      "placeId": "booth-n",
+      "room": "N2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "272": [
+    {
+      "placeId": "booth-l",
+      "room": "L3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "273": [
+    {
+      "placeId": "bldg-2b",
+      "room": "507",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "274": [
+    {
+      "placeId": "bldg-5c",
+      "room": "404",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "276": [
+    {
+      "placeId": "bldg-3a",
+      "room": "202",
+      "days": ["Day1"]
+    }
+  ],
+  "277": [
+    {
+      "placeId": "booth-h",
+      "room": "H1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "278": [
+    {
+      "placeId": "booth-f",
+      "room": "F3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "279": [
+    {
+      "placeId": "booth-g",
+      "room": "G4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "280": [
+    {
+      "placeId": "booth-c",
+      "room": "C6",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "281": [
+    {
+      "placeId": "booth-f",
+      "room": "F4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "282": [
+    {
+      "placeId": "booth-a",
+      "room": "A7",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "283": [
+    {
+      "placeId": "booth-c",
+      "room": "C7",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "285": [
+    {
+      "placeId": "booth-a",
+      "room": "A6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "286": [
+    {
+      "placeId": "booth-q",
+      "room": "Q5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "287": [
+    {
+      "placeId": "bldg-5c",
+      "room": "403",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "288": [
+    {
+      "placeId": "booth-m",
+      "room": "M15",
+      "days": ["Day1"]
+    }
+  ],
+  "289": [
+    {
+      "placeId": "booth-m",
+      "room": "M11",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "290": [
+    {
+      "placeId": "booth-m",
+      "room": "M14",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "291": [
+    {
+      "placeId": "booth-m",
+      "room": "M4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "293": [
+    {
+      "placeId": "booth-a",
+      "room": "A5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "298": [
+    {
+      "placeId": "bldg-2c",
+      "room": "403",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "299": [
+    {
+      "placeId": "booth-t",
+      "room": "T3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "301": [
+    {
+      "placeId": "booth-p",
+      "room": "P3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "304": [
+    {
+      "placeId": "booth-f",
+      "room": "F1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "305": [
+    {
+      "placeId": "booth-g",
+      "room": "G2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "306": [
+    {
+      "placeId": "booth-d",
+      "room": "D2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "307": [
+    {
+      "placeId": "bldg-5c",
+      "room": "411",
+      "days": ["Day1"]
+    }
+  ],
+  "308": [
+    {
+      "placeId": "booth-k",
+      "room": "K4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "309": [
+    {
+      "placeId": "booth-n",
+      "room": "N1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "311": [
+    {
+      "placeId": "bldg-1e",
+      "room": "503",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "312": [
+    {
+      "placeId": "booth-f",
+      "room": "F2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "315": [
+    {
+      "placeId": "bldg-2b",
+      "room": "508",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "316": [
+    {
+      "placeId": "bldg-5c",
+      "room": "401",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "317": [
+    {
+      "placeId": "booth-t",
+      "room": "T5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "318": [
+    {
+      "placeId": "booth-d",
+      "room": "D1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "319": [
+    {
+      "placeId": "booth-b",
+      "room": "B1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "320": [
+    {
+      "placeId": "booth-r",
+      "room": "R3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "321": [
+    {
+      "placeId": "booth-p",
+      "room": "P4",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "322": [
+    {
+      "placeId": "booth-b",
+      "room": "B2",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "323": [
+    {
+      "placeId": "bldg-1b",
+      "room": "404",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "324": [
+    {
+      "placeId": "booth-c",
+      "room": "C8",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "326": [
+    {
+      "placeId": "booth-q",
+      "room": "Q6",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "327": [
+    {
+      "placeId": "booth-e",
+      "room": "E2",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "328": [
+    {
+      "placeId": "bldg-5c",
+      "room": "108",
+      "days": ["Day2"]
+    }
+  ],
+  "330": [
+    {
+      "placeId": "booth-p",
+      "room": "P1",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "332": [
+    {
+      "placeId": "booth-k",
+      "room": "K5",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "333": [
+    {
+      "placeId": "booth-a",
+      "room": "A3",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "337": [
+    {
+      "placeId": "booth-m",
+      "room": "M7",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "339": [
+    {
+      "placeId": "booth-m",
+      "room": "M8",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "340": [
+    {
+      "placeId": "booth-e",
+      "room": "E3",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ]
+}

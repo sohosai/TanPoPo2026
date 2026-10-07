@@ -5,7 +5,8 @@
  *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
- *  - 店舗の場所参照（apps/api: shop.list） … locations[].placeId が存在するか
+ *  - 企画実施場所（apps/api/data/shop-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
+ *  - 店舗の場所参照（apps/api: shop.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
  *  - 座標が [経度, 緯度] の順かどうか（緯度経度の取り違え検出）
  *
  * 実行: bun run scripts/validate-map-data.ts
@@ -19,6 +20,7 @@ import { createMapDataCaller } from './api-caller';
 const PLACE_KINDS = [
   'building',
   'stage',
+  'outdoor',
   'bus_stop',
   'information',
   'parking',
@@ -241,10 +243,12 @@ async function main() {
     }
   }
 
+  checkShopLocations(placeById);
+
   // ---- 4. 店舗の場所参照 ----
   for (const shop of shops) {
     if (!shop.locations || shop.locations.length === 0) {
-      warn(`shop ${shop.id} (${shop.name}): locations が空`);
+      err(`shop ${shop.id} (${shop.name}): locations が空（実施場所が未登録）`);
       continue;
     }
     for (const loc of shop.locations) {
@@ -272,6 +276,56 @@ async function main() {
     `\n検証失敗: ${errors.length} 件のエラー、${warnings.length} 件の警告。`,
   );
   process.exit(1);
+}
+
+const SCHEDULE_DAYS = ['前夜祭', 'Day1', 'Day2'];
+
+type LocationRecord = { placeId: string; room?: string; days: string[] };
+
+function readData<T>(path: string): T {
+  return JSON.parse(readFileSync(join(import.meta.dir, '..', path), 'utf-8'));
+}
+
+function checkLocation(
+  number: string,
+  { placeId, room, days }: LocationRecord,
+  placeById: ReadonlyMap<string, unknown>,
+  boothShapes: ReadonlySet<string>,
+) {
+  if (!placeById.has(placeId)) {
+    err(`shop-locations ${number}: placeId が存在しない: ${placeId}`);
+  }
+  if (placeId.startsWith('booth-') && !(room && boothShapes.has(room))) {
+    err(
+      `shop-locations ${number}: ブースのテントの形が無い: ${room ?? '(番号なし)'}`,
+    );
+  }
+  if (days.length === 0 || days.some((d) => !SCHEDULE_DAYS.includes(d))) {
+    err(`shop-locations ${number}: 実施日が不正: ${JSON.stringify(days)}`);
+  }
+}
+
+function checkShopLocations(placeById: ReadonlyMap<string, unknown>) {
+  const data = readData<Record<string, LocationRecord[]>>(
+    'apps/api/data/shop-locations.json',
+  );
+  const booths = readData<{
+    features: {
+      properties: { booth: string };
+      geometry: { coordinates: Position[][] };
+    }[];
+  }>('apps/web/app/components/features/Map/data/booths.geojson').features;
+  for (const { properties, geometry } of booths) {
+    if (!geometry.coordinates[0].every(inBbox)) {
+      err(`booths.geojson ${properties.booth}: 座標が範囲外（取り違え?）`);
+    }
+  }
+  const boothShapes = new Set(booths.map(({ properties }) => properties.booth));
+  for (const [number, locations] of Object.entries(data)) {
+    for (const location of locations) {
+      checkLocation(number, location, placeById, boothShapes);
+    }
+  }
 }
 
 main().catch((e) => {

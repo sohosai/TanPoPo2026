@@ -166,6 +166,10 @@ export default defineConfig({
     'button, input, textarea': {
       fontFamily: 'inherit',
     },
+    // 現在地は MapControls の独自ボタンから操作するため、MapLibre 標準のボタンは出さない。
+    '.maplibregl-ctrl-group:has(> .maplibregl-ctrl-geolocate)': {
+      display: 'none',
+    },
   },
 
   // The output directory for your css system

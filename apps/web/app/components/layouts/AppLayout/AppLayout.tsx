@@ -1,5 +1,7 @@
 import { Outlet, useSearchParams } from 'react-router';
+import CampusLayers from '~/components/features/Map/CampusLayers';
 import { MapProvider } from '~/components/features/Map/MapController';
+import MapControls from '~/components/features/Map/MapControls';
 import MapView from '~/components/features/Map/View';
 import OverButtons from '~/components/features/OverButtons/OverButtons';
 import MapBottomSheet from '~/components/layouts/BottomSheet/BottomSheet';
@@ -16,6 +18,8 @@ export default function AppLayout() {
       <div>
         <OverButtons />
         <MapView />
+        <CampusLayers />
+        <MapControls />
 
         <MapBottomSheet initiallyRaised={openedWithSearch}>
           <Outlet />

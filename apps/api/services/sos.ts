@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import shopLocationsJson from '../data/shop-locations.json';
 import type {
   ScheduleDay,
   Shop,
@@ -30,6 +31,7 @@ const SosPublicProjectSchema = z.object({
   type: z.enum(['STAGE', 'FOOD', 'NORMAL']),
   location: z.enum(['INDOOR', 'OUTDOOR', 'STAGE']),
   publicInfo: SosPublicInfoSchema,
+  customFields: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
 const SosPublicProjectListSchema = z.array(SosPublicProjectSchema);
@@ -49,18 +51,51 @@ function mapCategory(type: 'STAGE' | 'FOOD' | 'NORMAL'): ShopCategory {
   }
 }
 
-function mapLocations(
-  location: 'INDOOR' | 'OUTDOOR' | 'STAGE',
-): ShopLocation[] {
-  switch (location) {
-    case 'STAGE':
-      return [{ placeId: 'stage-united' }];
-    case 'INDOOR':
-      return [{ placeId: 'bldg-2c' }];
-    case 'OUTDOOR':
-    default:
-      return [{ placeId: 'bldg-1a' }];
-  }
+const SCHEDULE_DAYS = [
+  '前夜祭',
+  'Day1',
+  'Day2',
+] as const satisfies ScheduleDay[];
+
+// 企画番号 → 実施場所。scripts/import-shop-locations.ts で企画実施場所一覧から生成する。
+const SHOP_LOCATIONS: Record<string, ShopLocation[]> = z
+  .record(
+    z.string(),
+    z.array(
+      z.object({
+        placeId: z.string(),
+        room: z.string().optional(),
+        days: z.array(z.enum(SCHEDULE_DAYS)),
+      }),
+    ),
+  )
+  .parse(shopLocationsJson);
+
+// ステージ企画の会場は、SOS のカスタム項目に入る略称で決まる。
+const STAGE_FIELD = 'ステージ実施場所 確定';
+const STAGE_PLACE_IDS: Record<string, string> = {
+  '1A': 'stage-1a',
+  UNI: 'stage-united',
+  '会館（講堂）': 'stage-kaikan-kodo',
+  '会館（ホール）': 'stage-kaikan-hall',
+};
+
+/** 企画の実施場所を返す。分からない企画は空配列（表示上は「未定」）。 */
+function mapLocations(project: SosPublicProject): ShopLocation[] {
+  const listed = SHOP_LOCATIONS[project.number];
+  if (listed) return listed;
+  const stage = project.customFields?.[STAGE_FIELD];
+  const placeId =
+    typeof stage === 'string' ? STAGE_PLACE_IDS[stage] : undefined;
+  return placeId ? [{ placeId }] : [];
+}
+
+/** 実施場所ごとの実施日を合わせた、企画全体の実施日。日付の分からない企画は本祭2日間とする。 */
+function scheduleOf(locations: ShopLocation[]): ScheduleDay[] {
+  const days = new Set(locations.flatMap((location) => location.days ?? []));
+  return days.size > 0
+    ? SCHEDULE_DAYS.filter((day) => days.has(day))
+    : ['Day1', 'Day2'];
 }
 
 function mapTags(
@@ -93,13 +128,14 @@ function formatShopNumber(number: number): string {
 
 function mapToShop(project: SosPublicProject, baseUrl: string): Shop {
   const { iconFileId } = project.publicInfo;
+  const locations = mapLocations(project);
   return {
     id: project.id,
     number: formatShopNumber(project.number),
     name: project.name,
     organization: project.organizationName,
-    locations: mapLocations(project.location),
-    schedule: ['Day1', 'Day2'] as ScheduleDay[], // スケジュールはTanPoPo側で一律設定
+    locations,
+    schedule: scheduleOf(locations),
     category: mapCategory(project.type),
     tags: mapTags(project.type, project.location),
     thumbnail: iconFileId ? toShopImage(baseUrl, iconFileId) : undefined,

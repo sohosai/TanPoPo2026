@@ -11,7 +11,7 @@
 | 属性 | `apps/api/trpc/routers/place.ts` | id / 名前 / 種別 / 代表点。`place.list` で配信 | `Place.id` |
 | 建物ジオメトリ | `apps/web/app/components/features/Map/data/buildings.geojson` | 建物ポリゴン | `properties.placeId` |
 | 入口/接続路 | `apps/web/app/components/features/Map/data/path-network.geojson` | 通路網。`kind:"entrance"` の feature が建物への接続路 | `properties.placeId` |
-| 店舗の紐付け | `apps/api/trpc/routers/shop.ts` | `Shop.locations[].placeId`（建物）＋ `room`（表示） | `placeId` |
+| 店舗の紐付け | `apps/api/data/shop-locations.json` | 企画番号ごとの `placeId` ＋ `room` ＋ 実施日。詳細は [shop-locations.md](./shop-locations.md) | `placeId` |
 
 
 ## 各データの構造
@@ -20,7 +20,7 @@
 
 ```ts
 type PlaceKind =
-  | 'building' | 'stage' | 'bus_stop'
+  | 'building' | 'stage' | 'outdoor' | 'bus_stop'
   | 'information' | 'parking' | 'trash';
 
 type Place = {
@@ -77,7 +77,7 @@ type Place = {
 place.ts ──place.list──> usePlaces() ──> 一覧/詳細/検索/地図フォーカス
       ▲ placeId
 buildings.geojson / path-network.geojson(ジオメトリ・入口) ─┘ placeId で結合
-shop.ts: Shop.locations[{ placeId, room }] ──────────────────┘
+shop-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
 ```
 
 ## 建物を追加する手順
@@ -116,17 +116,14 @@ shop.ts: Shop.locations[{ placeId, room }] ────────────�
    }
    ```
 
-5. **店舗を紐付ける**（必要なら） — `apps/api/trpc/routers/shop.ts` の `Shop.locations` で参照する。
-
-   ```ts
-   locations: [{ placeId: 'bldg-7a', room: '101' }]
-   ```
+5. **企画を紐付ける**（必要なら） — 企画実施場所一覧の「場所」に `7A101` のように書かれていれば、
+   取り込みスクリプトが `{ placeId: 'bldg-7a', room: '101' }` に変換する（[shop-locations.md](./shop-locations.md)）。
 
 6. **確認**
    - データ整合性: `bun run check:map-data`（id 重複・placeId 参照切れ・座標の取り違え・通路の連結性などを検査）
    - 型チェック: `bun run check`
    - 目視: `bun run dev` → `http://localhost:5173/?debug` で建物・入口が表示されるか
-   - 検索: 建物名（"7A"）でヒットするか。部屋番号（"101"）は検索対象外（表示専用）。
+   - 検索: 建物名（"7A"）や表示ラベル（"7A101"）でヒットするか。
 
 ## 注意点
 

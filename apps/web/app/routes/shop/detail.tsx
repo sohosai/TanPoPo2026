@@ -4,9 +4,13 @@ import {
   IconMapPin,
   IconX,
 } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router';
-import { useMap } from '~/components/features/Map/MapController';
+import { boothCenter } from '~/components/features/Map/booths';
+import {
+  BOOTH_FOCUS_ZOOM,
+  useMap,
+} from '~/components/features/Map/MapController';
 import CarouselButton from '~/components/features/Shop/CarouselButton';
 import FavoriteButton from '~/components/features/Shop/FavoriteButton';
 import ImageViewer from '~/components/features/Shop/ImageViewer';
@@ -18,16 +22,16 @@ import ShopIcon from '~/components/features/Shop/ShopIcon';
 import ShopLinks from '~/components/features/Shop/ShopLinks';
 import { useBottomSheet } from '~/components/layouts/BottomSheet/BottomSheet';
 import { useFavorites } from '~/lib/favorites';
-import { usePlaces } from '~/lib/places';
+import { formatLocation, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trcp';
 import { css, cx } from '../../../styled-system/css';
 
 /** 場所・日程。未確定の項目は「未定」と表示する。 */
 function ShopFacts({
-  location,
+  locations,
   schedule,
 }: {
-  location: string;
+  locations: string[];
   schedule: string;
 }) {
   return (
@@ -65,7 +69,15 @@ function ShopFacts({
           <IconMapPin size={16} />
           場所
         </dt>
-        <dd>{location || '未定'}</dd>
+        <dd>
+          {locations.length > 0
+            ? locations.map((label) => (
+                <span key={label} className={css({ display: 'block' })}>
+                  {label}
+                </span>
+              ))
+            : '未定'}
+        </dd>
       </div>
       <div>
         <dt>
@@ -90,8 +102,8 @@ export default function Detail() {
   );
 
   const { isFavorite, toggle } = useFavorites();
-  const { formatShopLocation, byId: placesById } = usePlaces();
-  const { focusPlace, highlight } = useMap();
+  const { byId: placesById } = usePlaces();
+  const { flyTo, focusPoint, highlight } = useMap();
   const sheet = useBottomSheet();
   const favorite = shop !== undefined && isFavorite(shop.id);
   const [imageIndex, setImageIndex] = useState(0);
@@ -105,13 +117,20 @@ export default function Detail() {
   };
 
   // 詳細を開いたら、紐づく場所へ地図をフォーカスする（シートの外の地図を統一APIで操作）。
-  const primaryPlaceId = shop?.locations[0]?.placeId;
+  // 屋外ブースはテント列の代表点ではなく、テントそのものの位置へ、形が見えるところまで寄せる。
+  // テントは地図上で枠線で強調されるため、テントを隠してしまうピンは立てない。
+  const primaryLocation = shop?.locations[0];
+  const primaryPlace = placesById.get(primaryLocation?.placeId ?? '');
+  const boothPoint = boothCenter(primaryPlace, primaryLocation?.room);
+  const placePoint = primaryPlace?.point;
+  const focusShop = useCallback(() => {
+    if (boothPoint) flyTo(boothPoint, { zoom: BOOTH_FOCUS_ZOOM });
+    else if (placePoint) focusPoint(placePoint);
+  }, [boothPoint, placePoint, flyTo, focusPoint]);
   useEffect(() => {
-    if (!primaryPlaceId) return;
-    const place = placesById.get(primaryPlaceId);
-    if (place) focusPlace(place);
+    focusShop();
     return () => highlight(null);
-  }, [primaryPlaceId, placesById, focusPlace, highlight]);
+  }, [focusShop, highlight]);
 
   if (status === 'pending') {
     return <p className={css({ p: '16px' })}>読み込み中...</p>;
@@ -126,8 +145,7 @@ export default function Detail() {
   if (!shop) return null;
 
   const showOnMap = () => {
-    const place = primaryPlaceId ? placesById.get(primaryPlaceId) : undefined;
-    if (place) focusPlace(place);
+    focusShop();
     sheet.collapse();
   };
 
@@ -232,7 +250,22 @@ export default function Detail() {
       )}
 
       <ShopFacts
-        location={formatShopLocation(shop)}
+        locations={[
+          // 屋外ブースは場所名だけを出すため、同じ表示になる場所は1行にまとめる。
+          ...new Set(
+            shop.locations.map((location) => {
+              const label = formatLocation(
+                placesById.get(location.placeId),
+                location.room,
+              );
+              // 日によって場所が変わる企画では、その場所で実施する日を添える。
+              return location.days &&
+                location.days.length < shop.schedule.length
+                ? `${label}（${formatSchedule(location.days)}）`
+                : label;
+            }),
+          ),
+        ]}
         schedule={formatSchedule(shop.schedule)}
       />
 

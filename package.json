@@ -7,6 +7,7 @@
     "db:reset": "bun run --cwd apps/api db:reset",
     "check": "turbo run check-types",
     "check:map-data": "bun run scripts/validate-map-data.ts",
+    "import:shop-locations": "bun run scripts/import-shop-locations.ts",
     "ingest:osm": "bun run scripts/ingest-osm.ts",
     "merge:osm": "bun run scripts/merge-osm.ts",
     "clean": "turbo run clean && rm -rf .turbo",
@@ -20,7 +21,8 @@
     "@biomejs/biome": "2.4.11",
     "prettier": "^3.8.2",
     "turbo": "^2.9.5",
-    "typescript": "6.0.2"
+    "typescript": "6.0.2",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "engines": {
     "node": ">=18"

@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { css } from '../../../../styled-system/css';
 import { addDebugLayers } from './debugLayers';
-import { useMap } from './MapController';
+import { INITIAL_VIEW, useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
 
 export default function View() {
@@ -16,6 +16,14 @@ export default function View() {
     const instance = new maplibregl.Map({
       container: mapContainer.current,
       style: sohosaiMap as unknown as StyleSpecification,
+      // maxBounds を渡すと既定の中心 [0, 0] が範囲の端に寄せられ、スタイルの中心が使われなくなるため明示する。
+      ...INITIAL_VIEW,
+      // 会場の外まで迷い出ないよう、キャンパス周辺に動かせる範囲を絞る。
+      maxBounds: [
+        [140.07, 36.08],
+        [140.135, 36.135],
+      ],
+      minZoom: 14,
     });
     map.current = instance;
     // 統一操作 API から参照できるよう登録する。

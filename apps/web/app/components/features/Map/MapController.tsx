@@ -10,6 +10,7 @@ import {
   useState,
 } from 'react';
 import { token } from '../../../../styled-system/tokens';
+import sohosaiMap from './sohosai-map.json';
 
 export type LngLat = [number, number];
 
@@ -49,9 +50,20 @@ export type MapController = {
   ) => void;
   /** ハイライトマーカーを置く（null で消す） */
   highlight: (point: LngLat | null) => void;
+  /** 地図を初期表示（会場全体）に戻す */
+  resetView: () => void;
 };
 
-const DEFAULT_FOCUS_ZOOM = 18;
+/** 地図の初期表示（会場全体）。地図スタイルの中心とズームに合わせる。 */
+export const INITIAL_VIEW = {
+  center: sohosaiMap.center as LngLat,
+  zoom: sohosaiMap.zoom,
+};
+
+// 周りの建物も見える程度に引いておく。
+const DEFAULT_FOCUS_ZOOM = 17.3;
+/** 屋外ブースに寄せるときのズーム。テントの形が見える（地図がテントを描き始める 18 より寄った）ところ。 */
+export const BOOTH_FOCUS_ZOOM = 18.5;
 const DEFAULT_DURATION = 800;
 // 下部シートに隠れないよう、フォーカス点を画面上方へ寄せる既定オフセット。
 const DEFAULT_OFFSET: [number, number] = [0, -120];
@@ -138,6 +150,16 @@ export function MapProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const resetView = useCallback(() => {
+    mapRef.current?.flyTo({
+      center: INITIAL_VIEW.center,
+      zoom: INITIAL_VIEW.zoom,
+      bearing: 0,
+      pitch: 0,
+      duration: DEFAULT_DURATION,
+    });
+  }, []);
+
   const value = useMemo<MapController>(
     () => ({
       isReady,
@@ -149,6 +171,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
       focusPlace,
       fitToPoints,
       highlight,
+      resetView,
     }),
     [
       isReady,
@@ -159,6 +182,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
       focusPlace,
       fitToPoints,
       highlight,
+      resetView,
     ],
   );
 
