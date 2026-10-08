@@ -15,7 +15,7 @@ const CACHE_BUSTER = '4';
 
 // ログイン状態や投票結果などユーザー固有のデータを永続化すると、ログアウト後や
 // 端末の共用時に別人の状態が表示されうるため、全員共通の公開データだけを保存する。
-const PERSISTED_ROUTERS = new Set(['shop', 'place']);
+const PERSISTED_ROUTERS = new Set(['project', 'place']);
 
 const indexedDbPersister = createAsyncStoragePersister({
   storage: {

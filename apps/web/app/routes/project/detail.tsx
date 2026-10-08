@@ -12,16 +12,16 @@ import {
   BOOTH_FOCUS_ZOOM,
   useMap,
 } from '~/components/features/Map/MapController';
-import CarouselButton from '~/components/features/Shop/CarouselButton';
-import FavoriteButton from '~/components/features/Shop/FavoriteButton';
-import ImageViewer from '~/components/features/Shop/ImageViewer';
+import CarouselButton from '~/components/features/Project/CarouselButton';
+import FavoriteButton from '~/components/features/Project/FavoriteButton';
+import ImageViewer from '~/components/features/Project/ImageViewer';
 import {
   badgeClass,
   CATEGORY_COLOR_CLASS,
   formatSchedule,
-} from '~/components/features/Shop/labels';
-import ShopIcon from '~/components/features/Shop/ShopIcon';
-import ShopLinks from '~/components/features/Shop/ShopLinks';
+} from '~/components/features/Project/labels';
+import ProjectIcon from '~/components/features/Project/ProjectIcon';
+import ProjectLinks from '~/components/features/Project/ProjectLinks';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { useFavorites } from '~/lib/favorites';
 import { formatLocation, usePlaces } from '~/lib/places';
@@ -29,7 +29,7 @@ import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
 /** 場所・日程。未確定の項目は「未定」と表示する。 */
-function ShopFacts({
+function ProjectFacts({
   locations,
   schedule,
 }: {
@@ -95,10 +95,10 @@ function ShopFacts({
 export default function Detail() {
   const { number } = useParams();
   const {
-    data: shop,
+    data: project,
     status,
     isError,
-  } = trpc.shop.detail.useQuery(
+  } = trpc.project.detail.useQuery(
     { number: number ?? '' },
     { enabled: number !== undefined },
   );
@@ -107,7 +107,7 @@ export default function Detail() {
   const { byId: placesById } = usePlaces();
   const { flyTo, focusPoint, highlight } = useMap();
   const panel = useMapPanel();
-  const favorite = shop !== undefined && isFavorite(shop.id);
+  const favorite = project !== undefined && isFavorite(project.id);
   const [imageIndex, setImageIndex] = useState(0);
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -122,33 +122,33 @@ export default function Detail() {
   // 詳細を開いたら、紐づく場所へ地図をフォーカスする（シートの外の地図を統一APIで操作）。
   // 屋外ブースはテント列の代表点ではなく、テントそのものの位置へ、形が見えるところまで寄せる。
   // テントは地図上で枠線で強調されるため、テントを隠してしまうピンは立てない。
-  const primaryLocation = shop?.locations[0];
+  const primaryLocation = project?.locations[0];
   const primaryPlace = placesById.get(primaryLocation?.placeId ?? '');
   const boothPoint = boothCenter(primaryPlace, primaryLocation?.room);
   const placePoint = primaryPlace?.point;
-  const focusShop = useCallback(() => {
+  const focusProject = useCallback(() => {
     if (boothPoint) flyTo(boothPoint, { zoom: BOOTH_FOCUS_ZOOM });
     else if (placePoint) focusPoint(placePoint);
   }, [boothPoint, placePoint, flyTo, focusPoint]);
   useEffect(() => {
-    focusShop();
+    focusProject();
     return () => highlight(null);
-  }, [focusShop, highlight]);
+  }, [focusProject, highlight]);
 
   if (status === 'pending') {
     return <p className={css({ p: '16px' })}>読み込み中...</p>;
   }
 
-  if (isError && !shop) {
+  if (isError && !project) {
     return (
       <p className={css({ p: '16px' })}>店舗情報を取得できませんでした。</p>
     );
   }
 
-  if (!shop) return null;
+  if (!project) return null;
 
   const showOnMap = () => {
-    focusShop();
+    focusProject();
     panel.collapse();
   };
 
@@ -173,7 +173,7 @@ export default function Detail() {
           pt: '2px',
         })}
       >
-        <ShopIcon shop={shop} size={48} />
+        <ProjectIcon project={project} size={48} />
 
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
@@ -185,7 +185,7 @@ export default function Detail() {
               wordBreak: 'break-all',
             })}
           >
-            {shop.name}
+            {project.name}
           </h1>
           <p
             className={css({
@@ -201,19 +201,21 @@ export default function Detail() {
               className={cx(
                 badgeClass,
                 css({ flexShrink: 0, fontSize: '11px' }),
-                CATEGORY_COLOR_CLASS[shop.category],
+                CATEGORY_COLOR_CLASS[project.category],
               )}
             >
-              {shop.category}
+              {project.category}
             </span>
-            <span className={css({ truncate: true })}>{shop.organization}</span>
+            <span className={css({ truncate: true })}>
+              {project.organization}
+            </span>
           </p>
         </div>
 
         <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
-      {shop.cancelled && (
+      {project.cancelled && (
         <p
           className={css({
             mx: '16px',
@@ -231,34 +233,34 @@ export default function Detail() {
         </p>
       )}
 
-      <ShopFacts
+      <ProjectFacts
         locations={[
           // 屋外ブースは場所名だけを出すため、同じ表示になる場所は1行にまとめる。
           ...new Set(
-            shop.locations.map((location) => {
+            project.locations.map((location) => {
               const label = formatLocation(
                 placesById.get(location.placeId),
                 location.room,
               );
               // 日によって場所が変わる企画では、その場所で実施する日を添える。
               return location.days &&
-                location.days.length < shop.schedule.length
+                location.days.length < project.schedule.length
                 ? `${label}（${formatSchedule(location.days)}）`
                 : label;
             }),
           ),
         ]}
-        schedule={formatSchedule(shop.schedule)}
+        schedule={formatSchedule(project.schedule)}
       />
 
-      {shop.links.length > 0 && (
+      {project.links.length > 0 && (
         <div className={css({ px: '16px', mt: '16px' })}>
-          <ShopLinks links={shop.links} />
+          <ProjectLinks links={project.links} />
         </div>
       )}
 
       {/* 画像カルーセル */}
-      {shop.images.length > 0 && (
+      {project.images.length > 0 && (
         <div className={css({ mt: '20px' })}>
           <div className={css({ position: 'relative' })}>
             <div
@@ -277,13 +279,13 @@ export default function Detail() {
                 '&::-webkit-scrollbar': { display: 'none' },
               })}
             >
-              {shop.images.map((image, i) => (
+              {project.images.map((image, i) => (
                 <button
                   // biome-ignore lint/suspicious/noArrayIndexKey: 同じ画像が複数登録されることがあり URL は一意でない
                   key={i}
                   type="button"
                   onClick={() => setViewerIndex(i)}
-                  aria-label={`${shop.name} の画像 ${i + 1} を拡大`}
+                  aria-label={`${project.name} の画像 ${i + 1} を拡大`}
                   className={css({
                     flex: '0 0 100%',
                     scrollSnapAlign: 'center',
@@ -316,14 +318,14 @@ export default function Detail() {
                 onClick={() => scrollCarouselTo(imageIndex - 1, 'smooth')}
               />
             )}
-            {imageIndex < shop.images.length - 1 && (
+            {imageIndex < project.images.length - 1 && (
               <CarouselButton
                 direction="right"
                 onClick={() => scrollCarouselTo(imageIndex + 1, 'smooth')}
               />
             )}
 
-            {shop.images.length > 1 && (
+            {project.images.length > 1 && (
               <span
                 className={css({
                   position: 'absolute',
@@ -339,7 +341,7 @@ export default function Detail() {
                   pointerEvents: 'none',
                 })}
               >
-                {imageIndex + 1} / {shop.images.length}
+                {imageIndex + 1} / {project.images.length}
               </span>
             )}
           </div>
@@ -366,7 +368,7 @@ export default function Detail() {
             wordBreak: 'break-word',
           })}
         >
-          {shop.description}
+          {project.description}
         </p>
       </section>
 
@@ -388,7 +390,7 @@ export default function Detail() {
       >
         <FavoriteButton
           active={favorite}
-          onToggle={() => toggle(shop.id)}
+          onToggle={() => toggle(project.id)}
           size={24}
           className={css({
             flexShrink: 0,
@@ -425,9 +427,9 @@ export default function Detail() {
 
       {viewerIndex !== null && (
         <ImageViewer
-          images={shop.images}
+          images={project.images}
           initialIndex={viewerIndex}
-          title={shop.name}
+          title={project.name}
           onClose={(index) => {
             setViewerIndex(null);
             scrollCarouselTo(index, 'instant');

@@ -10,7 +10,7 @@ import {
 import { css, cx } from '../../../../styled-system/css';
 import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
-/** 畳んだ状態でも取っ手と検索欄（ShopSearchBar の1段目）が見える高さ(px)。 */
+/** 畳んだ状態でも取っ手と検索欄（ProjectSearchBar の1段目）が見える高さ(px)。 */
 export const SHEET_PEEK = 78;
 const flingVelocity = 0.5;
 const rubberDim = 200;

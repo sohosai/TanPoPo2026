@@ -11,7 +11,7 @@
 | 属性 | `apps/api/trpc/routers/place.ts` | id / 名前 / 種別 / 代表点。`place.list` で配信 | `Place.id` |
 | 建物ジオメトリ | `apps/web/app/components/features/Map/data/buildings.geojson` | 建物ポリゴン | `properties.placeId` |
 | 入口/接続路 | `apps/web/app/components/features/Map/data/path-network.geojson` | 通路網。`kind:"entrance"` の feature が建物への接続路 | `properties.placeId` |
-| 店舗の紐付け | `apps/api/data/shop-locations.json` | 企画番号ごとの `placeId` ＋ `room` ＋ 実施日。詳細は [shop-locations.md](./shop-locations.md) | `placeId` |
+| 店舗の紐付け | `apps/api/data/project-locations.json` | 企画番号ごとの `placeId` ＋ `room` ＋ 実施日。詳細は [project-locations.md](./project-locations.md) | `placeId` |
 
 
 ## 各データの構造
@@ -72,14 +72,14 @@ type Place = {
 
 - 取得: `apps/web/app/lib/places.ts` の `usePlaces()` が `place.list` を購読し `id → Place` の Map を作る。
 - キャッシュ: react-query persister（`apps/web/app/lib/trpc-provider.tsx`）で IndexedDB に保存され、オフラインでも参照できる。
-- 表示ラベル: `formatShopLocation(shop)` が建物名＋部屋番号（例 "5C305"）に整形する。
+- 表示ラベル: `formatProjectLocation(project)` が建物名＋部屋番号（例 "5C305"）に整形する。
 - 地図デバッグ表示: URL に `?debug` を付けると、建物ポリゴン・通路・入口（緑）・ノードが地図に重なる（`apps/web/app/components/features/Map/debugLayers.ts`）。
 
 ```
 place.ts ──place.list──> usePlaces() ──> 一覧/詳細/検索/地図フォーカス
       ▲ placeId
 buildings.geojson / path-network.geojson(ジオメトリ・入口) ─┘ placeId で結合
-shop-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
+project-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
 ```
 
 ## 建物を追加する手順
@@ -121,7 +121,7 @@ shop-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
    ```
 
 5. **企画を紐付ける**（必要なら） — 企画実施場所一覧の「場所」に `7A101` のように書かれていれば、
-   取り込みスクリプトが `{ placeId: 'bldg-7a', room: '101' }` に変換する（[shop-locations.md](./shop-locations.md)）。
+   取り込みスクリプトが `{ placeId: 'bldg-7a', room: '101' }` に変換する（[project-locations.md](./project-locations.md)）。
 
 6. **確認**
    - データ整合性: `bun run check:map-data`（id 重複・placeId 参照切れ・座標の取り違え・osmId と階数・通路の連結性などを検査）

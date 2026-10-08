@@ -1,4 +1,4 @@
-import type { Place, Shop, ShopLocation } from 'api';
+import type { Place, Project, ProjectLocation } from 'api';
 import { useMemo } from 'react';
 import { trpc } from '~/lib/trpc';
 
@@ -22,7 +22,8 @@ export function usePlaces() {
     /** id から Place を引く Map */
     byId,
     /** 店舗の代表的な場所ラベル（例 "5C305"、複数あれば "1B208 ほか1か所"） */
-    formatShopLocation: (shop: Shop) => formatShopLocation(shop, byId),
+    formatProjectLocation: (project: Project) =>
+      formatProjectLocation(project, byId),
   };
 }
 
@@ -41,35 +42,37 @@ export function formatLocation(
 }
 
 /** 店舗の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */
-export function formatShopLocation(
-  shop: Shop,
+export function formatProjectLocation(
+  project: Project,
   byId: ReadonlyMap<string, Place>,
 ): string {
-  const [primary, ...rest] = shop.locations;
+  const [primary, ...rest] = project.locations;
   if (!primary) return '';
   const label = formatLocation(byId.get(primary.placeId), primary.room);
   return rest.length > 0 ? `${label} ほか${rest.length}か所` : label;
 }
 
 /** ある場所で実施する企画と、その場所での位置。 */
-export type PlaceEntry = { shop: Shop; location: ShopLocation };
+export type PlaceEntry = { project: Project; location: ProjectLocation };
 
 /** placeId ごとに、その場所で実施する企画をまとめる。 */
-export function groupShopsByPlace(shops: Shop[]): Map<string, PlaceEntry[]> {
+export function groupProjectsByPlace(
+  projects: Project[],
+): Map<string, PlaceEntry[]> {
   const map = new Map<string, PlaceEntry[]>();
-  for (const shop of shops) {
-    for (const location of shop.locations) {
+  for (const project of projects) {
+    for (const location of project.locations) {
       const entries = map.get(location.placeId);
-      if (entries) entries.push({ shop, location });
-      else map.set(location.placeId, [{ shop, location }]);
+      if (entries) entries.push({ project, location });
+      else map.set(location.placeId, [{ project, location }]);
     }
   }
   return map;
 }
 
 /** 企画の数。同じ企画が同じ場所の複数の部屋・ブースにまたがっても1件と数える。 */
-export const countShops = (entries: PlaceEntry[]) =>
-  new Set(entries.map(({ shop }) => shop.id)).size;
+export const countProjects = (entries: PlaceEntry[]) =>
+  new Set(entries.map(({ project }) => project.id)).size;
 
 /** 部屋番号・ブース番号を数字の大小で並べるための比較関数。 */
 export const compareRoom = (a = '', b = '') =>

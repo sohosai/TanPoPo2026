@@ -11,7 +11,8 @@ import {
   grandprixVotes,
   users,
 } from '../../db/schema';
-import type { Shop } from '../../domain/shop';
+import type { Project } from '../../domain/project';
+import { parseProjectNumbers } from '../../services/sos';
 import { protectedProcedure, t } from '../trpc';
 
 const MAX_GENERAL_VOTES = 4;
@@ -25,15 +26,21 @@ const STAGE_PLACES: Record<GrandprixStage, string[]> = {
 };
 
 /** ステージ企画をステージごとにまとめる。投票画面のタブと投票時の検証で同じ区分けを使う。 */
-function groupStageShops(shops: Shop[]) {
+function groupStageProjects(projects: Project[]) {
   return grandprixStages.map((stage) => ({
     stage,
-    shops: shops.filter((shop) =>
-      shop.locations.some(({ placeId }) =>
+    projects: projects.filter((project) =>
+      project.locations.some(({ placeId }) =>
         STAGE_PLACES[stage].includes(placeId),
       ),
     ),
   }));
+}
+
+/** グランプリ投票の対象から、環境変数で非表示にした企画を除く。 */
+function votableProjects(projects: Project[], hiddenNumbers: string) {
+  const hidden = parseProjectNumbers(hiddenNumbers);
+  return projects.filter(({ number }) => !hidden.has(number));
 }
 
 function drawResult(winRate: string): 'win' | 'lose' {
@@ -42,22 +49,41 @@ function drawResult(winRate: string): 'win' | 'lose' {
 
 const submitInputSchema = z.object({
   // 一般部門: 最大4件、重複投票不可（同一企画への複数投票は禁止）。
-  generalShopIds: z
+  generalProjectIds: z
     .array(z.string())
     .max(MAX_GENERAL_VOTES)
     .refine((ids) => new Set(ids).size === ids.length, {
       message: '同じ企画に複数回投票することはできません',
     }),
   // ステージ部門: ステージごとに1企画まで。どこか1つのステージに投票すればよい。
-  stageShopIds: z.array(z.string()).max(grandprixStages.length),
+  stageProjectIds: z.array(z.string()).max(grandprixStages.length),
   isTsukubaStudent: z.boolean(),
 });
 
 export const grandprixRouter = t.router({
   grandprix: t.router({
-    stageShops: t.procedure.query(async ({ ctx }) =>
-      groupStageShops(await ctx.sos.getShops()),
+    stageProjects: t.procedure.query(async ({ ctx }) =>
+      groupStageProjects(
+        votableProjects(
+          await ctx.sos.getProjects(),
+          ctx.env.GRANDPRIX_HIDDEN_PROJECT_NUMBERS,
+        ),
+      ),
     ),
+
+    // ステージ企画はステージ部門でだけ投票できるため、一般部門の一覧から除く。
+    generalProjects: t.procedure.query(async ({ ctx }) => {
+      const projects = votableProjects(
+        await ctx.sos.getProjects(),
+        ctx.env.GRANDPRIX_HIDDEN_PROJECT_NUMBERS,
+      );
+      const stageProjectIds = new Set(
+        groupStageProjects(projects).flatMap((group) =>
+          group.projects.map((project) => project.id),
+        ),
+      );
+      return projects.filter((project) => !stageProjectIds.has(project.id));
+    }),
 
     status: protectedProcedure.query(async ({ ctx }) => {
       const vote = await ctx.db.query.grandprixVotes.findFirst({
@@ -76,7 +102,10 @@ export const grandprixRouter = t.router({
       .input(submitInputSchema)
       .mutation(async ({ ctx, input }) => {
         // クライアント側のボタンdisableだけに頼らず、サーバー側でも必ず再検証する。
-        if (input.generalShopIds.length < 1 || input.stageShopIds.length < 1) {
+        if (
+          input.generalProjectIds.length < 1 ||
+          input.stageProjectIds.length < 1
+        ) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
             message:
@@ -84,36 +113,40 @@ export const grandprixRouter = t.router({
           });
         }
 
-        const shops = await ctx.sos.getLiveShops().catch(() => {
-          throw new TRPCError({
-            code: 'SERVICE_UNAVAILABLE',
-            message:
-              '企画一覧を取得できませんでした。時間をおいて再度お試しください',
-          });
-        });
-        const validShopIds = new Set(shops.map((shop) => shop.id));
+        const projects = votableProjects(
+          await ctx.sos.getLiveProjects().catch(() => {
+            throw new TRPCError({
+              code: 'SERVICE_UNAVAILABLE',
+              message:
+                '企画一覧を取得できませんでした。時間をおいて再度お試しください',
+            });
+          }),
+          ctx.env.GRANDPRIX_HIDDEN_PROJECT_NUMBERS,
+        );
+        const validProjectIds = new Set(projects.map((project) => project.id));
         const stageOf = new Map(
-          groupStageShops(shops).flatMap(({ stage, shops: stageShops }) =>
-            stageShops.map((shop) => [shop.id, stage] as const),
+          groupStageProjects(projects).flatMap(
+            ({ stage, projects: stageProjects }) =>
+              stageProjects.map((project) => [project.id, stage] as const),
           ),
         );
-        for (const shopId of input.generalShopIds) {
-          if (!validShopIds.has(shopId) || stageOf.has(shopId)) {
+        for (const projectId of input.generalProjectIds) {
+          if (!validProjectIds.has(projectId) || stageOf.has(projectId)) {
             throw new TRPCError({
               code: 'BAD_REQUEST',
-              message: `一般部門に投票できない企画です: ${shopId}`,
+              message: `一般部門に投票できない企画です: ${projectId}`,
             });
           }
         }
-        const stageVotes = input.stageShopIds.map((shopId) => {
-          const stage = stageOf.get(shopId);
+        const stageVotes = input.stageProjectIds.map((projectId) => {
+          const stage = stageOf.get(projectId);
           if (!stage) {
             throw new TRPCError({
               code: 'BAD_REQUEST',
-              message: `ステージ部門に投票できない企画です: ${shopId}`,
+              message: `ステージ部門に投票できない企画です: ${projectId}`,
             });
           }
-          return { stage, shopId };
+          return { stage, projectId };
         });
         if (
           new Set(stageVotes.map(({ stage }) => stage)).size < stageVotes.length
@@ -137,7 +170,10 @@ export const grandprixRouter = t.router({
             db
               .insert(grandprixGeneralVotes)
               .values(
-                input.generalShopIds.map((shopId) => ({ voteId, shopId })),
+                input.generalProjectIds.map((projectId) => ({
+                  voteId,
+                  projectId,
+                })),
               ),
             db
               .insert(grandprixStageVotes)

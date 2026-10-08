@@ -14,14 +14,14 @@ export type { Place, PlaceKind } from './domain/place';
 export type { MaxHeadcount } from './trpc/routers/questionnaire';
 export type {
   ScheduleDay,
-  Shop,
-  ShopCategory,
-  ShopDetail,
-  ShopImage,
-  ShopLink,
-  ShopLinkKind,
-  ShopLocation,
-} from './domain/shop';
+  Project,
+  ProjectCategory,
+  ProjectDetail,
+  ProjectImage,
+  ProjectLink,
+  ProjectLinkKind,
+  ProjectLocation,
+} from './domain/project';
 
 // web の静的アセットと同一オリジンで配信するため CORS は不要。
 // /trpc/* と /auth/* 以外は wrangler.jsonc の assets 設定で静的配信される。

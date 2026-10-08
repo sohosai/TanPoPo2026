@@ -1,12 +1,12 @@
 /**
  * 雙峰祭実行委員会から受け取った「企画実施場所一覧」(屋内・屋外の xlsx) を読み、
- * 企画番号ごとの実施場所 JSON（apps/api/data/shop-locations.json）を生成する。
+ * 企画番号ごとの実施場所 JSON（apps/api/data/project-locations.json）を生成する。
  *
  * - 表はエリアごとの列ブロックが横に並んだ形式で、各ブロックの見出し行に「場所」「企画番号」…が並ぶ。
  * - 企画番号の無い行（委員会企画）は対象外。
  * - 想定外の場所・実施日があれば、黙って捨てずにエラーで止める。
  *
- * 実行: bun run scripts/import-shop-locations.ts <屋内.xlsx> <屋外.xlsx>
+ * 実行: bun run scripts/import-project-locations.ts <屋内.xlsx> <屋外.xlsx>
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -19,7 +19,7 @@ const SHEET_NAME = '企画実施場所一覧';
 const OUT_FILE = join(
   import.meta.dir,
   '..',
-  'apps/api/data/shop-locations.json',
+  'apps/api/data/project-locations.json',
 );
 
 // 建物名だけで書かれた場所。号棟（1B 等）は `bldg-1b` の規則で引く。
@@ -101,7 +101,7 @@ function readRows(
 const [indoorFile, outdoorFile] = process.argv.slice(2);
 if (!indoorFile || !outdoorFile) {
   console.error(
-    '使い方: bun run scripts/import-shop-locations.ts <屋内.xlsx> <屋外.xlsx>',
+    '使い方: bun run scripts/import-project-locations.ts <屋内.xlsx> <屋外.xlsx>',
   );
   process.exit(1);
 }

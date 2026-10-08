@@ -47,20 +47,20 @@ export const grandprixVotes = sqliteTable('grandprix_votes', {
   submittedAt: createdAt('submitted_at'),
 });
 
-// 一般部門の投票先（Shop.id）。複合PKで同一企画への重複投票をDB層で防止する。
+// 一般部門の投票先（Project.id）。複合PKで同一企画への重複投票をDB層で防止する。
 export const grandprixGeneralVotes = sqliteTable(
   'grandprix_general_votes',
   {
     voteId: text('vote_id')
       .notNull()
       .references(() => grandprixVotes.id),
-    // apps/api の Shop はDB化されていないため、外部キー制約は持たせない。
-    shopId: text('shop_id').notNull(),
+    // apps/api の Project はDB化されていないため、外部キー制約は持たせない。
+    projectId: text('project_id').notNull(),
   },
-  (table) => [primaryKey({ columns: [table.voteId, table.shopId] })],
+  (table) => [primaryKey({ columns: [table.voteId, table.projectId] })],
 );
 
-// ステージ部門の投票先（ステージ企画の Shop.id）。複合PKで「1ステージにつき1企画まで」をDB層で強制する。
+// ステージ部門の投票先（ステージ企画の Project.id）。複合PKで「1ステージにつき1企画まで」をDB層で強制する。
 export const grandprixStageVotes = sqliteTable(
   'grandprix_stage_votes',
   {
@@ -68,7 +68,7 @@ export const grandprixStageVotes = sqliteTable(
       .notNull()
       .references(() => grandprixVotes.id),
     stage: text('stage', { enum: grandprixStages }).notNull(),
-    shopId: text('shop_id').notNull(),
+    projectId: text('project_id').notNull(),
   },
   (table) => [primaryKey({ columns: [table.voteId, table.stage] })],
 );

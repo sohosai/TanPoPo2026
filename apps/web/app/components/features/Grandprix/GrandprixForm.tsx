@@ -2,21 +2,21 @@ import type { GrandprixStage, MaxGeneralVotes } from 'api';
 import { useMemo, useState } from 'react';
 import {
   emptyCriteria,
-  filterShops,
-  type ShopFilterCriteria,
+  filterProjects,
+  type ProjectFilterCriteria,
   tagOptionsOf,
   toggleItem,
-} from '~/components/features/Shop/filter';
+} from '~/components/features/Project/filter';
 import {
   ChipDivider,
   FavoriteFilterChip,
   FilterChip,
-} from '~/components/features/Shop/FilterChip';
+} from '~/components/features/Project/FilterChip';
 import { useFavorites } from '~/lib/favorites';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../../styled-system/css';
-import ShopVoteRow from './ShopVoteRow';
+import ProjectVoteRow from './ProjectVoteRow';
 import StageTabs from './StageTabs';
 import StepCard, { ChoiceButton } from './StepCard';
 import { contentWidth, emptyMessageClass } from './styles';
@@ -29,31 +29,25 @@ type GrandprixFormProps = {
 };
 
 export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
-  const { data: shops, status: shopsStatus } = trpc.shop.list.useQuery();
-  const { data: stageShops, status: stageShopsStatus } =
-    trpc.grandprix.stageShops.useQuery();
+  const { data: generalProjects, status: projectsStatus } =
+    trpc.grandprix.generalProjects.useQuery();
+  const { data: stageProjects, status: stageProjectsStatus } =
+    trpc.grandprix.stageProjects.useQuery();
   const { favorites } = useFavorites();
-  const { byId: placesById, formatShopLocation } = usePlaces();
+  const { byId: placesById, formatProjectLocation } = usePlaces();
 
-  // ステージ企画はステージ部門でだけ投票できるため、一般部門の一覧から除く。
-  const generalShops = useMemo(() => {
-    const stageShopIds = new Set(
-      stageShops?.flatMap((group) => group.shops.map((shop) => shop.id)),
-    );
-    return shops?.filter((shop) => !stageShopIds.has(shop.id));
-  }, [shops, stageShops]);
-
-  const [criteria, setCriteria] = useState<ShopFilterCriteria>(emptyCriteria);
-  const visibleShops = useMemo(
+  const [criteria, setCriteria] =
+    useState<ProjectFilterCriteria>(emptyCriteria);
+  const visibleProjects = useMemo(
     () =>
-      generalShops
-        ? filterShops(generalShops, criteria, favorites, placesById)
+      generalProjects
+        ? filterProjects(generalProjects, criteria, favorites, placesById)
         : [],
-    [generalShops, criteria, favorites, placesById],
+    [generalProjects, criteria, favorites, placesById],
   );
   const featureOptions = useMemo(
-    () => tagOptionsOf(generalShops ?? []),
-    [generalShops],
+    () => tagOptionsOf(generalProjects ?? []),
+    [generalProjects],
   );
   const toggleFeature = (tag: string) =>
     setCriteria((prev) => ({ ...prev, tags: toggleItem(prev.tags, tag) }));
@@ -80,18 +74,18 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
     });
   };
 
-  const toggleStageVote = (stage: GrandprixStage, shopId: string) => {
+  const toggleStageVote = (stage: GrandprixStage, projectId: string) => {
     setStageVotes((prev) => ({
       ...prev,
-      [stage]: prev[stage] === shopId ? undefined : shopId,
+      [stage]: prev[stage] === projectId ? undefined : projectId,
     }));
   };
-  const stageShopIds = Object.values(stageVotes).filter(
+  const stageProjectIds = Object.values(stageVotes).filter(
     (id): id is string => id !== undefined,
   );
 
   const hasGeneralVote = generalIds.length >= 1;
-  const hasStageVote = stageShopIds.length >= 1;
+  const hasStageVote = stageProjectIds.length >= 1;
   const hasStudentAnswer = isTsukubaStudent !== null;
   const canSubmit =
     hasGeneralVote && hasStageVote && hasStudentAnswer && !submit.isPending;
@@ -100,14 +94,14 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
   const handleSubmit = () => {
     if (!canSubmit || isTsukubaStudent === null) return;
     submit.mutate({
-      generalShopIds: generalIds,
-      stageShopIds,
+      generalProjectIds: generalIds,
+      stageProjectIds,
       isTsukubaStudent,
     });
   };
 
-  const activeStageShops =
-    stageShops?.find(({ stage }) => stage === activeStage)?.shops ?? [];
+  const activeStageProjects =
+    stageProjects?.find(({ stage }) => stage === activeStage)?.projects ?? [];
 
   return (
     <div
@@ -176,21 +170,21 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
           <StageTabs
             active={activeStage}
             votedStages={stageVotes}
-            counts={stageShops}
+            counts={stageProjects}
             onSelect={setActiveStage}
           />
           <div role="tabpanel" className={css({ mt: '8px' })}>
-            {stageShopsStatus === 'pending' && (
+            {stageProjectsStatus === 'pending' && (
               <p className={emptyMessageClass}>読み込み中...</p>
             )}
-            {activeStageShops.map((shop) => (
-              <ShopVoteRow
-                key={shop.id}
-                shop={shop}
-                locationLabel={formatShopLocation(shop)}
-                selected={stageVotes[activeStage] === shop.id}
+            {activeStageProjects.map((project) => (
+              <ProjectVoteRow
+                key={project.id}
+                project={project}
+                locationLabel={formatProjectLocation(project)}
+                selected={stageVotes[activeStage] === project.id}
                 disabled={false}
-                onToggle={() => toggleStageVote(activeStage, shop.id)}
+                onToggle={() => toggleStageVote(activeStage, project.id)}
               />
             ))}
           </div>
@@ -236,30 +230,30 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
                 color: 'fg.subtle',
               })}
             >
-              {visibleShops.length}件
+              {visibleProjects.length}件
             </span>
           </div>
 
-          {shopsStatus === 'pending' && (
+          {projectsStatus === 'pending' && (
             <p className={emptyMessageClass}>読み込み中...</p>
           )}
-          {generalShops && visibleShops.length === 0 && (
+          {generalProjects && visibleProjects.length === 0 && (
             <p className={emptyMessageClass}>
               {criteria.favorite
                 ? 'いいねした企画がありません'
                 : '該当する企画が見つかりませんでした'}
             </p>
           )}
-          {visibleShops.map((shop) => {
-            const selected = generalIds.includes(shop.id);
+          {visibleProjects.map((project) => {
+            const selected = generalIds.includes(project.id);
             return (
-              <ShopVoteRow
-                key={shop.id}
-                shop={shop}
-                locationLabel={formatShopLocation(shop)}
+              <ProjectVoteRow
+                key={project.id}
+                project={project}
+                locationLabel={formatProjectLocation(project)}
                 selected={selected}
                 disabled={!selected && generalFull}
-                onToggle={() => toggleGeneral(shop.id)}
+                onToggle={() => toggleGeneral(project.id)}
               />
             );
           })}

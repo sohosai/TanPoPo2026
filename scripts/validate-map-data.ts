@@ -5,8 +5,8 @@
  *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
- *  - 企画実施場所（apps/api/data/shop-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
- *  - 店舗の場所参照（apps/api: shop.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
+ *  - 企画実施場所（apps/api/data/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
+ *  - 店舗の場所参照（apps/api: project.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
  *  - 座標が [経度, 緯度] の順かどうか（緯度経度の取り違え検出）
  *
  * 実行: bun run scripts/validate-map-data.ts
@@ -61,7 +61,7 @@ function readJson(file: string): unknown {
 async function main() {
   const caller = createMapDataCaller();
   const places = await caller.place.list();
-  const shops = await caller.shop.list();
+  const projects = await caller.project.list();
 
   const placeById = new Map(places.map((p) => [p.id, p]));
 
@@ -252,18 +252,20 @@ async function main() {
     }
   }
 
-  checkShopLocations(placeById);
+  checkProjectLocations(placeById);
 
   // ---- 4. 店舗の場所参照 ----
-  for (const shop of shops) {
-    if (!shop.locations || shop.locations.length === 0) {
-      err(`shop ${shop.id} (${shop.name}): locations が空（実施場所が未登録）`);
+  for (const project of projects) {
+    if (!project.locations || project.locations.length === 0) {
+      err(
+        `project ${project.id} (${project.name}): locations が空（実施場所が未登録）`,
+      );
       continue;
     }
-    for (const loc of shop.locations) {
+    for (const loc of project.locations) {
       if (!placeById.has(loc.placeId)) {
         err(
-          `shop ${shop.id} (${shop.name}): locations.placeId が存在しない: ${loc.placeId}`,
+          `project ${project.id} (${project.name}): locations.placeId が存在しない: ${loc.placeId}`,
         );
       }
     }
@@ -271,7 +273,7 @@ async function main() {
 
   // ---- 結果 ----
   console.log(
-    `検証対象: places=${places.length}, shops=${shops.length}, buildings=${buildings.features?.length ?? 0}, paths=${network.features?.length ?? 0}`,
+    `検証対象: places=${places.length}, projects=${projects.length}, buildings=${buildings.features?.length ?? 0}, paths=${network.features?.length ?? 0}`,
   );
   for (const w of warnings) console.warn(`⚠️  ${w}`);
   if (errors.length === 0) {
@@ -302,21 +304,21 @@ function checkLocation(
   boothShapes: ReadonlySet<string>,
 ) {
   if (!placeById.has(placeId)) {
-    err(`shop-locations ${number}: placeId が存在しない: ${placeId}`);
+    err(`project-locations ${number}: placeId が存在しない: ${placeId}`);
   }
   if (placeId.startsWith('booth-') && !(room && boothShapes.has(room))) {
     err(
-      `shop-locations ${number}: ブースのテントの形が無い: ${room ?? '(番号なし)'}`,
+      `project-locations ${number}: ブースのテントの形が無い: ${room ?? '(番号なし)'}`,
     );
   }
   if (days.length === 0 || days.some((d) => !SCHEDULE_DAYS.includes(d))) {
-    err(`shop-locations ${number}: 実施日が不正: ${JSON.stringify(days)}`);
+    err(`project-locations ${number}: 実施日が不正: ${JSON.stringify(days)}`);
   }
 }
 
-function checkShopLocations(placeById: ReadonlyMap<string, unknown>) {
+function checkProjectLocations(placeById: ReadonlyMap<string, unknown>) {
   const data = readData<Record<string, LocationRecord[]>>(
-    'apps/api/data/shop-locations.json',
+    'apps/api/data/project-locations.json',
   );
   const booths = readData<{
     features: {
