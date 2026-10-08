@@ -388,19 +388,6 @@ export default function Detail() {
           borderTop: '1px solid token(colors.border.subtle)',
         })}
       >
-        <FavoriteButton
-          active={favorite}
-          onToggle={() => toggle(project.id)}
-          size={24}
-          className={css({
-            flexShrink: 0,
-            w: '48px',
-            h: '48px',
-            borderRadius: '999px',
-            border: '1px solid',
-            borderColor: 'border',
-          })}
-        />
         <button
           type="button"
           onClick={showOnMap}
@@ -423,6 +410,18 @@ export default function Detail() {
           <IconMap size={20} />
           地図で場所を見る
         </button>
+        <FavoriteButton
+          active={favorite}
+          onToggle={() => toggle(project.id)}
+          size={22}
+          className={css({
+            flexShrink: 0,
+            w: '48px',
+            h: '48px',
+            borderRadius: '999px',
+            bg: 'border.subtle',
+          })}
+        />
       </div>
 
       {viewerIndex !== null && (
