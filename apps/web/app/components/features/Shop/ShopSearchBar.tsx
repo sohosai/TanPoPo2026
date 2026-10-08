@@ -151,7 +151,9 @@ export default function ShopSearchBar({
               onChange({ ...criteria, days: toggleItem(criteria.days, day) })
             }
           >
-            {DAY_LABELS[day]}
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              {DAY_LABELS[day]}
+            </span>
           </FilterChip>
         ))}
         <ChipDivider />
@@ -166,7 +168,9 @@ export default function ShopSearchBar({
               })
             }
           >
-            {category}
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              {category}
+            </span>
           </FilterChip>
         ))}
         {tagOptions.length > 0 && (
@@ -205,7 +209,9 @@ export default function ShopSearchBar({
                 onChange({ ...criteria, tags: toggleItem(criteria.tags, tag) })
               }
             >
-              #{tag}
+              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+                #{tag}
+              </span>
             </FilterChip>
           ))}
         </div>
