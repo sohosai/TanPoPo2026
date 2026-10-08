@@ -15,6 +15,8 @@ import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 
 export const links: Route.LinksFunction = () => [
+  { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
+  { rel: 'icon', type: 'image/svg+xml', href: '/logo/square.svg' },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
     rel: 'preconnect',

@@ -151,7 +151,9 @@ export default function ProjectSearchBar({
               onChange({ ...criteria, days: toggleItem(criteria.days, day) })
             }
           >
-            {DAY_LABELS[day]}
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              {DAY_LABELS[day]}
+            </span>
           </FilterChip>
         ))}
         <ChipDivider />
@@ -166,7 +168,9 @@ export default function ProjectSearchBar({
               })
             }
           >
-            {category}
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              {category}
+            </span>
           </FilterChip>
         ))}
         {tagOptions.length > 0 && (
@@ -178,8 +182,10 @@ export default function ProjectSearchBar({
               aria-controls={tagPanelId}
               onClick={() => setTagsOpen((open) => !open)}
             >
-              タグ
-              {criteria.tags.length > 0 && ` ${criteria.tags.length}`}
+              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+                タグ
+                {criteria.tags.length > 0 && ` ${criteria.tags.length}`}
+              </span>
               <IconChevronDown
                 size={14}
                 className={css({ transition: 'transform 0.2s' })}
@@ -203,7 +209,9 @@ export default function ProjectSearchBar({
                 onChange({ ...criteria, tags: toggleItem(criteria.tags, tag) })
               }
             >
-              #{tag}
+              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+                #{tag}
+              </span>
             </FilterChip>
           ))}
         </div>

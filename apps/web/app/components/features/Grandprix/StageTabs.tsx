@@ -68,6 +68,7 @@ export default function StageTabs({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '2px',
+                h: '1lh',
                 fontSize: '11px',
                 fontWeight: voted ? 'bold' : 'normal',
                 color: voted ? 'accent.text' : 'fg.subtle',
@@ -76,7 +77,11 @@ export default function StageTabs({
               {voted ? (
                 <>
                   <IconCheck size={12} stroke={3} />
-                  投票済み
+                  <span
+                    className={css({ textBox: 'trim-both cap alphabetic' })}
+                  >
+                    投票済み
+                  </span>
                 </>
               ) : count !== undefined ? (
                 `${count}企画`

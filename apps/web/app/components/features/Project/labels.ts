@@ -14,7 +14,8 @@ export function formatSchedule(days: ScheduleDay[]): string {
 /** 分類・中止などの小さなラベルの形。色は CATEGORY_COLOR_CLASS などと組み合わせる。 */
 export const badgeClass = css({
   px: '6px',
-  py: '1px',
+  py: '0.45em',
+  textBox: 'trim-both cap alphabetic',
   borderRadius: '4px',
   fontWeight: 700,
 });

@@ -78,7 +78,9 @@ export default function RequireLineLogin({
           })}
         >
           <IconBrandLine size={20} />
-          LINEでログイン
+          <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+            LINEでログイン
+          </span>
         </a>
       </div>
     );

@@ -104,13 +104,23 @@ export function ProjectRowContent({
               title={locationLabel}
             >
               <IconMapPin size={13} className={css({ flexShrink: 0 })} />
-              <span className={css({ truncate: true })}>{locationLabel}</span>
+              <span
+                className={css({
+                  truncate: true,
+                  textBox: 'trim-both cap alphabetic',
+                  py: '0.2em',
+                })}
+              >
+                {locationLabel}
+              </span>
             </span>
           )}
           {schedule.length > 0 && (
             <span className={metaClass}>
               <IconCalendarEvent size={13} />
-              {formatSchedule(schedule)}
+              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+                {formatSchedule(schedule)}
+              </span>
             </span>
           )}
         </div>
