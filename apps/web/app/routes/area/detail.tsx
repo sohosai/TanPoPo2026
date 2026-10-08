@@ -106,8 +106,9 @@ export default function AreaDetail() {
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
             className={css({
+              fontFamily: 'heading',
               fontSize: '2xl',
-              fontWeight: 700,
+              fontWeight: 800,
               lineHeight: 1.35,
               color: 'fg.strong',
             })}

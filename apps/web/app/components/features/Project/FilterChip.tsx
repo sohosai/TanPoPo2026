@@ -12,16 +12,16 @@ const chipClass = css({
   borderRadius: 'full',
   border: 'token(borderWidths.thin) solid',
   fontSize: 'sm',
-  fontWeight: 500,
+  fontWeight: 700,
   whiteSpace: 'nowrap',
   cursor: 'pointer',
   transition: 'background 0.15s, color 0.15s, border-color 0.15s',
 });
 
 const chipInactiveClass = css({
-  borderColor: 'border',
-  bg: 'surface',
-  color: 'fg.muted',
+  borderColor: 'transparent',
+  bg: 'border.subtle',
+  color: 'fg',
 });
 
 const chipActiveClass = {

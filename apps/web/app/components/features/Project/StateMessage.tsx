@@ -51,9 +51,10 @@ export function StateMessage({
       </span>
       <p
         className={css({
+          fontFamily: 'heading',
           fontSize: 'lg',
-          fontWeight: 'bold',
-          color: 'fg',
+          fontWeight: 800,
+          color: 'fg.strong',
         })}
       >
         {title}

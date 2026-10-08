@@ -183,8 +183,9 @@ export default function Detail() {
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
             className={css({
+              fontFamily: 'heading',
               fontSize: '2xl',
-              fontWeight: 700,
+              fontWeight: 800,
               lineHeight: 1.35,
               color: 'fg.strong',
               wordBreak: 'break-all',
@@ -356,9 +357,10 @@ export default function Detail() {
       <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
         <h2
           className={css({
+            fontFamily: 'heading',
             fontSize: 'lg',
-            fontWeight: 700,
-            color: 'fg.strong',
+            fontWeight: 800,
+            color: 'accent.text',
           })}
         >
           企画紹介
@@ -406,11 +408,13 @@ export default function Detail() {
             h: '48px',
             borderRadius: 'full',
             bg: 'accent.text',
+            boxShadow: 'pop',
             color: 'surface',
             fontSize: 'lg',
             fontWeight: 700,
             cursor: 'pointer',
-            _active: { opacity: 0.85 },
+            transition: 'transform 0.1s, box-shadow 0.1s',
+            _active: { transform: 'translateY(3px)', boxShadow: 'none' },
           })}
         >
           <IconMap size={20} />

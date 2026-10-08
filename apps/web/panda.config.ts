@@ -16,35 +16,42 @@ export default defineConfig({
             100: { value: '#a3c8eb' },
             500: { value: '#4a93d7' },
             700: { value: '#2f6fb0' },
+            900: { value: '#1f5a99' },
           },
           sheet: {
             background: { value: '#ffffff' },
-            shadow: { value: 'rgba(0, 0, 0, 0.15)' },
-            handle: { value: 'rgba(0, 0, 0, 0.28)' },
+            shadow: { value: 'rgba(31, 90, 153, 0.16)' },
+            handle: { value: '{colors.brand.100}' },
           },
         },
         radii: {
-          sm: { value: '8px' },
+          sm: { value: '6px' },
           md: { value: '10px' },
           lg: { value: '12px' },
-          xl: { value: '18px' },
-          '2xl': { value: '24px' },
+          xl: { value: '16px' },
+          '2xl': { value: '22px' },
           full: { value: '9999px' },
         },
         borderWidths: {
           // 一覧の行やヘッダーの区切り線。枠線より細くして、面の区切りが主張しすぎないようにする。
           divider: { value: '1px' },
-          thin: { value: '1.5px' },
+          thin: { value: '1px' },
           thick: { value: '2px' },
         },
+        fonts: {
+          // ロゴの文字と同じ、線端の丸い字形。見出しにだけ使う。
+          heading: {
+            value: "'M PLUS Rounded 1c', 'Inter', 'Noto Sans JP', sans-serif",
+          },
+        },
         fontSizes: {
-          '2xs': { value: '12px' },
-          xs: { value: '13px' },
-          sm: { value: '14px' },
-          md: { value: '15px' },
-          lg: { value: '16px' },
-          xl: { value: '17px' },
-          '2xl': { value: '22px' },
+          '2xs': { value: '11px' },
+          xs: { value: '12px' },
+          sm: { value: '13px' },
+          md: { value: '14px' },
+          lg: { value: '15px' },
+          xl: { value: '16px' },
+          '2xl': { value: '21px' },
           '3xl': { value: '28px' },
           '4xl': { value: '30px' },
           '5xl': { value: '36px' },
@@ -143,6 +150,13 @@ export default defineConfig({
             text: { value: '{colors.brand.700}' },
             subtle: { value: '{colors.brand.50}' },
             border: { value: '{colors.brand.100}' },
+            // 押せる主役（主要ボタン・イベントへの導線）の下に敷く硬い影の色。
+            deep: { value: '{colors.brand.900}' },
+          },
+          // たんぽぽの花の黄色。楽しさを足す差し色として、使う場所を絞る。上に載せる文字は fg.strong にする。
+          sun: {
+            DEFAULT: { value: '#ffc83d' },
+            deep: { value: '#d9a000' },
           },
           // 企画の分類バッジ用。分類の識別にだけ使い、`accent`とは混ぜない。
           category: {
@@ -173,8 +187,8 @@ export default defineConfig({
             placeholder: { value: '#8b96a5' },
           },
           border: {
-            DEFAULT: { value: '#c6cdd9' },
-            subtle: { value: '#eceff4' },
+            DEFAULT: { value: '#d3deea' },
+            subtle: { value: '#e6eef7' },
           },
           surface: {
             DEFAULT: { value: '#ffffff' },
@@ -230,13 +244,17 @@ export default defineConfig({
           },
         },
         shadows: {
-          card: { value: '0 2px 0 {colors.border}' },
+          // 白地の上でもカードの縁が分かるよう、細い輪郭と下側の硬い影を重ねる。
+          card: { value: '0 0 0 1px {colors.border}, 0 2px 0 {colors.border}' },
+          // 主要ボタンを、下に濃い色を敷いたステッカーのように浮かせる。
+          pop: { value: '0 3px 0 {colors.accent.deep}' },
+          popSun: { value: '0 3px 0 {colors.sun.deep}' },
           tab: { value: '0 2px 0 {colors.border}' },
           bar: { value: '0 -4px 12px {colors.black/5}' },
-          float: { value: '0 2px 0 {colors.fg.strong/20}' },
-          raised: { value: '0 4px 0 {colors.fg.strong/15}' },
-          carousel: { value: '0 2px 0 {colors.fg.strong/15}' },
-          ring: { value: 'inset 0 0 0 1.5px {colors.black/8}' },
+          float: { value: '0 2px 0 {colors.accent.deep/25}' },
+          raised: { value: '0 4px 0 {colors.accent.deep/20}' },
+          carousel: { value: '0 2px 0 {colors.accent.deep/20}' },
+          ring: { value: 'inset 0 0 0 1px {colors.black/8}' },
           win: { value: '0 8px 28px {colors.brand.500/50}' },
           lose: { value: '0 8px 24px {colors.result.lose/40}' },
           sheet: { value: '0 -8px 24px {colors.sheet.shadow}' },

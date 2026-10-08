@@ -51,10 +51,8 @@ export default function ProjectSearchBar({
         gap: '10px',
         px: '16px',
         pt: '4px',
-        pb: '8px',
+        pb: '12px',
         bg: 'sheet.background',
-        borderBottom:
-          'token(borderWidths.divider) solid token(colors.border.subtle)',
       })}
     >
       <label
@@ -64,9 +62,9 @@ export default function ProjectSearchBar({
           gap: '8px',
           h: '44px',
           px: '16px',
-          borderRadius: 'xl',
+          borderRadius: 'full',
           bg: 'border.subtle',
-          color: 'fg.subtle',
+          color: 'accent',
           cursor: 'text',
           _focusWithin: {
             bg: 'surface',

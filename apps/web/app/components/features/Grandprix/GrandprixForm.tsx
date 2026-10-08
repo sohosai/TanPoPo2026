@@ -90,7 +90,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
     <div
       className={css({
         minH: '100%',
-        bg: 'border.subtle',
+        bg: 'surface',
         pb: 'calc(260px + env(safe-area-inset-bottom, 0px))',
       })}
     >

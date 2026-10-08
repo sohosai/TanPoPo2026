@@ -54,8 +54,9 @@ export default function StepCard({
         <div className={css({ minWidth: 0 })}>
           <h2
             className={css({
+              fontFamily: 'heading',
               fontSize: 'xl',
-              fontWeight: 'bold',
+              fontWeight: 800,
               lineHeight: '24px',
               color: 'fg.strong',
             })}

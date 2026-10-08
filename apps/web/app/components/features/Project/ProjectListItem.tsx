@@ -52,8 +52,9 @@ export function ProjectRowContent({
         {/* 一覧の行の高さを揃えるため、各行は1行に収めて溢れた分は省略する */}
         <h3
           className={css({
+            fontFamily: 'heading',
             fontSize: 'xl',
-            fontWeight: 700,
+            fontWeight: 800,
             lineHeight: 1.4,
             color: 'fg.strong',
             truncate: true,
@@ -139,7 +140,7 @@ export function ProjectRowContent({
   );
 }
 
-/** 一覧の行の外枠。ProjectListItem と投票の行で見た目を揃える。 */
+/** 投票の対象を並べる行の外枠。白いカードの中に区切り線で並べる。 */
 export const projectRowClass = css({
   display: 'flex',
   gap: '12px',
@@ -152,6 +153,34 @@ export const projectRowClass = css({
   borderBottom: 'token(borderWidths.divider) solid token(colors.border.subtle)',
   transition: 'background 0.15s',
   _active: { bg: 'border.subtle' },
+});
+
+/**
+ * 企画一覧の1件。大量に並ぶため枠は付けず、企画名の書き出しから右端までの区切り線で1件ずつを分ける。
+ * アイコンの下には線を引かず、左に並ぶアイコンの列を途切れさせない。
+ */
+const projectCardClass = css({
+  position: 'relative',
+  display: 'flex',
+  gap: '12px',
+  alignItems: 'flex-start',
+  px: '16px',
+  py: '14px',
+  color: 'inherit',
+  textDecoration: 'none',
+  transition: 'background 0.15s',
+  _active: { bg: 'accent.subtle' },
+  _after: {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    // 左余白16px + アイコン64px + 間隔12px で、企画名の書き出しに揃える。
+    left: '92px',
+    right: 0,
+    h: 'token(borderWidths.divider)',
+    bg: 'border.subtle',
+  },
+  _last: { _after: { display: 'none' } },
 });
 
 export default function ProjectListItem({
@@ -167,7 +196,7 @@ export default function ProjectListItem({
   return (
     <Link
       to={`/project/${number}`}
-      className={cx(projectRowClass, className)}
+      className={cx(projectCardClass, className)}
       style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
     >
       <ProjectRowContent project={project} locationLabel={locationLabel} />
