@@ -117,7 +117,7 @@ export default defineConfig({
             subtle: { value: '{colors.brand.50}' },
             border: { value: '{colors.brand.100}' },
           },
-          // 企画の分類バッジ用。分類の識別にだけ使い、操作色(accent)とは混ぜない。
+          // 企画の分類バッジ用。分類の識別にだけ使い、`accent`とは混ぜない。
           category: {
             food: { DEFAULT: { value: '#c2410c' }, bg: { value: '#fff1e6' } },
             goods: { DEFAULT: { value: '#be185d' }, bg: { value: '#fdeef5' } },
@@ -132,11 +132,17 @@ export default defineConfig({
             stage: { DEFAULT: { value: '#0f766e' }, bg: { value: '#e6f6f4' } },
             other: { DEFAULT: { value: '#525866' }, bg: { value: '#f0f1f3' } },
           },
+          // 文字・アイコンの色。濃いほど主要な情報に使う。
           fg: {
+            // 本文。
             DEFAULT: { value: '#333333' },
+            // 企画名・入力文字など、特に目立たせたい文字。
             strong: { value: '#222222' },
+            // 閉じるボタン・補足説明などの副次的な文字。
             muted: { value: '#555555' },
+            // 注釈・未選択状態など、さらに控えめな文字。
             subtle: { value: '#888888' },
+            // 入力欄のプレースホルダーと、無効状態の文字。
             placeholder: { value: '#9aa5a5' },
           },
           border: {
