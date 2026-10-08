@@ -55,7 +55,7 @@ export const INITIAL_VIEW = {
 
 // 周りの建物も見える程度に引いておく。
 const DEFAULT_FOCUS_ZOOM = 17.3;
-/** 屋外ブースに寄せるときのズーム。テントの形が見える（地図がテントを描き始める 18 より寄った）ところ。 */
+/** 屋外ブースに寄せるときのズーム。テントの形がはっきり見えるところ。 */
 export const BOOTH_FOCUS_ZOOM = 18.5;
 const DEFAULT_DURATION = 800;
 // 下部シートに隠れないよう、フォーカス点を画面上方へ寄せる既定オフセット。
