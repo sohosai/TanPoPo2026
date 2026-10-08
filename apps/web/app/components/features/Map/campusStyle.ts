@@ -27,8 +27,12 @@ export const AREA_MAX_ZOOM = 16.2;
 const DETAIL_ZOOM = 17.4;
 // これより寄ると、建物名の下に中の企画名を並べる。
 const PREVIEW_ZOOM = 18.2;
-// テントは実寸（数メートル）で描くため、形が見分けられる程度に寄ってからテント列のピンと切り替える。
+// テントは実寸（数メートル）で描くため、引いているときは画面上で大きさの変わらない点で出し、
+// 形が見分けられるところまで寄ったら、点を消しながらテントの形を浮かび上がらせる。
+const BOOTH_DOT_ZOOM = AREA_MAX_ZOOM;
+const BOOTH_FADE_ZOOM = 17.6;
 const BOOTH_ZOOM = 18;
+const BOOTH_DOT_RADIUS = 4.5;
 const BOOTH_NAME_ZOOM = 18.3;
 
 // 階数から高さ(m)にする係数。大学の建物は1フロアが高めなので一般的な 3m より大きく取る。
@@ -119,8 +123,8 @@ const steppedLabelIds = (id: string, steps: LabelStep[]) =>
 export const INTERACTIVE_LAYERS = [
   'campus-booth-fill',
   'campus-booth-3d',
+  'campus-booth-dot',
   'campus-building-pin',
-  'campus-outdoor-pin',
   'campus-stage-pin',
   ...steppedLabelIds(BUILDING_LABEL, BUILDING_LABEL_STEPS),
   'campus-area-label',
@@ -217,7 +221,7 @@ function addExtrusionLayers(map: MlMap, basemapBuildingIds: number[]) {
       id: 'campus-booth-3d',
       type: 'fill-extrusion',
       source: SOURCES.boothShapes,
-      minzoom: BOOTH_ZOOM,
+      minzoom: BOOTH_FADE_ZOOM,
       layout: hidden,
       paint: {
         'fill-extrusion-color': ['get', 'color'],
@@ -377,37 +381,11 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     STAGE_LABEL_STEPS,
   );
 
-  // 引いているときはテント列ごとのピン、寄るとテントそのものに切り替える。
-  map.addLayer({
-    id: 'campus-outdoor-pin',
-    type: 'circle',
-    source: SOURCES.places,
-    filter: kindIs('outdoor'),
-    minzoom: 15.6,
-    maxzoom: BOOTH_ZOOM,
-    paint: {
-      'circle-color': ['get', 'color'],
-      'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.6, 4, 17, 10],
-      'circle-stroke-color': '#ffffff',
-      'circle-stroke-width': 2,
-    },
-  });
-  map.addLayer({
-    id: 'campus-outdoor-count',
-    type: 'symbol',
-    source: SOURCES.places,
-    filter: kindIs('outdoor'),
-    minzoom: 16.6,
-    maxzoom: BOOTH_ZOOM,
-    layout: countLayout,
-    paint: { 'text-color': '#ffffff' },
-  });
   map.addLayer({
     id: 'campus-selected-ring',
     type: 'circle',
     source: SOURCES.places,
     filter: ['in', ['get', 'placeId'], ['literal', []]],
-    maxzoom: BOOTH_ZOOM,
     paint: {
       'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.6, 9, 17, 16],
       'circle-color': ACCENT,
@@ -417,27 +395,86 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     },
   });
 
+  // 点からテントの形へ、BOOTH_FADE_ZOOM〜BOOTH_ZOOM の間で入れ替える。
+  const fadeIn = (to: number): ExpressionSpecification => [
+    'interpolate',
+    ['linear'],
+    ['zoom'],
+    BOOTH_FADE_ZOOM,
+    0,
+    BOOTH_ZOOM,
+    to,
+  ];
+  const fadeOut: ExpressionSpecification = [
+    'interpolate',
+    ['linear'],
+    ['zoom'],
+    BOOTH_FADE_ZOOM,
+    1,
+    BOOTH_ZOOM,
+    0,
+  ];
+
+  map.addLayer({
+    id: 'campus-booth-dot',
+    type: 'circle',
+    source: SOURCES.booths,
+    minzoom: BOOTH_DOT_ZOOM,
+    maxzoom: BOOTH_ZOOM,
+    paint: {
+      'circle-color': ['get', 'color'],
+      'circle-radius': BOOTH_DOT_RADIUS,
+      'circle-stroke-color': '#ffffff',
+      'circle-stroke-width': 1.5,
+      'circle-opacity': fadeOut,
+      'circle-stroke-opacity': fadeOut,
+    },
+  });
+  map.addLayer({
+    id: 'campus-booth-dot-selected',
+    type: 'circle',
+    source: SOURCES.booths,
+    filter: ['in', ['get', 'booth'], ['literal', []]],
+    minzoom: BOOTH_DOT_ZOOM,
+    maxzoom: BOOTH_ZOOM,
+    paint: {
+      'circle-color': 'transparent',
+      'circle-radius': BOOTH_DOT_RADIUS + 3,
+      'circle-stroke-color': ACCENT_TEXT,
+      'circle-stroke-width': 2.5,
+      'circle-stroke-opacity': fadeOut,
+    },
+  });
+
   map.addLayer({
     id: 'campus-booth-fill',
     type: 'fill',
     source: SOURCES.boothShapes,
-    minzoom: BOOTH_ZOOM,
-    paint: { 'fill-color': ['get', 'color'], 'fill-opacity': 0.85 },
+    minzoom: BOOTH_FADE_ZOOM,
+    paint: { 'fill-color': ['get', 'color'], 'fill-opacity': fadeIn(0.85) },
   });
   map.addLayer({
     id: 'campus-booth-outline',
     type: 'line',
     source: SOURCES.boothShapes,
-    minzoom: BOOTH_ZOOM,
-    paint: { 'line-color': '#ffffff', 'line-width': 1.2 },
+    minzoom: BOOTH_FADE_ZOOM,
+    paint: {
+      'line-color': '#ffffff',
+      'line-width': 1.2,
+      'line-opacity': fadeIn(1),
+    },
   });
   map.addLayer({
     id: 'campus-booth-selected',
     type: 'line',
     source: SOURCES.boothShapes,
     filter: ['in', ['get', 'booth'], ['literal', []]],
-    minzoom: BOOTH_ZOOM,
-    paint: { 'line-color': ACCENT_TEXT, 'line-width': 3 },
+    minzoom: BOOTH_FADE_ZOOM,
+    paint: {
+      'line-color': ACCENT_TEXT,
+      'line-width': 3,
+      'line-opacity': fadeIn(1),
+    },
   });
   map.addLayer({
     id: 'campus-booth-label',
@@ -480,6 +517,7 @@ export function applySelection(map: MlMap, { placeIds, booths }: Selection) {
       ? ['in', ['get', 'booth'], ['literal', booths]]
       : inPlaces;
   map.setFilter('campus-booth-selected', selectedBooth);
+  map.setFilter('campus-booth-dot-selected', selectedBooth);
 
   // 3D では地面の強調が立体に埋もれるため、立体そのものの色・高さで強調する。
   map.setPaintProperty(

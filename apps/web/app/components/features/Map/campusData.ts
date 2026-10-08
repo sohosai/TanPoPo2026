@@ -1,4 +1,4 @@
-import type { Place, Project, ProjectCategory } from 'api';
+import type { Place, Project } from 'api';
 import {
   compareRoom,
   countProjects,
@@ -6,7 +6,7 @@ import {
   type PlaceEntry,
 } from '~/lib/places';
 import { boothCenter, boothShapes } from './booths';
-import { ACCENT, CATEGORY_COLORS } from './campusStyle';
+import { CATEGORY_COLORS } from './campusStyle';
 import buildingsRaw from './data/buildings.geojson?raw';
 import campusBuildingIds from './data/campus-building-ids.json';
 import { type LngLat, ringBounds, ringCenter, ringContains } from './geo';
@@ -87,15 +87,6 @@ const collection = <F>(features: F[]) => ({
   type: 'FeatureCollection' as const,
   features,
 });
-
-function majorityColor(entries: PlaceEntry[]): string {
-  const counts = new Map<ProjectCategory, number>();
-  for (const { project } of entries) {
-    counts.set(project.category, (counts.get(project.category) ?? 0) + 1);
-  }
-  const [category] = [...counts].sort((a, b) => b[1] - a[1])[0] ?? [];
-  return category ? CATEGORY_COLORS[category] : ACCENT;
-}
 
 /** 建物を開く前に中身の見当がつくよう、部屋番号順に企画名をいくつか並べる。 */
 function projectPreview(entries: PlaceEntry[]): string {
@@ -190,13 +181,8 @@ export function buildCampusData(projects: Project[], places: Place[]) {
   }));
 
   const placeFeatures = places
-    .filter(
-      ({ id, kind }) =>
-        kind === 'building' ||
-        kind === 'stage' ||
-        // 企画の無い屋外の場所は地図に出しても意味がない。
-        (kind === 'outdoor' && byPlace.has(id)),
-    )
+    // 屋外のテントは引いているときにまとめて出さず、寄ったところでテントそのものを出す。
+    .filter(({ kind }) => kind === 'building' || kind === 'stage')
     .map((place) => {
       const entries = byPlace.get(place.id) ?? [];
       const count = countProjects(entries);
@@ -206,7 +192,6 @@ export function buildCampusData(projects: Project[], places: Place[]) {
         name: place.name,
         count,
         countLabel: count > 0 ? `${count}企画` : '',
-        color: majorityColor(entries),
         preview: place.kind === 'building' ? projectPreview(entries) : '',
       });
     });
