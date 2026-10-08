@@ -101,7 +101,7 @@ export default function AreaDetail() {
             color: 'accent.text',
           })}
         >
-          <IconMap2 size={26} stroke={1.8} />
+          <IconMap2 size={26} />
         </span>
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1

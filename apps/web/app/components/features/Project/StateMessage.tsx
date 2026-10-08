@@ -44,7 +44,6 @@ export function StateMessage({
       >
         <Icon
           size={30}
-          stroke={1.8}
           className={
             spinning ? css({ animation: 'spin 1s linear infinite' }) : undefined
           }

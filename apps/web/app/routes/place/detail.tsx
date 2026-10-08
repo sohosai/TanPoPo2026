@@ -162,7 +162,7 @@ export default function PlaceDetail() {
             color: 'accent.text',
           })}
         >
-          <Icon size={26} stroke={1.8} />
+          <Icon size={26} />
         </span>
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1

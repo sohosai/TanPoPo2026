@@ -70,7 +70,6 @@ export default function ProjectLinks({ links }: { links: ProjectLink[] }) {
             >
               <Icon
                 size={18}
-                stroke={1.8}
                 className={cx(css({ flexShrink: 0 }), iconClass)}
               />
               <span className={css({ truncate: true })}>

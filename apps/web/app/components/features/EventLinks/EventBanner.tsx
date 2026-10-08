@@ -56,7 +56,7 @@ export default function EventBanner() {
             _active: { bg: 'accent.border' },
           })}
         >
-          <Icon size={22} stroke={1.8} className={css({ flexShrink: 0 })} />
+          <Icon size={22} className={css({ flexShrink: 0 })} />
           <span
             className={css({
               flex: 1,

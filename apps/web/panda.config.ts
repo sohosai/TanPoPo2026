@@ -261,6 +261,11 @@ export default defineConfig({
     'button, input, textarea': {
       fontFamily: 'inherit',
     },
+    // Tabler の既定の線幅（2）はロゴの太い線と並ぶと細く見えるため、全体で太くする。
+    // stroke を個別に指定したアイコンは、その指定を優先する。
+    '.tabler-icon[stroke-width="2"]': {
+      strokeWidth: '2.5',
+    },
     // 現在地は MapControls の独自ボタンから操作するため、MapLibre 標準のボタンは出さない。
     '.maplibregl-ctrl-group:has(> .maplibregl-ctrl-geolocate)': {
       display: 'none',
