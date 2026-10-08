@@ -3,8 +3,9 @@ import type { Project } from 'api';
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
+import CategoryLabel from './CategoryLabel';
 import FavoriteButton from './FavoriteButton';
-import { badgeClass, CATEGORY_COLOR_CLASS, formatSchedule } from './labels';
+import { badgeClass, formatSchedule } from './labels';
 import ProjectIcon from './ProjectIcon';
 
 type ProjectListItemProps = {
@@ -80,15 +81,7 @@ export function ProjectRowContent({
               中止
             </span>
           ) : (
-            <span
-              className={cx(
-                badgeClass,
-                css({ flexShrink: 0 }),
-                CATEGORY_COLOR_CLASS[category],
-              )}
-            >
-              {category}
-            </span>
+            <CategoryLabel category={category} />
           )}
           <span className={css({ color: 'fg.subtle', truncate: true })}>
             {organization}

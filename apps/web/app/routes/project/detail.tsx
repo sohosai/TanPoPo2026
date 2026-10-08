@@ -13,13 +13,10 @@ import {
   useMap,
 } from '~/components/features/Map/MapController';
 import CarouselButton from '~/components/features/Project/CarouselButton';
+import CategoryLabel from '~/components/features/Project/CategoryLabel';
 import FavoriteButton from '~/components/features/Project/FavoriteButton';
 import ImageViewer from '~/components/features/Project/ImageViewer';
-import {
-  badgeClass,
-  CATEGORY_COLOR_CLASS,
-  formatSchedule,
-} from '~/components/features/Project/labels';
+import { formatSchedule } from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import ProjectLinks from '~/components/features/Project/ProjectLinks';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
@@ -202,15 +199,7 @@ export default function Detail() {
               color: 'fg.subtle',
             })}
           >
-            <span
-              className={cx(
-                badgeClass,
-                css({ flexShrink: 0, fontSize: '2xs' }),
-                CATEGORY_COLOR_CLASS[project.category],
-              )}
-            >
-              {project.category}
-            </span>
+            <CategoryLabel category={project.category} />
             <span className={css({ truncate: true })}>
               {project.organization}
             </span>

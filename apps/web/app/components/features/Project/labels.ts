@@ -11,7 +11,7 @@ export function formatSchedule(days: ScheduleDay[]): string {
   return days.map((day) => DAY_LABELS[day]).join('・');
 }
 
-/** 分類・中止などの小さなラベルの形。色は CATEGORY_COLOR_CLASS などと組み合わせる。 */
+/** 中止などの、塗りで目立たせる小さなラベルの形。 */
 export const badgeClass = css({
   px: '7px',
   py: '0.5em',
@@ -22,11 +22,21 @@ export const badgeClass = css({
 });
 
 // Panda は css() の引数を静的解析するため、分類ごとのクラスは動的に組み立てず列挙しておく。
+export const CATEGORY_TAG_CLASS: Record<ProjectCategory, string> = {
+  食品: css({ bg: 'category.food.bg' }),
+  物販: css({ bg: 'category.goods.bg' }),
+  展示: css({ bg: 'category.exhibit.bg' }),
+  学術: css({ bg: 'category.academic.bg' }),
+  ステージ: css({ bg: 'category.stage.bg' }),
+  その他: css({ bg: 'category.other.bg' }),
+};
+
+/** 画像のない企画のアイコンの面。 */
 export const CATEGORY_COLOR_CLASS: Record<ProjectCategory, string> = {
-  食品: css({ color: 'category.food', bg: 'category.food.bg' }),
-  物販: css({ color: 'category.goods', bg: 'category.goods.bg' }),
-  展示: css({ color: 'category.exhibit', bg: 'category.exhibit.bg' }),
-  学術: css({ color: 'category.academic', bg: 'category.academic.bg' }),
-  ステージ: css({ color: 'category.stage', bg: 'category.stage.bg' }),
-  その他: css({ color: 'category.other', bg: 'category.other.bg' }),
+  食品: css({ color: 'fg', bg: 'category.food.bg' }),
+  物販: css({ color: 'fg', bg: 'category.goods.bg' }),
+  展示: css({ color: 'fg', bg: 'category.exhibit.bg' }),
+  学術: css({ color: 'fg', bg: 'category.academic.bg' }),
+  ステージ: css({ color: 'fg', bg: 'category.stage.bg' }),
+  その他: css({ color: 'fg', bg: 'category.other.bg' }),
 };

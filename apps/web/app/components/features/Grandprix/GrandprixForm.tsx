@@ -222,7 +222,13 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
         </StepCard>
 
         {submit.isError && (
-          <p className={css({ px: '4px', color: 'favorite.text', fontSize: 'sm' })}>
+          <p
+            className={css({
+              px: '4px',
+              color: 'favorite.text',
+              fontSize: 'sm',
+            })}
+          >
             {submit.error.message ||
               '送信に失敗しました。もう一度お試しください。'}
           </p>
