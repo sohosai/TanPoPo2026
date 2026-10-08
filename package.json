@@ -7,7 +7,7 @@
     "db:reset": "bun run --cwd apps/api db:reset",
     "check": "turbo run check-types",
     "check:map-data": "bun run scripts/validate-map-data.ts",
-    "import:shop-locations": "bun run scripts/import-shop-locations.ts",
+    "import:project-locations": "bun run scripts/import-project-locations.ts",
     "import:stage-projects": "bun run scripts/import-stage-projects.ts",
     "ingest:osm": "bun run scripts/ingest-osm.ts",
     "ingest:campus-buildings": "bun run scripts/ingest-campus-buildings.ts",

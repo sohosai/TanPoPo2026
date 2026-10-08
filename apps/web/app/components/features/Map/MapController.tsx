@@ -39,6 +39,8 @@ export type MapController = {
   flyTo: (center: LngLat, options?: FocusOptions) => void;
   /** 座標へ移動しハイライトを置く */
   focusPoint: (point: LngLat, options?: FocusOptions) => void;
+  /** 範囲が収まるところまで寄る。収まるズームが minZoom 未満なら minZoom まで寄り、範囲の端ははみ出す */
+  fitBounds: (bounds: [LngLat, LngLat], minZoom?: number) => void;
   /** ハイライトマーカーを置く（null で消す） */
   highlight: (point: LngLat | null) => void;
   /** 地図を初期表示（会場全体）に戻す */
@@ -53,11 +55,14 @@ export const INITIAL_VIEW = {
 
 // 周りの建物も見える程度に引いておく。
 const DEFAULT_FOCUS_ZOOM = 17.3;
-/** 屋外ブースに寄せるときのズーム。テントの形が見える（地図がテントを描き始める 18 より寄った）ところ。 */
+/** 屋外ブースに寄せるときのズーム。テントの形がはっきり見えるところ。 */
 export const BOOTH_FOCUS_ZOOM = 18.5;
 const DEFAULT_DURATION = 800;
 // 下部シートに隠れないよう、フォーカス点を画面上方へ寄せる既定オフセット。
 const SHEET_OFFSET: [number, number] = [0, -120];
+// fitBounds で下部シートに隠れないよう、下側を広く空ける。
+const SHEET_PADDING = { top: 40, left: 40, right: 40, bottom: 240 };
+const DESKTOP_PADDING = { top: 40, left: 40, right: 40, bottom: 40 };
 const defaultOffset = (): [number, number] =>
   isDesktopViewport() ? [0, 0] : SHEET_OFFSET;
 
@@ -110,6 +115,26 @@ export function MapProvider({ children }: { children: ReactNode }) {
     [flyTo, highlight],
   );
 
+  // maplibre の fitBounds の minZoom は飛行経路の頂点のズームで、到着時の下限にはならない。
+  // そのため収まるズームだけ求め、下限をかけて飛ぶ。中心は padding の内側の中央に置く。
+  const fitBounds = useCallback(
+    (bounds: [LngLat, LngLat], minZoom = 0) => {
+      const padding = isDesktopViewport() ? DESKTOP_PADDING : SHEET_PADDING;
+      const fitZoom = mapRef.current?.cameraForBounds(bounds, {
+        padding,
+      })?.zoom;
+      const [[west, south], [east, north]] = bounds;
+      flyTo([(west + east) / 2, (south + north) / 2], {
+        zoom: Math.max(fitZoom ?? minZoom, minZoom),
+        offset: [
+          (padding.left - padding.right) / 2,
+          (padding.top - padding.bottom) / 2,
+        ],
+      });
+    },
+    [flyTo],
+  );
+
   const resetView = useCallback(() => {
     mapRef.current?.flyTo({
       center: INITIAL_VIEW.center,
@@ -127,10 +152,11 @@ export function MapProvider({ children }: { children: ReactNode }) {
       getMap: () => mapRef.current,
       flyTo,
       focusPoint,
+      fitBounds,
       highlight,
       resetView,
     }),
-    [isReady, register, flyTo, focusPoint, highlight, resetView],
+    [isReady, register, flyTo, focusPoint, fitBounds, highlight, resetView],
   );
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

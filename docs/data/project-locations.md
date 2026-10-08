@@ -4,12 +4,12 @@
 
 | 対象 | 情報源 | 反映先 |
 | --- | --- | --- |
-| 屋内・屋外の企画 | 雙峰祭実行委員会の「企画実施場所一覧」（屋内・屋外の xlsx） | `apps/api/data/shop-locations.json` |
+| 屋内・屋外の企画 | 雙峰祭実行委員会の「企画実施場所一覧」（屋内・屋外の xlsx） | `apps/api/data/project-locations.json` |
 | ステージ企画 | SOS 公開 API のカスタム項目 `ステージ実施場所 確定` | `apps/api/data/stage-projects.json` |
 
 どちらにも無い企画は場所が空になり、画面では「未定」と表示される。`bun run check:map-data` は、SOS の企画に場所が空のものがあるとエラーにする。
 
-## shop-locations.json
+## project-locations.json
 
 キーは企画番号、値はその企画の実施場所の配列。
 
@@ -23,7 +23,7 @@
 
 - `placeId` は `apps/api/trpc/routers/place.ts` の `Place.id`。
 - `room` は場所の中での位置。建物では部屋番号（備考に部屋名があれば括弧で添える）か部屋名、屋外ではブース番号。
-- `days` はその場所で実施する日（`前夜祭` / `Day1` / `Day2`）。企画の実施日（`Shop.schedule`）は全場所の `days` の和になる。
+- `days` はその場所で実施する日（`前夜祭` / `Day1` / `Day2`）。企画の実施日（`Project.schedule`）は全場所の `days` の和になる。
 
 画面での表示は、部屋番号なら続けて（`1B208`）、部屋名なら空白を挟む（`6A エントランスホール`）。屋外ブースは場所名だけ（`石の広場周辺`）。
 
@@ -32,11 +32,11 @@
 一覧が更新されたら、xlsx を指定してスクリプトを実行し、生成された JSON をコミットする。
 
 ```sh
-bun run import:shop-locations <屋内_企画実施場所一覧.xlsx> <屋外_企画実施場所一覧.xlsx>
+bun run import:project-locations <屋内_企画実施場所一覧.xlsx> <屋外_企画実施場所一覧.xlsx>
 bun run check:map-data
 ```
 
-スクリプト（`scripts/import-shop-locations.ts`）の変換規則:
+スクリプト（`scripts/import-project-locations.ts`）の変換規則:
 
 - 企画番号の無い行（委員会企画）は取り込まない。
 - 場所 `1B208` → `bldg-1b` の部屋 `208`。`6A` のように建物名だけなら備考を部屋名にする。

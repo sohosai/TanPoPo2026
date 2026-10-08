@@ -5,11 +5,11 @@ import {
   IconWorld,
   type TablerIcon,
 } from '@tabler/icons-react';
-import type { ShopLink, ShopLinkKind } from 'api';
+import type { ProjectLink, ProjectLinkKind } from 'api';
 import { css, cx } from '../../../../styled-system/css';
 
 const LINK_STYLE: Record<
-  ShopLinkKind,
+  ProjectLinkKind,
   { icon: TablerIcon; name: string; iconClass: string }
 > = {
   website: {
@@ -31,7 +31,7 @@ const LINK_STYLE: Record<
 };
 
 /** 企画の公式サイト・SNS へのリンク列。リンクが無い企画では何も表示しない。 */
-export default function ShopLinks({ links }: { links: ShopLink[] }) {
+export default function ProjectLinks({ links }: { links: ProjectLink[] }) {
   if (links.length === 0) return null;
 
   return (

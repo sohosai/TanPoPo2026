@@ -18,7 +18,7 @@ export async function createTRPCContext(
   return {
     env,
     db,
-    sos: getSosClient(env.SOS_API_URL),
+    sos: getSosClient(env.SOS_API_URL, env.HIDDEN_PROJECT_NUMBERS),
     user: await getSessionUser(db, sessionToken),
   };
 }

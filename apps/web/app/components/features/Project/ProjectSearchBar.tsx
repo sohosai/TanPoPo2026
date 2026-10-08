@@ -7,23 +7,23 @@ import {
   emptyCriteria,
   hasActiveFilter,
   SCHEDULE_OPTIONS,
-  type ShopFilterCriteria,
+  type ProjectFilterCriteria,
   toggleItem,
-} from './filter';
+} from './criteria';
 import { ChipDivider, FavoriteFilterChip, FilterChip } from './FilterChip';
 import { DAY_LABELS } from './labels';
 
-type ShopSearchBarProps = {
-  criteria: ShopFilterCriteria;
-  onChange: (next: ShopFilterCriteria) => void;
+type ProjectSearchBarProps = {
+  criteria: ProjectFilterCriteria;
+  onChange: (next: ProjectFilterCriteria) => void;
   tagOptions: string[];
 };
 
-export default function ShopSearchBar({
+export default function ProjectSearchBar({
   criteria,
   onChange,
   tagOptions,
-}: ShopSearchBarProps) {
+}: ProjectSearchBarProps) {
   const panel = useMapPanel();
 
   // IME 変換中は value を外から書き換えると確定文字がダブるため、

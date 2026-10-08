@@ -1,14 +1,14 @@
 import { IconCalendarEvent, IconMapPin } from '@tabler/icons-react';
-import type { Shop } from 'api';
+import type { Project } from 'api';
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
 import FavoriteButton from './FavoriteButton';
 import { badgeClass, CATEGORY_COLOR_CLASS, formatSchedule } from './labels';
-import ShopIcon from './ShopIcon';
+import ProjectIcon from './ProjectIcon';
 
-type ShopListItemProps = {
-  shop: Shop;
+type ProjectListItemProps = {
+  project: Project;
   /** 場所の表示ラベル（建物名＋部屋番号、例 "5C305"）。places から整形して渡す */
   locationLabel?: string;
   favorite?: boolean;
@@ -26,18 +26,18 @@ const metaClass = css({
 });
 
 /** 企画一覧の1行の中身（アイコン・名前・団体・分類・場所・日程）。行の外枠と右端の操作は使う側で付ける。 */
-export function ShopRowContent({
-  shop,
+export function ProjectRowContent({
+  project,
   locationLabel,
 }: {
-  shop: Shop;
+  project: Project;
   locationLabel?: string;
 }) {
-  const { name, organization, category, schedule, cancelled = false } = shop;
+  const { name, organization, category, schedule, cancelled = false } = project;
 
   return (
     <>
-      <ShopIcon shop={shop} size={64} />
+      <ProjectIcon project={project} size={64} />
 
       <div
         className={css({
@@ -129,8 +129,8 @@ export function ShopRowContent({
   );
 }
 
-/** 一覧の行の外枠。ShopListItem と投票の行で見た目を揃える。 */
-export const shopRowClass = css({
+/** 一覧の行の外枠。ProjectListItem と投票の行で見た目を揃える。 */
+export const projectRowClass = css({
   display: 'flex',
   gap: '12px',
   alignItems: 'flex-start',
@@ -144,23 +144,23 @@ export const shopRowClass = css({
   _active: { bg: 'border.subtle' },
 });
 
-export default function ShopListItem({
-  shop,
+export default function ProjectListItem({
+  project,
   locationLabel,
   favorite = false,
   onToggleFavorite,
   className,
   style,
-}: ShopListItemProps) {
-  const { id, number, cancelled = false } = shop;
+}: ProjectListItemProps) {
+  const { id, number, cancelled = false } = project;
 
   return (
     <Link
-      to={`/shop/${number}`}
-      className={cx(shopRowClass, className)}
+      to={`/project/${number}`}
+      className={cx(projectRowClass, className)}
       style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
     >
-      <ShopRowContent shop={shop} locationLabel={locationLabel} />
+      <ProjectRowContent project={project} locationLabel={locationLabel} />
 
       <FavoriteButton
         active={favorite}

@@ -4,7 +4,7 @@ import {
   IconTent,
   type TablerIcon,
 } from '@tabler/icons-react';
-import type { Place, PlaceKind, Shop } from 'api';
+import type { Place, PlaceKind, Project } from 'api';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
@@ -17,14 +17,20 @@ import {
   BOOTH_FOCUS_ZOOM,
   useMap,
 } from '~/components/features/Map/MapController';
-import ShopListItem from '~/components/features/Shop/ShopListItem';
+import ProjectListItem from '~/components/features/Project/ProjectListItem';
+import ProjectSearchBar from '~/components/features/Project/ProjectSearchBar';
+import { NoProjectsMessage } from '~/components/features/Project/StateMessage';
+import {
+  useFilteredProjects,
+  useScopedCriteria,
+} from '~/components/features/Project/useFilteredProjects';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { useFavorites } from '~/lib/favorites';
 import {
   compareRoom,
-  countShops,
+  countProjects,
   formatLocation,
-  groupShopsByPlace,
+  groupProjectsByPlace,
   type PlaceEntry,
   usePlaces,
 } from '~/lib/places';
@@ -40,23 +46,23 @@ const KIND_INFO: Partial<
   stage: { icon: IconMicrophone, label: 'ステージ' },
 };
 
-type Row = { shop: Shop; rooms: string[] };
+type Row = { project: Project; rooms: string[] };
 type Section = { title?: string; rows: Row[] };
 
 /** 同じ企画が複数の部屋にまたがっていても1行にまとめる。 */
 function toRows(entries: PlaceEntry[]): Row[] {
   const rows = new Map<string, Row>();
-  for (const { shop, location } of entries) {
-    const row = rows.get(shop.id) ?? { shop, rooms: [] };
+  for (const { project, location } of entries) {
+    const row = rows.get(project.id) ?? { project, rooms: [] };
     if (location.room) row.rooms.push(location.room);
-    rows.set(shop.id, row);
+    rows.set(project.id, row);
   }
   return [...rows.values()]
     .map((row) => ({ ...row, rooms: row.rooms.sort(compareRoom) }))
     .sort(
       (a, b) =>
         compareRoom(a.rooms[0], b.rooms[0]) ||
-        a.shop.number.localeCompare(b.shop.number),
+        a.project.number.localeCompare(b.project.number),
     );
 }
 
@@ -80,7 +86,7 @@ export default function PlaceDetail() {
   const { placeId } = useParams();
   const { byId } = usePlaces();
   const place = placeId ? byId.get(placeId) : undefined;
-  const { data: shops, status } = trpc.shop.list.useQuery();
+  const { data: projects, status } = trpc.project.list.useQuery();
   const { isFavorite, toggle } = useFavorites();
   const { flyTo } = useMap();
   const panel = useMapPanel();
@@ -106,14 +112,30 @@ export default function PlaceDetail() {
 
   const entries = useMemo(
     () =>
-      shops && placeId ? (groupShopsByPlace(shops).get(placeId) ?? []) : [],
-    [shops, placeId],
+      projects && placeId
+        ? (groupProjectsByPlace(projects).get(placeId) ?? [])
+        : [],
+    [projects, placeId],
   );
-  const sections = useMemo(
-    () => (place ? toSections(place, entries) : []),
-    [place, entries],
+  const count = countProjects(entries);
+
+  const [criteria, setCriteria] = useScopedCriteria(placeId);
+  const placeProjects = useMemo(
+    () => [...new Map(entries.map((e) => [e.project.id, e.project])).values()],
+    [entries],
   );
-  const count = countShops(entries);
+  const { projects: visibleProjects, tagOptions } = useFilteredProjects(
+    placeProjects,
+    criteria,
+  );
+  const sections = useMemo(() => {
+    if (!place) return [];
+    const visibleIds = new Set(visibleProjects.map(({ id }) => id));
+    return toSections(
+      place,
+      entries.filter(({ project }) => visibleIds.has(project.id)),
+    );
+  }, [place, entries, visibleProjects]);
 
   if (!place) {
     return (
@@ -180,6 +202,12 @@ export default function PlaceDetail() {
         <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
+      <ProjectSearchBar
+        criteria={criteria}
+        onChange={setCriteria}
+        tagOptions={tagOptions}
+      />
+
       <div
         className={css({
           flex: 1,
@@ -197,6 +225,10 @@ export default function PlaceDetail() {
           <p className={css({ p: '16px', color: 'fg.subtle' })}>
             この場所の企画はありません。
           </p>
+        )}
+
+        {status === 'success' && count > 0 && visibleProjects.length === 0 && (
+          <NoProjectsMessage favoriteOnly={criteria.favorite} />
         )}
 
         {sections.map((section) => (
@@ -218,17 +250,17 @@ export default function PlaceDetail() {
                 {section.title}
               </h2>
             )}
-            {section.rows.map(({ shop, rooms }) => {
+            {section.rows.map(({ project, rooms }) => {
               const [first, ...rest] = rooms;
               const label = formatLocation(place, first);
               return (
-                <ShopListItem
-                  key={shop.id}
-                  shop={shop}
+                <ProjectListItem
+                  key={project.id}
+                  project={project}
                   locationLabel={
                     rest.length > 0 ? `${label} ほか${rest.length}室` : label
                   }
-                  favorite={isFavorite(shop.id)}
+                  favorite={isFavorite(project.id)}
                   onToggleFavorite={toggle}
                 />
               );

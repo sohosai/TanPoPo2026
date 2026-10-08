@@ -1,20 +1,20 @@
 import { IconCheck } from '@tabler/icons-react';
-import type { Shop } from 'api';
+import type { Project } from 'api';
 import {
-  ShopRowContent,
-  shopRowClass,
-} from '~/components/features/Shop/ShopListItem';
+  ProjectRowContent,
+  projectRowClass,
+} from '~/components/features/Project/ProjectListItem';
 import { css, cx } from '../../../../styled-system/css';
 
 /** 投票の対象として選ぶ企画の行。見た目は企画一覧の行と揃える。 */
-export default function ShopVoteRow({
-  shop,
+export default function ProjectVoteRow({
+  project,
   locationLabel,
   selected,
   disabled,
   onToggle,
 }: {
-  shop: Shop;
+  project: Project;
   locationLabel: string;
   selected: boolean;
   disabled: boolean;
@@ -27,7 +27,7 @@ export default function ShopVoteRow({
       disabled={disabled}
       onClick={onToggle}
       className={cx(
-        shopRowClass,
+        projectRowClass,
         css({
           w: '100%',
           bg: selected ? 'accent.subtle' : 'transparent',
@@ -37,7 +37,7 @@ export default function ShopVoteRow({
         }),
       )}
     >
-      <ShopRowContent shop={shop} locationLabel={locationLabel} />
+      <ProjectRowContent project={project} locationLabel={locationLabel} />
       <span
         className={css({
           flexShrink: 0,

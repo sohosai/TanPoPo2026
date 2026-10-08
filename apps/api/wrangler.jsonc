@@ -9,10 +9,7 @@
   "assets": {
     "directory": "../web/build/client",
     "not_found_handling": "single-page-application",
-    "run_worker_first": [
-      "/trpc/*",
-      "/auth/*"
-    ]
+    "run_worker_first": ["/trpc/*", "/auth/*"]
   },
   "d1_databases": [
     {
@@ -25,6 +22,8 @@
   "vars": {
     "SOS_API_URL": "https://sos26-api.sohosai.com",
     "GRANDPRIX_WIN_RATE": "0.2",
+    "HIDDEN_PROJECT_NUMBERS": "",
+    "GRANDPRIX_HIDDEN_PROJECT_NUMBERS": "",
     "LINE_CHANNEL_ID": "2011922916",
     "LINE_CALLBACK_URL": "http://localhost:5173/auth/line/callback"
   }

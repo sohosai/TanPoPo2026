@@ -1,4 +1,4 @@
-import type { ScheduleDay, ShopCategory } from 'api';
+import type { ScheduleDay, ProjectCategory } from 'api';
 import { css } from '../../../../styled-system/css';
 
 export const DAY_LABELS: Record<ScheduleDay, string> = {
@@ -21,7 +21,7 @@ export const badgeClass = css({
 });
 
 // Panda は css() の引数を静的解析するため、分類ごとのクラスは動的に組み立てず列挙しておく。
-export const CATEGORY_COLOR_CLASS: Record<ShopCategory, string> = {
+export const CATEGORY_COLOR_CLASS: Record<ProjectCategory, string> = {
   食品: css({ color: 'category.food', bg: 'category.food.bg' }),
   物販: css({ color: 'category.goods', bg: 'category.goods.bg' }),
   展示: css({ color: 'category.exhibit', bg: 'category.exhibit.bg' }),
