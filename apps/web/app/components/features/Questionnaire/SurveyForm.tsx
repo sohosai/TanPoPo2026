@@ -51,7 +51,7 @@ export default function SurveyForm({
         pb: '96px',
       })}
     >
-      <p className={css({ fontSize: '13px', color: 'fg.subtle' })}>
+      <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
         {headcount > 1
           ? `${personIndex + 1}人目 / 全${headcount}人`
           : 'アンケートにご協力ください'}
@@ -61,7 +61,7 @@ export default function SurveyForm({
         <div key={question.id}>
           <h3
             className={css({
-              fontSize: '14px',
+              fontSize: 'md',
               fontWeight: 'bold',
               color: 'fg.strong',
               mb: '8px',
@@ -83,14 +83,14 @@ export default function SurveyForm({
                   className={css({
                     px: '16px',
                     py: '8px',
-                    borderRadius: '999px',
-                    border: '1px solid',
+                    borderRadius: 'full',
+                    border: 'token(borderWidths.thin) solid',
                     borderColor:
                       current[question.id] === option ? 'accent' : 'border',
                     bg: current[question.id] === option ? 'accent' : 'surface',
                     color:
                       current[question.id] === option ? 'surface' : 'fg.muted',
-                    fontSize: '14px',
+                    fontSize: 'md',
                     cursor: 'pointer',
                   })}
                 >
@@ -108,10 +108,10 @@ export default function SurveyForm({
               className={css({
                 width: '100%',
                 p: '10px',
-                borderRadius: '8px',
-                border: '1px solid',
+                borderRadius: 'lg',
+                border: 'token(borderWidths.thin) solid',
                 borderColor: 'border',
-                fontSize: '14px',
+                fontSize: 'md',
                 color: 'fg',
                 resize: 'vertical',
               })}
@@ -121,7 +121,7 @@ export default function SurveyForm({
       ))}
 
       {errorMessage && (
-        <p className={css({ color: 'favorite', fontSize: '13px' })}>
+        <p className={css({ color: 'favorite', fontSize: 'sm' })}>
           {errorMessage}
         </p>
       )}
@@ -134,7 +134,8 @@ export default function SurveyForm({
           right: 0,
           p: '16px',
           bg: 'sheet.background',
-          borderTop: '1px solid token(colors.border.subtle)',
+          borderTop:
+            'token(borderWidths.thin) solid token(colors.border.subtle)',
         })}
       >
         <button
@@ -144,11 +145,11 @@ export default function SurveyForm({
           className={css({
             width: '100%',
             py: '12px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             border: 'none',
             bg: canProceed && !submitting ? 'accent' : 'surface.muted',
             color: canProceed && !submitting ? 'surface' : 'fg.subtle',
-            fontSize: '15px',
+            fontSize: 'lg',
             fontWeight: 'bold',
             cursor: canProceed && !submitting ? 'pointer' : 'not-allowed',
           })}

@@ -7,6 +7,6 @@ export const emptyMessageClass = css({
   px: '24px',
   py: '40px',
   textAlign: 'center',
-  fontSize: '13px',
+  fontSize: 'sm',
   color: 'fg.subtle',
 });

@@ -49,7 +49,7 @@ export default function EventBanner() {
             alignItems: 'center',
             gap: '8px',
             p: '10px',
-            borderRadius: '12px',
+            borderRadius: 'xl',
             bg: 'accent.subtle',
             color: 'accent.text',
             textDecoration: 'none',
@@ -67,7 +67,7 @@ export default function EventBanner() {
           >
             <span
               className={css({
-                fontSize: '13px',
+                fontSize: 'sm',
                 fontWeight: 700,
                 truncate: true,
               })}
@@ -76,7 +76,7 @@ export default function EventBanner() {
             </span>
             <span
               className={css({
-                fontSize: '11px',
+                fontSize: '2xs',
                 color: 'fg.subtle',
                 truncate: true,
               })}

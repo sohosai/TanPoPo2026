@@ -26,7 +26,7 @@ export default function SubmitBar({
         right: 0,
         zIndex: 10,
         bg: 'sheet.background',
-        borderTop: '1px solid token(colors.border.subtle)',
+        borderTop: 'token(borderWidths.thin) solid token(colors.border.subtle)',
         boxShadow: 'bar',
       })}
     >
@@ -48,7 +48,7 @@ export default function SubmitBar({
               display: 'flex',
               flexDirection: 'column',
               gap: '4px',
-              fontSize: '12px',
+              fontSize: 'xs',
             })}
           >
             {requirements.map(({ label, done }) => (
@@ -63,11 +63,11 @@ export default function SubmitBar({
           className={css({
             width: '100%',
             py: '12px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             border: 'none',
             bg: canSubmit ? 'accent' : 'surface.muted',
             color: canSubmit ? 'surface' : 'fg.subtle',
-            fontSize: '15px',
+            fontSize: 'lg',
             fontWeight: 'bold',
             cursor: canSubmit ? 'pointer' : 'not-allowed',
           })}
@@ -97,8 +97,8 @@ function ChecklistItem({ done, label }: { done: boolean; label: string }) {
           flexShrink: 0,
           width: '16px',
           height: '16px',
-          borderRadius: '999px',
-          border: '1px solid',
+          borderRadius: 'full',
+          border: 'token(borderWidths.thin) solid',
           borderColor: done ? 'accent' : 'border',
           bg: done ? 'accent' : 'transparent',
           color: 'surface',

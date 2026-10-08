@@ -37,7 +37,7 @@ export function StateMessage({
           justifyContent: 'center',
           width: '64px',
           height: '64px',
-          borderRadius: '999px',
+          borderRadius: 'full',
           bg: 'accent.subtle',
           color: 'accent',
         })}
@@ -52,7 +52,7 @@ export function StateMessage({
       </span>
       <p
         className={css({
-          fontSize: '15px',
+          fontSize: 'lg',
           fontWeight: 'bold',
           color: 'fg',
         })}
@@ -62,7 +62,7 @@ export function StateMessage({
       {description && (
         <p
           className={css({
-            fontSize: '13px',
+            fontSize: 'sm',
             lineHeight: 1.6,
             color: 'fg.subtle',
             whiteSpace: 'pre-line',

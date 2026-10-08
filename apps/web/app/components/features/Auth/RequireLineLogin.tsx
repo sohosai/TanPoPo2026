@@ -33,7 +33,7 @@ export default function RequireLineLogin({
           size={28}
           className={css({ animation: 'spin 1s linear infinite' })}
         />
-        <p className={css({ fontSize: '13px' })}>読み込み中...</p>
+        <p className={css({ fontSize: 'sm' })}>読み込み中...</p>
       </div>
     );
   }
@@ -54,7 +54,7 @@ export default function RequireLineLogin({
       >
         <p
           className={css({
-            fontSize: '14px',
+            fontSize: 'md',
             color: 'fg.muted',
             lineHeight: 1.7,
           })}
@@ -69,10 +69,10 @@ export default function RequireLineLogin({
             gap: '8px',
             px: '20px',
             py: '10px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             bg: 'accent',
             color: 'surface',
-            fontSize: '14px',
+            fontSize: 'md',
             fontWeight: 'bold',
             textDecoration: 'none',
           })}

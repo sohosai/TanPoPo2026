@@ -31,8 +31,8 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
           alignItems: 'center',
           gap: '10px',
           p: '20px',
-          borderRadius: '12px',
-          border: '1px solid',
+          borderRadius: 'xl',
+          border: 'token(borderWidths.thin) solid',
           borderColor: 'border',
           bg: 'surface',
         })}
@@ -44,10 +44,10 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
             gap: '6px',
             px: '14px',
             py: '7px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             bg: 'fg.muted',
             color: 'surface',
-            fontSize: '14px',
+            fontSize: 'md',
             fontWeight: 'bold',
           })}
         >
@@ -67,8 +67,8 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
         flexDirection: 'column',
         gap: '14px',
         p: '16px',
-        borderRadius: '12px',
-        border: '1px solid',
+        borderRadius: 'xl',
+        border: 'token(borderWidths.thin) solid',
         borderColor: 'accent.border',
         bg: 'surface',
       })}
@@ -83,7 +83,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
             justifyContent: 'center',
             width: '36px',
             height: '36px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             bg: 'accent.subtle',
             color: 'accent',
           })}
@@ -93,7 +93,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
         <div className={css({ flex: 1 })}>
           <p
             className={css({
-              fontSize: '14px',
+              fontSize: 'md',
               fontWeight: 'bold',
               color: 'fg.strong',
             })}
@@ -102,7 +102,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
           </p>
           <p
             className={css({
-              fontSize: '12px',
+              fontSize: 'xs',
               color: 'accent',
               fontWeight: 'bold',
             })}
@@ -118,7 +118,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
           alignItems: 'flex-start',
           gap: '8px',
           p: '10px',
-          borderRadius: '8px',
+          borderRadius: 'lg',
           bg: 'favorite.subtle',
           color: 'favorite',
         })}
@@ -129,7 +129,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
         />
         <p
           className={css({
-            fontSize: '12px',
+            fontSize: 'xs',
             fontWeight: 'bold',
             lineHeight: 1.6,
           })}
@@ -147,12 +147,12 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
         className={css({
           width: '100%',
           py: '10px',
-          borderRadius: '999px',
-          border: '1px solid',
+          borderRadius: 'full',
+          border: 'token(borderWidths.thin) solid',
           borderColor: 'accent',
           bg: 'transparent',
           color: 'accent',
-          fontSize: '13px',
+          fontSize: 'sm',
           cursor: markUsed.isPending ? 'not-allowed' : 'pointer',
         })}
       >

@@ -51,7 +51,7 @@ export function ProjectRowContent({
         {/* 一覧の行の高さを揃えるため、各行は1行に収めて溢れた分は省略する */}
         <h3
           className={css({
-            fontSize: '16px',
+            fontSize: 'xl',
             fontWeight: 700,
             lineHeight: 1.4,
             color: 'fg.strong',
@@ -63,7 +63,7 @@ export function ProjectRowContent({
 
         <p
           className={css({
-            fontSize: '12px',
+            fontSize: 'xs',
             color: 'fg.subtle',
             truncate: true,
           })}
@@ -77,7 +77,7 @@ export function ProjectRowContent({
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            fontSize: '12px',
+            fontSize: 'xs',
             color: 'fg.muted',
             whiteSpace: 'nowrap',
             '& > *': { flexShrink: 0 },
@@ -139,7 +139,7 @@ export const projectRowClass = css({
   color: 'inherit',
   textDecoration: 'none',
   textAlign: 'left',
-  borderBottom: '1px solid token(colors.border.subtle)',
+  borderBottom: 'token(borderWidths.thin) solid token(colors.border.subtle)',
   transition: 'background 0.15s',
   _active: { bg: 'border.subtle' },
 });

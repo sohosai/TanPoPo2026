@@ -27,7 +27,7 @@ const roundButton = css({
   justifyContent: 'center',
   w: '44px',
   h: '44px',
-  borderRadius: '999px',
+  borderRadius: 'full',
   bg: 'overlay.control',
   color: 'fg.muted',
   boxShadow: 'float',
@@ -179,10 +179,10 @@ export default function MapControls() {
             maxW: 'min(280px, calc(100vw - 32px))',
             px: '12px',
             py: '8px',
-            borderRadius: '12px',
+            borderRadius: 'xl',
             bg: 'overlay.tooltip',
             color: 'surface',
-            fontSize: '12px',
+            fontSize: 'xs',
             lineHeight: 1.6,
             boxShadow: 'float',
             animation: 'detailEnter 0.2s ease-out',
@@ -227,7 +227,7 @@ export default function MapControls() {
         aria-label={is3d ? '2D表示に切り替える' : '3D表示に切り替える'}
         className={cx(
           roundButton,
-          css({ fontSize: '14px', fontWeight: 700, letterSpacing: '0.02em' }),
+          css({ fontSize: 'md', fontWeight: 700, letterSpacing: '0.02em' }),
         )}
       >
         {is3d ? '2D' : '3D'}

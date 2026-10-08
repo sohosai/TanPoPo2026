@@ -40,12 +40,13 @@ export default function EventPageShell({
           px: '16px',
           py: '14px',
           bg: 'sheet.background',
-          borderBottom: '1px solid token(colors.border.subtle)',
+          borderBottom:
+            'token(borderWidths.thin) solid token(colors.border.subtle)',
         })}
       >
         <h1
           className={css({
-            fontSize: '16px',
+            fontSize: 'xl',
             fontWeight: 'bold',
             color: 'fg.strong',
           })}

@@ -109,7 +109,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
         <p
           className={css({
             px: '4px',
-            fontSize: '13px',
+            fontSize: 'sm',
             lineHeight: 1.7,
             color: 'fg.muted',
           })}
@@ -189,7 +189,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
               px: '16px',
               py: '8px',
               textAlign: 'right',
-              fontSize: '12px',
+              fontSize: 'xs',
               color: 'fg.subtle',
             })}
           >
@@ -222,9 +222,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
         </StepCard>
 
         {submit.isError && (
-          <p
-            className={css({ px: '4px', color: 'favorite', fontSize: '13px' })}
-          >
+          <p className={css({ px: '4px', color: 'favorite', fontSize: 'sm' })}>
             {submit.error.message ||
               '送信に失敗しました。もう一度お試しください。'}
           </p>

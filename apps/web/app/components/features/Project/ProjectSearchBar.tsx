@@ -53,7 +53,8 @@ export default function ProjectSearchBar({
         pt: '4px',
         pb: '8px',
         bg: 'sheet.background',
-        borderBottom: '1px solid token(colors.border.subtle)',
+        borderBottom:
+          'token(borderWidths.thin) solid token(colors.border.subtle)',
       })}
     >
       <label
@@ -63,13 +64,13 @@ export default function ProjectSearchBar({
           gap: '8px',
           h: '44px',
           px: '14px',
-          borderRadius: '12px',
+          borderRadius: 'xl',
           bg: 'border.subtle',
           color: 'fg.subtle',
           cursor: 'text',
           _focusWithin: {
             bg: 'surface',
-            outline: '2px solid token(colors.accent)',
+            outline: 'token(borderWidths.thick) solid token(colors.accent)',
           },
         })}
       >
@@ -99,7 +100,7 @@ export default function ProjectSearchBar({
             border: 'none',
             outline: 'none',
             bg: 'transparent',
-            fontSize: '16px',
+            fontSize: 'xl',
             color: 'fg.strong',
             _placeholder: { color: 'fg.placeholder' },
             '&::-webkit-search-cancel-button': { display: 'none' },
@@ -223,7 +224,7 @@ export default function ProjectSearchBar({
           onClick={() => onChange(emptyCriteria)}
           className={css({
             alignSelf: 'flex-end',
-            fontSize: '12px',
+            fontSize: 'xs',
             color: 'accent.text',
             fontWeight: 500,
             cursor: 'pointer',

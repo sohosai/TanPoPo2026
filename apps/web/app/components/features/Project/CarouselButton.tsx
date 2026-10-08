@@ -30,7 +30,7 @@ export default function CarouselButton({
         borderRadius: '50%',
         bg: 'overlay.frosted',
         backdropFilter: 'blur(8px)',
-        border: '1px solid',
+        border: 'token(borderWidths.thin) solid',
         borderColor: 'overlay.frostedBorder',
         color: 'fg.strong',
         cursor: 'pointer',

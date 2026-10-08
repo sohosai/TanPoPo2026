@@ -38,8 +38,8 @@ const sheetStyles = css({
   display: 'flex',
   flexDirection: 'column',
   bg: 'sheet.background',
-  borderRadius: '16px 16px 0 0',
-  boxShadow: '0 -8px 24px {colors.sheet.shadow}',
+  borderTopRadius: '2xl',
+  boxShadow: 'sheet',
   transition: 'transform 0.45s cubic-bezier(0.32, 0.72, 0, 1)',
   touchAction: 'none',
 });
@@ -67,7 +67,7 @@ const handleAreaStyles = css({
 const handleStyles = css({
   w: '42px',
   h: '5px',
-  borderRadius: '999px',
+  borderRadius: 'full',
   bg: 'sheet.handle',
 });
 

@@ -16,7 +16,7 @@ export const badgeClass = css({
   px: '6px',
   py: '0.45em',
   textBox: 'trim-both cap alphabetic',
-  borderRadius: '4px',
+  borderRadius: 'sm',
   fontWeight: 700,
 });
 

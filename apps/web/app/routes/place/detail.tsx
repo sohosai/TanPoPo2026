@@ -145,7 +145,8 @@ export default function PlaceDetail() {
           px: '16px',
           pt: '2px',
           pb: '12px',
-          borderBottom: '1px solid token(colors.border.subtle)',
+          borderBottom:
+            'token(borderWidths.thin) solid token(colors.border.subtle)',
         })}
       >
         <span
@@ -156,7 +157,7 @@ export default function PlaceDetail() {
             justifyContent: 'center',
             w: '48px',
             h: '48px',
-            borderRadius: '14px',
+            borderRadius: 'xl',
             bg: 'accent.subtle',
             color: 'accent.text',
           })}
@@ -166,7 +167,7 @@ export default function PlaceDetail() {
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
             className={css({
-              fontSize: '20px',
+              fontSize: '2xl',
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
@@ -174,7 +175,7 @@ export default function PlaceDetail() {
           >
             {place.name}
           </h1>
-          <p className={css({ fontSize: '13px', color: 'fg.subtle' })}>
+          <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
             {info?.label}
             {status === 'success' && ` · ${count}企画`}
           </p>
@@ -212,7 +213,7 @@ export default function PlaceDetail() {
                   px: '16px',
                   py: '6px',
                   bg: 'border.subtle',
-                  fontSize: '12px',
+                  fontSize: 'xs',
                   fontWeight: 700,
                   color: 'fg.muted',
                 })}

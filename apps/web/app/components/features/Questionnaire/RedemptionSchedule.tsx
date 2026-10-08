@@ -9,9 +9,9 @@ export default function RedemptionSchedule() {
         flexDirection: 'column',
         gap: '10px',
         p: '14px',
-        borderRadius: '8px',
+        borderRadius: 'lg',
         bg: 'accent.subtle',
-        fontSize: '13px',
+        fontSize: 'sm',
         color: 'fg',
         lineHeight: 1.8,
       })}

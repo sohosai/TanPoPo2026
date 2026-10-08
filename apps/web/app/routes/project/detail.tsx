@@ -41,7 +41,7 @@ function ProjectFacts({
       className={css({
         mx: '16px',
         mt: '16px',
-        borderRadius: '12px',
+        borderRadius: 'xl',
         bg: 'border.subtle',
         '& > div': {
           display: 'flex',
@@ -49,10 +49,10 @@ function ProjectFacts({
           gap: '10px',
           px: '14px',
           py: '10px',
-          fontSize: '14px',
+          fontSize: 'md',
         },
         '& > div + div': {
-          borderTop: '1px solid token(colors.surface)',
+          borderTop: 'token(borderWidths.thin) solid token(colors.surface)',
         },
         '& dt': {
           display: 'flex',
@@ -61,7 +61,7 @@ function ProjectFacts({
           w: '64px',
           flexShrink: 0,
           color: 'fg.subtle',
-          fontSize: '12px',
+          fontSize: 'xs',
         },
         '& dd': { flex: 1, minWidth: 0, color: 'fg.strong', fontWeight: 500 },
       })}
@@ -182,7 +182,7 @@ export default function Detail() {
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
             className={css({
-              fontSize: '20px',
+              fontSize: '2xl',
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
@@ -197,14 +197,14 @@ export default function Detail() {
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              fontSize: '13px',
+              fontSize: 'sm',
               color: 'fg.subtle',
             })}
           >
             <span
               className={cx(
                 badgeClass,
-                css({ flexShrink: 0, fontSize: '11px' }),
+                css({ flexShrink: 0, fontSize: '2xs' }),
                 CATEGORY_COLOR_CLASS[project.category],
               )}
             >
@@ -226,10 +226,10 @@ export default function Detail() {
             mt: '12px',
             px: '12px',
             py: '8px',
-            borderRadius: '8px',
+            borderRadius: 'lg',
             bg: 'fg.strong',
             color: 'surface',
-            fontSize: '13px',
+            fontSize: 'sm',
             fontWeight: 700,
           })}
         >
@@ -295,7 +295,7 @@ export default function Detail() {
                     scrollSnapAlign: 'center',
                     aspectRatio: '4 / 3',
                     overflow: 'hidden',
-                    borderRadius: '12px',
+                    borderRadius: 'xl',
                     bg: 'border.subtle',
                     cursor: 'zoom-in',
                   })}
@@ -337,10 +337,10 @@ export default function Detail() {
                   bottom: '12px',
                   px: '8px',
                   py: '2px',
-                  borderRadius: '999px',
+                  borderRadius: 'full',
                   bg: 'overlay.scrim',
                   color: 'surface',
-                  fontSize: '11px',
+                  fontSize: '2xs',
                   fontWeight: 500,
                   pointerEvents: 'none',
                 })}
@@ -355,7 +355,7 @@ export default function Detail() {
       <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
         <h2
           className={css({
-            fontSize: '15px',
+            fontSize: 'lg',
             fontWeight: 700,
             color: 'fg.strong',
           })}
@@ -365,7 +365,7 @@ export default function Detail() {
         <p
           className={css({
             mt: '8px',
-            fontSize: '15px',
+            fontSize: 'lg',
             lineHeight: 1.8,
             color: 'fg',
             whiteSpace: 'pre-wrap',
@@ -389,7 +389,8 @@ export default function Detail() {
           pt: '12px',
           pb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
           bg: 'sheet.background',
-          borderTop: '1px solid token(colors.border.subtle)',
+          borderTop:
+            'token(borderWidths.thin) solid token(colors.border.subtle)',
         })}
       >
         <button
@@ -402,10 +403,10 @@ export default function Detail() {
             justifyContent: 'center',
             gap: '6px',
             h: '48px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             bg: 'accent.text',
             color: 'surface',
-            fontSize: '15px',
+            fontSize: 'lg',
             fontWeight: 700,
             cursor: 'pointer',
             _active: { opacity: 0.85 },
@@ -424,7 +425,7 @@ export default function Detail() {
             flexShrink: 0,
             w: '48px',
             h: '48px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             bg: 'border.subtle',
           })}
         />

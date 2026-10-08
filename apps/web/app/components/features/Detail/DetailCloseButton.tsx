@@ -10,7 +10,7 @@ const buttonStyles = css({
   justifyContent: 'center',
   w: '36px',
   h: '36px',
-  borderRadius: '999px',
+  borderRadius: 'full',
   bg: 'border.subtle',
   color: 'fg.muted',
   transition:
