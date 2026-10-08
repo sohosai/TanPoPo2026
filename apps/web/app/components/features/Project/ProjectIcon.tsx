@@ -17,7 +17,7 @@ const iconClass = css({
     position: 'absolute',
     inset: 0,
     borderRadius: '50%',
-    boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 0.08)',
+    boxShadow: 'ring',
     pointerEvents: 'none',
   },
 });

@@ -53,7 +53,7 @@ export default function StageTabs({
               py: '8px',
               borderRadius: '9px',
               bg: selected ? 'surface' : 'transparent',
-              boxShadow: selected ? '0 1px 4px rgba(0, 0, 0, 0.12)' : 'none',
+              boxShadow: selected ? 'tab' : 'none',
               color: selected ? 'accent.text' : 'fg.muted',
               cursor: 'pointer',
               transition: 'background 0.15s, color 0.15s',

@@ -1,6 +1,7 @@
 import { IconSparkles } from '@tabler/icons-react';
 import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 import { css } from '../../../../styled-system/css';
+import { token } from '../../../../styled-system/tokens';
 
 const DRAW_DURATION_MS = 1800;
 
@@ -112,8 +113,8 @@ function RouletteWheel() {
           // Pandaはanimation値を静的解析するため、DRAW_DURATION_MSと
           // 同じ値(1800ms)を固定文字列で書く必要がある。
           animation: 'rouletteSpin 1800ms cubic-bezier(0.15, 0.65, 0.2, 1) 1',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
-          border: '4px solid white',
+          boxShadow: 'raised',
+          border: '4px solid token(colors.white)',
         })}
       />
     </>
@@ -121,13 +122,17 @@ function RouletteWheel() {
 }
 
 const WIN_CONFETTI_COLORS = [
-  '#3bb6b6',
-  '#ffd166',
-  '#ff6b81',
-  '#4A93D7',
-  '#7ed6a5',
+  token.var('colors.brand.500'),
+  token.var('colors.result.confetti.gold'),
+  token.var('colors.favorite'),
+  token.var('colors.result.confetti.blue'),
+  token.var('colors.result.confetti.mint'),
 ];
-const LOSE_DUST_COLORS = ['#b8c2c2', '#9aa5a5', '#c7d6d6'];
+const LOSE_DUST_COLORS = [
+  token.var('colors.result.dust.mid'),
+  token.var('colors.result.dust.dark'),
+  token.var('colors.result.dust.light'),
+];
 
 type Particle = {
   id: number;
@@ -153,7 +158,10 @@ function useParticles(count: number, colors: string[], spread: number) {
         rotate: Math.round(Math.random() * 360),
         delay: Math.random() * 0.2,
         size: 6 + Math.round(Math.random() * 4),
-        color: colors[i % colors.length] ?? colors[0] ?? '#3bb6b6',
+        color:
+          colors[i % colors.length] ??
+          colors[0] ??
+          token.var('colors.brand.500'),
         round: i % 2 === 0,
       } satisfies Particle;
     });
@@ -226,7 +234,7 @@ function WinBadge() {
           height: '180px',
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(59, 182, 182, 0.45), transparent 70%)',
+            'radial-gradient(circle, token(colors.result.winGlow), transparent 70%)',
           animation: 'resultGlow 1s ease-out forwards',
         })}
       />
@@ -270,9 +278,8 @@ function WinBadge() {
           color: 'surface',
           fontSize: '30px',
           fontWeight: 'bold',
-          border: '4px double white',
-          boxShadow:
-            '0 0 0 4px token(colors.accent), 0 8px 28px rgba(59, 182, 182, 0.5)',
+          border: '4px double token(colors.white)',
+          boxShadow: '0 0 0 4px token(colors.accent), token(shadows.win)',
           animation: 'resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
         })}
       >
@@ -294,7 +301,7 @@ function LoseBadge() {
           height: '180px',
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(31, 58, 95, 0.35), transparent 70%)',
+            'radial-gradient(circle, token(colors.result.loseGlow), transparent 70%)',
           animation: 'resultGlow 1s ease-out forwards',
         })}
       />
@@ -310,13 +317,13 @@ function LoseBadge() {
           width: '160px',
           height: '160px',
           borderRadius: '50%',
-          bg: '#1f3a5f',
+          bg: 'result.lose',
           color: 'surface',
           fontSize: '36px',
           fontWeight: 'normal',
           fontFamily: "'Yuji Syuku', serif",
-          border: '3px solid white',
-          boxShadow: '0 8px 24px rgba(31, 58, 95, 0.4)',
+          border: '3px solid token(colors.white)',
+          boxShadow: 'lose',
           animation:
             'resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), resultShake 0.6s ease-in-out 0.6s 1',
         })}

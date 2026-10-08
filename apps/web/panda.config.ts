@@ -1,21 +1,16 @@
 import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
-  // Whether to use css reset
   preflight: true,
 
-  // Where to look for your css declarations
   include: ['./app/**/*.{js,jsx,ts,tsx}'],
 
-  // Files to exclude
   exclude: [],
 
-  // Useful for theme customization
   theme: {
     extend: {
       tokens: {
         colors: {
-          // ブランドのティール系パレット（生の値）。
           brand: {
             50: { value: '#eef6f6' },
             100: { value: '#bfe9e9' },
@@ -28,7 +23,6 @@ export default defineConfig({
           },
         },
       },
-      // いいねの演出。ハートのポップと拡散リング。
       keyframes: {
         heartPop: {
           '0%': { transform: 'scale(1)' },
@@ -47,22 +41,18 @@ export default defineConfig({
             opacity: '0',
           },
         },
-        // 一覧 → 詳細へ入るときの入場アニメ（軽くスライドアップ＋フェード）。
         detailEnter: {
           '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        // 詳細を × で閉じるときの退場アニメ（沈み込みながらフェードアウト）。
         detailExit: {
           '0%': { opacity: '1', transform: 'translateY(0) scale(1)' },
           '100%': { opacity: '0', transform: 'translateY(24px) scale(0.97)' },
         },
-        // 閉じるボタンの × が回りながら縮む。
         closeSpin: {
           '0%': { transform: 'rotate(0deg) scale(1)' },
           '100%': { transform: 'rotate(90deg) scale(0.75)' },
         },
-        // 詳細から一覧へ戻ったときに、各企画が順に下からふわっと出てくる。
         itemEnter: {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -118,7 +108,6 @@ export default defineConfig({
           '100%': { transform: 'rotate(0deg)' },
         },
       },
-      // 役割ベースの色。コンポーネントからはこちらを参照する。
       semanticTokens: {
         colors: {
           accent: {
@@ -128,7 +117,7 @@ export default defineConfig({
             subtle: { value: '{colors.brand.50}' },
             border: { value: '{colors.brand.100}' },
           },
-          // 企画の分類バッジ用。分類の識別にだけ使い、操作色(accent)とは混ぜない。
+          // 企画の分類バッジ用。分類の識別にだけ使い、`accent`とは混ぜない。
           category: {
             food: { DEFAULT: { value: '#c2410c' }, bg: { value: '#fff1e6' } },
             goods: { DEFAULT: { value: '#be185d' }, bg: { value: '#fdeef5' } },
@@ -143,11 +132,17 @@ export default defineConfig({
             stage: { DEFAULT: { value: '#0f766e' }, bg: { value: '#e6f6f4' } },
             other: { DEFAULT: { value: '#525866' }, bg: { value: '#f0f1f3' } },
           },
+          // 文字・アイコンの色。濃いほど主要な情報に使う。
           fg: {
+            // 本文。
             DEFAULT: { value: '#333333' },
+            // 企画名・入力文字など、特に目立たせたい文字。
             strong: { value: '#222222' },
+            // 閉じるボタン・補足説明などの副次的な文字。
             muted: { value: '#555555' },
+            // 注釈・未選択状態など、さらに控えめな文字。
             subtle: { value: '#888888' },
+            // 入力欄のプレースホルダーと、無効状態の文字。
             placeholder: { value: '#9aa5a5' },
           },
           border: {
@@ -161,7 +156,62 @@ export default defineConfig({
           favorite: {
             DEFAULT: { value: '#ff6b81' },
             inactive: { value: '#cccccc' },
+            subtle: { value: '{colors.favorite/10}' },
           },
+          sns: {
+            x: { value: '{colors.black}' },
+            instagram: { value: '#d62976' },
+            youtube: { value: '#ff0000' },
+          },
+          logo: { value: '#ff0000' },
+          overlay: {
+            scrim: { value: '{colors.black/55}' },
+            viewer: { value: 'rgba(10, 10, 12, 0.96)' },
+            glass: { value: '{colors.white/12}' },
+            glassHover: { value: '{colors.white/22}' },
+            frosted: { value: '{colors.white/40}' },
+            frostedHover: { value: '{colors.white/60}' },
+            frostedBorder: { value: '{colors.white/30}' },
+            control: { value: '{colors.white/95}' },
+            tooltip: { value: '{colors.fg.strong/88}' },
+          },
+          result: {
+            lose: { value: '#1f3a5f' },
+            winGlow: { value: '{colors.brand.500/45}' },
+            loseGlow: { value: '{colors.result.lose/35}' },
+            confetti: {
+              gold: { value: '#ffd166' },
+              blue: { value: '#4a93d7' },
+              mint: { value: '#7ed6a5' },
+            },
+            dust: {
+              light: { value: '#c7d6d6' },
+              mid: { value: '#b8c2c2' },
+              dark: { value: '#9aa5a5' },
+            },
+          },
+          // MapLibre は CSS 変数を解釈できないため、地図で使う色は16進の値で持つ。
+          map: {
+            campusBuilding: { value: '#97bbdc' },
+            basemapBuilding: { value: '#d9d9d2' },
+          },
+          debug: {
+            path: { value: '#ff5a36' },
+            entrance: { value: '#2e9e5b' },
+            label: { value: '#0a6b6b' },
+            labelBg: { value: '{colors.white/82}' },
+          },
+        },
+        shadows: {
+          card: { value: '0 1px 3px {colors.black/6}' },
+          tab: { value: '0 1px 4px {colors.black/12}' },
+          bar: { value: '0 -4px 12px {colors.black/5}' },
+          float: { value: '0 2px 8px {colors.black/18}' },
+          raised: { value: '0 4px 20px {colors.black/18}' },
+          carousel: { value: '0 4px 12px {colors.black/10}' },
+          ring: { value: 'inset 0 0 0 1px {colors.black/8}' },
+          win: { value: '0 8px 28px {colors.brand.500/50}' },
+          lose: { value: '0 8px 24px {colors.result.lose/40}' },
         },
       },
     },
@@ -187,6 +237,5 @@ export default defineConfig({
     },
   },
 
-  // The output directory for your css system
   outdir: 'styled-system',
 });

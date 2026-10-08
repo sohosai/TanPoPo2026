@@ -27,7 +27,7 @@ export default function SubmitBar({
         zIndex: 10,
         bg: 'sheet.background',
         borderTop: '1px solid token(colors.border.subtle)',
-        boxShadow: '0 -4px 12px rgba(0, 0, 0, 0.05)',
+        boxShadow: 'bar',
       })}
     >
       <div
