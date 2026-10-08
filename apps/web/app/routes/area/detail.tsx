@@ -13,13 +13,8 @@ import {
 } from '~/components/features/Map/campusData';
 import { AREA_MAX_ZOOM } from '~/components/features/Map/campusStyle';
 import { useMap } from '~/components/features/Map/MapController';
+import { compareProjects } from '~/components/features/Project/filter';
 import ProjectList from '~/components/features/Project/ProjectList';
-import ProjectSearchBar from '~/components/features/Project/ProjectSearchBar';
-import { NoProjectsMessage } from '~/components/features/Project/StateMessage';
-import {
-  useFilteredProjects,
-  useScopedCriteria,
-} from '~/components/features/Project/useFilteredProjects';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
@@ -56,16 +51,13 @@ export default function AreaDetail() {
   const areaProjects = useMemo(
     () =>
       status === 'success'
-        ? projects?.filter((project) =>
-            areasOfProject(project, byId).some(({ id }) => id === areaId),
-          )
+        ? projects
+            ?.filter((project) =>
+              areasOfProject(project, byId).some(({ id }) => id === areaId),
+            )
+            .sort(compareProjects)
         : undefined,
     [status, projects, byId, areaId],
-  );
-  const [criteria, setCriteria] = useScopedCriteria(areaId);
-  const { projects: visibleProjects, tagOptions } = useFilteredProjects(
-    areaProjects,
-    criteria,
   );
 
   if (!area) {
@@ -129,12 +121,6 @@ export default function AreaDetail() {
         <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
-      <ProjectSearchBar
-        criteria={criteria}
-        onChange={setCriteria}
-        tagOptions={tagOptions}
-      />
-
       <div
         className={css({
           flex: 1,
@@ -158,12 +144,7 @@ export default function AreaDetail() {
             このエリアの企画はありません。
           </p>
         )}
-        {areaProjects &&
-          areaProjects.length > 0 &&
-          visibleProjects.length === 0 && (
-            <NoProjectsMessage favoriteOnly={criteria.favorite} />
-          )}
-        <ProjectList projects={visibleProjects} />
+        {areaProjects && <ProjectList projects={areaProjects} />}
       </div>
     </div>
   );
