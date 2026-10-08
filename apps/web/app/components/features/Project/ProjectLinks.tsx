@@ -17,16 +17,16 @@ const LINK_STYLE: Record<
     name: 'Webサイト',
     iconClass: css({ color: 'accent.text' }),
   },
-  x: { icon: IconBrandX, name: 'X', iconClass: css({ color: '#000000' }) },
+  x: { icon: IconBrandX, name: 'X', iconClass: css({ color: 'sns.x' }) },
   instagram: {
     icon: IconBrandInstagram,
     name: 'Instagram',
-    iconClass: css({ color: '#d62976' }),
+    iconClass: css({ color: 'sns.instagram' }),
   },
   youtube: {
     icon: IconBrandYoutube,
     name: 'YouTube',
-    iconClass: css({ color: '#ff0000' }),
+    iconClass: css({ color: 'sns.youtube' }),
   },
 };
 

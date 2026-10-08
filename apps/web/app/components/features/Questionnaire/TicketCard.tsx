@@ -119,7 +119,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
           gap: '8px',
           p: '10px',
           borderRadius: '8px',
-          bg: 'rgba(255, 107, 129, 0.1)',
+          bg: 'favorite.subtle',
           color: 'favorite',
         })}
       >

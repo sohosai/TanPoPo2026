@@ -18,11 +18,11 @@ const glassButton = css({
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '999px',
-  bg: 'rgba(255, 255, 255, 0.12)',
-  color: '#ffffff',
+  bg: 'overlay.glass',
+  color: 'white',
   cursor: 'pointer',
   transition: 'background-color 0.15s, transform 0.1s',
-  _hover: { bg: 'rgba(255, 255, 255, 0.22)' },
+  _hover: { bg: 'overlay.glassHover' },
   _active: { transform: 'scale(0.92)' },
 });
 
@@ -102,9 +102,9 @@ export default function ImageViewer({
         zIndex: 1000,
         display: 'flex',
         flexDirection: 'column',
-        bg: 'rgba(10, 10, 12, 0.96)',
+        bg: 'overlay.viewer',
         backdropFilter: 'blur(20px)',
-        color: '#ffffff',
+        color: 'white',
         animation: 'viewerFade 0.2s ease-out',
       })}
     >
@@ -257,7 +257,7 @@ export default function ImageViewer({
                 transition: 'opacity 0.15s, outline-color 0.15s',
                 '&[aria-current=true]': {
                   opacity: 1,
-                  outlineColor: '#ffffff',
+                  outlineColor: 'white',
                 },
               })}
             >

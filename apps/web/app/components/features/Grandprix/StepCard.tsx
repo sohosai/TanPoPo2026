@@ -21,7 +21,7 @@ export default function StepCard({
       className={css({
         bg: 'surface',
         borderRadius: '16px',
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.06)',
+        boxShadow: 'card',
         overflow: 'hidden',
       })}
     >

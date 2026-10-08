@@ -12,6 +12,7 @@ import type { CampusData } from './campusData';
 export const ACCENT = token('colors.brand.500');
 const ACCENT_TEXT = token('colors.accent.text');
 const TEXT = token('colors.fg.strong');
+const WHITE = token('colors.white');
 export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
   食品: token('colors.category.food'),
   物販: token('colors.category.goods'),
@@ -40,8 +41,8 @@ const FLOOR_HEIGHT = 4;
 const BOOTH_HEIGHT = 2.5;
 const SELECTED_BOOTH_HEIGHT = 3.5;
 // 地図スタイルの sohosai-buildings（平面の建物の塗り）と揃える。
-const CAMPUS_BUILDING_COLOR = '#97bbdc';
-const BASEMAP_BUILDING_COLOR = '#d9d9d2';
+const CAMPUS_BUILDING_COLOR = token('colors.map.campusBuilding');
+const BASEMAP_BUILDING_COLOR = token('colors.map.basemapBuilding');
 const BASEMAP_3D_OPACITY = 0.6;
 
 /** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤ。 */
@@ -71,7 +72,7 @@ export const SOURCES = {
 
 const textPaint = {
   'text-color': TEXT,
-  'text-halo-color': '#ffffff',
+  'text-halo-color': WHITE,
   'text-halo-width': 1.6,
 };
 
@@ -325,7 +326,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
         18,
         12,
       ],
-      'circle-stroke-color': '#ffffff',
+      'circle-stroke-color': WHITE,
       'circle-stroke-width': 2,
     },
   });
@@ -336,7 +337,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     filter: buildingWithProjects,
     minzoom: AREA_MAX_ZOOM,
     layout: countLayout,
-    paint: { 'text-color': '#ffffff' },
+    paint: { 'text-color': WHITE },
   });
   addSteppedLabel(
     map,
@@ -364,7 +365,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     paint: {
       'circle-color': CATEGORY_COLORS.ステージ,
       'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.4, 5, 18, 9],
-      'circle-stroke-color': '#ffffff',
+      'circle-stroke-color': WHITE,
       'circle-stroke-width': 2,
     },
   });
@@ -424,7 +425,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     paint: {
       'circle-color': ['get', 'color'],
       'circle-radius': BOOTH_DOT_RADIUS,
-      'circle-stroke-color': '#ffffff',
+      'circle-stroke-color': WHITE,
       'circle-stroke-width': 1.5,
       'circle-opacity': fadeOut,
       'circle-stroke-opacity': fadeOut,
@@ -459,7 +460,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     source: SOURCES.boothShapes,
     minzoom: BOOTH_FADE_ZOOM,
     paint: {
-      'line-color': '#ffffff',
+      'line-color': WHITE,
       'line-width': 1.2,
       'line-opacity': fadeIn(1),
     },

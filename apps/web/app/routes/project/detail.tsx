@@ -338,7 +338,7 @@ export default function Detail() {
                   px: '8px',
                   py: '2px',
                   borderRadius: '999px',
-                  bg: 'rgba(0, 0, 0, 0.55)',
+                  bg: 'overlay.scrim',
                   color: 'surface',
                   fontSize: '11px',
                   fontWeight: 500,
