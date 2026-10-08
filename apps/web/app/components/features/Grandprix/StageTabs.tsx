@@ -68,6 +68,7 @@ export default function StageTabs({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '2px',
+                h: '1lh',
                 fontSize: '11px',
                 fontWeight: voted ? 'bold' : 'normal',
                 color: voted ? 'accent.text' : 'fg.subtle',

@@ -104,7 +104,15 @@ export function ShopRowContent({
               title={locationLabel}
             >
               <IconMapPin size={13} className={css({ flexShrink: 0 })} />
-              <span className={css({ truncate: true })}>{locationLabel}</span>
+              <span
+                className={css({
+                  truncate: true,
+                  textBox: 'trim-both cap alphabetic',
+                  py: '0.2em',
+                })}
+              >
+                {locationLabel}
+              </span>
             </span>
           )}
           {schedule.length > 0 && (
