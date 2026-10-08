@@ -18,6 +18,12 @@ import {
   useMap,
 } from '~/components/features/Map/MapController';
 import ProjectListItem from '~/components/features/Project/ProjectListItem';
+import ProjectSearchBar from '~/components/features/Project/ProjectSearchBar';
+import { NoProjectsMessage } from '~/components/features/Project/StateMessage';
+import {
+  useFilteredProjects,
+  useScopedCriteria,
+} from '~/components/features/Project/useFilteredProjects';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { useFavorites } from '~/lib/favorites';
 import {
@@ -111,11 +117,25 @@ export default function PlaceDetail() {
         : [],
     [projects, placeId],
   );
-  const sections = useMemo(
-    () => (place ? toSections(place, entries) : []),
-    [place, entries],
-  );
   const count = countProjects(entries);
+
+  const [criteria, setCriteria] = useScopedCriteria(placeId);
+  const placeProjects = useMemo(
+    () => [...new Map(entries.map((e) => [e.project.id, e.project])).values()],
+    [entries],
+  );
+  const { projects: visibleProjects, tagOptions } = useFilteredProjects(
+    placeProjects,
+    criteria,
+  );
+  const sections = useMemo(() => {
+    if (!place) return [];
+    const visibleIds = new Set(visibleProjects.map(({ id }) => id));
+    return toSections(
+      place,
+      entries.filter(({ project }) => visibleIds.has(project.id)),
+    );
+  }, [place, entries, visibleProjects]);
 
   if (!place) {
     return (
@@ -182,6 +202,12 @@ export default function PlaceDetail() {
         <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
+      <ProjectSearchBar
+        criteria={criteria}
+        onChange={setCriteria}
+        tagOptions={tagOptions}
+      />
+
       <div
         className={css({
           flex: 1,
@@ -199,6 +225,10 @@ export default function PlaceDetail() {
           <p className={css({ p: '16px', color: 'fg.subtle' })}>
             この場所の企画はありません。
           </p>
+        )}
+
+        {status === 'success' && count > 0 && visibleProjects.length === 0 && (
+          <NoProjectsMessage favoriteOnly={criteria.favorite} />
         )}
 
         {sections.map((section) => (

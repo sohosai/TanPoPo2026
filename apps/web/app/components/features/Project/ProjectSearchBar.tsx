@@ -9,7 +9,7 @@ import {
   SCHEDULE_OPTIONS,
   type ProjectFilterCriteria,
   toggleItem,
-} from './filter';
+} from './criteria';
 import { ChipDivider, FavoriteFilterChip, FilterChip } from './FilterChip';
 import { DAY_LABELS } from './labels';
 

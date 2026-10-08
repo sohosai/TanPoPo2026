@@ -25,3 +25,13 @@ export function ringContains(ring: LngLat[], [x, y]: LngLat): boolean {
   }
   return inside;
 }
+
+/** リングを囲む南西・北東の座標。 */
+export function ringBounds(ring: LngLat[]): [LngLat, LngLat] {
+  const lngs = ring.map(([lng]) => lng);
+  const lats = ring.map(([, lat]) => lat);
+  return [
+    [Math.min(...lngs), Math.min(...lats)],
+    [Math.max(...lngs), Math.max(...lats)],
+  ];
+}

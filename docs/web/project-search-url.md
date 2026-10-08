@@ -2,7 +2,7 @@
 
 `/` (店舗一覧) の検索・絞り込み条件は URLクエリパラメータで表現され、状態源は URL のみ(`useSearchParams`)。共有リンク・ブラウザの戻る/進むに対応する。
 
-実装: [`apps/web/app/components/features/Project/filter.ts`](../../apps/web/app/components/features/Project/filter.ts)(変換ロジック)、[`apps/web/app/routes/project/index.tsx`](../../apps/web/app/routes/project/index.tsx)(URL⇔状態の接続)
+実装: [`apps/web/app/components/features/Project/criteria.ts`](../../apps/web/app/components/features/Project/criteria.ts)(条件の型とURL変換)、[`filter.ts`](../../apps/web/app/components/features/Project/filter.ts)(絞り込み)、[`apps/web/app/routes/project/index.tsx`](../../apps/web/app/routes/project/index.tsx)(URL⇔状態の接続)
 
 ## パラメータ一覧
 
@@ -27,7 +27,17 @@
 
 ## 新しい絞り込み軸を追加する場合
 
-1. `ProjectFilterCriteria`(filter.ts)に フィールドを追加
-2. `criteriaFromParams` / `criteriaToParams` にパラメータ変換を追加
-3. `filterProjects` に条件を追加
+1. `ProjectFilterCriteria`(criteria.ts)に フィールドを追加
+2. `criteriaFromParams` / `criteriaToParams` にパラメータ変換を追加(選択肢が決まっている軸は、不正な値を捨てる)
+3. `filterProjects`(filter.ts)に条件を追加
 4. `ProjectSearchBar.tsx` にUI(チップ等)を追加し、`onChange({ ...criteria, ... })` で即時にURLへ反映する
+
+## 画面ごとの使い方
+
+条件(`ProjectFilterCriteria`)は、どの画面でも同じ部品で扱う。
+
+- `ProjectSearchBar` … 検索欄とチップ。条件と `onChange` を渡す。
+- `useFilteredProjects(範囲の企画, 条件)` … お気に入りと場所を取得して絞り込み、企画番号順にして返す。タグの選択肢も返す。
+- `ProjectList` … 企画の行を並べる。
+
+条件の置き場だけが画面で異なる。企画一覧は共有・戻る操作のため URL クエリ、グランプリは画面内の `useState`、場所・エリアは `useScopedCriteria` に持つ。`useScopedCriteria` は表示中の場所・エリアが変わると条件を空に戻す。

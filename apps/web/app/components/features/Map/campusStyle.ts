@@ -23,7 +23,7 @@ export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
 
 const FONT = ['Arial Unicode MS Regular'];
 // これより引くとエリア名、寄ると建物名・テント列を出す。
-const AREA_MAX_ZOOM = 16.2;
+export const AREA_MAX_ZOOM = 16.2;
 const DETAIL_ZOOM = 17.4;
 // これより寄ると、建物名の下に中の企画名を並べる。
 const PREVIEW_ZOOM = 18.2;
@@ -115,7 +115,7 @@ const STAGE_LABEL_STEPS: LabelStep[] = [
 const steppedLabelIds = (id: string, steps: LabelStep[]) =>
   steps.map((_, i) => (i === 0 ? id : `${id}-${i}`));
 
-/** タップで企画詳細・場所ページを開く地図レイヤ。 */
+/** タップで企画詳細・場所ページを開く、またはエリアへ寄る地図レイヤ。 */
 export const INTERACTIVE_LAYERS = [
   'campus-booth-fill',
   'campus-booth-3d',
@@ -123,6 +123,7 @@ export const INTERACTIVE_LAYERS = [
   'campus-outdoor-pin',
   'campus-stage-pin',
   ...steppedLabelIds(BUILDING_LABEL, BUILDING_LABEL_STEPS),
+  'campus-area-label',
   'campus-building-fill',
   'campus-building-3d',
 ];

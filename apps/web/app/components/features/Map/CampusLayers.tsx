@@ -80,6 +80,7 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
   if (typeof props?.placeId === 'string' && Number(props.count) > 0) {
     return `/place/${props.placeId}`;
   }
+  if (typeof props?.areaId === 'string') return `/area/${props.areaId}`;
   return null;
 }
 

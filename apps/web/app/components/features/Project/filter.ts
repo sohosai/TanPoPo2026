@@ -1,49 +1,25 @@
-import type { Place, ScheduleDay, Project, ProjectCategory } from 'api';
+import type { Place, Project } from 'api';
 import { formatLocation } from '~/lib/places';
+import type { ProjectFilterCriteria } from './criteria';
 
 /**
- * 店舗一覧の検索・絞り込み条件。
- * 全件取得済みの Project[] に対してクライアント側で適用する（オフライン対応のため）。
+ * 絞り込みに必要な、アプリ横断の参照データ。
+ * お気に入りはアプリ横断のストア、場所は place.list で管理されるため、
+ * criteria ではなくその時点の値を渡して filterProjects を純粋関数に保つ。
  */
-export type ProjectFilterCriteria = {
-  /** あいまい検索キーワード */
-  q: string;
-  /** 主分類（OR：いずれかに一致） */
-  categories: ProjectCategory[];
-  /** 開催日（OR：いずれかに一致） */
-  days: ScheduleDay[];
-  /** タグ（AND：すべて含む） */
-  tags: string[];
-  /** お気に入り（いいね）済みだけに絞り込む */
-  favorite: boolean;
+export type FilterContext = {
+  /** お気に入りの企画 ID */
+  favorites?: ReadonlySet<string>;
+  /** 場所名での検索に使う、id 引きの場所 */
+  places?: ReadonlyMap<string, Place>;
 };
 
-export const emptyCriteria: ProjectFilterCriteria = {
-  q: '',
-  categories: [],
-  days: [],
-  tags: [],
-  favorite: false,
-};
+const NO_FAVORITES: ReadonlySet<string> = new Set();
+const NO_PLACES: ReadonlyMap<string, Place> = new Map();
 
-// UI の選択肢。TODO: 正式な分類が決まったら API の型に合わせて見直す。
-export const CATEGORY_OPTIONS: ProjectCategory[] = [
-  '食品',
-  '物販',
-  '展示',
-  '学術',
-  'ステージ',
-  'その他',
-];
-
-export const SCHEDULE_OPTIONS: ScheduleDay[] = ['前夜祭', 'Day1', 'Day2'];
-
-/** 配列に値が無ければ足し、あれば除いた新しい配列を返す（複数選択のオン/オフ）。 */
-export function toggleItem<T>(list: T[], value: T): T[] {
-  return list.includes(value)
-    ? list.filter((v) => v !== value)
-    : [...list, value];
-}
+/** 企画番号順（番号は桁をそろえてあるので文字列比較で番号順になる）。 */
+export const compareProjects = (a: Project, b: Project) =>
+  a.number.localeCompare(b.number);
 
 /** タグは自由文字列で固定の選択肢を持たないため、企画が持つタグから選択肢を作る。 */
 export function tagOptionsOf(projects: Project[]): string[] {
@@ -80,17 +56,13 @@ function matchesQuery(
 }
 
 /**
- * 条件に合致する店舗だけを返す純粋関数。
+ * 条件に合致する企画だけを、元の順序のまま返す純粋関数。
  * 各軸は独立した述語として AND 結合。フィルタ軸を増やすときはここに条件を足す。
- *
- * お気に入りはアプリ横断のストアで管理されるため、criteria ではなく
- * その時点の ID 集合を引数で受け取る（フィルタを純粋関数のまま保つ）。
  */
 export function filterProjects(
   projects: Project[],
   criteria: ProjectFilterCriteria,
-  favorites: ReadonlySet<string> = new Set(),
-  places: ReadonlyMap<string, Place> = new Map(),
+  { favorites = NO_FAVORITES, places = NO_PLACES }: FilterContext = {},
 ): Project[] {
   const q = normalize(criteria.q);
   return projects.filter(
@@ -104,52 +76,4 @@ export function filterProjects(
         criteria.tags.every((tag) => project.tags.includes(tag))) &&
       (!criteria.favorite || favorites.has(project.id)),
   );
-}
-
-/** 適用中の絞り込みが1つでもあるか（検索キーワードは含めない） */
-export function hasActiveFilter(criteria: ProjectFilterCriteria): boolean {
-  return (
-    criteria.categories.length > 0 ||
-    criteria.days.length > 0 ||
-    criteria.tags.length > 0 ||
-    criteria.favorite
-  );
-}
-
-// ---- URL クエリ <-> 条件 の相互変換 ----
-
-const SEP = ',';
-
-/** URLSearchParams から条件を復元する */
-export function criteriaFromParams(
-  params: URLSearchParams,
-): ProjectFilterCriteria {
-  const readList = (key: string): string[] => {
-    const raw = params.get(key);
-    return raw ? raw.split(SEP).filter(Boolean) : [];
-  };
-  return {
-    q: params.get('q') ?? '',
-    categories: readList('category') as ProjectCategory[],
-    days: readList('day') as ScheduleDay[],
-    tags: readList('tag'),
-    favorite: params.get('fav') === '1',
-  };
-}
-
-/**
- * 条件を URLSearchParams に書き出す。
- * 空の軸はパラメータ自体を消し、URL をきれいに保つ。
- */
-export function criteriaToParams(
-  criteria: ProjectFilterCriteria,
-): URLSearchParams {
-  const params = new URLSearchParams();
-  if (criteria.q.trim() !== '') params.set('q', criteria.q.trim());
-  if (criteria.categories.length > 0)
-    params.set('category', criteria.categories.join(SEP));
-  if (criteria.days.length > 0) params.set('day', criteria.days.join(SEP));
-  if (criteria.tags.length > 0) params.set('tag', criteria.tags.join(SEP));
-  if (criteria.favorite) params.set('fav', '1');
-  return params;
 }

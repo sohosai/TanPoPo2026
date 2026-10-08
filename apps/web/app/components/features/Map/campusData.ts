@@ -9,7 +9,7 @@ import { boothCenter, boothShapes } from './booths';
 import { ACCENT, CATEGORY_COLORS } from './campusStyle';
 import buildingsRaw from './data/buildings.geojson?raw';
 import campusBuildingIds from './data/campus-building-ids.json';
-import { type LngLat, ringCenter, ringContains } from './geo';
+import { type LngLat, ringBounds, ringCenter, ringContains } from './geo';
 import sohosaiMap from './sohosai-map.json';
 
 // 地図スタイルに塗り分けとして入っている会場エリア。
@@ -29,8 +29,25 @@ const areaPolygons = AREAS.map(({ source, name }) => {
       { data: { features: { geometry: { coordinates: LngLat[][] } }[] } }
     >
   )[source].data;
-  return { name, ring: data.features[0].geometry.coordinates[0] };
+  const ring = data.features[0].geometry.coordinates[0];
+  return { id: source, name, ring, bounds: ringBounds(ring) };
 });
+
+export const findCampusArea = (id: string | undefined) =>
+  areaPolygons.find((area) => area.id === id);
+
+/** 企画がいずれかの実施場所で属する会場エリア。エリア外・場所不明なら空配列。 */
+export function areasOfProject(
+  project: Project,
+  placesById: ReadonlyMap<string, Place>,
+) {
+  return areaPolygons.filter(({ ring }) =>
+    project.locations.some(({ placeId }) => {
+      const place = placesById.get(placeId);
+      return place && ringContains(ring, place.point);
+    }),
+  );
+}
 
 const buildings = JSON.parse(buildingsRaw) as {
   features: {
@@ -151,15 +168,14 @@ export function buildCampusData(projects: Project[], places: Place[]) {
 
   const areaCounts = new Map<string, number>();
   for (const project of projects) {
-    const primary = placesById.get(project.locations[0]?.placeId ?? '');
-    const area =
-      primary &&
-      areaPolygons.find(({ ring }) => ringContains(ring, primary.point));
-    if (area) areaCounts.set(area.name, (areaCounts.get(area.name) ?? 0) + 1);
+    for (const { name } of areasOfProject(project, placesById)) {
+      areaCounts.set(name, (areaCounts.get(name) ?? 0) + 1);
+    }
   }
 
-  const areaFeatures = areaPolygons.map(({ name, ring }) =>
+  const areaFeatures = areaPolygons.map(({ id, name, ring }) =>
     point(ringCenter(ring), {
+      areaId: id,
       name,
       countLabel: `${areaCounts.get(name) ?? 0}企画`,
     }),
