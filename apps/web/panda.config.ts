@@ -12,9 +12,10 @@ export default defineConfig({
       tokens: {
         colors: {
           brand: {
-            50: { value: '#eef6f6' },
-            100: { value: '#bfe9e9' },
-            500: { value: '#3bb6b6' },
+            50: { value: '#e3effa' },
+            100: { value: '#a3c8eb' },
+            500: { value: '#4a93d7' },
+            700: { value: '#2f6fb0' },
           },
           sheet: {
             background: { value: '#ffffff' },
@@ -113,49 +114,49 @@ export default defineConfig({
           accent: {
             DEFAULT: { value: '{colors.brand.500}' },
             // brand.500 は白背景上の文字としてはコントラストが足りないため、文字用に濃い版を持つ。
-            text: { value: '#1d7f7f' },
+            text: { value: '{colors.brand.700}' },
             subtle: { value: '{colors.brand.50}' },
             border: { value: '{colors.brand.100}' },
           },
           // 企画の分類バッジ用。分類の識別にだけ使い、`accent`とは混ぜない。
           category: {
-            food: { DEFAULT: { value: '#c2410c' }, bg: { value: '#fff1e6' } },
-            goods: { DEFAULT: { value: '#be185d' }, bg: { value: '#fdeef5' } },
+            food: { DEFAULT: { value: '#b53b0f' }, bg: { value: '#fde5dc' } },
+            goods: { DEFAULT: { value: '#c4105e' }, bg: { value: '#fde4ee' } },
             exhibit: {
-              DEFAULT: { value: '#1d4ed8' },
-              bg: { value: '#ebf1ff' },
+              DEFAULT: { value: '#0a752e' },
+              bg: { value: '#d0f1db' },
             },
             academic: {
-              DEFAULT: { value: '#6d28d9' },
-              bg: { value: '#f3edff' },
+              DEFAULT: { value: '#862bee' },
+              bg: { value: '#f0e6fd' },
             },
-            stage: { DEFAULT: { value: '#0f766e' }, bg: { value: '#e6f6f4' } },
-            other: { DEFAULT: { value: '#525866' }, bg: { value: '#f0f1f3' } },
+            stage: { DEFAULT: { value: '#09716e' }, bg: { value: '#cdf1ef' } },
+            other: { DEFAULT: { value: '#506786' }, bg: { value: '#e5eaf1' } },
           },
           // 文字・アイコンの色。濃いほど主要な情報に使う。
           fg: {
             // 本文。
-            DEFAULT: { value: '#333333' },
+            DEFAULT: { value: '#2e3745' },
             // 企画名・入力文字など、特に目立たせたい文字。
-            strong: { value: '#222222' },
+            strong: { value: '#1f2834' },
             // 閉じるボタン・補足説明などの副次的な文字。
-            muted: { value: '#555555' },
+            muted: { value: '#4b5665' },
             // 注釈・未選択状態など、さらに控えめな文字。
-            subtle: { value: '#888888' },
+            subtle: { value: '#647182' },
             // 入力欄のプレースホルダーと、無効状態の文字。
-            placeholder: { value: '#9aa5a5' },
+            placeholder: { value: '#8b96a5' },
           },
           border: {
-            DEFAULT: { value: '#d4dede' },
-            subtle: { value: '#eef3f3' },
+            DEFAULT: { value: '#c6cdd9' },
+            subtle: { value: '#eceff4' },
           },
           surface: {
             DEFAULT: { value: '#ffffff' },
-            muted: { value: '#9e9e9e' },
+            muted: { value: '#828fa3' },
           },
           favorite: {
-            DEFAULT: { value: '#ff6b81' },
-            inactive: { value: '#cccccc' },
+            DEFAULT: { value: '#de6a7d' },
+            inactive: { value: '#bdc4ce' },
             subtle: { value: '{colors.favorite/10}' },
           },
           sns: {
@@ -180,14 +181,14 @@ export default defineConfig({
             winGlow: { value: '{colors.brand.500/45}' },
             loseGlow: { value: '{colors.result.lose/35}' },
             confetti: {
-              gold: { value: '#ffd166' },
-              blue: { value: '#4a93d7' },
-              mint: { value: '#7ed6a5' },
+              gold: { value: '#b28827' },
+              blue: { value: '{colors.brand.500}' },
+              mint: { value: '#24a263' },
             },
             dust: {
-              light: { value: '#c7d6d6' },
-              mid: { value: '#b8c2c2' },
-              dark: { value: '#9aa5a5' },
+              light: { value: '#ced3db' },
+              mid: { value: '#b0b8c4' },
+              dark: { value: '#96a1b1' },
             },
           },
           // MapLibre は CSS 変数を解釈できないため、地図で使う色は16進の値で持つ。
