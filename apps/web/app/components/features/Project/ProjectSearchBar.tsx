@@ -119,9 +119,9 @@ export default function ProjectSearchBar({
             <IconX size={16} />
           </button>
         )}
-        {/* ロゴは虫眼鏡の形なので、検索欄の目印に使う。意味は入力欄の placeholder で伝わるため装飾扱い */}
+        {/* ロゴと同じ意匠の虫眼鏡。意味は入力欄の placeholder で伝わるため装飾扱い */}
         <img
-          src="/logo/square.svg"
+          src="/logo/search.webp"
           alt=""
           width={18}
           height={22}

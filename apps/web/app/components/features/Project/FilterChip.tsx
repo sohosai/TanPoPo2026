@@ -30,7 +30,11 @@ const chipActiveClass = {
     bg: 'accent.subtle',
     color: 'accent.text',
   }),
-  favorite: css({ borderColor: 'favorite', bg: 'favorite', color: 'surface' }),
+  favorite: css({
+    borderColor: 'favorite',
+    bg: 'favorite.subtle',
+    color: 'favorite.text',
+  }),
 };
 
 /** 絞り込み条件のオン/オフを切り替えるチップ。 */

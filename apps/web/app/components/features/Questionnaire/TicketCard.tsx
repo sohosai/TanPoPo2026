@@ -120,7 +120,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
           p: '12px',
           borderRadius: 'lg',
           bg: 'favorite.subtle',
-          color: 'favorite',
+          color: 'favorite.text',
         })}
       >
         <IconAlertTriangle

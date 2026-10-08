@@ -121,7 +121,7 @@ export default function SurveyForm({
       ))}
 
       {errorMessage && (
-        <p className={css({ color: 'favorite', fontSize: 'sm' })}>
+        <p className={css({ color: 'favorite.text', fontSize: 'sm' })}>
           {errorMessage}
         </p>
       )}

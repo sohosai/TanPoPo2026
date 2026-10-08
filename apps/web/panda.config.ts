@@ -155,18 +155,18 @@ export default defineConfig({
           },
           // 企画の分類バッジ用。分類の識別にだけ使い、`accent`とは混ぜない。
           category: {
-            food: { DEFAULT: { value: '#b53b0f' }, bg: { value: '#fde5dc' } },
-            goods: { DEFAULT: { value: '#c4105e' }, bg: { value: '#fde4ee' } },
+            food: { DEFAULT: { value: '#b6422b' }, bg: { value: '#feeae7' } },
+            goods: { DEFAULT: { value: '#b9366c' }, bg: { value: '#fdeaf2' } },
             exhibit: {
-              DEFAULT: { value: '#0a752e' },
-              bg: { value: '#d0f1db' },
+              DEFAULT: { value: '#287752' },
+              bg: { value: '#dbf5e9' },
             },
             academic: {
-              DEFAULT: { value: '#862bee' },
-              bg: { value: '#f0e6fd' },
+              DEFAULT: { value: '#7b50c5' },
+              bg: { value: '#f2ecfd' },
             },
-            stage: { DEFAULT: { value: '#09716e' }, bg: { value: '#cdf1ef' } },
-            other: { DEFAULT: { value: '#506786' }, bg: { value: '#e5eaf1' } },
+            stage: { DEFAULT: { value: '#20737f' }, bg: { value: '#ddf3f6' } },
+            other: { DEFAULT: { value: '#566a82' }, bg: { value: '#ebeff4' } },
           },
           // 文字・アイコンの色。濃いほど主要な情報に使う。
           fg: {
@@ -190,9 +190,11 @@ export default defineConfig({
             muted: { value: '#828fa3' },
           },
           favorite: {
-            DEFAULT: { value: '#de6a7d' },
+            // サーモンピンク。白地との差が小さいため、文字には text を使う。
+            DEFAULT: { value: '#ff7965' },
+            text: { value: '#bf3722' },
             inactive: { value: '#bdc4ce' },
-            subtle: { value: '{colors.favorite/10}' },
+            subtle: { value: '#fff1ee' },
           },
           sns: {
             x: { value: '{colors.black}' },
