@@ -167,14 +167,12 @@ export const grandprixRouter = t.router({
             db
               .insert(grandprixVotes)
               .values({ id: voteId, userId: ctx.user.id }),
-            db
-              .insert(grandprixGeneralVotes)
-              .values(
-                input.generalProjectIds.map((projectId) => ({
-                  voteId,
-                  projectId,
-                })),
-              ),
+            db.insert(grandprixGeneralVotes).values(
+              input.generalProjectIds.map((projectId) => ({
+                voteId,
+                projectId,
+              })),
+            ),
             db
               .insert(grandprixStageVotes)
               .values(stageVotes.map((vote) => ({ voteId, ...vote }))),
