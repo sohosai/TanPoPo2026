@@ -136,6 +136,36 @@ export default function ProjectSearchBar({
           md: { flexWrap: 'wrap', overflowX: 'visible' },
         })}
       >
+        <button
+          type="button"
+          aria-label="条件をクリア"
+          title="条件をクリア"
+          disabled={!canClear}
+          onClick={() => onChange(emptyCriteria)}
+          className={css({
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            w: '32px',
+            h: '32px',
+            borderRadius: '999px',
+            border: '1px solid',
+            borderColor: 'border',
+            bg: 'surface',
+            color: 'fg.muted',
+            cursor: 'pointer',
+            transition: 'opacity 0.15s, color 0.15s',
+            _hover: { color: 'accent.text', borderColor: 'accent.text' },
+            _disabled: {
+              opacity: 0.35,
+              cursor: 'default',
+              _hover: { color: 'fg.muted', borderColor: 'border' },
+            },
+          })}
+        >
+          <IconX size={16} />
+        </button>
         <FavoriteFilterChip
           active={criteria.favorite}
           onClick={() =>
@@ -207,22 +237,6 @@ export default function ProjectSearchBar({
             </FilterChip>
           ))}
         </div>
-      )}
-
-      {canClear && (
-        <button
-          type="button"
-          onClick={() => onChange(emptyCriteria)}
-          className={css({
-            alignSelf: 'flex-end',
-            fontSize: '12px',
-            color: 'accent.text',
-            fontWeight: 500,
-            cursor: 'pointer',
-          })}
-        >
-          条件をクリア
-        </button>
       )}
     </div>
   );
