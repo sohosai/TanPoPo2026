@@ -76,7 +76,11 @@ export default function StageTabs({
               {voted ? (
                 <>
                   <IconCheck size={12} stroke={3} />
-                  投票済み
+                  <span
+                    className={css({ textBox: 'trim-both cap alphabetic' })}
+                  >
+                    投票済み
+                  </span>
                 </>
               ) : count !== undefined ? (
                 `${count}企画`

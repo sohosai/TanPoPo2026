@@ -52,7 +52,9 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
           })}
         >
           <IconCircleCheckFilled size={18} />
-          使用済み
+          <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+            使用済み
+          </span>
         </span>
       </div>
     );

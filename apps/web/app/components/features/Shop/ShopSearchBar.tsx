@@ -178,8 +178,10 @@ export default function ShopSearchBar({
               aria-controls={tagPanelId}
               onClick={() => setTagsOpen((open) => !open)}
             >
-              タグ
-              {criteria.tags.length > 0 && ` ${criteria.tags.length}`}
+              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+                タグ
+                {criteria.tags.length > 0 && ` ${criteria.tags.length}`}
+              </span>
               <IconChevronDown
                 size={14}
                 className={css({ transition: 'transform 0.2s' })}

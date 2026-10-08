@@ -108,7 +108,9 @@ export default function RelatedSitesMenu() {
           },
         })}
       >
-        <span>関連サイト</span>
+        <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+          関連サイト
+        </span>
         <IconChevronDown
           size={15}
           stroke={2.2}

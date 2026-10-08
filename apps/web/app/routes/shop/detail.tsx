@@ -69,7 +69,9 @@ function ShopFacts({
       <div>
         <dt>
           <IconMapPin size={16} />
-          場所
+          <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+            場所
+          </span>
         </dt>
         <dd>
           {locations.length > 0
@@ -84,7 +86,9 @@ function ShopFacts({
       <div>
         <dt>
           <IconCalendarEvent size={16} />
-          日程
+          <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+            日程
+          </span>
         </dt>
         <dd>{schedule || '未定'}</dd>
       </div>
@@ -419,7 +423,9 @@ export default function Detail() {
           })}
         >
           <IconMap size={20} />
-          地図で場所を見る
+          <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+            地図で場所を見る
+          </span>
         </button>
       </div>
 

@@ -106,7 +106,9 @@ function ChecklistItem({ done, label }: { done: boolean; label: string }) {
       >
         {done && <IconCheck size={11} stroke={3} />}
       </span>
-      {label}
+      <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+        {label}
+      </span>
     </li>
   );
 }

@@ -110,7 +110,9 @@ export function ShopRowContent({
           {schedule.length > 0 && (
             <span className={metaClass}>
               <IconCalendarEvent size={13} />
-              {formatSchedule(schedule)}
+              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+                {formatSchedule(schedule)}
+              </span>
             </span>
           )}
         </div>

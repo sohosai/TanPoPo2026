@@ -76,7 +76,9 @@ export function FavoriteFilterChip({
   return (
     <FilterChip tone="favorite" active={active} onClick={onClick}>
       {active ? <IconHeartFilled size={14} /> : <IconHeart size={14} />}
-      いいね
+      <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+        いいね
+      </span>
     </FilterChip>
   );
 }
