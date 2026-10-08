@@ -1,4 +1,4 @@
-import type { Place, Shop } from 'api';
+import type { Place, Project } from 'api';
 import type {
   GeoJSONSource,
   MapGeoJSONFeature,
@@ -23,7 +23,7 @@ import { useMap } from './MapController';
 
 /** 現在のページ（場所ページ・企画詳細）で強調すべき場所とブース。 */
 function useSelection(
-  shops: Shop[] | undefined,
+  projects: Project[] | undefined,
   placesById: ReadonlyMap<string, Place>,
 ): Selection {
   const { pathname } = useLocation();
@@ -32,8 +32,8 @@ function useSelection(
     if (place?.params.placeId) {
       return { placeIds: [place.params.placeId], booths: [] };
     }
-    const shop = matchPath('/project/:number', pathname);
-    const found = shops?.find((s) => s.number === shop?.params.number);
+    const project = matchPath('/project/:number', pathname);
+    const found = projects?.find((s) => s.number === project?.params.number);
     return {
       placeIds: found?.locations.map((location) => location.placeId) ?? [],
       booths:
@@ -41,7 +41,7 @@ function useSelection(
           room && boothCenter(placesById.get(placeId), room) ? [room] : [],
         ) ?? [],
     };
-  }, [pathname, shops, placesById]);
+  }, [pathname, projects, placesById]);
 }
 
 /** 地図上の対象の基準点（テントの形は中心、点はその位置）。基準点が無ければ null。 */
@@ -74,8 +74,8 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
   };
   const props = features.sort((a, b) => distance(a) - distance(b))[0]
     ?.properties;
-  if (typeof props?.shopNumber === 'string' && props.shopNumber !== '') {
-    return `/project/${props.shopNumber}`;
+  if (typeof props?.projectNumber === 'string' && props.projectNumber !== '') {
+    return `/project/${props.projectNumber}`;
   }
   if (typeof props?.placeId === 'string' && Number(props.count) > 0) {
     return `/place/${props.placeId}`;
@@ -90,9 +90,9 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
 export default function CampusLayers() {
   const { isReady, getMap } = useMap();
   const navigate = useNavigate();
-  const { data: shops } = trpc.shop.list.useQuery();
+  const { data: projects } = trpc.project.list.useQuery();
   const { places, byId: placesById } = usePlaces();
-  const selected = useSelection(shops, placesById);
+  const selected = useSelection(projects, placesById);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -149,12 +149,12 @@ export default function CampusLayers() {
 
   useEffect(() => {
     const map = getMap();
-    if (!loaded || !map || !shops) return;
-    const data = buildCampusData(shops, places);
+    if (!loaded || !map || !projects) return;
+    const data = buildCampusData(projects, places);
     for (const key of Object.keys(SOURCES) as (keyof typeof SOURCES)[]) {
       (map.getSource(SOURCES[key]) as GeoJSONSource).setData(data[key]);
     }
-  }, [loaded, getMap, shops, places]);
+  }, [loaded, getMap, projects, places]);
 
   useEffect(() => {
     const map = getMap();

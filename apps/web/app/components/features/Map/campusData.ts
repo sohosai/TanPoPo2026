@@ -1,8 +1,8 @@
-import type { Place, Shop, ShopCategory } from 'api';
+import type { Place, Project, ProjectCategory } from 'api';
 import {
   compareRoom,
-  countShops,
-  groupShopsByPlace,
+  countProjects,
+  groupProjectsByPlace,
   type PlaceEntry,
 } from '~/lib/places';
 import { boothCenter, boothShapes } from './booths';
@@ -72,21 +72,21 @@ const collection = <F>(features: F[]) => ({
 });
 
 function majorityColor(entries: PlaceEntry[]): string {
-  const counts = new Map<ShopCategory, number>();
-  for (const { shop } of entries) {
-    counts.set(shop.category, (counts.get(shop.category) ?? 0) + 1);
+  const counts = new Map<ProjectCategory, number>();
+  for (const { project } of entries) {
+    counts.set(project.category, (counts.get(project.category) ?? 0) + 1);
   }
   const [category] = [...counts].sort((a, b) => b[1] - a[1])[0] ?? [];
   return category ? CATEGORY_COLORS[category] : ACCENT;
 }
 
 /** 建物を開く前に中身の見当がつくよう、部屋番号順に企画名をいくつか並べる。 */
-function shopPreview(entries: PlaceEntry[]): string {
+function projectPreview(entries: PlaceEntry[]): string {
   const names = [
     ...new Map(
       [...entries]
         .sort((a, b) => compareRoom(a.location.room, b.location.room))
-        .map(({ shop }) => [shop.id, shop.name]),
+        .map(({ project }) => [project.id, project.name]),
     ).values(),
   ];
   const lines = names.slice(0, PREVIEW_COUNT).map((name) => truncate(name, 11));
@@ -97,22 +97,25 @@ function shopPreview(entries: PlaceEntry[]): string {
 }
 
 /** 屋外ブースごとの点（ラベル用）とテントの形。日替わりで複数の企画が入るブースは1つにまとめる。 */
-function boothFeatures(shops: Shop[], placesById: ReadonlyMap<string, Place>) {
+function boothFeatures(
+  projects: Project[],
+  placesById: ReadonlyMap<string, Place>,
+) {
   const booths = new Map<
     string,
-    { placeId: string; center: LngLat; shops: Shop[] }
+    { placeId: string; center: LngLat; projects: Project[] }
   >();
-  for (const shop of shops) {
-    for (const { placeId, room } of shop.locations) {
+  for (const project of projects) {
+    for (const { placeId, room } of project.locations) {
       const center = boothCenter(placesById.get(placeId), room);
       if (!room || !center) continue;
-      const booth = booths.get(room) ?? { placeId, center, shops: [] };
-      booth.shops.push(shop);
+      const booth = booths.get(room) ?? { placeId, center, projects: [] };
+      booth.projects.push(project);
       booths.set(room, booth);
     }
   }
   const entries = [...booths].map(
-    ([room, { placeId, center, shops: list }]) => {
+    ([room, { placeId, center, projects: list }]) => {
       const [first] = list;
       const name = truncate(first.name, 12);
       const properties = {
@@ -120,7 +123,7 @@ function boothFeatures(shops: Shop[], placesById: ReadonlyMap<string, Place>) {
         placeId,
         count: list.length,
         // 1企画だけのブースはタップで企画詳細を開く。
-        shopNumber: list.length === 1 ? first.number : '',
+        projectNumber: list.length === 1 ? first.number : '',
         label: list.length > 1 ? `${name} ほか${list.length - 1}件` : name,
         color: CATEGORY_COLORS[first.category],
         // テントの形をタップしたときに、タップ位置との近さを測る基準点。
@@ -141,14 +144,14 @@ function boothFeatures(shops: Shop[], placesById: ReadonlyMap<string, Place>) {
 }
 
 /** 地図の各ソースに流すデータを、企画と場所から組み立てる。 */
-export function buildCampusData(shops: Shop[], places: Place[]) {
-  const byPlace = groupShopsByPlace(shops);
+export function buildCampusData(projects: Project[], places: Place[]) {
+  const byPlace = groupProjectsByPlace(projects);
   const placesById = new Map(places.map((place) => [place.id, place]));
-  const booths = boothFeatures(shops, placesById);
+  const booths = boothFeatures(projects, placesById);
 
   const areaCounts = new Map<string, number>();
-  for (const shop of shops) {
-    const primary = placesById.get(shop.locations[0]?.placeId ?? '');
+  for (const project of projects) {
+    const primary = placesById.get(project.locations[0]?.placeId ?? '');
     const area =
       primary &&
       areaPolygons.find(({ ring }) => ringContains(ring, primary.point));
@@ -166,7 +169,7 @@ export function buildCampusData(shops: Shop[], places: Place[]) {
     ...feature,
     properties: {
       ...feature.properties,
-      count: countShops(byPlace.get(feature.properties.placeId) ?? []),
+      count: countProjects(byPlace.get(feature.properties.placeId) ?? []),
     },
   }));
 
@@ -180,7 +183,7 @@ export function buildCampusData(shops: Shop[], places: Place[]) {
     )
     .map((place) => {
       const entries = byPlace.get(place.id) ?? [];
-      const count = countShops(entries);
+      const count = countProjects(entries);
       return point(place.point, {
         placeId: place.id,
         kind: place.kind,
@@ -188,7 +191,7 @@ export function buildCampusData(shops: Shop[], places: Place[]) {
         count,
         countLabel: count > 0 ? `${count}企画` : '',
         color: majorityColor(entries),
-        preview: place.kind === 'building' ? shopPreview(entries) : '',
+        preview: place.kind === 'building' ? projectPreview(entries) : '',
       });
     });
 

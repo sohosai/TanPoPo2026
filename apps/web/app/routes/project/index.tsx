@@ -17,13 +17,13 @@ import EventBanner from '~/components/features/EventLinks/EventBanner';
 import {
   criteriaFromParams,
   criteriaToParams,
-  filterShops,
+  filterProjects,
   hasActiveFilter,
-  type ShopFilterCriteria,
+  type ProjectFilterCriteria,
   tagOptionsOf,
-} from '~/components/features/Shop/filter';
-import ShopListItem from '~/components/features/Shop/ShopListItem';
-import ShopSearchBar from '~/components/features/Shop/ShopSearchBar';
+} from '~/components/features/Project/filter';
+import ProjectListItem from '~/components/features/Project/ProjectListItem';
+import ProjectSearchBar from '~/components/features/Project/ProjectSearchBar';
 import { useFavorites } from '~/lib/favorites';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
@@ -100,9 +100,9 @@ function StateMessage({
 }
 
 export default function List() {
-  const { data: shops, status, isError } = trpc.shop.list.useQuery();
+  const { data: projects, status, isError } = trpc.project.list.useQuery();
   const { favorites, isFavorite, toggle } = useFavorites();
-  const { byId: placesById, formatShopLocation } = usePlaces();
+  const { byId: placesById, formatProjectLocation } = usePlaces();
 
   // 検索・絞り込み条件は URL クエリを唯一の状態源とする（共有/戻る操作に対応）。
   const [searchParams, setSearchParams] = useSearchParams();
@@ -111,19 +111,20 @@ export default function List() {
     [searchParams],
   );
 
-  const updateCriteria = (next: ShopFilterCriteria) => {
+  const updateCriteria = (next: ProjectFilterCriteria) => {
     // replace: true で履歴を汚さずにフィルタ操作を反映する。
     setSearchParams(criteriaToParams(next), { replace: true });
   };
 
   // 取得済みの全件に対してクライアント側でフィルタする（オフラインでも動く）。
   // お気に入り集合が変わると「いいねのみ」表示が即座に追従する。
-  const visibleShops = useMemo(
-    () => (shops ? filterShops(shops, criteria, favorites, placesById) : []),
-    [shops, criteria, favorites, placesById],
+  const visibleProjects = useMemo(
+    () =>
+      projects ? filterProjects(projects, criteria, favorites, placesById) : [],
+    [projects, criteria, favorites, placesById],
   );
 
-  const tagOptions = useMemo(() => tagOptionsOf(shops ?? []), [shops]);
+  const tagOptions = useMemo(() => tagOptionsOf(projects ?? []), [projects]);
 
   // 詳細を × で閉じて戻ってきたときだけ、企画を上から順にふわっと出す。
   // 戻った直後だけに限定し、その後の絞り込みで現れた行には演出をかけない。
@@ -150,7 +151,7 @@ export default function List() {
         entering && listEnterStyles,
       )}
     >
-      <ShopSearchBar
+      <ProjectSearchBar
         criteria={criteria}
         onChange={updateCriteria}
         tagOptions={tagOptions}
@@ -173,15 +174,15 @@ export default function List() {
         {status === 'pending' && (
           <StateMessage icon={IconLoader2} title="読み込み中..." spinning />
         )}
-        {isError && !shops && (
+        {isError && !projects && (
           <StateMessage
             icon={IconAlertTriangle}
             title="店舗一覧を取得できませんでした"
             description={'通信環境を確認して\nもう一度お試しください。'}
           />
         )}
-        {shops &&
-          visibleShops.length === 0 &&
+        {projects &&
+          visibleProjects.length === 0 &&
           (criteria.favorite ? (
             <StateMessage
               icon={IconHeartOff}
@@ -200,12 +201,12 @@ export default function List() {
             />
           ))}
 
-        {visibleShops.map((shop, i) => (
-          <ShopListItem
-            key={shop.id}
-            shop={shop}
-            locationLabel={formatShopLocation(shop)}
-            favorite={isFavorite(shop.id)}
+        {visibleProjects.map((project, i) => (
+          <ProjectListItem
+            key={project.id}
+            project={project}
+            locationLabel={formatProjectLocation(project)}
+            favorite={isFavorite(project.id)}
             onToggleFavorite={toggle}
             {...enterProps(i + (showBanner ? 1 : 0))}
           />

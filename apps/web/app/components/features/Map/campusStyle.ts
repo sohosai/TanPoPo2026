@@ -1,4 +1,4 @@
-import type { ShopCategory } from 'api';
+import type { ProjectCategory } from 'api';
 import type {
   ExpressionSpecification,
   FilterSpecification,
@@ -12,7 +12,7 @@ import type { CampusData } from './campusData';
 export const ACCENT = token('colors.brand.500');
 const ACCENT_TEXT = token('colors.accent.text');
 const TEXT = token('colors.fg.strong');
-export const CATEGORY_COLORS: Record<ShopCategory, string> = {
+export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
   食品: token('colors.category.food'),
   物販: token('colors.category.goods'),
   展示: token('colors.category.exhibit'),
@@ -298,7 +298,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     paint: { ...textPaint, 'text-color': ACCENT_TEXT, 'text-halo-width': 2 },
   });
 
-  const buildingWithShops: FilterSpecification = [
+  const buildingWithProjects: FilterSpecification = [
     'all',
     ['==', ['get', 'kind'], 'building'],
     ['>', ['get', 'count'], 0],
@@ -307,7 +307,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     id: 'campus-building-pin',
     type: 'circle',
     source: SOURCES.places,
-    filter: buildingWithShops,
+    filter: buildingWithProjects,
     minzoom: AREA_MAX_ZOOM,
     paint: {
       'circle-color': ACCENT_TEXT,
@@ -328,7 +328,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     id: 'campus-building-count',
     type: 'symbol',
     source: SOURCES.places,
-    filter: buildingWithShops,
+    filter: buildingWithProjects,
     minzoom: AREA_MAX_ZOOM,
     layout: countLayout,
     paint: { 'text-color': '#ffffff' },

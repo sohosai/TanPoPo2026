@@ -1,4 +1,4 @@
-import type { Shop } from 'api';
+import type { Project } from 'api';
 import { css, cx } from '../../../../styled-system/css';
 import { CATEGORY_COLOR_CLASS } from './labels';
 
@@ -23,30 +23,30 @@ const iconClass = css({
 });
 
 /** 企画アイコンは円形が前提。画像が無い企画は分類色の円に頭文字を表示する。 */
-export default function ShopIcon({
-  shop,
+export default function ProjectIcon({
+  project,
   size,
 }: {
-  shop: Pick<Shop, 'thumbnail' | 'name' | 'category'>;
+  project: Pick<Project, 'thumbnail' | 'name' | 'category'>;
   size: number;
 }) {
   const style = { width: size, height: size, fontSize: size * 0.35 };
 
-  if (!shop.thumbnail) {
+  if (!project.thumbnail) {
     return (
       <div
-        className={cx(iconClass, CATEGORY_COLOR_CLASS[shop.category])}
+        className={cx(iconClass, CATEGORY_COLOR_CLASS[project.category])}
         style={style}
       >
-        {shop.name.slice(0, 1)}
+        {project.name.slice(0, 1)}
       </div>
     );
   }
   return (
     <div className={cx(iconClass, css({ bg: 'surface' }))} style={style}>
       <img
-        src={shop.thumbnail.src}
-        srcSet={shop.thumbnail.srcSet}
+        src={project.thumbnail.src}
+        srcSet={project.thumbnail.srcSet}
         sizes={`${size}px`}
         alt=""
         loading="lazy"

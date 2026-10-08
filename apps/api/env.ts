@@ -6,6 +6,8 @@ export type AppEnv = {
   DB: D1Database;
   SOS_API_URL: string;
   GRANDPRIX_WIN_RATE: string;
+  HIDDEN_PROJECT_NUMBERS: string;
+  GRANDPRIX_HIDDEN_PROJECT_NUMBERS: string;
   LINE_CHANNEL_ID: string;
   LINE_CHANNEL_SECRET: string;
   LINE_CALLBACK_URL: string;

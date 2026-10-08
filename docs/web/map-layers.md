@@ -9,7 +9,7 @@
 | `CampusLayers.tsx` | 地図へのレイヤ追加、データの流し込み、タップでのページ遷移、表示中のページに応じた強調 |
 | `booths.ts` | 屋外ブースのテントの形（`data/booths.geojson`）と中心 |
 
-データは `shop.list` と `place.list` から作るので、企画や場所が変われば地図も追従する。企画と場所の対応は [企画の実施場所データ](../data/shop-locations.md) を参照。
+データは `project.list` と `place.list` から作るので、企画や場所が変われば地図も追従する。企画と場所の対応は [企画の実施場所データ](../data/project-locations.md) を参照。
 
 ## ズームごとの表示
 

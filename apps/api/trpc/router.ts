@@ -2,11 +2,11 @@ import { authRouter } from './routers/auth';
 import { grandprixRouter } from './routers/grandprix';
 import { placeRouter } from './routers/place';
 import { questionnaireRouter } from './routers/questionnaire';
-import { shopRouter } from './routers/shop';
+import { projectRouter } from './routers/project';
 import { t } from './trpc';
 
 export const appRouter = t.mergeRouters(
-  shopRouter,
+  projectRouter,
   placeRouter,
   authRouter,
   grandprixRouter,

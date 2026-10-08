@@ -1,5 +1,5 @@
 import { IconCheck } from '@tabler/icons-react';
-import type { GrandprixStage, Shop } from 'api';
+import type { GrandprixStage, Project } from 'api';
 import { css } from '../../../../styled-system/css';
 
 // タブは3つ横に並べるため「ステージ」を省いた短い名前にする。
@@ -17,7 +17,7 @@ export default function StageTabs({
 }: {
   active: GrandprixStage;
   votedStages: Partial<Record<GrandprixStage, string>>;
-  counts: { stage: GrandprixStage; shops: Shop[] }[] | undefined;
+  counts: { stage: GrandprixStage; projects: Project[] }[] | undefined;
   onSelect: (stage: GrandprixStage) => void;
 }) {
   return (
@@ -36,7 +36,7 @@ export default function StageTabs({
       {(Object.keys(STAGE_LABELS) as GrandprixStage[]).map((stage) => {
         const selected = stage === active;
         const voted = votedStages[stage] !== undefined;
-        const count = counts?.find((group) => group.stage === stage)?.shops
+        const count = counts?.find((group) => group.stage === stage)?.projects
           .length;
         return (
           <button

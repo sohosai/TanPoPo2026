@@ -1,13 +1,13 @@
-import type { ShopDetail, ShopImage } from '../domain/shop';
+import type { ProjectDetail, ProjectImage } from '../domain/project';
 
 // SOS_API_URL が未設定・SOS に繋がらないときに表示する仮の企画（ローカル開発用）。
 
-const sampleImage: ShopImage = { src: '/sample/dog.jpg' };
+const sampleImage: ProjectImage = { src: '/sample/dog.jpg' };
 
 const sampleDescription =
   '詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ詳細説明詳細説明説明説明説明せつめいせつめ';
 
-export const fallbackShopDetails: ShopDetail[] = [
+export const fallbackProjectDetails: ProjectDetail[] = [
   {
     id: '1',
     number: '001',

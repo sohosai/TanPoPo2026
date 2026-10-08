@@ -1,11 +1,11 @@
 import { IconChevronLeft, IconChevronRight, IconX } from '@tabler/icons-react';
-import type { ShopImage } from 'api';
+import type { ProjectImage } from 'api';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { css, cx } from '../../../../styled-system/css';
 
 type ImageViewerProps = {
-  images: ShopImage[];
+  images: ProjectImage[];
   /** 開いた直後に表示する画像の位置 */
   initialIndex: number;
   /** ダイアログのラベル（企画名） */

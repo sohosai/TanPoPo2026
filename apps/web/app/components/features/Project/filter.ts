@@ -1,15 +1,15 @@
-import type { Place, ScheduleDay, Shop, ShopCategory } from 'api';
+import type { Place, ScheduleDay, Project, ProjectCategory } from 'api';
 import { formatLocation } from '~/lib/places';
 
 /**
  * 店舗一覧の検索・絞り込み条件。
- * 全件取得済みの Shop[] に対してクライアント側で適用する（オフライン対応のため）。
+ * 全件取得済みの Project[] に対してクライアント側で適用する（オフライン対応のため）。
  */
-export type ShopFilterCriteria = {
+export type ProjectFilterCriteria = {
   /** あいまい検索キーワード */
   q: string;
   /** 主分類（OR：いずれかに一致） */
-  categories: ShopCategory[];
+  categories: ProjectCategory[];
   /** 開催日（OR：いずれかに一致） */
   days: ScheduleDay[];
   /** タグ（AND：すべて含む） */
@@ -18,7 +18,7 @@ export type ShopFilterCriteria = {
   favorite: boolean;
 };
 
-export const emptyCriteria: ShopFilterCriteria = {
+export const emptyCriteria: ProjectFilterCriteria = {
   q: '',
   categories: [],
   days: [],
@@ -27,7 +27,7 @@ export const emptyCriteria: ShopFilterCriteria = {
 };
 
 // UI の選択肢。TODO: 正式な分類が決まったら API の型に合わせて見直す。
-export const CATEGORY_OPTIONS: ShopCategory[] = [
+export const CATEGORY_OPTIONS: ProjectCategory[] = [
   '食品',
   '物販',
   '展示',
@@ -46,8 +46,8 @@ export function toggleItem<T>(list: T[], value: T): T[] {
 }
 
 /** タグは自由文字列で固定の選択肢を持たないため、企画が持つタグから選択肢を作る。 */
-export function tagOptionsOf(shops: Shop[]): string[] {
-  return [...new Set(shops.flatMap((shop) => shop.tags))].sort();
+export function tagOptionsOf(projects: Project[]): string[] {
+  return [...new Set(projects.flatMap((project) => project.tags))].sort();
 }
 
 /** 全角/半角・大文字小文字を吸収して比較しやすい形に正規化する */
@@ -60,19 +60,21 @@ function normalize(text: string): string {
  * 場所は場所名・よみがなに加え、"1B208" のような表示ラベルでも引ける。
  */
 function matchesQuery(
-  shop: Shop,
+  project: Project,
   normalizedQuery: string,
   places: ReadonlyMap<string, Place>,
 ): boolean {
   if (normalizedQuery === '') return true;
-  const placeTerms = shop.locations.flatMap((loc) => {
+  const placeTerms = project.locations.flatMap((loc) => {
     const place = places.get(loc.placeId);
     return place
       ? [place.name, place.reading ?? '', formatLocation(place, loc.room)]
       : [];
   });
   const haystack = normalize(
-    [shop.name, shop.organization, ...placeTerms, ...shop.tags].join(' '),
+    [project.name, project.organization, ...placeTerms, ...project.tags].join(
+      ' ',
+    ),
   );
   return haystack.includes(normalizedQuery);
 }
@@ -84,28 +86,28 @@ function matchesQuery(
  * お気に入りはアプリ横断のストアで管理されるため、criteria ではなく
  * その時点の ID 集合を引数で受け取る（フィルタを純粋関数のまま保つ）。
  */
-export function filterShops(
-  shops: Shop[],
-  criteria: ShopFilterCriteria,
+export function filterProjects(
+  projects: Project[],
+  criteria: ProjectFilterCriteria,
   favorites: ReadonlySet<string> = new Set(),
   places: ReadonlyMap<string, Place> = new Map(),
-): Shop[] {
+): Project[] {
   const q = normalize(criteria.q);
-  return shops.filter(
-    (shop) =>
-      matchesQuery(shop, q, places) &&
+  return projects.filter(
+    (project) =>
+      matchesQuery(project, q, places) &&
       (criteria.categories.length === 0 ||
-        criteria.categories.includes(shop.category)) &&
+        criteria.categories.includes(project.category)) &&
       (criteria.days.length === 0 ||
-        criteria.days.some((day) => shop.schedule.includes(day))) &&
+        criteria.days.some((day) => project.schedule.includes(day))) &&
       (criteria.tags.length === 0 ||
-        criteria.tags.every((tag) => shop.tags.includes(tag))) &&
-      (!criteria.favorite || favorites.has(shop.id)),
+        criteria.tags.every((tag) => project.tags.includes(tag))) &&
+      (!criteria.favorite || favorites.has(project.id)),
   );
 }
 
 /** 適用中の絞り込みが1つでもあるか（検索キーワードは含めない） */
-export function hasActiveFilter(criteria: ShopFilterCriteria): boolean {
+export function hasActiveFilter(criteria: ProjectFilterCriteria): boolean {
   return (
     criteria.categories.length > 0 ||
     criteria.days.length > 0 ||
@@ -121,14 +123,14 @@ const SEP = ',';
 /** URLSearchParams から条件を復元する */
 export function criteriaFromParams(
   params: URLSearchParams,
-): ShopFilterCriteria {
+): ProjectFilterCriteria {
   const readList = (key: string): string[] => {
     const raw = params.get(key);
     return raw ? raw.split(SEP).filter(Boolean) : [];
   };
   return {
     q: params.get('q') ?? '',
-    categories: readList('category') as ShopCategory[],
+    categories: readList('category') as ProjectCategory[],
     days: readList('day') as ScheduleDay[],
     tags: readList('tag'),
     favorite: params.get('fav') === '1',
@@ -140,7 +142,7 @@ export function criteriaFromParams(
  * 空の軸はパラメータ自体を消し、URL をきれいに保つ。
  */
 export function criteriaToParams(
-  criteria: ShopFilterCriteria,
+  criteria: ProjectFilterCriteria,
 ): URLSearchParams {
   const params = new URLSearchParams();
   if (criteria.q.trim() !== '') params.set('q', criteria.q.trim());

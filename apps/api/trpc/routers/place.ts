@@ -2,7 +2,7 @@ import type { Place } from '../../domain/place';
 import { t } from '../trpc';
 
 // 屋外の出店テントは、配置図の記号の英字（列）ごとに1つの Place とし、個々のブースは
-// ShopLocation.room（ブース番号）で表す。テントの形は web の booths.geojson にある。
+// ProjectLocation.room（ブース番号）で表す。テントの形は web の booths.geojson にある。
 // 代表点はその列のテントの中心。
 const OUTDOOR_ROWS: [letter: string, name: string, point: [number, number]][] =
   [
