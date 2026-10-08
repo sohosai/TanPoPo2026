@@ -14,7 +14,7 @@ const LINK_STYLE: Record<
 > = {
   website: {
     icon: IconWorld,
-    name: 'Webサイト',
+    name: '公式WEB',
     iconClass: css({ color: 'accent.text' }),
   },
   x: { icon: IconBrandX, name: 'X', iconClass: css({ color: 'sns.x' }) },
@@ -73,7 +73,9 @@ export default function ProjectLinks({ links }: { links: ProjectLink[] }) {
                 stroke={1.8}
                 className={cx(css({ flexShrink: 0 }), iconClass)}
               />
-              <span className={css({ truncate: true })}>{link.label}</span>
+              <span className={css({ truncate: true })}>
+                {link.kind === 'website' ? name : link.label}
+              </span>
             </a>
           </li>
         );
