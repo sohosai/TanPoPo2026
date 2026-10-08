@@ -8,7 +8,7 @@ import { trpc } from '~/lib/trpc';
  * 既存の react-query 永続キャッシュに乗るのでオフラインでも参照できる。
  */
 export function usePlaces() {
-  const { data: places } = trpc.place.list.useQuery();
+  const { data: places, status } = trpc.place.list.useQuery();
 
   const byId = useMemo(() => {
     const map = new Map<string, Place>();
@@ -17,6 +17,8 @@ export function usePlaces() {
   }, [places]);
 
   return {
+    /** place.list の取得状態。未取得の間は byId が空になる */
+    status,
     /** 全 Place（未取得時は空配列） */
     places: places ?? [],
     /** id から Place を引く Map */
@@ -42,7 +44,7 @@ export function formatLocation(
 }
 
 /** 店舗の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */
-export function formatProjectLocation(
+function formatProjectLocation(
   project: Project,
   byId: ReadonlyMap<string, Place>,
 ): string {

@@ -1,18 +1,11 @@
 import type { GrandprixStage, MaxGeneralVotes } from 'api';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   emptyCriteria,
-  filterProjects,
   type ProjectFilterCriteria,
-  tagOptionsOf,
-  toggleItem,
-} from '~/components/features/Project/filter';
-import {
-  ChipDivider,
-  FavoriteFilterChip,
-  FilterChip,
-} from '~/components/features/Project/FilterChip';
-import { useFavorites } from '~/lib/favorites';
+} from '~/components/features/Project/criteria';
+import ProjectSearchBar from '~/components/features/Project/ProjectSearchBar';
+import { useFilteredProjects } from '~/components/features/Project/useFilteredProjects';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../../styled-system/css';
@@ -33,24 +26,14 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
     trpc.grandprix.generalProjects.useQuery();
   const { data: stageProjects, status: stageProjectsStatus } =
     trpc.grandprix.stageProjects.useQuery();
-  const { favorites } = useFavorites();
-  const { byId: placesById, formatProjectLocation } = usePlaces();
+  const { formatProjectLocation } = usePlaces();
 
   const [criteria, setCriteria] =
     useState<ProjectFilterCriteria>(emptyCriteria);
-  const visibleProjects = useMemo(
-    () =>
-      generalProjects
-        ? filterProjects(generalProjects, criteria, favorites, placesById)
-        : [],
-    [generalProjects, criteria, favorites, placesById],
+  const { projects: visibleProjects, tagOptions } = useFilteredProjects(
+    generalProjects,
+    criteria,
   );
-  const featureOptions = useMemo(
-    () => tagOptionsOf(generalProjects ?? []),
-    [generalProjects],
-  );
-  const toggleFeature = (tag: string) =>
-    setCriteria((prev) => ({ ...prev, tags: toggleItem(prev.tags, tag) }));
 
   const [generalIds, setGeneralIds] = useState<string[]>([]);
   // ステージごとに1企画まで。
@@ -196,43 +179,22 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
           description={`気に入った企画に最大${MAX_GENERAL_VOTES}票まで投票できます（${generalIds.length}/${MAX_GENERAL_VOTES}）。`}
           done={hasGeneralVote}
         >
-          <div
+          <ProjectSearchBar
+            criteria={criteria}
+            onChange={setCriteria}
+            tagOptions={tagOptions}
+          />
+          <p
             className={css({
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '8px',
               px: '16px',
-              pb: '12px',
-              borderBottom: '1px solid token(colors.border.subtle)',
+              py: '8px',
+              textAlign: 'right',
+              fontSize: '12px',
+              color: 'fg.subtle',
             })}
           >
-            <FavoriteFilterChip
-              active={criteria.favorite}
-              onClick={() =>
-                setCriteria((prev) => ({ ...prev, favorite: !prev.favorite }))
-              }
-            />
-            <ChipDivider />
-            {featureOptions.map((tag) => (
-              <FilterChip
-                key={tag}
-                active={criteria.tags.includes(tag)}
-                onClick={() => toggleFeature(tag)}
-              >
-                {tag}
-              </FilterChip>
-            ))}
-            <span
-              className={css({
-                ml: 'auto',
-                fontSize: '12px',
-                color: 'fg.subtle',
-              })}
-            >
-              {visibleProjects.length}件
-            </span>
-          </div>
+            {visibleProjects.length}件
+          </p>
 
           {projectsStatus === 'pending' && (
             <p className={emptyMessageClass}>読み込み中...</p>
