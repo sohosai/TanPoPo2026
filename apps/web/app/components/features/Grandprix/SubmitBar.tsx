@@ -26,7 +26,8 @@ export default function SubmitBar({
         right: 0,
         zIndex: 10,
         bg: 'sheet.background',
-        borderTop: 'token(borderWidths.thin) solid token(colors.border.subtle)',
+        borderTop:
+          'token(borderWidths.divider) solid token(colors.border.subtle)',
         boxShadow: 'bar',
       })}
     >

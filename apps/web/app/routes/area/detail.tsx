@@ -85,7 +85,7 @@ export default function AreaDetail() {
           pt: '2px',
           pb: '12px',
           borderBottom:
-            'token(borderWidths.thin) solid token(colors.border.subtle)',
+            'token(borderWidths.divider) solid token(colors.border.subtle)',
         })}
       >
         <span

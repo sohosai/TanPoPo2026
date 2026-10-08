@@ -135,7 +135,7 @@ export default function SurveyForm({
           p: '16px',
           bg: 'sheet.background',
           borderTop:
-            'token(borderWidths.thin) solid token(colors.border.subtle)',
+            'token(borderWidths.divider) solid token(colors.border.subtle)',
         })}
       >
         <button

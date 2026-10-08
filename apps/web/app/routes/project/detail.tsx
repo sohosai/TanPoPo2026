@@ -52,7 +52,7 @@ function ProjectFacts({
           fontSize: 'md',
         },
         '& > div + div': {
-          borderTop: 'token(borderWidths.thin) solid token(colors.surface)',
+          borderTop: 'token(borderWidths.divider) solid token(colors.surface)',
         },
         '& dt': {
           display: 'flex',
@@ -390,7 +390,7 @@ export default function Detail() {
           pb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
           bg: 'sheet.background',
           borderTop:
-            'token(borderWidths.thin) solid token(colors.border.subtle)',
+            'token(borderWidths.divider) solid token(colors.border.subtle)',
         })}
       >
         <button

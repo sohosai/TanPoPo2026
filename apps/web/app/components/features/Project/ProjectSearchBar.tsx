@@ -54,7 +54,7 @@ export default function ProjectSearchBar({
         pb: '8px',
         bg: 'sheet.background',
         borderBottom:
-          'token(borderWidths.thin) solid token(colors.border.subtle)',
+          'token(borderWidths.divider) solid token(colors.border.subtle)',
       })}
     >
       <label

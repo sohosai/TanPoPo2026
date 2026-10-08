@@ -139,7 +139,7 @@ export const projectRowClass = css({
   color: 'inherit',
   textDecoration: 'none',
   textAlign: 'left',
-  borderBottom: 'token(borderWidths.thin) solid token(colors.border.subtle)',
+  borderBottom: 'token(borderWidths.divider) solid token(colors.border.subtle)',
   transition: 'background 0.15s',
   _active: { bg: 'border.subtle' },
 });
