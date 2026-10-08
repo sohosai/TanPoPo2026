@@ -418,7 +418,9 @@ export default function Detail() {
             w: '48px',
             h: '48px',
             borderRadius: 'full',
-            bg: 'border.subtle',
+            // 隣の「地図で場所を見る」と同じく浮かせる。塗りだけだと操作バーの中で凹んで見える。
+            bg: 'surface',
+            boxShadow: 'card',
           })}
         />
       </div>
