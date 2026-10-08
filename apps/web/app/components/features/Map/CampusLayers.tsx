@@ -32,7 +32,7 @@ function useSelection(
     if (place?.params.placeId) {
       return { placeIds: [place.params.placeId], booths: [] };
     }
-    const shop = matchPath('/shop/:number', pathname);
+    const shop = matchPath('/project/:number', pathname);
     const found = shops?.find((s) => s.number === shop?.params.number);
     return {
       placeIds: found?.locations.map((location) => location.placeId) ?? [],
@@ -75,7 +75,7 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
   const props = features.sort((a, b) => distance(a) - distance(b))[0]
     ?.properties;
   if (typeof props?.shopNumber === 'string' && props.shopNumber !== '') {
-    return `/shop/${props.shopNumber}`;
+    return `/project/${props.shopNumber}`;
   }
   if (typeof props?.placeId === 'string' && Number(props.count) > 0) {
     return `/place/${props.placeId}`;

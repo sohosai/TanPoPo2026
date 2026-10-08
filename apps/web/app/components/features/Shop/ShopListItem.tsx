@@ -146,7 +146,7 @@ export default function ShopListItem({
 
   return (
     <Link
-      to={`/shop/${number}`}
+      to={`/project/${number}`}
       className={cx(shopRowClass, className)}
       style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
     >
