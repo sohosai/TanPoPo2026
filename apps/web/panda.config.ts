@@ -38,12 +38,6 @@ export default defineConfig({
           thin: { value: '1px' },
           thick: { value: '2px' },
         },
-        fonts: {
-          // ロゴの文字と同じ、線端の丸い字形。見出しにだけ使う。
-          heading: {
-            value: "'M PLUS Rounded 1c', 'Inter', 'Noto Sans JP', sans-serif",
-          },
-        },
         fontSizes: {
           '2xs': { value: '11px' },
           xs: { value: '12px' },

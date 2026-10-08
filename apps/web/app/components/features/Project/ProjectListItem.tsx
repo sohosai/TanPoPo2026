@@ -52,9 +52,8 @@ export function ProjectRowContent({
         {/* 一覧の行の高さを揃えるため、各行は1行に収めて溢れた分は省略する */}
         <h3
           className={css({
-            fontFamily: 'heading',
             fontSize: 'xl',
-            fontWeight: 800,
+            fontWeight: 700,
             lineHeight: 1.4,
             color: 'fg.strong',
             truncate: true,

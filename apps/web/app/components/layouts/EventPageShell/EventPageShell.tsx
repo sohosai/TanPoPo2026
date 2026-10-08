@@ -46,9 +46,8 @@ export default function EventPageShell({
       >
         <h1
           className={css({
-            fontFamily: 'heading',
             fontSize: 'xl',
-            fontWeight: 800,
+            fontWeight: 700,
             color: 'fg.strong',
           })}
         >

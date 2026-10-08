@@ -183,9 +183,8 @@ export default function Detail() {
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
             className={css({
-              fontFamily: 'heading',
               fontSize: '2xl',
-              fontWeight: 800,
+              fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
               wordBreak: 'break-all',
@@ -357,9 +356,8 @@ export default function Detail() {
       <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
         <h2
           className={css({
-            fontFamily: 'heading',
             fontSize: 'lg',
-            fontWeight: 800,
+            fontWeight: 700,
             color: 'accent.text',
           })}
         >

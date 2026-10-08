@@ -51,9 +51,8 @@ export function StateMessage({
       </span>
       <p
         className={css({
-          fontFamily: 'heading',
           fontSize: 'lg',
-          fontWeight: 800,
+          fontWeight: 700,
           color: 'fg.strong',
         })}
       >

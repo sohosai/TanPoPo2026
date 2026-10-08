@@ -96,9 +96,8 @@ export default function EventBanner() {
           <span className={css({ display: 'flex', flexDirection: 'column' })}>
             <span
               className={css({
-                fontFamily: 'heading',
                 fontSize: 'lg',
-                fontWeight: 800,
+                fontWeight: 700,
                 lineHeight: 1.35,
               })}
             >

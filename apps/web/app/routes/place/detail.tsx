@@ -167,9 +167,8 @@ export default function PlaceDetail() {
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
             className={css({
-              fontFamily: 'heading',
               fontSize: '2xl',
-              fontWeight: 800,
+              fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
             })}
