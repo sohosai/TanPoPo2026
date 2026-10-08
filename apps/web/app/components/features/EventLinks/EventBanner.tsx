@@ -11,7 +11,8 @@ const TONE_CLASS = {
   sun: {
     tile: css({ bg: 'sun.subtle' }),
     badge: css({ bg: 'sun', color: 'fg.strong' }),
-    decor: css({ color: 'sun' }),
+    // 面と同じ黄色では溶けて見えないため、飾りは濃い黄色にする。
+    decor: css({ color: 'sun.deep' }),
   },
   sky: {
     tile: css({ bg: 'accent.subtle' }),
@@ -86,7 +87,7 @@ export default function EventBanner() {
                 position: 'absolute',
                 right: '-12px',
                 bottom: '-16px',
-                opacity: 0.22,
+                opacity: 0.35,
                 transform: 'rotate(-12deg)',
                 pointerEvents: 'none',
               }),

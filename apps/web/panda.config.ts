@@ -150,8 +150,9 @@ export default defineConfig({
           },
           // たんぽぽの花の黄色。楽しさを足す差し色として、使う場所を絞る。上に載せる文字は fg.strong にする。
           sun: {
-            DEFAULT: { value: '#ffc83d' },
-            subtle: { value: '#fff6d9' },
+            DEFAULT: { value: '#ffe53d' },
+            subtle: { value: '#fffbd9' },
+            deep: { value: '#e6bf00' },
           },
           // 企画の分類。分類の識別にだけ使い、`accent`とは混ぜない。暗くすると茶色に濁る橙系は避ける。
           // DEFAULT は地図のテントやピンの塗り。bg は分類タグと画像のない企画のアイコンの面で、上の文字は分類によらず fg にする。
