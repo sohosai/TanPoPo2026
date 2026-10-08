@@ -14,6 +14,7 @@ export default defineConfig({
           brand: {
             50: { value: '#e3effa' },
             100: { value: '#a3c8eb' },
+            300: { value: '#76ade1' },
             500: { value: '#4a93d7' },
             700: { value: '#2f6fb0' },
             900: { value: '#1f5a99' },
@@ -150,7 +151,7 @@ export default defineConfig({
           // たんぽぽの花の黄色。楽しさを足す差し色として、使う場所を絞る。上に載せる文字は fg.strong にする。
           sun: {
             DEFAULT: { value: '#ffc83d' },
-            deep: { value: '#d9a000' },
+            subtle: { value: '#fff6d9' },
           },
           // 企画の分類バッジ用。分類の識別にだけ使い、`accent`とは混ぜない。
           category: {
@@ -182,7 +183,7 @@ export default defineConfig({
           },
           border: {
             DEFAULT: { value: '#d3deea' },
-            subtle: { value: '#e6eef7' },
+            subtle: { value: '#eef3f9' },
           },
           surface: {
             DEFAULT: { value: '#ffffff' },
@@ -238,16 +239,18 @@ export default defineConfig({
           },
         },
         shadows: {
-          // 白地の上でもカードの縁が分かるよう、細い輪郭と下側の硬い影を重ねる。
-          card: { value: '0 0 0 1px {colors.border}, 0 2px 0 {colors.border}' },
-          // 主要ボタンを、下に濃い色を敷いたステッカーのように浮かせる。
-          pop: { value: '0 3px 0 {colors.accent.deep}' },
-          popSun: { value: '0 3px 0 {colors.sun.deep}' },
-          tab: { value: '0 2px 0 {colors.border}' },
+          // 影は黒ではなくブランドの青を帯びさせ、ふんわり浮かせて軽く見せる。
+          card: {
+            value:
+              // 参照を2つ並べると Panda が1つの参照として読み違えるため、影の色は accent.deep（#1f5a99）の値で書く。
+              '0 0 0 1px {colors.border.subtle}, 0 6px 16px -8px rgba(31, 90, 153, 0.25)',
+          },
+          pop: { value: '0 6px 14px -6px {colors.accent.deep/55}' },
+          tab: { value: '0 1px 4px {colors.accent.deep/15}' },
           bar: { value: '0 -4px 12px {colors.black/5}' },
-          float: { value: '0 2px 0 {colors.accent.deep/25}' },
-          raised: { value: '0 4px 0 {colors.accent.deep/20}' },
-          carousel: { value: '0 2px 0 {colors.accent.deep/20}' },
+          float: { value: '0 4px 12px -2px {colors.accent.deep/30}' },
+          raised: { value: '0 10px 24px -8px {colors.accent.deep/35}' },
+          carousel: { value: '0 4px 12px -2px {colors.accent.deep/25}' },
           ring: { value: 'inset 0 0 0 1px {colors.black/8}' },
           win: { value: '0 8px 28px {colors.brand.500/50}' },
           lose: { value: '0 8px 24px {colors.result.lose/40}' },

@@ -13,11 +13,12 @@ export function formatSchedule(days: ScheduleDay[]): string {
 
 /** 分類・中止などの小さなラベルの形。色は CATEGORY_COLOR_CLASS などと組み合わせる。 */
 export const badgeClass = css({
-  px: '8px',
+  px: '7px',
   py: '0.5em',
   textBox: 'trim-both cap alphabetic',
   borderRadius: 'full',
-  fontWeight: 700,
+  fontSize: '2xs',
+  fontWeight: 500,
 });
 
 // Panda は css() の引数を静的解析するため、分類ごとのクラスは動的に組み立てず列挙しておく。

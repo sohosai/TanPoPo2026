@@ -1,4 +1,4 @@
-import { IconChevronDown, IconSearch, IconX } from '@tabler/icons-react';
+import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { css } from '../../../../styled-system/css';
@@ -63,16 +63,16 @@ export default function ProjectSearchBar({
           h: '44px',
           px: '16px',
           borderRadius: 'full',
-          bg: 'border.subtle',
+          border: '1.5px solid',
+          borderColor: 'brand.300',
+          bg: 'surface',
           color: 'accent',
           cursor: 'text',
-          _focusWithin: {
-            bg: 'surface',
-            outline: 'token(borderWidths.thick) solid token(colors.accent)',
-          },
+          transition: 'box-shadow 0.15s',
+          // 枠の太さを変えるとレイアウトがずれるため、入力中は外側に淡い輪を広げて示す。
+          _focusWithin: { boxShadow: '0 0 0 3px token(colors.accent.subtle)' },
         })}
       >
-        <IconSearch size={18} />
         <input
           type="search"
           value={qDraft}
@@ -112,7 +112,6 @@ export default function ProjectSearchBar({
             className={css({
               display: 'flex',
               p: '4px',
-              mr: '-4px',
               color: 'fg.subtle',
               cursor: 'pointer',
             })}
@@ -120,6 +119,14 @@ export default function ProjectSearchBar({
             <IconX size={16} />
           </button>
         )}
+        {/* ロゴは虫眼鏡の形なので、検索欄の目印に使う。意味は入力欄の placeholder で伝わるため装飾扱い */}
+        <img
+          src="/logo/square.svg"
+          alt=""
+          width={18}
+          height={22}
+          className={css({ flexShrink: 0, mr: '4px' })}
+        />
       </label>
 
       <div

@@ -12,23 +12,23 @@ const chipClass = css({
   borderRadius: 'full',
   border: 'token(borderWidths.thin) solid',
   fontSize: 'sm',
-  fontWeight: 700,
+  fontWeight: 500,
   whiteSpace: 'nowrap',
   cursor: 'pointer',
   transition: 'background 0.15s, color 0.15s, border-color 0.15s',
 });
 
 const chipInactiveClass = css({
-  borderColor: 'transparent',
-  bg: 'border.subtle',
-  color: 'fg',
+  borderColor: 'border',
+  bg: 'surface',
+  color: 'fg.muted',
 });
 
 const chipActiveClass = {
   accent: css({
-    borderColor: 'accent.text',
-    bg: 'accent.text',
-    color: 'surface',
+    borderColor: 'accent.border',
+    bg: 'accent.subtle',
+    color: 'accent.text',
   }),
   favorite: css({ borderColor: 'favorite', bg: 'favorite', color: 'surface' }),
 };

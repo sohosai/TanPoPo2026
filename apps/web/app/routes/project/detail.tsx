@@ -412,7 +412,7 @@ export default function Detail() {
             fontWeight: 700,
             cursor: 'pointer',
             transition: 'transform 0.1s, box-shadow 0.1s',
-            _active: { transform: 'translateY(3px)', boxShadow: 'none' },
+            _active: { transform: 'scale(0.98)' },
           })}
         >
           <IconMap size={20} />

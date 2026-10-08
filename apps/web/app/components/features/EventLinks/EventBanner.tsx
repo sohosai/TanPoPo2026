@@ -1,5 +1,4 @@
 import {
-  IconArrowRight,
   IconClipboardText,
   IconTrophy,
   type TablerIcon,
@@ -9,8 +8,16 @@ import { css, cx } from '../../../../styled-system/css';
 
 // Panda は css() の引数を静的解析するため、色の組み合わせは動的に組み立てず列挙しておく。
 const TONE_CLASS = {
-  sun: css({ bg: 'sun', color: 'fg.strong', boxShadow: 'popSun' }),
-  sky: css({ bg: 'accent.text', color: 'surface', boxShadow: 'pop' }),
+  sun: {
+    tile: css({ bg: 'sun.subtle' }),
+    badge: css({ bg: 'sun', color: 'fg.strong' }),
+    decor: css({ color: 'sun' }),
+  },
+  sky: {
+    tile: css({ bg: 'accent.subtle' }),
+    badge: css({ bg: 'accent', color: 'surface' }),
+    decor: css({ color: 'accent' }),
+  },
 };
 
 const EVENT_LINKS: {
@@ -43,9 +50,9 @@ export default function EventBanner() {
       className={css({
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: '10px',
+        gap: '8px',
         px: '12px',
-        pb: '14px',
+        pb: '10px',
       })}
     >
       {EVENT_LINKS.map(({ to, icon: Icon, title, caption, tone }) => (
@@ -57,48 +64,65 @@ export default function EventBanner() {
               position: 'relative',
               overflow: 'hidden',
               display: 'flex',
-              flexDirection: 'column',
+              alignItems: 'center',
               gap: '8px',
-              px: '14px',
-              pt: '12px',
-              pb: '14px',
+              px: '10px',
+              py: '9px',
               borderRadius: 'xl',
+              color: 'fg.strong',
               textDecoration: 'none',
-              transition: 'transform 0.1s, box-shadow 0.1s',
-              _active: { transform: 'translateY(3px)', boxShadow: 'none' },
+              transition: 'transform 0.15s',
+              _active: { transform: 'scale(0.97)' },
             }),
-            TONE_CLASS[tone],
+            TONE_CLASS[tone].tile,
           )}
         >
-          {/* 角に大きく薄く敷く飾り。読み上げには含めない */}
+          {/* 右端に大きく薄く敷く飾り。読み上げには含めない */}
           <Icon
             aria-hidden
-            size={88}
-            className={css({
-              position: 'absolute',
-              right: '-18px',
-              bottom: '-22px',
-              opacity: 0.16,
-              transform: 'rotate(-12deg)',
-              pointerEvents: 'none',
-            })}
+            size={56}
+            className={cx(
+              css({
+                position: 'absolute',
+                right: '-12px',
+                bottom: '-16px',
+                opacity: 0.22,
+                transform: 'rotate(-12deg)',
+                pointerEvents: 'none',
+              }),
+              TONE_CLASS[tone].decor,
+            )}
           />
           <span
+            className={cx(
+              css({
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                w: '30px',
+                h: '30px',
+                borderRadius: 'full',
+              }),
+              TONE_CLASS[tone].badge,
+            )}
+          >
+            <Icon size={18} />
+          </span>
+          <span
             className={css({
+              position: 'relative',
+              minWidth: 0,
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              flexDirection: 'column',
             })}
           >
-            <Icon size={24} />
-            <IconArrowRight size={16} />
-          </span>
-          <span className={css({ display: 'flex', flexDirection: 'column' })}>
             <span
               className={css({
-                fontSize: 'lg',
+                fontSize: 'sm',
                 fontWeight: 700,
                 lineHeight: 1.35,
+                whiteSpace: 'nowrap',
               })}
             >
               {title}
@@ -106,8 +130,8 @@ export default function EventBanner() {
             <span
               className={css({
                 fontSize: '2xs',
-                fontWeight: 700,
-                opacity: 0.8,
+                color: 'fg.muted',
+                whiteSpace: 'nowrap',
               })}
             >
               {caption}
