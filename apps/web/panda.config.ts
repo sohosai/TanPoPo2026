@@ -192,11 +192,11 @@ export default defineConfig({
             muted: { value: '#828fa3' },
           },
           favorite: {
-            // サーモンピンク。白地との差が小さいため、文字には text を使う。
-            DEFAULT: { value: '#ff7965' },
-            text: { value: '#bf3722' },
+            // ローズピンク。白地との差が小さいため、文字には text を使う。
+            DEFAULT: { value: '#ea7b95' },
+            text: { value: '#cb3356' },
             inactive: { value: '#bdc4ce' },
-            subtle: { value: '#fff1ee' },
+            subtle: { value: '#fdf2f4' },
           },
           sns: {
             x: { value: '{colors.black}' },
