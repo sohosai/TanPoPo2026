@@ -193,10 +193,10 @@ export default defineConfig({
           },
           favorite: {
             // ローズピンク。白地との差が小さいため、文字には text を使う。
-            DEFAULT: { value: '#ea7b95' },
-            text: { value: '#cb3356' },
+            DEFAULT: { value: '#f7829e' },
+            text: { value: '#d5234c' },
             inactive: { value: '#bdc4ce' },
-            subtle: { value: '#fdf2f4' },
+            subtle: { value: '#fef1f4' },
           },
           sns: {
             x: { value: '{colors.black}' },
