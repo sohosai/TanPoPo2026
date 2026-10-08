@@ -30,8 +30,8 @@ export default function StepCard({
           display: 'flex',
           alignItems: 'flex-start',
           gap: '10px',
-          p: '16px',
-          pb: '12px',
+          p: '20px',
+          pb: '14px',
         })}
       >
         <span

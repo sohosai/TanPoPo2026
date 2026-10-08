@@ -47,8 +47,8 @@ function ProjectFacts({
           display: 'flex',
           alignItems: 'center',
           gap: '10px',
-          px: '14px',
-          py: '10px',
+          px: '16px',
+          py: '12px',
           fontSize: 'md',
         },
         '& > div + div': {
@@ -62,13 +62,14 @@ function ProjectFacts({
           flexShrink: 0,
           color: 'fg.subtle',
           fontSize: 'xs',
+          '& > svg': { flexShrink: 0, color: 'accent' },
         },
         '& dd': { flex: 1, minWidth: 0, color: 'fg.strong', fontWeight: 500 },
       })}
     >
       <div>
         <dt>
-          <IconMapPin size={16} />
+          <IconMapPin size={18} />
           <span className={css({ textBox: 'trim-both cap alphabetic' })}>
             場所
           </span>
@@ -85,7 +86,7 @@ function ProjectFacts({
       </div>
       <div>
         <dt>
-          <IconCalendarEvent size={16} />
+          <IconCalendarEvent size={18} />
           <span className={css({ textBox: 'trim-both cap alphabetic' })}>
             日程
           </span>

@@ -107,7 +107,7 @@ export default function SurveyForm({
               rows={3}
               className={css({
                 width: '100%',
-                p: '10px',
+                p: '12px',
                 borderRadius: 'lg',
                 border: 'token(borderWidths.thin) solid',
                 borderColor: 'border',

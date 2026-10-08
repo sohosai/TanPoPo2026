@@ -21,11 +21,12 @@ type ProjectListItemProps = {
 const metaClass = css({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '2px',
+  gap: '3px',
   minWidth: 0,
+  '& > svg': { flexShrink: 0, color: 'accent' },
 });
 
-/** 企画一覧の1行の中身（アイコン・名前・団体・分類・場所・日程）。行の外枠と右端の操作は使う側で付ける。 */
+/** 企画一覧の1行の中身（アイコン・名前・分類と団体・場所と日程）。行の外枠と右端の操作は使う側で付ける。 */
 export function ProjectRowContent({
   project,
   locationLabel,
@@ -61,49 +62,58 @@ export function ProjectRowContent({
           {name}
         </h3>
 
-        <p
-          className={css({
-            fontSize: 'xs',
-            color: 'fg.subtle',
-            truncate: true,
-          })}
-        >
-          {organization}
-        </p>
-
         <div
           className={css({
-            mt: '6px',
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
+            gap: '6px',
             fontSize: 'xs',
-            color: 'fg.muted',
-            whiteSpace: 'nowrap',
-            '& > *': { flexShrink: 0 },
           })}
         >
           {cancelled ? (
             <span
               className={cx(
                 badgeClass,
-                css({ bg: 'fg.strong', color: 'surface' }),
+                css({ flexShrink: 0, bg: 'fg.strong', color: 'surface' }),
               )}
             >
               中止
             </span>
           ) : (
-            <span className={cx(badgeClass, CATEGORY_COLOR_CLASS[category])}>
+            <span
+              className={cx(
+                badgeClass,
+                css({ flexShrink: 0 }),
+                CATEGORY_COLOR_CLASS[category],
+              )}
+            >
               {category}
             </span>
           )}
+          <span className={css({ color: 'fg.subtle', truncate: true })}>
+            {organization}
+          </span>
+        </div>
+
+        <div
+          className={css({
+            mt: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            fontSize: 'xs',
+            color: 'fg.muted',
+            whiteSpace: 'nowrap',
+            '& > *': { flexShrink: 0 },
+          })}
+        >
           {/* 場所は長さのばらつきが大きいため、ここだけ縮めて残り幅で省略する */}
           {locationLabel && (
             <span
               className={cx(metaClass, css({ flexShrink: '1!' }))}
               title={locationLabel}
             >
-              <IconMapPin size={13} className={css({ flexShrink: 0 })} />
+              <IconMapPin size={16} />
               <span
                 className={css({
                   truncate: true,
@@ -117,7 +127,7 @@ export function ProjectRowContent({
           )}
           {schedule.length > 0 && (
             <span className={metaClass}>
-              <IconCalendarEvent size={13} />
+              <IconCalendarEvent size={16} />
               <span className={css({ textBox: 'trim-both cap alphabetic' })}>
                 {formatSchedule(schedule)}
               </span>

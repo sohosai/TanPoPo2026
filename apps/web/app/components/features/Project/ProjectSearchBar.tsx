@@ -63,7 +63,7 @@ export default function ProjectSearchBar({
           alignItems: 'center',
           gap: '8px',
           h: '44px',
-          px: '14px',
+          px: '16px',
           borderRadius: 'xl',
           bg: 'border.subtle',
           color: 'fg.subtle',

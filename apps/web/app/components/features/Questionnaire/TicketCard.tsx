@@ -117,7 +117,7 @@ export default function TicketCard({ ticket, onChanged }: TicketCardProps) {
           display: 'flex',
           alignItems: 'flex-start',
           gap: '8px',
-          p: '10px',
+          p: '12px',
           borderRadius: 'lg',
           bg: 'favorite.subtle',
           color: 'favorite',

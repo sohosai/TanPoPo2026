@@ -47,8 +47,9 @@ export default function EventBanner() {
           className={css({
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            p: '10px',
+            gap: '10px',
+            px: '14px',
+            py: '12px',
             borderRadius: 'xl',
             bg: 'accent.subtle',
             color: 'accent.text',
