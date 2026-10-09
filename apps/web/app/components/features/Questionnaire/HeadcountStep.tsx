@@ -25,7 +25,7 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
       <div>
         <h2
           className={css({
-            fontSize: '15px',
+            fontSize: 'lg',
             fontWeight: 'bold',
             color: 'fg.strong',
           })}
@@ -34,7 +34,7 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
         </h2>
         <p
           className={css({
-            fontSize: '13px',
+            fontSize: 'sm',
             color: 'fg.subtle',
             lineHeight: 1.7,
             mt: '6px',
@@ -65,7 +65,7 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
           className={css({
             minWidth: '64px',
             textAlign: 'center',
-            fontSize: '28px',
+            fontSize: '3xl',
             fontWeight: 'bold',
             color: 'fg.strong',
           })}
@@ -86,11 +86,11 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
         className={css({
           width: '100%',
           py: '12px',
-          borderRadius: '999px',
+          borderRadius: 'full',
           border: 'none',
           bg: 'accent',
           color: 'surface',
-          fontSize: '15px',
+          fontSize: 'lg',
           fontWeight: 'bold',
           cursor: 'pointer',
         })}
@@ -124,8 +124,8 @@ function StepButton({
         justifyContent: 'center',
         width: '40px',
         height: '40px',
-        borderRadius: '999px',
-        border: '1px solid',
+        borderRadius: 'full',
+        border: 'token(borderWidths.thin) solid',
         borderColor: disabled ? 'border' : 'accent',
         bg: 'surface',
         color: disabled ? 'fg.placeholder' : 'accent',

@@ -16,7 +16,7 @@ export default function TicketList({ tickets, onChanged }: TicketListProps) {
         p: '16px',
       })}
     >
-      <p className={css({ fontSize: '13px', color: 'fg.subtle' })}>
+      <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
         ご回答ありがとうございました。以下の福引券を福引所でお見せください。
       </p>
       {tickets.map((ticket) => (

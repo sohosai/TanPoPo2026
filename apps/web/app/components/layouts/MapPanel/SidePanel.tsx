@@ -18,7 +18,7 @@ const panelStyles = css({
   // 中身は h: 100% で自前のスクロール領域を持つことがあるため、上の余白はスクロール領域の外で取る。
   pt: '12px',
   bg: 'sheet.background',
-  boxShadow: '0 0 20px {colors.sheet.shadow}',
+  boxShadow: 'panel',
   // transform を使うと、中の position: fixed な要素の基準がパネルになってしまうため left で動かす。
   transition: 'left 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
 });
@@ -40,10 +40,10 @@ const toggleStyles = css({
   justifyContent: 'center',
   w: '24px',
   h: '48px',
-  borderRadius: '0 8px 8px 0',
+  borderRightRadius: 'lg',
   bg: 'sheet.background',
   color: 'fg.muted',
-  boxShadow: '4px 0 8px {colors.sheet.shadow}',
+  boxShadow: 'panelTab',
   cursor: 'pointer',
   _hover: { color: 'accent.text' },
 });

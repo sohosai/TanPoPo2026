@@ -26,7 +26,7 @@ export default function EventPageShell({
         height: '100%',
         overflowY: 'auto',
         overscrollBehavior: 'contain',
-        bg: 'surface',
+        bg: 'sheet.background',
       })}
     >
       <header
@@ -40,13 +40,14 @@ export default function EventPageShell({
           px: '16px',
           py: '14px',
           bg: 'sheet.background',
-          borderBottom: '1px solid token(colors.border.subtle)',
+          borderBottom:
+            'token(borderWidths.divider) solid token(colors.border.subtle)',
         })}
       >
         <h1
           className={css({
-            fontSize: '16px',
-            fontWeight: 'bold',
+            fontSize: 'xl',
+            fontWeight: 700,
             color: 'fg.strong',
           })}
         >

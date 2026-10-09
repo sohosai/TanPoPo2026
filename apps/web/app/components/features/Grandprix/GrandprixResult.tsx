@@ -45,7 +45,7 @@ export default function GrandprixResult({
       })}
     >
       {phase === 'drawing' && (
-        <p className={css({ fontSize: '13px', color: 'fg.subtle' })}>
+        <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
           抽選中です...
         </p>
       )}
@@ -72,7 +72,7 @@ export default function GrandprixResult({
       {phase === 'revealed' && (
         <p
           className={css({
-            fontSize: '13px',
+            fontSize: 'sm',
             color: 'fg.muted',
             lineHeight: 1.7,
           })}
@@ -276,7 +276,7 @@ function WinBadge() {
           borderRadius: '50%',
           bg: 'accent',
           color: 'surface',
-          fontSize: '30px',
+          fontSize: '4xl',
           fontWeight: 'bold',
           border: '4px double token(colors.white)',
           boxShadow: '0 0 0 4px token(colors.accent), token(shadows.win)',
@@ -319,7 +319,7 @@ function LoseBadge() {
           borderRadius: '50%',
           bg: 'result.lose',
           color: 'surface',
-          fontSize: '36px',
+          fontSize: '5xl',
           fontWeight: 'normal',
           fontFamily: "'Yuji Syuku', serif",
           border: '3px solid token(colors.white)',

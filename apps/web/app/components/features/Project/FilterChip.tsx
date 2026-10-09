@@ -9,9 +9,9 @@ const chipClass = css({
   gap: '4px',
   h: '32px',
   px: '12px',
-  borderRadius: '999px',
-  border: '1px solid',
-  fontSize: '13px',
+  borderRadius: 'full',
+  border: 'token(borderWidths.thin) solid',
+  fontSize: 'sm',
   fontWeight: 500,
   whiteSpace: 'nowrap',
   cursor: 'pointer',
@@ -26,11 +26,15 @@ const chipInactiveClass = css({
 
 const chipActiveClass = {
   accent: css({
-    borderColor: 'accent.text',
-    bg: 'accent.text',
-    color: 'surface',
+    borderColor: 'accent.border',
+    bg: 'accent.subtle',
+    color: 'accent.text',
   }),
-  favorite: css({ borderColor: 'favorite', bg: 'favorite', color: 'surface' }),
+  favorite: css({
+    borderColor: 'favorite',
+    bg: 'favorite.subtle',
+    color: 'favorite.text',
+  }),
 };
 
 /** 絞り込み条件のオン/オフを切り替えるチップ。 */

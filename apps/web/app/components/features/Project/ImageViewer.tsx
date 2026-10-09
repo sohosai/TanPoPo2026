@@ -17,7 +17,7 @@ type ImageViewerProps = {
 const glassButton = css({
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '999px',
+  borderRadius: 'full',
   bg: 'overlay.glass',
   color: 'white',
   cursor: 'pointer',
@@ -121,7 +121,7 @@ export default function ImageViewer({
       >
         <span
           className={css({
-            fontSize: '14px',
+            fontSize: 'md',
             fontWeight: 500,
             fontVariantNumeric: 'tabular-nums',
             opacity: 0.8,
@@ -188,7 +188,7 @@ export default function ImageViewer({
                   maxW: '100%',
                   maxH: '100%',
                   objectFit: 'contain',
-                  borderRadius: '6px',
+                  borderRadius: 'md',
                   userSelect: 'none',
                   animation: 'viewerZoom 0.25s ease-out',
                 })}
@@ -249,10 +249,10 @@ export default function ImageViewer({
                 w: '52px',
                 h: '52px',
                 overflow: 'hidden',
-                borderRadius: '8px',
+                borderRadius: 'lg',
                 cursor: 'pointer',
                 opacity: 0.45,
-                outline: '2px solid transparent',
+                outline: 'token(borderWidths.thick) solid transparent',
                 outlineOffset: '2px',
                 transition: 'opacity 0.15s, outline-color 0.15s',
                 '&[aria-current=true]': {

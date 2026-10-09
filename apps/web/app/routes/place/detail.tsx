@@ -148,7 +148,8 @@ export default function PlaceDetail() {
           px: '16px',
           pt: '2px',
           pb: '12px',
-          borderBottom: '1px solid token(colors.border.subtle)',
+          borderBottom:
+            'token(borderWidths.divider) solid token(colors.border.subtle)',
         })}
       >
         <span
@@ -159,17 +160,17 @@ export default function PlaceDetail() {
             justifyContent: 'center',
             w: '48px',
             h: '48px',
-            borderRadius: '14px',
+            borderRadius: 'xl',
             bg: 'accent.subtle',
             color: 'accent.text',
           })}
         >
-          <Icon size={26} stroke={1.8} />
+          <Icon size={26} />
         </span>
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
             className={css({
-              fontSize: '20px',
+              fontSize: '2xl',
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
@@ -177,7 +178,7 @@ export default function PlaceDetail() {
           >
             {place.name}
           </h1>
-          <p className={css({ fontSize: '13px', color: 'fg.subtle' })}>
+          <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
             {info?.label}
             {status === 'success' && ` · ${count}企画`}
           </p>

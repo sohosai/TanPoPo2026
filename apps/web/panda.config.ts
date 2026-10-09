@@ -12,15 +12,43 @@ export default defineConfig({
       tokens: {
         colors: {
           brand: {
-            50: { value: '#eef6f6' },
-            100: { value: '#bfe9e9' },
-            500: { value: '#3bb6b6' },
+            50: { value: '#e3effa' },
+            100: { value: '#a3c8eb' },
+            300: { value: '#76ade1' },
+            500: { value: '#4a93d7' },
+            700: { value: '#2f6fb0' },
+            900: { value: '#1f5a99' },
           },
           sheet: {
             background: { value: '#ffffff' },
-            shadow: { value: 'rgba(0, 0, 0, 0.15)' },
-            handle: { value: 'rgba(0, 0, 0, 0.28)' },
+            shadow: { value: 'rgba(31, 90, 153, 0.16)' },
+            handle: { value: '{colors.brand.100}' },
           },
+        },
+        radii: {
+          sm: { value: '6px' },
+          md: { value: '10px' },
+          lg: { value: '12px' },
+          xl: { value: '16px' },
+          '2xl': { value: '22px' },
+          full: { value: '9999px' },
+        },
+        borderWidths: {
+          divider: { value: '1px' },
+          thin: { value: '1px' },
+          thick: { value: '2px' },
+        },
+        fontSizes: {
+          '2xs': { value: '11px' },
+          xs: { value: '12px' },
+          sm: { value: '13px' },
+          md: { value: '14px' },
+          lg: { value: '15px' },
+          xl: { value: '16px' },
+          '2xl': { value: '21px' },
+          '3xl': { value: '28px' },
+          '4xl': { value: '30px' },
+          '5xl': { value: '36px' },
         },
       },
       keyframes: {
@@ -113,50 +141,60 @@ export default defineConfig({
           accent: {
             DEFAULT: { value: '{colors.brand.500}' },
             // brand.500 は白背景上の文字としてはコントラストが足りないため、文字用に濃い版を持つ。
-            text: { value: '#1d7f7f' },
+            text: { value: '{colors.brand.700}' },
             subtle: { value: '{colors.brand.50}' },
             border: { value: '{colors.brand.100}' },
+            deep: { value: '{colors.brand.900}' },
           },
-          // 企画の分類バッジ用。分類の識別にだけ使い、`accent`とは混ぜない。
+          // 上に載せる文字は fg.strong にする。
+          sun: {
+            DEFAULT: { value: '#ffe53d' },
+            subtle: { value: '#fffbd9' },
+            deep: { value: '#e6bf00' },
+          },
+          // 企画の分類。分類の識別にだけ使い、`accent`とは混ぜない。
+          // DEFAULT は地図のテントやピンの塗り。bg は分類タグと画像のない企画のアイコンの面で、上の文字は分類によらず fg にする。
           category: {
-            food: { DEFAULT: { value: '#c2410c' }, bg: { value: '#fff1e6' } },
-            goods: { DEFAULT: { value: '#be185d' }, bg: { value: '#fdeef5' } },
+            food: { DEFAULT: { value: '#f9c310' }, bg: { value: '#fdeebc' } },
+            goods: { DEFAULT: { value: '#ec659f' }, bg: { value: '#fad4e4' } },
             exhibit: {
-              DEFAULT: { value: '#1d4ed8' },
-              bg: { value: '#ebf1ff' },
+              DEFAULT: { value: '#39c684' },
+              bg: { value: '#c8efdd' },
             },
             academic: {
-              DEFAULT: { value: '#6d28d9' },
-              bg: { value: '#f3edff' },
+              DEFAULT: { value: '#9679ec' },
+              bg: { value: '#e2d9fa' },
             },
-            stage: { DEFAULT: { value: '#0f766e' }, bg: { value: '#e6f6f4' } },
-            other: { DEFAULT: { value: '#525866' }, bg: { value: '#f0f1f3' } },
+            stage: { DEFAULT: { value: '#3aaddf' }, bg: { value: '#c8e8f6' } },
+            other: { DEFAULT: { value: '#8d9bb0' }, bg: { value: '#dfe3e9' } },
           },
           // 文字・アイコンの色。濃いほど主要な情報に使う。
           fg: {
             // 本文。
-            DEFAULT: { value: '#333333' },
+            DEFAULT: { value: '#2e3745' },
             // 企画名・入力文字など、特に目立たせたい文字。
-            strong: { value: '#222222' },
+            strong: { value: '#1f2834' },
             // 閉じるボタン・補足説明などの副次的な文字。
-            muted: { value: '#555555' },
+            muted: { value: '#4b5665' },
             // 注釈・未選択状態など、さらに控えめな文字。
-            subtle: { value: '#888888' },
+            subtle: { value: '#647182' },
             // 入力欄のプレースホルダーと、無効状態の文字。
-            placeholder: { value: '#9aa5a5' },
+            placeholder: { value: '#8b96a5' },
           },
           border: {
-            DEFAULT: { value: '#d4dede' },
-            subtle: { value: '#eef3f3' },
+            DEFAULT: { value: '#d3deea' },
+            subtle: { value: '#eef3f9' },
           },
           surface: {
             DEFAULT: { value: '#ffffff' },
-            muted: { value: '#9e9e9e' },
+            muted: { value: '#828fa3' },
           },
           favorite: {
-            DEFAULT: { value: '#ff6b81' },
-            inactive: { value: '#cccccc' },
-            subtle: { value: '{colors.favorite/10}' },
+            // 白地との差が小さいため、文字には text を使う。
+            DEFAULT: { value: '#f7829e' },
+            text: { value: '#d5234c' },
+            inactive: { value: '#bdc4ce' },
+            subtle: { value: '#fef1f4' },
           },
           sns: {
             x: { value: '{colors.black}' },
@@ -180,14 +218,14 @@ export default defineConfig({
             winGlow: { value: '{colors.brand.500/45}' },
             loseGlow: { value: '{colors.result.lose/35}' },
             confetti: {
-              gold: { value: '#ffd166' },
-              blue: { value: '#4a93d7' },
-              mint: { value: '#7ed6a5' },
+              gold: { value: '#b28827' },
+              blue: { value: '{colors.brand.500}' },
+              mint: { value: '#24a263' },
             },
             dust: {
-              light: { value: '#c7d6d6' },
-              mid: { value: '#b8c2c2' },
-              dark: { value: '#9aa5a5' },
+              light: { value: '#ced3db' },
+              mid: { value: '#b0b8c4' },
+              dark: { value: '#96a1b1' },
             },
           },
           // MapLibre は CSS 変数を解釈できないため、地図で使う色は16進の値で持つ。
@@ -203,15 +241,23 @@ export default defineConfig({
           },
         },
         shadows: {
-          card: { value: '0 1px 3px {colors.black/6}' },
-          tab: { value: '0 1px 4px {colors.black/12}' },
+          card: {
+            value:
+              // 参照を2つ並べると Panda が1つの参照として読み違えるため、影の色は accent.deep（#1f5a99）の値で書く。
+              '0 0 0 1px {colors.border.subtle}, 0 6px 16px -8px rgba(31, 90, 153, 0.25)',
+          },
+          pop: { value: '0 6px 14px -6px {colors.accent.deep/55}' },
+          tab: { value: '0 1px 4px {colors.accent.deep/15}' },
           bar: { value: '0 -4px 12px {colors.black/5}' },
-          float: { value: '0 2px 8px {colors.black/18}' },
-          raised: { value: '0 4px 20px {colors.black/18}' },
-          carousel: { value: '0 4px 12px {colors.black/10}' },
+          float: { value: '0 4px 12px -2px {colors.accent.deep/30}' },
+          raised: { value: '0 10px 24px -8px {colors.accent.deep/35}' },
+          carousel: { value: '0 4px 12px -2px {colors.accent.deep/25}' },
           ring: { value: 'inset 0 0 0 1px {colors.black/8}' },
           win: { value: '0 8px 28px {colors.brand.500/50}' },
           lose: { value: '0 8px 24px {colors.result.lose/40}' },
+          sheet: { value: '0 -8px 24px {colors.sheet.shadow}' },
+          panel: { value: '0 0 20px {colors.sheet.shadow}' },
+          panelTab: { value: '4px 0 8px {colors.sheet.shadow}' },
         },
       },
     },
@@ -237,6 +283,11 @@ export default defineConfig({
     },
     'button, input, textarea': {
       fontFamily: 'inherit',
+    },
+    // Tabler の既定の線幅（2）はロゴの太い線と並ぶと細く見えるため、全体で太くする。
+    // stroke を個別に指定したアイコンは、その指定を優先する。
+    '.tabler-icon[stroke-width="2"]': {
+      strokeWidth: '2.5',
     },
     // 現在地は MapControls の独自ボタンから操作するため、MapLibre 標準のボタンは出さない。
     '.maplibregl-ctrl-group:has(> .maplibregl-ctrl-geolocate)': {

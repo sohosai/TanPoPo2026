@@ -1,4 +1,4 @@
-import { IconChevronDown, IconSearch, IconX } from '@tabler/icons-react';
+import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { css } from '../../../../styled-system/css';
@@ -51,9 +51,8 @@ export default function ProjectSearchBar({
         gap: '10px',
         px: '16px',
         pt: '4px',
-        pb: '8px',
+        pb: '12px',
         bg: 'sheet.background',
-        borderBottom: '1px solid token(colors.border.subtle)',
       })}
     >
       <label
@@ -62,18 +61,18 @@ export default function ProjectSearchBar({
           alignItems: 'center',
           gap: '8px',
           h: '44px',
-          px: '14px',
-          borderRadius: '12px',
-          bg: 'border.subtle',
-          color: 'fg.subtle',
+          px: '16px',
+          borderRadius: 'full',
+          border: '1.5px solid',
+          borderColor: 'brand.300',
+          bg: 'surface',
+          color: 'accent',
           cursor: 'text',
-          _focusWithin: {
-            bg: 'surface',
-            outline: '2px solid token(colors.accent)',
-          },
+          transition: 'box-shadow 0.15s',
+          // 枠の太さを変えるとレイアウトがずれるため、入力中は外側に淡い輪を広げて示す。
+          _focusWithin: { boxShadow: '0 0 0 3px token(colors.accent.subtle)' },
         })}
       >
-        <IconSearch size={18} />
         <input
           type="search"
           value={qDraft}
@@ -99,7 +98,7 @@ export default function ProjectSearchBar({
             border: 'none',
             outline: 'none',
             bg: 'transparent',
-            fontSize: '16px',
+            fontSize: 'xl',
             color: 'fg.strong',
             _placeholder: { color: 'fg.placeholder' },
             '&::-webkit-search-cancel-button': { display: 'none' },
@@ -113,7 +112,6 @@ export default function ProjectSearchBar({
             className={css({
               display: 'flex',
               p: '4px',
-              mr: '-4px',
               color: 'fg.subtle',
               cursor: 'pointer',
             })}
@@ -121,6 +119,13 @@ export default function ProjectSearchBar({
             <IconX size={16} />
           </button>
         )}
+        <img
+          src="/logo/search.webp"
+          alt=""
+          width={18}
+          height={22}
+          className={css({ flexShrink: 0, mr: '4px' })}
+        />
       </label>
 
       <div
@@ -223,7 +228,7 @@ export default function ProjectSearchBar({
           onClick={() => onChange(emptyCriteria)}
           className={css({
             alignSelf: 'flex-end',
-            fontSize: '12px',
+            fontSize: 'xs',
             color: 'accent.text',
             fontWeight: 500,
             cursor: 'pointer',

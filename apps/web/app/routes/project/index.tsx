@@ -79,6 +79,8 @@ export default function List() {
         className={css({
           flex: 1,
           minHeight: 0,
+          pt: '4px',
+          pb: '24px',
           overflowY: 'auto',
           overscrollBehavior: 'contain',
         })}

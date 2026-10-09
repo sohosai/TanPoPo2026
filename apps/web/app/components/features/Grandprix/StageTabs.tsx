@@ -29,7 +29,7 @@ export default function StageTabs({
         gap: '4px',
         mx: '16px',
         p: '4px',
-        borderRadius: '12px',
+        borderRadius: 'xl',
         bg: 'border.subtle',
       })}
     >
@@ -51,7 +51,7 @@ export default function StageTabs({
               alignItems: 'center',
               gap: '2px',
               py: '8px',
-              borderRadius: '9px',
+              borderRadius: 'lg',
               bg: selected ? 'surface' : 'transparent',
               boxShadow: selected ? 'tab' : 'none',
               color: selected ? 'accent.text' : 'fg.muted',
@@ -59,7 +59,7 @@ export default function StageTabs({
               transition: 'background 0.15s, color 0.15s',
             })}
           >
-            <span className={css({ fontSize: '14px', fontWeight: 'bold' })}>
+            <span className={css({ fontSize: 'md', fontWeight: 'bold' })}>
               {STAGE_LABELS[stage]}
             </span>
             {/* どのステージに投票済みかを、タブを切り替えずに分かるようにする */}
@@ -69,7 +69,7 @@ export default function StageTabs({
                 alignItems: 'center',
                 gap: '2px',
                 h: '1lh',
-                fontSize: '11px',
+                fontSize: '2xs',
                 fontWeight: voted ? 'bold' : 'normal',
                 color: voted ? 'accent.text' : 'fg.subtle',
               })}

@@ -37,14 +37,13 @@ export function StateMessage({
           justifyContent: 'center',
           width: '64px',
           height: '64px',
-          borderRadius: '999px',
+          borderRadius: 'full',
           bg: 'accent.subtle',
           color: 'accent',
         })}
       >
         <Icon
           size={30}
-          stroke={1.8}
           className={
             spinning ? css({ animation: 'spin 1s linear infinite' }) : undefined
           }
@@ -52,9 +51,9 @@ export function StateMessage({
       </span>
       <p
         className={css({
-          fontSize: '15px',
-          fontWeight: 'bold',
-          color: 'fg',
+          fontSize: 'lg',
+          fontWeight: 700,
+          color: 'fg.strong',
         })}
       >
         {title}
@@ -62,7 +61,7 @@ export function StateMessage({
       {description && (
         <p
           className={css({
-            fontSize: '13px',
+            fontSize: 'sm',
             lineHeight: 1.6,
             color: 'fg.subtle',
             whiteSpace: 'pre-line',

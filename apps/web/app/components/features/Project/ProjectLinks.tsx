@@ -56,12 +56,12 @@ export default function ProjectLinks({ links }: { links: ProjectLink[] }) {
                 h: '36px',
                 pl: '10px',
                 pr: '14px',
-                borderRadius: '999px',
-                border: '1px solid',
+                borderRadius: 'full',
+                border: 'token(borderWidths.thin) solid',
                 borderColor: 'border',
                 bg: 'surface',
                 color: 'fg.strong',
-                fontSize: '13px',
+                fontSize: 'sm',
                 fontWeight: 500,
                 textDecoration: 'none',
                 transition: 'background 0.15s',
@@ -70,7 +70,6 @@ export default function ProjectLinks({ links }: { links: ProjectLink[] }) {
             >
               <Icon
                 size={18}
-                stroke={1.8}
                 className={cx(css({ flexShrink: 0 }), iconClass)}
               />
               <span className={css({ truncate: true })}>

@@ -29,7 +29,7 @@ export const sectionTitleClass = css({
   px: '16px',
   transform: 'translateZ(0)',
   bg: 'border.subtle',
-  fontSize: '12px',
+  fontSize: 'xs',
   fontWeight: 700,
   color: 'fg.muted',
 });

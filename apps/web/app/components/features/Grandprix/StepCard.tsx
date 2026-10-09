@@ -20,7 +20,7 @@ export default function StepCard({
     <section
       className={css({
         bg: 'surface',
-        borderRadius: '16px',
+        borderRadius: '2xl',
         boxShadow: 'card',
         overflow: 'hidden',
       })}
@@ -30,8 +30,8 @@ export default function StepCard({
           display: 'flex',
           alignItems: 'flex-start',
           gap: '10px',
-          p: '16px',
-          pb: '12px',
+          p: '20px',
+          pb: '14px',
         })}
       >
         <span
@@ -42,10 +42,10 @@ export default function StepCard({
             justifyContent: 'center',
             w: '24px',
             h: '24px',
-            borderRadius: '999px',
+            borderRadius: 'full',
             bg: done ? 'accent' : 'accent.subtle',
             color: done ? 'surface' : 'accent.text',
-            fontSize: '13px',
+            fontSize: 'sm',
             fontWeight: 'bold',
           })}
         >
@@ -54,8 +54,8 @@ export default function StepCard({
         <div className={css({ minWidth: 0 })}>
           <h2
             className={css({
-              fontSize: '16px',
-              fontWeight: 'bold',
+              fontSize: 'xl',
+              fontWeight: 700,
               lineHeight: '24px',
               color: 'fg.strong',
             })}
@@ -66,7 +66,7 @@ export default function StepCard({
             <p
               className={css({
                 mt: '2px',
-                fontSize: '12px',
+                fontSize: 'xs',
                 lineHeight: 1.6,
                 color: 'fg.subtle',
               })}
@@ -99,12 +99,12 @@ export function ChoiceButton({
       className={css({
         flex: 1,
         py: '10px',
-        borderRadius: '12px',
-        border: '1px solid',
+        borderRadius: 'xl',
+        border: 'token(borderWidths.thin) solid',
         borderColor: active ? 'accent' : 'border',
         bg: active ? 'accent' : 'surface',
         color: active ? 'surface' : 'fg.muted',
-        fontSize: '15px',
+        fontSize: 'lg',
         fontWeight: active ? 'bold' : 'normal',
         cursor: 'pointer',
       })}
