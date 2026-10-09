@@ -129,15 +129,9 @@ export default function BottomSheet({
   // シートの位置（上端が最大段の位置から下がる距離）。ドラッグ中は指の動きごとに変わるため、
   // React の state を通さず、place() で DOM の transform に直接書き込む。
   const yRef = useRef(0);
-  // シートの下端のうち画面外にはみ出している高さ。中身のスクロール領域をこの分だけ縮め、
-  // どの開き具合でも末尾まで画面内にスクロールできるようにする。広げるのは即座に、縮めるのは
-  // シートが下がりきってからにして、閉じる途中で中身が先に切れて空白が見えないようにする。
-  const [offscreen, setOffscreenState] = useState(0);
-  const offscreenRef = useRef(0);
-  const setOffscreen = useCallback((value: number) => {
-    offscreenRef.current = value;
-    setOffscreenState(value);
-  }, []);
+  const contentRef = useRef<HTMLDivElement>(null);
+  // 動いているあいだ画面の下端に留める要素（中身の下端に貼り付く data-sheet-bottom）。
+  const pinned = useRef<HTMLElement[]>([]);
   const [atPeek, setAtPeek] = useState(false);
   const drag = useRef({
     pointerY: 0,
@@ -161,6 +155,45 @@ export default function BottomSheet({
     };
   }, []);
 
+  // いま画面に見えているシートの位置。アニメーションの途中では目標の段と異なる。
+  const visualY = useCallback(() => {
+    const sheet = ref.current;
+    if (!sheet) return yRef.current;
+    return new DOMMatrixReadOnly(getComputedStyle(sheet).transform).m42;
+  }, []);
+
+  // シートが動き出すときに呼ぶ。動いているあいだは中身の下端をシートの下端（画面外）まで伸ばし、
+  // 指の動きごとにレイアウトし直さない。中身の下端に貼り付く要素は、シートの動きを打ち消す向きに
+  // 動かして画面の下端に留める。
+  const beginMotion = useCallback((from: number) => {
+    const sheet = ref.current;
+    const content = contentRef.current;
+    if (!sheet || !content) return;
+    content.style.marginBottom = '0px';
+    pinned.current = Array.from(
+      sheet.querySelectorAll<HTMLElement>('[data-sheet-bottom]'),
+    );
+    for (const el of pinned.current) {
+      el.style.transition = 'none';
+      el.style.transform = `translate3d(0, ${-Math.round(from)}px, 0)`;
+    }
+    // 続けてアニメーションを指定したときに、ここで置いた位置から動き出すよう確定させる。
+    sheet.getBoundingClientRect();
+  }, []);
+
+  // シートが止まったときに呼ぶ。中身の下端を画面の下端にそろえ、どの段でも末尾まで
+  // 画面内にスクロールできるようにする。留めていた要素は本来の位置に戻す。
+  const endMotion = useCallback(() => {
+    const content = contentRef.current;
+    if (!content) return;
+    content.style.marginBottom = `${Math.round(yRef.current)}px`;
+    for (const el of pinned.current) {
+      el.style.transition = '';
+      el.style.transform = '';
+    }
+    pinned.current = [];
+  }, []);
+
   // シートを next の位置へ動かす。animate が false のときはアニメーションせずに動かす。
   const place = useCallback(
     (next: number, animate: boolean, snaps: Snaps = getSnaps()) => {
@@ -181,20 +214,39 @@ export default function BottomSheet({
         controls.style.transform = `translate3d(0, ${Math.round(lift)}px, 0)`;
       }
 
+      for (const el of pinned.current) {
+        el.style.transition = transition;
+        el.style.transform = `translate3d(0, ${-Math.round(next)}px, 0)`;
+      }
+
       // 最小段の付近（中段との中間より下）にあるあいだ data-peek を付け、中身が最小段向けの表示に
       // 切り替えられるようにする。ドラッグ中も位置で判定し、最小段から上下に引いても表示を保つ。
       setAtPeek(next > (snaps.half + snaps.peek) / 2);
-
-      if (next < offscreenRef.current) setOffscreen(next);
     },
-    [getSnaps, controlsRef, setOffscreen],
+    [getSnaps, controlsRef],
+  );
+
+  // アニメーションで next の段へ動かす。
+  const animateTo = useCallback(
+    (next: number, snaps: Snaps = getSnaps()) => {
+      const from = visualY();
+      // 位置が変わらないと transitionend が来ないため、その場で止まったものとして扱う。
+      if (Math.round(from) === Math.round(next)) {
+        place(next, false, snaps);
+        endMotion();
+        return;
+      }
+      beginMotion(from);
+      place(next, true, snaps);
+    },
+    [getSnaps, visualY, beginMotion, place, endMotion],
   );
 
   useLayoutEffect(() => {
     const snaps = getSnaps();
     place(snaps.half, false, snaps);
-    setOffscreen(snaps.half);
-  }, [getSnaps, place, setOffscreen]);
+    endMotion();
+  }, [getSnaps, place, endMotion]);
 
   useEffect(() => {
     const controls = controlsRef?.current;
@@ -235,7 +287,7 @@ export default function BottomSheet({
       if (panned < mapPanThreshold && zoomed < mapZoomThreshold) return;
       start = null;
       const snaps = getSnaps();
-      if (yRef.current < snaps.peek) place(snaps.peek, true, snaps);
+      if (yRef.current < snaps.peek) animateTo(snaps.peek, snaps);
       blurFocused();
     };
     const onMoveEnd = () => {
@@ -250,15 +302,12 @@ export default function BottomSheet({
       map.off('move', onMove);
       map.off('moveend', onMoveEnd);
     };
-  }, [getMap, isReady, getSnaps, place, blurFocused]);
+  }, [getMap, isReady, getSnaps, animateTo, blurFocused]);
 
   const startDrag = useCallback(
     (clientY: number, timeStamp: number) => {
-      const sheet = ref.current;
-      if (!sheet) return;
       // アニメーションの途中で掴んだときは、目標の段ではなくいま見えている位置から動かす。
-      const current = new DOMMatrixReadOnly(getComputedStyle(sheet).transform)
-        .m42;
+      const current = visualY();
       const snaps = getSnaps();
       drag.current = {
         pointerY: clientY,
@@ -269,11 +318,10 @@ export default function BottomSheet({
         velocity: 0,
         snaps,
       };
+      beginMotion(current);
       place(current, false, snaps);
-      // ドラッグ中は中身の下端を画面外まで伸ばしたままにし、指の動きごとにレイアウトし直さない。
-      setOffscreen(0);
     },
-    [getSnaps, place, setOffscreen],
+    [visualY, getSnaps, beginMotion, place],
   );
 
   const moveDrag = useCallback(
@@ -303,13 +351,11 @@ export default function BottomSheet({
       const next = [full, half, peek].reduce((a, b) =>
         Math.abs(b - projected) < Math.abs(a - projected) ? b : a,
       );
-      place(next, true, snaps);
-      // 位置が変わらないと transitionend が来ないため、ここで中身の高さを戻す。
-      if (Math.round(next) === Math.round(drag.current.y)) setOffscreen(next);
+      animateTo(next, snaps);
       // 検索中に手でシートを下げたら、キーボードも閉じる。
       if (next !== full) blurFocused();
     },
-    [place, setOffscreen, blurFocused],
+    [animateTo, blurFocused],
   );
 
   // タッチはシート全体で受け、シートを伸縮させるかスクロールに任せるかを指の動きから決める。
@@ -446,11 +492,11 @@ export default function BottomSheet({
 
   const panelApi = useMemo<MapPanelApi>(
     () => ({
-      expand: () => place(getSnaps().full, true),
-      raise: () => place(getSnaps().half, true),
-      collapse: () => place(getSnaps().peek, true),
+      expand: () => animateTo(getSnaps().full),
+      raise: () => animateTo(getSnaps().half),
+      collapse: () => animateTo(getSnaps().peek),
     }),
-    [getSnaps, place],
+    [getSnaps, animateTo],
   );
 
   return (
@@ -460,7 +506,7 @@ export default function BottomSheet({
       className={sheetStyles}
       onTransitionEnd={(e) => {
         if (e.target === e.currentTarget && e.propertyName === 'transform') {
-          setOffscreen(yRef.current);
+          endMotion();
         }
       }}
     >
@@ -474,10 +520,7 @@ export default function BottomSheet({
         <div className={handleStyles} />
       </div>
       <MapPanelContext.Provider value={panelApi}>
-        <div
-          className={contentStyles}
-          style={{ marginBottom: Math.round(offscreen) }}
-        >
+        <div ref={contentRef} className={contentStyles}>
           {children}
         </div>
       </MapPanelContext.Provider>

@@ -392,8 +392,9 @@ export default function Detail() {
 
       <ProjectDescription text={project.description} />
 
-      {/* 下部の操作バー */}
+      {/* 下部の操作バー。シートが動いているあいだは画面の下端に留める（BottomSheet が扱う） */}
       <div
+        data-sheet-bottom
         className={css({
           position: 'sticky',
           bottom: 0,
