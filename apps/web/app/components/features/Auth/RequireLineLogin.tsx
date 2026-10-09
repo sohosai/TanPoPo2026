@@ -1,6 +1,6 @@
 import { IconBrandLine, IconLoader2 } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getLineLoginUrl, useAuth } from '~/lib/auth';
 import { css } from '../../../../styled-system/css';
 
