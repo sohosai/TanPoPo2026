@@ -7,7 +7,7 @@ import {
 import type { Place, PlaceKind, Project } from 'api';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
-import DetailTitleRow from '~/components/features/Detail/DetailTitleRow';
+import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
   detailExitStyles,
@@ -141,42 +141,57 @@ export default function PlaceDetail() {
       <header
         className={css({
           flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
           px: '16px',
-          pt: '4px',
+          pt: '2px',
           pb: '12px',
           borderBottom:
             'token(borderWidths.divider) solid token(colors.border.subtle)',
         })}
       >
-        <DetailTitleRow title={place.name} closing={closing} onClose={close} />
-        <div
+        <span
           className={css({
+            flexShrink: 0,
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
-            mt: '10px',
+            justifyContent: 'center',
+            w: '48px',
+            h: '48px',
+            borderRadius: 'xl',
+            bg: 'accent.subtle',
+            color: 'accent.text',
+            // 最小段では名前だけを見せる。
+            '[data-peek] &': { display: 'none' },
           })}
         >
-          <span
+          <Icon size={26} />
+        </span>
+        <div className={css({ flex: 1, minWidth: 0 })}>
+          <h1
             className={css({
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              w: '48px',
-              h: '48px',
-              borderRadius: 'xl',
-              bg: 'accent.subtle',
-              color: 'accent.text',
+              fontSize: '2xl',
+              fontWeight: 700,
+              lineHeight: 1.35,
+              color: 'fg.strong',
+              '[data-peek] &': { truncate: true },
             })}
           >
-            <Icon size={26} />
-          </span>
-          <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
+            {place.name}
+          </h1>
+          <p
+            className={css({
+              fontSize: 'sm',
+              color: 'fg.subtle',
+              '[data-peek] &': { display: 'none' },
+            })}
+          >
             {info?.label}
             {status === 'success' && ` · ${count}企画`}
           </p>
         </div>
+        <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
       <div

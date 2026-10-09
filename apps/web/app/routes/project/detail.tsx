@@ -6,7 +6,7 @@ import {
 } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import DetailTitleRow from '~/components/features/Detail/DetailTitleRow';
+import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
   detailExitStyles,
@@ -207,30 +207,40 @@ export default function Detail() {
         closing ? detailExitStyles : detailEnterStyles,
       )}
     >
-      <header className={css({ px: '16px', pt: '4px' })}>
-        <DetailTitleRow
-          title={project.name}
-          closing={closing}
-          onClose={close}
-        />
-        <div
-          className={css({
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            mt: '10px',
-          })}
-        >
-          <ProjectIcon project={project} size={48} />
+      <header
+        className={css({
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '12px',
+          px: '16px',
+          pt: '2px',
+          // 最小段では企画名だけを見せる。
+          '[data-peek] &': { '& > :first-child': { display: 'none' } },
+        })}
+      >
+        <ProjectIcon project={project} size={48} />
+
+        <div className={css({ flex: 1, minWidth: 0 })}>
+          <h1
+            className={css({
+              fontSize: '2xl',
+              fontWeight: 700,
+              lineHeight: 1.35,
+              color: 'fg.strong',
+              '[data-peek] &': { truncate: true },
+            })}
+          >
+            {project.name}
+          </h1>
           <p
             className={css({
-              flex: 1,
-              minWidth: 0,
+              mt: '2px',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
               fontSize: 'sm',
               color: 'fg.subtle',
+              '[data-peek] &': { display: 'none' },
             })}
           >
             <CategoryLabel category={project.category} />
@@ -239,6 +249,8 @@ export default function Detail() {
             </span>
           </p>
         </div>
+
+        <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
       {project.cancelled && (
