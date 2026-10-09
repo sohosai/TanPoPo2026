@@ -14,11 +14,11 @@
     "ingest:campus-buildings": "bun run scripts/ingest-campus-buildings.ts",
     "merge:osm": "bun run scripts/merge-osm.ts",
     "clean": "turbo run clean && rm -rf .turbo",
-    "format": "biome format . --write && prettier --write \"**/*.html\"",
+    "format": "biome format . --write",
     "ci": "bun run format:check && bun run check && bun run check:map-data",
     "db:migrate": "bun run --cwd apps/api db:migrate",
     "deploy": "bun run build && bun run --cwd apps/api deploy",
-    "format:check": "biome format . && prettier --check \"**/*.html\""
+    "format:check": "biome format ."
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
