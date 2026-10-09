@@ -81,15 +81,7 @@ function ProjectFacts({
             場所
           </span>
         </dt>
-        <dd>
-          {locations.length > 0
-            ? locations.map((label) => (
-                <span key={label} className={css({ display: 'block' })}>
-                  {label}
-                </span>
-              ))
-            : '未定'}
-        </dd>
+        <dd>{locations.join(', ') || '未定'}</dd>
       </div>
       {performances.length > 0 ? (
         <div>
@@ -212,7 +204,6 @@ export default function Detail() {
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
-              wordBreak: 'break-all',
             })}
           >
             {project.name}
@@ -399,7 +390,6 @@ export default function Detail() {
             lineHeight: 1.8,
             color: 'fg',
             whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
           })}
         >
           {project.description}
