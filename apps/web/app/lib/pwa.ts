@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { isEmbedPath } from './embed';
 import { detectInAppBrowser, isIos } from './geolocation';
 
 /**
@@ -85,7 +86,12 @@ if (typeof window !== 'undefined') {
   window.addEventListener('online', emit);
   window.addEventListener('offline', emit);
 
-  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  // 埋め込みは他サイトの中で開かれるため、アプリ一式を端末に保存させない。
+  if (
+    import.meta.env.PROD &&
+    'serviceWorker' in navigator &&
+    !isEmbedPath(location.pathname)
+  ) {
     registerServiceWorker().catch((error) => {
       console.warn('Service Worker を登録できませんでした。', error);
     });

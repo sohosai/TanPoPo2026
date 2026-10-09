@@ -1,3 +1,4 @@
+import type { Place } from 'api';
 import maplibregl from 'maplibre-gl';
 import {
   createContext,
@@ -8,8 +9,11 @@ import {
   useRef,
   useState,
 } from 'react';
+import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
+import { useIsEmbed } from '~/lib/embed';
 import { isDesktopViewport } from '~/lib/viewport';
 import { token } from '../../../../styled-system/tokens';
+import { CAMPUS_BOUNDS } from './campusData';
 import type { LngLat } from './geo';
 import sohosaiMap from './sohosai-map.json';
 
@@ -44,11 +48,11 @@ export type MapController = {
   fitBounds: (bounds: [LngLat, LngLat], minZoom?: number) => void;
   /** ハイライトマーカーを置く（null で消す） */
   highlight: (point: LngLat | null) => void;
-  /** 地図を初期表示（会場全体）に戻す */
-  resetView: () => void;
+  /** 地図を会場全体が収まる表示に戻す。初期表示にも使う */
+  resetView: (duration?: number) => void;
 };
 
-/** 地図の初期表示（会場全体）。地図スタイルの中心とズームに合わせる。 */
+/** 地図を作るときの仮の視点。作った直後に resetView で会場全体が収まるところへ合わせる。 */
 export const INITIAL_VIEW = {
   center: sohosaiMap.center as LngLat,
   zoom: sohosaiMap.zoom,
@@ -58,14 +62,18 @@ export const INITIAL_VIEW = {
 const DEFAULT_FOCUS_ZOOM = 17.3;
 /** 屋外ブースに寄せるときのズーム。テントの形がはっきり見えるところ。 */
 export const BOOTH_FOCUS_ZOOM = 18.5;
+
+/** 場所に寄せるときのズーム。屋外はテントの形が見えるところまで寄る。 */
+export function placeFocusZoom(place: Place): number {
+  return place.kind === 'outdoor' ? BOOTH_FOCUS_ZOOM : 17.6;
+}
 const DEFAULT_DURATION = 800;
 // 下部シートに隠れないよう、フォーカス点を画面上方へ寄せる既定オフセット。
 const SHEET_OFFSET: [number, number] = [0, -120];
 // fitBounds で下部シートに隠れないよう、下側を広く空ける。
 const SHEET_PADDING = { top: 40, left: 40, right: 40, bottom: 240 };
-const DESKTOP_PADDING = { top: 40, left: 40, right: 40, bottom: 40 };
-const defaultOffset = (): [number, number] =>
-  isDesktopViewport() ? [0, 0] : SHEET_OFFSET;
+const EVEN_PADDING = { top: 40, left: 40, right: 40, bottom: 40 };
+const VIEW_PADDING = { top: 16, left: 16, right: 16, bottom: 16 };
 
 const MapContext = createContext<MapController | null>(null);
 
@@ -73,6 +81,13 @@ export function MapProvider({ children }: { children: ReactNode }) {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markerRef = useRef<maplibregl.Marker | null>(null);
   const [isReady, setReady] = useState(false);
+  // 下部シートがあるのはスマホのアプリ本体だけ。PC はサイドパネル分を padding で空けていて、
+  // 埋め込みにはパネル自体が無い。
+  const isEmbed = useIsEmbed();
+  const hasSheet = useCallback(
+    () => !isEmbed && !isDesktopViewport(),
+    [isEmbed],
+  );
 
   const register = useCallback((map: maplibregl.Map | null) => {
     mapRef.current = map;
@@ -83,15 +98,18 @@ export function MapProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const flyTo = useCallback((center: LngLat, options: FocusOptions = {}) => {
-    const map = mapRef.current;
-    map?.flyTo({
-      center,
-      zoom: Math.max(options.zoom ?? DEFAULT_FOCUS_ZOOM, map.getZoom()),
-      duration: options.duration ?? DEFAULT_DURATION,
-      offset: options.offset ?? defaultOffset(),
-    });
-  }, []);
+  const flyTo = useCallback(
+    (center: LngLat, options: FocusOptions = {}) => {
+      const map = mapRef.current;
+      map?.flyTo({
+        center,
+        zoom: Math.max(options.zoom ?? DEFAULT_FOCUS_ZOOM, map.getZoom()),
+        duration: options.duration ?? DEFAULT_DURATION,
+        offset: options.offset ?? (hasSheet() ? SHEET_OFFSET : [0, 0]),
+      });
+    },
+    [hasSheet],
+  );
 
   const highlight = useCallback((point: LngLat | null) => {
     const map = mapRef.current;
@@ -121,7 +139,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
   // そのため収まるズームだけ求め、下限をかけて飛ぶ。中心は padding の内側の中央に置く。
   const fitBounds = useCallback(
     (bounds: [LngLat, LngLat], minZoom = 0) => {
-      const padding = isDesktopViewport() ? DESKTOP_PADDING : SHEET_PADDING;
+      const padding = hasSheet() ? SHEET_PADDING : EVEN_PADDING;
       const fitZoom = mapRef.current?.cameraForBounds(bounds, {
         padding,
       })?.zoom;
@@ -134,18 +152,24 @@ export function MapProvider({ children }: { children: ReactNode }) {
         ],
       });
     },
-    [flyTo],
+    [flyTo, hasSheet],
   );
 
-  const resetView = useCallback(() => {
-    mapRef.current?.flyTo({
-      center: INITIAL_VIEW.center,
-      zoom: INITIAL_VIEW.zoom,
-      bearing: 0,
-      pitch: 0,
-      duration: DEFAULT_DURATION,
-    });
-  }, []);
+  // 画面の大きさによらず会場全体が収まるよう、固定のズームではなく範囲に合わせる。
+  const resetView = useCallback(
+    (duration = DEFAULT_DURATION) => {
+      const map = mapRef.current;
+      if (!map) return;
+      const camera = map.cameraForBounds(CAMPUS_BOUNDS, {
+        padding: {
+          ...VIEW_PADDING,
+          bottom: VIEW_PADDING.bottom + (hasSheet() ? SHEET_PEEK : 0),
+        },
+      });
+      map.flyTo({ ...camera, bearing: 0, pitch: 0, duration });
+    },
+    [hasSheet],
+  );
 
   const value = useMemo<MapController>(
     () => ({
