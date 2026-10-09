@@ -12,7 +12,6 @@ import {
 import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
 import { useIsEmbed } from '~/lib/embed';
 import { isDesktopViewport } from '~/lib/viewport';
-import { token } from '../../../../styled-system/tokens';
 import { CAMPUS_BOUNDS } from './campusData';
 import type { LngLat } from './geo';
 import sohosaiMap from './sohosai-map.json';
@@ -121,7 +120,7 @@ export function MapProvider({ children }: { children: ReactNode }) {
     }
     if (!markerRef.current) {
       markerRef.current = new maplibregl.Marker({
-        color: token('colors.accent'),
+        color: '#4a93d7', // token('colors.accent')
       });
     }
     markerRef.current.setLngLat(point).addTo(map);
