@@ -18,5 +18,29 @@
       "database_id": "413cbc29-ab32-45c3-a273-30108bc25bbc",
       "migrations_dir": "db/migrations"
     }
-  ]
+  ],
+  "env": {
+    "zoo": {
+      "name": "tanpopo-zoo",
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "tanpopo-zoo",
+          "database_id": "<ZOO_DB_ID_HERE>",
+          "migrations_dir": "db/migrations"
+        }
+      ]
+    },
+    "prod": {
+      "name": "tanpopo-prod",
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "tanpopo-prod",
+          "database_id": "<PROD_DB_ID_HERE>",
+          "migrations_dir": "db/migrations"
+        }
+      ]
+    }
+  }
 }
