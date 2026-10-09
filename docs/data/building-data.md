@@ -71,7 +71,6 @@ type Place = {
 ## 参照・表示の流れ
 
 - 取得: `apps/web/app/lib/places.ts` の `usePlaces()` が `place.list` を購読し `id → Place` の Map を作る。
-- キャッシュ: react-query persister（`apps/web/app/lib/trpc-provider.tsx`）で IndexedDB に保存され、オフラインでも参照できる。
 - 表示ラベル: `formatProjectLocation(project)` が建物名＋部屋番号（例 "5C305"）に整形する。
 - 地図デバッグ表示: URL に `?debug` を付けると、建物ポリゴン・通路・入口（緑）・ノードが地図に重なる（`apps/web/app/components/features/Map/debugLayers.ts`）。
 

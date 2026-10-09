@@ -39,7 +39,6 @@ export default function List() {
     setSearchParams(criteriaToParams(next), { replace: true });
   };
 
-  // 取得済みの全件に対してクライアント側でフィルタする（オフラインでも動く）。
   const { projects: visibleProjects, tagOptions } = useFilteredProjects(
     projects,
     criteria,
