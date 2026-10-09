@@ -10,7 +10,7 @@ import type { CampusData } from './campusData';
 
 // MapLibre は CSS 変数を解釈できないため、16進の値を持つトークンだけを使う。
 export const ACCENT = token('colors.brand.500');
-const ACCENT_TEXT = token('colors.accent.text');
+const ACCENT_TEXT = token('colors.brand.700');
 const TEXT = token('colors.fg.strong');
 const WHITE = token('colors.white');
 export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
@@ -24,7 +24,7 @@ export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
 
 const FONT = ['Arial Unicode MS Regular'];
 // これより引くとエリア名、寄ると建物名・テント列を出す。
-export const AREA_MAX_ZOOM = 16.2;
+export const AREA_MAX_ZOOM = 15.8;
 const DETAIL_ZOOM = 17.4;
 // これより寄ると、建物名の下に中の企画名を並べる。
 const PREVIEW_ZOOM = 18.2;
@@ -300,6 +300,8 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
       'text-font': FONT,
       'text-size': 15,
       'text-line-height': 1.3,
+      // 「第二・第三エリア」を途中で折り返さない。
+      'text-max-width': 12,
     },
     paint: { ...textPaint, 'text-color': ACCENT_TEXT, 'text-halo-width': 2 },
   });

@@ -6,6 +6,7 @@ import type {
 } from 'maplibre-gl';
 import { useEffect, useMemo, useState } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router';
+import { toAppPath, useIsEmbed } from '~/lib/embed';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { boothCenter } from './booths';
@@ -26,7 +27,7 @@ function useSelection(
   projects: Project[] | undefined,
   placesById: ReadonlyMap<string, Place>,
 ): Selection {
-  const { pathname } = useLocation();
+  const pathname = toAppPath(useLocation().pathname);
   return useMemo(() => {
     const place = matchPath('/place/:placeId', pathname);
     if (place?.params.placeId) {
@@ -86,11 +87,13 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
 
 /**
  * 会場エリア・建物・屋外のテント・ステージを地図に重ね、タップで企画詳細や場所の企画一覧を開く。
+ * 埋め込みでは、埋め込み先のページを離れさせないよう、アプリ本体のページを新しいタブで開く。
  * ズームに応じて、エリア名 → 建物・テント列のピン → 企画数・中の企画名・テントの形、と情報を増やす。
  */
 export default function CampusLayers() {
   const { isReady, getMap } = useMap();
   const navigate = useNavigate();
+  const isEmbed = useIsEmbed();
   const { data: projects } = trpc.project.list.useQuery();
   const { places, byId: placesById } = usePlaces();
   const selected = useSelection(projects, placesById);
@@ -124,7 +127,9 @@ export default function CampusLayers() {
 
     const onClick = (e: { point: { x: number; y: number } }) => {
       const target = tapTarget(map, e.point);
-      if (target) navigate(target);
+      if (!target) return;
+      if (isEmbed) window.open(target, '_blank', 'noopener');
+      else navigate(target);
     };
     const setCursor = (cursor: string) => () => {
       map.getCanvas().style.cursor = cursor;
@@ -146,7 +151,7 @@ export default function CampusLayers() {
         map.off('mouseleave', id, reset);
       }
     };
-  }, [isReady, getMap, navigate]);
+  }, [isReady, getMap, navigate, isEmbed]);
 
   useEffect(() => {
     const map = getMap();
