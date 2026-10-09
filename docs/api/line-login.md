@@ -15,8 +15,6 @@ Web と API は同一オリジンで配信される（本番は同じ Worker、�
 
 ログアウトは `GET /auth/logout`。セッションを削除しcookieを消してリダイレクトする。
 
-PWA の Service Worker は `/auth/*` と `/trpc/*` へのページ遷移を横取りしないよう除外している（`apps/web/vite.config.ts` の `navigateFallbackDenylist`）。
-
 ## 関連ファイル
 
 - `apps/api/services/line-auth.ts` — LINEとのHTTPやりとり・ID Token検証

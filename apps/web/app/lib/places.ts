@@ -5,7 +5,6 @@ import { trpc } from '~/lib/trpc';
 /**
  * 場所（Place）の参照ユーティリティ。
  * place.list を取得して id 引きの Map を作り、店舗の場所ラベル整形などを提供する。
- * 既存の react-query 永続キャッシュに乗るのでオフラインでも参照できる。
  */
 export function usePlaces() {
   const { data: places, status } = trpc.place.list.useQuery();
