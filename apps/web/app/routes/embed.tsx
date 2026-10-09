@@ -9,6 +9,7 @@ import {
   placeFocusZoom,
   useMap,
 } from '~/components/features/Map/MapController';
+import MapCallouts from '~/components/features/Map/MapCallouts';
 import MapControls from '~/components/features/Map/MapControls';
 import MapView from '~/components/features/Map/MapView';
 import { useProjectFocus } from '~/components/features/Map/useProjectFocus';
@@ -35,6 +36,7 @@ export default function Embed() {
     <MapProvider>
       <MapView />
       <CampusLayers />
+      <MapCallouts />
       <MapControls />
       <Focus appPath={appPath} />
       <a

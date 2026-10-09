@@ -23,6 +23,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.11",
     "prettier": "^3.8.2",
+    "puppeteer": "^25.13.0",
     "turbo": "^2.9.5",
     "typescript": "6.0.2",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"

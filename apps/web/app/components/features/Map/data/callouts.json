@@ -1,0 +1,17 @@
+{
+  "buildings": [],
+  "stages": {
+    "stage-united": {
+      "url": "https://live.sohosai.com/?channel=uni",
+      "thumbnail": "/stage/ユニステ.webp"
+    },
+    "stage-1a": {
+      "url": "https://live.sohosai.com/?channel=1A",
+      "thumbnail": "/stage/1Aステージ.webp"
+    },
+    "stage-kaikan-kodo": {
+      "url": "https://live.sohosai.com/?channel=kaikan",
+      "thumbnail": "/stage/大学会館.webp"
+    }
+  }
+}

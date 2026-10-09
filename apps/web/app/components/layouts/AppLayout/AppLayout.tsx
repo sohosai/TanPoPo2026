@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Outlet } from 'react-router';
 import CampusLayers from '~/components/features/Map/CampusLayers';
+import MapCallouts from '~/components/features/Map/MapCallouts';
 import { MapProvider } from '~/components/features/Map/MapController';
 import MapControls from '~/components/features/Map/MapControls';
 import MapView from '~/components/features/Map/MapView';
@@ -18,6 +19,7 @@ export default function AppLayout() {
       <div>
         <MapView />
         <CampusLayers />
+        <MapCallouts />
         <MapControls ref={controlsRef} />
 
         {isDesktop ? (
