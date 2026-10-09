@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "build": "bun run ../../scripts/import-stage-timetable.ts",
     "dev": "mkdir -p ../web/build/client && wrangler dev --port 8787",
     "check-types": "tsc --noEmit",
     "clean": "rm -rf .turbo",
