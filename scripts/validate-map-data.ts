@@ -6,13 +6,14 @@
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
  *  - 企画実施場所（apps/api/data/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
+ *  - 地図の吹き出し（callouts.json） … 建物・ステージの placeId の存在と種類・配信 URL・サムネイル画像の有無
  *  - 店舗の場所参照（apps/api: project.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
  *  - 座標が [経度, 緯度] の順かどうか（緯度経度の取り違え検出）
  *
  * 実行: bun run scripts/validate-map-data.ts
  * エラーがあれば終了コード 1 で終了する（CI に組み込み可能）。
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createMapDataCaller } from './api-caller';
 
@@ -253,6 +254,7 @@ async function main() {
   }
 
   checkProjectLocations(placeById);
+  checkCallouts(placeById);
 
   // ---- 4. 店舗の場所参照 ----
   for (const project of projects) {
@@ -313,6 +315,35 @@ function checkLocation(
   }
   if (days.length === 0 || days.some((d) => !SCHEDULE_DAYS.includes(d))) {
     err(`project-locations ${number}: 実施日が不正: ${JSON.stringify(days)}`);
+  }
+}
+
+function checkCallouts(placeById: ReadonlyMap<string, { kind: string }>) {
+  const { buildings, stages } = readJson('callouts.json') as {
+    buildings: string[];
+    stages: Record<string, { url: string; thumbnail: string }>;
+  };
+  const checkPlace = (placeId: string, kind: string) => {
+    const place = placeById.get(placeId);
+    if (!place) err(`callouts: placeId が存在しない: ${placeId}`);
+    else if (place.kind !== kind) {
+      err(`callouts: ${placeId} が ${kind} でない（${place.kind}）`);
+    }
+  };
+  for (const placeId of buildings) checkPlace(placeId, 'building');
+  for (const [placeId, { url, thumbnail }] of Object.entries(stages)) {
+    checkPlace(placeId, 'stage');
+    if (!url.startsWith('https://')) {
+      err(`callouts ${placeId}: 配信の URL が https でない: ${url}`);
+    }
+    if (
+      thumbnail.startsWith('/') &&
+      !existsSync(join(import.meta.dir, '..', 'apps/web/public', thumbnail))
+    ) {
+      err(
+        `callouts ${placeId}: 画像ファイルが apps/web/public に無い: ${thumbnail}`,
+      );
+    }
   }
 }
 

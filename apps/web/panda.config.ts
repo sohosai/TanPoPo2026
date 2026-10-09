@@ -52,6 +52,11 @@ export default defineConfig({
         },
       },
       keyframes: {
+        // 地図の吹き出しで、次の企画を下から送り出す。
+        tickerIn: {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
         heartPop: {
           '0%': { transform: 'scale(1)' },
           '30%': { transform: 'scale(1.4)' },

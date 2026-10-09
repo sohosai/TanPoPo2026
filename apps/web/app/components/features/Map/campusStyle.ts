@@ -24,7 +24,7 @@ export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
 const FONT = ['Arial Unicode MS Regular'];
 // これより引くとエリア名、寄ると建物名・テント列を出す。
 export const AREA_MAX_ZOOM = 15.8;
-const DETAIL_ZOOM = 17.4;
+export const DETAIL_ZOOM = 17.4;
 // これより寄ると、建物名の下に中の企画名を並べる。
 const PREVIEW_ZOOM = 18.2;
 // テントは実寸（数メートル）で描くため、引いているときは画面上で大きさの変わらない点で出し、

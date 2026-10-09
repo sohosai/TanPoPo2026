@@ -2,11 +2,12 @@ import type { Place, Project } from 'api';
 import type {
   GeoJSONSource,
   MapGeoJSONFeature,
+  MapMouseEvent,
   Map as MlMap,
 } from 'maplibre-gl';
 import { useEffect, useMemo, useState } from 'react';
-import { matchPath, useLocation, useNavigate } from 'react-router';
-import { toAppPath, useIsEmbed } from '~/lib/embed';
+import { matchPath, useLocation } from 'react-router';
+import { toAppPath, useOpenAppPath } from '~/lib/embed';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { boothCenter } from './booths';
@@ -92,8 +93,7 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
  */
 export default function CampusLayers() {
   const { isReady, getMap } = useMap();
-  const navigate = useNavigate();
-  const isEmbed = useIsEmbed();
+  const openAppPath = useOpenAppPath();
   const { data: projects } = trpc.project.list.useQuery();
   const { places, byId: placesById } = usePlaces();
   const selected = useSelection(projects, placesById);
@@ -125,11 +125,13 @@ export default function CampusLayers() {
     map.on('idle', setup);
     map.on('pitch', syncExtrusion);
 
-    const onClick = (e: { point: { x: number; y: number } }) => {
+    const onClick = (e: MapMouseEvent) => {
+      // 地図の上に載せた吹き出し（MapCallouts）は、それ自身で開く先を持つ。
+      if ((e.originalEvent.target as Element).closest('[data-map-callout]')) {
+        return;
+      }
       const target = tapTarget(map, e.point);
-      if (!target) return;
-      if (isEmbed) window.open(target, '_blank', 'noopener');
-      else navigate(target);
+      if (target) openAppPath(target);
     };
     const setCursor = (cursor: string) => () => {
       map.getCanvas().style.cursor = cursor;
@@ -151,7 +153,7 @@ export default function CampusLayers() {
         map.off('mouseleave', id, reset);
       }
     };
-  }, [isReady, getMap, navigate, isEmbed]);
+  }, [isReady, getMap, openAppPath]);
 
   useEffect(() => {
     const map = getMap();
