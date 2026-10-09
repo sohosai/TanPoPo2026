@@ -74,8 +74,6 @@ async function registerServiceWorker() {
 
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (event) => {
-    // ブラウザ標準の小さな案内は出さず、こちらのダイアログから確認を出す。
-    event.preventDefault();
     installPrompt = event as BeforeInstallPromptEvent;
     emit();
   });
@@ -99,34 +97,20 @@ export function useInstallMethod(): InstallMethod | null {
 }
 
 /** ブラウザのインストール確認を出す。ユーザー操作の中で呼ぶ。 */
-export async function promptInstall(): Promise<void> {
+export async function promptInstall(): Promise<boolean> {
   const prompt = installPrompt;
-  if (!prompt) return;
+  if (!prompt) return false;
   // 一度出した確認は使い回せない。断られても、ブラウザが次に発火するまで出せない。
   installPrompt = null;
   emit();
-  await prompt.prompt();
-}
-
-const INSTALL_INTRO_SEEN_KEY = 'tanpopo-install-intro-seen';
-
-/** 初回のインストール案内を、すでに一度出したかどうか。 */
-export function hasSeenInstallIntro(): boolean {
   try {
-    return localStorage.getItem(INSTALL_INTRO_SEEN_KEY) === '1';
-  } catch {
-    // 読めない環境で毎回出してしまわないよう、出したものとして扱う。
+    await prompt.prompt();
     return true;
+  } catch (e) {
+    return false;
   }
 }
 
-export function markInstallIntroSeen(): void {
-  try {
-    localStorage.setItem(INSTALL_INTRO_SEEN_KEY, '1');
-  } catch {
-    // 保存できなくても困るのは案内の出し分けだけなので無視する。
-  }
-}
 
 /** 新しい版がダウンロード済みで、切り替えを待っているか。 */
 export function useUpdateReady(): boolean {
