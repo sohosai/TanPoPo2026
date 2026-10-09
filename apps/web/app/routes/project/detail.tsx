@@ -1,4 +1,9 @@
-import { IconCalendarEvent, IconMap, IconMapPin } from '@tabler/icons-react';
+import {
+  IconCalendarEvent,
+  IconClock,
+  IconMap,
+  IconMapPin,
+} from '@tabler/icons-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
@@ -16,7 +21,10 @@ import CarouselButton from '~/components/features/Project/CarouselButton';
 import CategoryLabel from '~/components/features/Project/CategoryLabel';
 import FavoriteButton from '~/components/features/Project/FavoriteButton';
 import ImageViewer from '~/components/features/Project/ImageViewer';
-import { formatSchedule } from '~/components/features/Project/labels';
+import {
+  formatPerformance,
+  formatSchedule,
+} from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import ProjectLinks from '~/components/features/Project/ProjectLinks';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
@@ -25,13 +33,15 @@ import { formatLocation, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
-/** 場所・日程。未確定の項目は「未定」と表示する。 */
+/** 場所と、日程またはステージの出演時間。出演時間は日も含むため、あれば日程の代わりに出す。未確定の項目は「未定」と表示する。 */
 function ProjectFacts({
   locations,
   schedule,
+  performances,
 }: {
   locations: string[];
   schedule: string;
+  performances: string[];
 }) {
   return (
     <dl
@@ -71,26 +81,65 @@ function ProjectFacts({
             場所
           </span>
         </dt>
-        <dd>
-          {locations.length > 0
-            ? locations.map((label) => (
-                <span key={label} className={css({ display: 'block' })}>
-                  {label}
-                </span>
-              ))
-            : '未定'}
-        </dd>
+        <dd>{locations.join(', ') || '未定'}</dd>
       </div>
-      <div>
-        <dt>
-          <IconCalendarEvent size={18} />
-          <span className={css({ textBox: 'trim-both cap alphabetic' })}>
-            日程
-          </span>
-        </dt>
-        <dd>{schedule || '未定'}</dd>
-      </div>
+      {performances.length > 0 ? (
+        <div>
+          <dt>
+            <IconClock size={18} />
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              時間
+            </span>
+          </dt>
+          <dd>
+            {performances.map((label) => (
+              <span key={label} className={css({ display: 'block' })}>
+                {label}
+              </span>
+            ))}
+          </dd>
+        </div>
+      ) : (
+        <div>
+          <dt>
+            <IconCalendarEvent size={18} />
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              日程
+            </span>
+          </dt>
+          <dd>{schedule || '未定'}</dd>
+        </div>
+      )}
     </dl>
+  );
+}
+
+/** 企画紹介。紹介文が未登録の企画では見出しごと出さない。 */
+function ProjectDescription({ text }: { text: string }) {
+  if (!text) return null;
+  return (
+    <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
+      <h2
+        className={css({
+          fontSize: 'lg',
+          fontWeight: 700,
+          color: 'accent.text',
+        })}
+      >
+        企画紹介
+      </h2>
+      <p
+        className={css({
+          mt: '8px',
+          fontSize: 'lg',
+          lineHeight: 1.8,
+          color: 'fg',
+          whiteSpace: 'pre-wrap',
+        })}
+      >
+        {text}
+      </p>
+    </section>
   );
 }
 
@@ -184,7 +233,6 @@ export default function Detail() {
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
-              wordBreak: 'break-all',
             })}
           >
             {project.name}
@@ -245,6 +293,10 @@ export default function Detail() {
           ),
         ]}
         schedule={formatSchedule(project.schedule)}
+        performances={project.performances.map(
+          (performance) =>
+            `${formatPerformance(performance)} ${placesById.get(performance.placeId)?.name ?? ''}`,
+        )}
       />
 
       {project.links.length > 0 && (
@@ -342,29 +394,7 @@ export default function Detail() {
         </div>
       )}
 
-      <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
-        <h2
-          className={css({
-            fontSize: 'lg',
-            fontWeight: 700,
-            color: 'accent.text',
-          })}
-        >
-          企画紹介
-        </h2>
-        <p
-          className={css({
-            mt: '8px',
-            fontSize: 'lg',
-            lineHeight: 1.8,
-            color: 'fg',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-          })}
-        >
-          {project.description}
-        </p>
-      </section>
+      <ProjectDescription text={project.description} />
 
       {/* 下部の操作バー */}
       <div

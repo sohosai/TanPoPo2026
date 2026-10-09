@@ -18,6 +18,9 @@ import {
   useMap,
 } from '~/components/features/Map/MapController';
 import ProjectListItem from '~/components/features/Project/ProjectListItem';
+import StageTimetable, {
+  sectionTitleClass,
+} from '~/components/features/Stage/StageTimetable';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { useFavorites } from '~/lib/favorites';
 import {
@@ -202,42 +205,39 @@ export default function PlaceDetail() {
           </p>
         )}
 
-        {sections.map((section) => (
-          <section key={section.title ?? 'all'}>
-            {section.title && (
-              <h2
-                className={css({
-                  position: 'sticky',
-                  top: 0,
-                  zIndex: 1,
-                  px: '16px',
-                  py: '6px',
-                  bg: 'border.subtle',
-                  fontSize: 'xs',
-                  fontWeight: 700,
-                  color: 'fg.muted',
-                })}
-              >
-                {section.title}
-              </h2>
+        {place.kind === 'stage' ? (
+          <StageTimetable
+            placeId={place.id}
+            projects={sections.flatMap(({ rows }) =>
+              rows.map(({ project }) => project),
             )}
-            {section.rows.map(({ project, rooms }) => {
-              const [first, ...rest] = rooms;
-              const label = formatLocation(place, first);
-              return (
-                <ProjectListItem
-                  key={project.id}
-                  project={project}
-                  locationLabel={
-                    rest.length > 0 ? `${label} ほか${rest.length}室` : label
-                  }
-                  favorite={isFavorite(project.id)}
-                  onToggleFavorite={toggle}
-                />
-              );
-            })}
-          </section>
-        ))}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggle}
+          />
+        ) : (
+          sections.map((section) => (
+            <section key={section.title ?? 'all'}>
+              {section.title && (
+                <h2 className={sectionTitleClass}>{section.title}</h2>
+              )}
+              {section.rows.map(({ project, rooms }) => {
+                const [first, ...rest] = rooms;
+                const label = formatLocation(place, first);
+                return (
+                  <ProjectListItem
+                    key={project.id}
+                    project={project}
+                    locationLabel={
+                      rest.length > 0 ? `${label} ほか${rest.length}室` : label
+                    }
+                    favorite={isFavorite(project.id)}
+                    onToggleFavorite={toggle}
+                  />
+                );
+              })}
+            </section>
+          ))
+        )}
       </div>
     </div>
   );

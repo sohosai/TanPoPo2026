@@ -1,4 +1,4 @@
-import type { ScheduleDay, ProjectCategory } from 'api';
+import type { Performance, ProjectCategory, ScheduleDay } from 'api';
 import { css } from '../../../../styled-system/css';
 
 export const DAY_LABELS: Record<ScheduleDay, string> = {
@@ -9,6 +9,17 @@ export const DAY_LABELS: Record<ScheduleDay, string> = {
 
 export function formatSchedule(days: ScheduleDay[]): string {
   return days.map((day) => DAY_LABELS[day]).join('・');
+}
+
+/** 出演枠の時間（例 "1日目 10:00〜10:35"）。 */
+export const formatPerformance = ({ day, start, end }: Performance) =>
+  `${DAY_LABELS[day]} ${start}〜${end}`;
+
+/** 一覧向けに最初の出演枠だけを出し、残りは回数で示す（例 "前夜祭 18:20〜19:40 ほか1回"）。 */
+export function formatPerformances([first, ...rest]: Performance[]): string {
+  if (!first) return '';
+  const label = formatPerformance(first);
+  return rest.length > 0 ? `${label} ほか${rest.length}回` : label;
 }
 
 /** 中止などの、塗りで目立たせる小さなラベルの形。 */

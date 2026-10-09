@@ -38,8 +38,7 @@ const BOOTH_NAME_ZOOM = 18.3;
 
 // 階数から高さ(m)にする係数。大学の建物は1フロアが高めなので一般的な 3m より大きく取る。
 const FLOOR_HEIGHT = 4;
-const BOOTH_HEIGHT = 2.5;
-const SELECTED_BOOTH_HEIGHT = 3.5;
+const BOOTH_HEIGHT = 2;
 // 地図スタイルの sohosai-buildings（平面の建物の塗り）と揃える。
 const CAMPUS_BUILDING_COLOR = token('colors.map.campusBuilding');
 const BASEMAP_BUILDING_COLOR = token('colors.map.basemapBuilding');
@@ -65,6 +64,7 @@ const FLAT_LAYERS = [
 export const SOURCES = {
   areas: 'campus-areas',
   buildings: 'campus-buildings',
+  buildingShells: 'campus-building-shells',
   places: 'campus-places',
   booths: 'campus-booths',
   boothShapes: 'campus-booth-shapes',
@@ -207,7 +207,7 @@ function addExtrusionLayers(map: MlMap, basemapBuildingIds: number[]) {
     {
       id: 'campus-building-3d',
       type: 'fill-extrusion',
-      source: SOURCES.buildings,
+      source: SOURCES.buildingShells,
       layout: hidden,
       paint: {
         'fill-extrusion-color': buildingColor([]),
@@ -520,7 +520,7 @@ export function applySelection(map: MlMap, { placeIds, booths }: Selection) {
   map.setFilter('campus-booth-selected', selectedBooth);
   map.setFilter('campus-booth-dot-selected', selectedBooth);
 
-  // 3D では地面の強調が立体に埋もれるため、立体そのものの色・高さで強調する。
+  // 3D では地面の強調が立体に埋もれるため、立体そのものの色で強調する。
   map.setPaintProperty(
     'campus-building-3d',
     'fill-extrusion-color',
@@ -531,11 +531,5 @@ export function applySelection(map: MlMap, { placeIds, booths }: Selection) {
     selectedBooth,
     ACCENT_TEXT,
     ['get', 'color'],
-  ]);
-  map.setPaintProperty('campus-booth-3d', 'fill-extrusion-height', [
-    'case',
-    selectedBooth,
-    SELECTED_BOOTH_HEIGHT,
-    BOOTH_HEIGHT,
   ]);
 }

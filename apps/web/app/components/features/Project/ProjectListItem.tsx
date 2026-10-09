@@ -1,11 +1,11 @@
-import { IconCalendarEvent, IconMapPin } from '@tabler/icons-react';
+import { IconCalendarEvent, IconClock, IconMapPin } from '@tabler/icons-react';
 import type { Project } from 'api';
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
 import CategoryLabel from './CategoryLabel';
 import FavoriteButton from './FavoriteButton';
-import { badgeClass, formatSchedule } from './labels';
+import { badgeClass, formatPerformances, formatSchedule } from './labels';
 import ProjectIcon from './ProjectIcon';
 
 type ProjectListItemProps = {
@@ -27,7 +27,7 @@ const metaClass = css({
   '& > svg': { flexShrink: 0, color: 'accent' },
 });
 
-/** 企画一覧の1行の中身（アイコン・名前・分類と団体・場所と日程）。行の外枠と右端の操作は使う側で付ける。 */
+/** 企画一覧の1行の中身（アイコン・名前・分類と団体・場所と日程）。ステージの出演枠があれば日程の代わりに時間を出す。行の外枠と右端の操作は使う側で付ける。 */
 export function ProjectRowContent({
   project,
   locationLabel,
@@ -35,7 +35,14 @@ export function ProjectRowContent({
   project: Project;
   locationLabel?: string;
 }) {
-  const { name, organization, category, schedule, cancelled = false } = project;
+  const {
+    name,
+    organization,
+    category,
+    schedule,
+    performances,
+    cancelled = false,
+  } = project;
 
   return (
     <>
@@ -118,13 +125,22 @@ export function ProjectRowContent({
               </span>
             </span>
           )}
-          {schedule.length > 0 && (
+          {performances.length > 0 ? (
             <span className={metaClass}>
-              <IconCalendarEvent size={16} />
+              <IconClock size={16} />
               <span className={css({ textBox: 'trim-both cap alphabetic' })}>
-                {formatSchedule(schedule)}
+                {formatPerformances(performances)}
               </span>
             </span>
+          ) : (
+            schedule.length > 0 && (
+              <span className={metaClass}>
+                <IconCalendarEvent size={16} />
+                <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+                  {formatSchedule(schedule)}
+                </span>
+              </span>
+            )
           )}
         </div>
       </div>

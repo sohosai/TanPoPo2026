@@ -1,7 +1,9 @@
 import { z } from 'zod';
 import projectLocationsJson from '../data/project-locations.json';
 import stageProjectsJson from '../data/stage-projects.json';
+import stageTimetableJson from '../data/stage-timetable.json';
 import type {
+  Performance,
   ScheduleDay,
   Project,
   ProjectCategory,
@@ -70,12 +72,46 @@ const STAGE_PROJECTS: Record<string, string> = z
   .record(z.string(), z.string())
   .parse(stageProjectsJson);
 
-/** 企画の実施場所を返す。分からない企画は空配列（表示上は「未定」）。 */
-function mapLocations(project: SosPublicProject): ProjectLocation[] {
-  const listed = PROJECT_LOCATIONS[project.number];
-  if (listed) return listed;
+// 企画番号 → ステージの出演枠。apps/api の build（scripts/import-stage-timetable.ts）で公式サイトから生成する。
+const STAGE_TIMETABLE: Record<string, Performance[]> = z
+  .record(
+    z.string(),
+    z.array(
+      z.object({
+        placeId: z.string(),
+        day: z.enum(SCHEDULE_DAYS),
+        start: z.string(),
+        end: z.string(),
+        title: z.string(),
+      }),
+    ),
+  )
+  .parse(stageTimetableJson);
+
+/**
+ * 企画の実施場所を返す。分からない企画は空配列（表示上は「未定」）。
+ * タイムテーブルに載るステージは、出演する日を添えて実施場所に含める。
+ */
+function mapLocations(
+  project: SosPublicProject,
+  performances: Performance[],
+): ProjectLocation[] {
   const stage = STAGE_PROJECTS[project.number];
-  return stage ? [{ placeId: stage }] : [];
+  const listed =
+    PROJECT_LOCATIONS[project.number] ?? (stage ? [{ placeId: stage }] : []);
+
+  const stageDays = new Map<string, ScheduleDay[]>();
+  for (const { placeId, day } of performances) {
+    const days = stageDays.get(placeId) ?? [];
+    if (!days.includes(day)) days.push(day);
+    stageDays.set(placeId, days);
+  }
+  return [
+    ...listed.filter(
+      (location) => location.room || !stageDays.has(location.placeId),
+    ),
+    ...[...stageDays].map(([placeId, days]) => ({ placeId, days })),
+  ];
 }
 
 /** 実施場所ごとの実施日を合わせた、企画全体の実施日。日付の分からない企画は本祭2日間とする。 */
@@ -116,7 +152,8 @@ function formatProjectNumber(number: number): string {
 
 function mapToProject(project: SosPublicProject, baseUrl: string): Project {
   const { iconFileId } = project.publicInfo;
-  const locations = mapLocations(project);
+  const performances = STAGE_TIMETABLE[project.number] ?? [];
+  const locations = mapLocations(project, performances);
   return {
     id: project.id,
     number: formatProjectNumber(project.number),
@@ -124,6 +161,7 @@ function mapToProject(project: SosPublicProject, baseUrl: string): Project {
     organization: project.organizationName,
     locations,
     schedule: scheduleOf(locations),
+    performances,
     category: CATEGORY_BY_TYPE[project.type],
     tags: mapTags(project.type, project.location),
     thumbnail: iconFileId ? toProjectImage(baseUrl, iconFileId) : undefined,
@@ -246,7 +284,7 @@ function mapToProjectDetail(
 
   return {
     ...mapToProject(project, baseUrl),
-    description: project.publicInfo.description || '詳細説明はありません。',
+    description: project.publicInfo.description?.trim() ?? '',
     images,
     links: mapLinks(project.publicInfo),
   };

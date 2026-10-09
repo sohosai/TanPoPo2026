@@ -276,6 +276,13 @@ export default defineConfig({
       fontFamily: "'Inter', 'Noto Sans JP', sans-serif",
       color: 'fg',
       WebkitFontSmoothing: 'antialiased',
+      // 長い URL など切れ目の無い文字列だけは、はみ出さないよう途中で折る。
+      overflowWrap: 'break-word',
+    },
+    // 企画名などの短い見出しは、行末まで詰めるより語の途中で切らないほうが読みやすい。
+    // 文節の切れ目で折り返す（未対応のブラウザは通常の折り返し）。
+    h1: {
+      wordBreak: 'auto-phrase',
     },
     'button, input, textarea': {
       fontFamily: 'inherit',

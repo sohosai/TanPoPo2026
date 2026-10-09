@@ -2,7 +2,7 @@ import type { ProjectCategory, ScheduleDay } from 'api';
 
 /**
  * 企画一覧の検索・絞り込み条件。
- * 全件取得済みの Project[] に対してクライアント側で適用する（オフライン対応のため）。
+ * 全件取得済みの Project[] に対してクライアント側で適用する。
  */
 export type ProjectFilterCriteria = {
   /** あいまい検索キーワード */

@@ -5,7 +5,6 @@ import { trpc } from '~/lib/trpc';
 /**
  * 場所（Place）の参照ユーティリティ。
  * place.list を取得して id 引きの Map を作り、店舗の場所ラベル整形などを提供する。
- * 既存の react-query 永続キャッシュに乗るのでオフラインでも参照できる。
  */
 export function usePlaces() {
   const { data: places, status } = trpc.place.list.useQuery();
@@ -31,7 +30,7 @@ export function usePlaces() {
 
 /**
  * 場所＋場所内の位置を表示ラベルに整形する。
- * 部屋番号は続けて（"1B208"）、部屋名は空白を挟む（"6A エントランスホール"）。屋外ブースは場所名だけ（"石の広場周辺"）。
+ * 部屋番号は続けて（"1B208"）、部屋名は空白を挟む（"6A棟 エントランスホール"）。屋外ブースは場所名だけ（"石の広場周辺"）。
  */
 export function formatLocation(
   place: Place | undefined,
@@ -40,7 +39,10 @@ export function formatLocation(
   if (!place) return '';
   // 屋外のブース番号は配置用の内部的な番号なので、利用者には見せない。
   if (!room || place.kind === 'outdoor') return place.name;
-  return /^\d/.test(room) ? `${place.name}${room}` : `${place.name} ${room}`;
+  // 部屋番号は学内の表記（"5C305"）に合わせ、建物名の「棟」を外して続ける。
+  return /^\d/.test(room)
+    ? `${place.name.replace(/棟$/, '')}${room}`
+    : `${place.name} ${room}`;
 }
 
 /** 店舗の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */

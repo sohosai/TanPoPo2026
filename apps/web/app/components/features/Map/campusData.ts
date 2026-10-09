@@ -9,7 +9,13 @@ import { boothCenter, boothShapes } from './booths';
 import { CATEGORY_COLORS } from './campusStyle';
 import buildingsRaw from './data/buildings.geojson?raw';
 import campusBuildingIds from './data/campus-building-ids.json';
-import { type LngLat, ringBounds, ringCenter, ringContains } from './geo';
+import {
+  type LngLat,
+  offsetRing,
+  ringBounds,
+  ringCenter,
+  ringContains,
+} from './geo';
 import sohosaiMap from './sohosai-map.json';
 
 // 地図スタイルに塗り分けとして入っている会場エリア。
@@ -73,6 +79,15 @@ const venueBuildingIds = new Set(
 export const otherCampusBuildingIds = campusBuildingIds.filter(
   (id) => !venueBuildingIds.has(id),
 );
+
+// 地図タイルは同じ高さの建物を 1 つの地物にまとめて別の棟の id を付けることがあり（5C・大学会館など）、
+// id では除ききれない。3D の会場の建物はタイルの座標の丸め誤差（ズーム 14 で最大約 0.3m）より外へ広げ、
+// 二重に立った同じ輪郭の壁をその内側に隠す。
+const SHELL_OFFSET = 0.5;
+const buildingShells = buildings.features.map(({ geometry }) => ({
+  type: 'Polygon' as const,
+  coordinates: [offsetRing(geometry.coordinates[0], SHELL_OFFSET)],
+}));
 
 const truncate = (text: string, max: number) =>
   text.length > max ? `${text.slice(0, max)}…` : text;
@@ -199,6 +214,12 @@ export function buildCampusData(projects: Project[], places: Place[]) {
   return {
     areas: collection(areaFeatures),
     buildings: collection(buildingFeatures),
+    buildingShells: collection(
+      buildingFeatures.map((feature, i) => ({
+        ...feature,
+        geometry: buildingShells[i],
+      })),
+    ),
     places: collection(placeFeatures),
     booths: collection(booths.points),
     boothShapes: collection(booths.shapes),

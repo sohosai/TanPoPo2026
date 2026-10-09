@@ -14,6 +14,7 @@ import type { LngLat } from './geo';
 import sohosaiMap from './sohosai-map.json';
 
 export type FocusOptions = {
+  /** 寄せるズーム。すでにこれより拡大していれば、今のズームのまま移動する */
   zoom?: number;
   duration?: number;
   /**
@@ -83,9 +84,10 @@ export function MapProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const flyTo = useCallback((center: LngLat, options: FocusOptions = {}) => {
-    mapRef.current?.flyTo({
+    const map = mapRef.current;
+    map?.flyTo({
       center,
-      zoom: options.zoom ?? DEFAULT_FOCUS_ZOOM,
+      zoom: Math.max(options.zoom ?? DEFAULT_FOCUS_ZOOM, map.getZoom()),
       duration: options.duration ?? DEFAULT_DURATION,
       offset: options.offset ?? defaultOffset(),
     });

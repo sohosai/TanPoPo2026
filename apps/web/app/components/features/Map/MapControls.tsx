@@ -7,8 +7,16 @@ import {
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef, useState } from 'react';
 import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
+import {
+  hasSeenGeolocationIntro,
+  markGeolocationIntroSeen,
+  useGeolocationPermission,
+} from '~/lib/geolocation';
 import { useIsDesktop } from '~/lib/viewport';
 import { css, cx } from '../../../../styled-system/css';
+import LocationPermissionDialog, {
+  type LocationDialogKind,
+} from './LocationPermissionDialog';
 import { useMap } from './MapController';
 
 type LocateState = 'off' | 'waiting' | 'active' | 'background';
@@ -16,9 +24,8 @@ type LocateState = 'off' | 'waiting' | 'active' | 'background';
 const MESSAGE_DURATION_MS = 4000;
 
 const ERROR_MESSAGES: Record<number, string> = {
-  1: '位置情報の利用が許可されていません。端末やブラウザの設定から許可してください。',
-  2: '現在地を取得できませんでした。電波の良い場所でもう一度お試しください。',
-  3: '現在地の取得に時間がかかっています。もう一度お試しください。',
+  2: '現在地を取得できませんでした。位置情報がオンか確認してください。',
+  3: '現在地を取得できませんでした。もう一度お試しください。',
 };
 
 const roundButton = css({
@@ -51,6 +58,8 @@ export default function MapControls() {
   const [state, setStateValue] = useState<LocateState>('off');
   const [message, setMessage] = useState<string | null>(null);
   const [is3d, setIs3d] = useState(false);
+  const [dialog, setDialog] = useState<LocationDialogKind | null>(null);
+  const permission = useGeolocationPermission();
 
   const setState = (next: LocateState) => {
     stateRef.current = next;
@@ -69,7 +78,12 @@ export default function MapControls() {
     if (!isReady || !map) return;
 
     const geolocate = new maplibregl.GeolocateControl({
-      positionOptions: { enableHighAccuracy: true },
+      // timeout を省くと既定値ではなく無期限になり、屋内で取得できないとき待ち続けてしまう。
+      positionOptions: {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 10000,
+      },
       trackUserLocation: true,
       showAccuracyCircle: true,
       fitBoundsOptions: { maxZoom: 17.5 },
@@ -82,13 +96,27 @@ export default function MapControls() {
     geolocate.on('trackuserlocationend', () => {
       if (stateRef.current !== 'off') setState('background');
     });
-    geolocate.on('error', (e: GeolocationPositionError) => {
+    // 拒否以外のエラーや会場外では、GeolocateControl はエラー状態のまま位置の監視を続ける。
+    // 次の trigger() で off に戻るので、ここで呼んで監視ごと止める。
+    const stop = () => {
       setState('off');
+      geolocate.trigger();
+    };
+    geolocate.on('error', (e: GeolocationPositionError) => {
+      if (e.code === e.PERMISSION_DENIED) {
+        setState('off');
+        setDialog('denied');
+        return;
+      }
+      // 追従中の一時的な失敗は、現在地の点を薄く表示したまま次の取得で元に戻る。
+      if (stateRef.current !== 'waiting') return;
+      stop();
       setMessage(ERROR_MESSAGES[e.code] ?? ERROR_MESSAGES[2]);
     });
     geolocate.on('outofmaxbounds', () => {
-      setState('off');
-      setMessage('会場の外にいるため、現在地を地図に表示できません。');
+      if (stateRef.current === 'off') return;
+      stop();
+      setMessage('会場の外にいるため表示できません。');
     });
     map.addControl(geolocate);
     geolocateRef.current = geolocate;
@@ -133,19 +161,58 @@ export default function MapControls() {
     resetView();
   };
 
+  // ブラウザの許可の確認はユーザー操作の中でないと出ない（または目立たない表示になる）ため、
+  // クリックのハンドラから同期的に呼ぶ。
+  const startLocate = () => {
+    const geolocate = geolocateRef.current;
+    if (!geolocate || stateRef.current !== 'off') return;
+    setState('waiting');
+    geolocate.trigger();
+  };
+
+  // 設定から許可して戻ってきたら、そのまま現在地を表示する。サイトは許可済みでも OS 側で
+  // 拒否されていると拒否のエラーになるため、許可に変わった時点だけを見ないと取得を繰り返してしまう。
+  const prevPermissionRef = useRef(permission);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 許可状態が変わったときだけ動かす
+  useEffect(() => {
+    const prev = prevPermissionRef.current;
+    prevPermissionRef.current = permission;
+    if (prev !== 'granted' && permission === 'granted' && dialog === 'denied') {
+      setDialog(null);
+      startLocate();
+    }
+  }, [permission]);
+
+  /** 許可の状態に応じて、説明や設定手順を挟んでから取得を始める。 */
+  const requestLocate = () => {
+    if (!('geolocation' in navigator) || !window.isSecureContext) {
+      setMessage('この端末では位置情報を使えません。');
+    } else if (permission === 'denied') {
+      setDialog('denied');
+    } else if (permission !== 'granted' && !hasSeenGeolocationIntro()) {
+      setDialog('intro');
+    } else {
+      startLocate();
+    }
+  };
+
   const toggleLocate = () => {
     const geolocate = geolocateRef.current;
     if (!geolocate) return;
-    if (!('geolocation' in navigator)) {
-      setMessage('この端末では位置情報を利用できません。');
+    if (stateRef.current === 'off') {
+      requestLocate();
       return;
     }
     // GeolocateControl は trigger() のたびに off → 取得・追従 → off と巡回し、
     // 追従が外れた状態（background）からは追従に戻る。
-    if (stateRef.current === 'off') setState('waiting');
-    else if (stateRef.current === 'active' || stateRef.current === 'waiting')
-      setState('off');
+    if (stateRef.current !== 'background') setState('off');
     geolocate.trigger();
+  };
+
+  const allowLocate = () => {
+    if (dialog === 'intro') markGeolocationIntroSeen();
+    setDialog(null);
+    startLocate();
   };
 
   const LocateIcon =
@@ -172,6 +239,12 @@ export default function MapControls() {
         bottom: `calc(env(safe-area-inset-bottom, 0px) + ${isDesktop ? 40 : SHEET_PEEK + 16}px)`,
       }}
     >
+      <LocationPermissionDialog
+        kind={dialog}
+        canRetry={permission !== 'denied'}
+        onAllow={allowLocate}
+        onClose={() => setDialog(null)}
+      />
       {message && (
         <p
           role="status"

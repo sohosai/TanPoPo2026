@@ -28,6 +28,16 @@ export type ProjectLocation = {
   days?: ScheduleDay[];
 };
 
+/** ステージでの出演枠。時刻は "HH:MM"。 */
+export type Performance = {
+  placeId: string;
+  day: ScheduleDay;
+  start: string;
+  end: string;
+  /** タイムテーブル上の演目名。企画名と異なることがある */
+  title: string;
+};
+
 /** 一覧表示・フィルタに使う店舗情報（軽量。画像/長文説明は含めない） */
 export type Project = {
   id: string;
@@ -41,6 +51,8 @@ export type Project = {
    */
   locations: ProjectLocation[];
   schedule: ScheduleDay[];
+  /** ステージでの出演枠（日・開始時刻順）。ステージに出ない企画は空 */
+  performances: Performance[];
   /** 主分類（単一） */
   category: ProjectCategory;
   /** 自由拡張のタグ（複数）。今後増えるフィルタ軸を柔軟に吸収する */
@@ -67,7 +79,7 @@ export type ProjectLink = {
 
 /** 詳細ページに使う店舗情報（Project + 詳細フィールド） */
 export type ProjectDetail = Project & {
-  /** 詳細説明文 */
+  /** 詳細説明文。未登録なら空文字 */
   description: string;
   /** ギャラリー画像URLの配列 */
   images: ProjectImage[];
