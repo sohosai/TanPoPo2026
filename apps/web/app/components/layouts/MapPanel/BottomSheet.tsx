@@ -16,7 +16,7 @@ import { type MapPanelApi, MapPanelContext } from './mapPanel';
 /** 最小段の高さ(px)。取っ手と検索欄（ProjectSearchBar の1段目）が見える。 */
 export const SHEET_PEEK = 78;
 /** 最大段・中段の高さ（画面縦幅に対する割合）。 */
-const fullRatio = 0.9;
+const fullRatio = 0.95;
 const halfRatio = 0.5;
 // 指を離した位置に「速度(px/ms) × この時間」を足した位置を、止まる位置の予測とする。
 const projectionMs = 200;
