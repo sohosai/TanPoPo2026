@@ -119,7 +119,6 @@ export default function ProjectSearchBar({
             <IconX size={16} />
           </button>
         )}
-        {/* ロゴと同じ意匠の虫眼鏡。意味は入力欄の placeholder で伝わるため装飾扱い */}
         <img
           src="/logo/search.webp"
           alt=""

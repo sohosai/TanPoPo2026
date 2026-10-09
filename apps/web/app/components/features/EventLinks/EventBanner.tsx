@@ -11,7 +11,6 @@ const TONE_CLASS = {
   sun: {
     tile: css({ bg: 'sun.subtle' }),
     badge: css({ bg: 'sun', color: 'fg.strong' }),
-    // 面と同じ黄色では溶けて見えないため、飾りは濃い黄色にする。
     decor: css({ color: 'sun.deep' }),
   },
   sky: {
@@ -78,7 +77,6 @@ export default function EventBanner() {
             TONE_CLASS[tone].tile,
           )}
         >
-          {/* 右端に大きく薄く敷く飾り。読み上げには含めない */}
           <Icon
             aria-hidden
             size={56}

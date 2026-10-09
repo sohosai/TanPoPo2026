@@ -34,7 +34,6 @@ export default defineConfig({
           full: { value: '9999px' },
         },
         borderWidths: {
-          // 一覧の行やヘッダーの区切り線。枠線より細くして、面の区切りが主張しすぎないようにする。
           divider: { value: '1px' },
           thin: { value: '1px' },
           thick: { value: '2px' },
@@ -145,16 +144,15 @@ export default defineConfig({
             text: { value: '{colors.brand.700}' },
             subtle: { value: '{colors.brand.50}' },
             border: { value: '{colors.brand.100}' },
-            // 押せる主役（主要ボタン・イベントへの導線）の下に敷く硬い影の色。
             deep: { value: '{colors.brand.900}' },
           },
-          // たんぽぽの花の黄色。楽しさを足す差し色として、使う場所を絞る。上に載せる文字は fg.strong にする。
+          // 上に載せる文字は fg.strong にする。
           sun: {
             DEFAULT: { value: '#ffe53d' },
             subtle: { value: '#fffbd9' },
             deep: { value: '#e6bf00' },
           },
-          // 企画の分類。分類の識別にだけ使い、`accent`とは混ぜない。暗くすると茶色に濁る橙系は避ける。
+          // 企画の分類。分類の識別にだけ使い、`accent`とは混ぜない。
           // DEFAULT は地図のテントやピンの塗り。bg は分類タグと画像のない企画のアイコンの面で、上の文字は分類によらず fg にする。
           category: {
             food: { DEFAULT: { value: '#f9c310' }, bg: { value: '#fdeebc' } },
@@ -192,7 +190,7 @@ export default defineConfig({
             muted: { value: '#828fa3' },
           },
           favorite: {
-            // ローズピンク。白地との差が小さいため、文字には text を使う。
+            // 白地との差が小さいため、文字には text を使う。
             DEFAULT: { value: '#f7829e' },
             text: { value: '#d5234c' },
             inactive: { value: '#bdc4ce' },
@@ -243,7 +241,6 @@ export default defineConfig({
           },
         },
         shadows: {
-          // 影は黒ではなくブランドの青を帯びさせ、ふんわり浮かせて軽く見せる。
           card: {
             value:
               // 参照を2つ並べると Panda が1つの参照として読み違えるため、影の色は accent.deep（#1f5a99）の値で書く。

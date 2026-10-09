@@ -148,7 +148,7 @@ export function ProjectRowContent({
   );
 }
 
-/** 投票の対象を並べる行の外枠。白いカードの中に区切り線で並べる。 */
+/** 投票の対象を並べる行の外枠。 */
 export const projectRowClass = css({
   display: 'flex',
   gap: '12px',
@@ -163,10 +163,7 @@ export const projectRowClass = css({
   _active: { bg: 'border.subtle' },
 });
 
-/**
- * 企画一覧の1件。大量に並ぶため枠は付けず、企画名の書き出しから右端までの区切り線で1件ずつを分ける。
- * アイコンの下には線を引かず、左に並ぶアイコンの列を途切れさせない。
- */
+/** 企画一覧の1件の外枠。 */
 const projectCardClass = css({
   position: 'relative',
   display: 'flex',
