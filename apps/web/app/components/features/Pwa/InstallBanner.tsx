@@ -1,4 +1,4 @@
-import { IconDownload } from '@tabler/icons-react';
+import { IconChevronRight, IconDownload } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { openInExternalBrowser } from '~/lib/geolocation';
 import {
@@ -23,10 +23,11 @@ const primaryButton = css({ bg: 'accent', color: 'white' });
 const textButton = css({ color: 'fg.muted' });
 
 /**
- * ホーム画面への追加ボタンと、その案内ダイアログ。追加できる環境で未追加のときだけ表示する。
- * 案内は初めて開いたときに一度だけ自動で出す。アプリ内ブラウザでは追加できないため、自動では出さない。
+ * 企画一覧の先頭に置く、ホーム画面への追加の導線。追加できる環境で未追加のときだけ表示する。
+ * 押すとブラウザの確認を直接出す。確認を出せない iOS・アプリ内ブラウザでは手順のダイアログを出す。
+ * ブラウザの確認はユーザー操作の中でしか出せないため、初めて開いたときはダイアログを一度だけ自動で出す。
  */
-export default function InstallControl({ className }: { className: string }) {
+export default function InstallBanner() {
   const method = useInstallMethod();
   const ref = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
@@ -67,11 +68,67 @@ export default function InstallControl({ className }: { className: string }) {
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
-        aria-label="ホーム画面に追加"
-        className={className}
+        onClick={method === 'prompt' ? install : () => setOpen(true)}
+        className={css({
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          w: 'calc(100% - 24px)',
+          mx: '12px',
+          mb: '10px',
+          px: '10px',
+          py: '8px',
+          borderRadius: 'xl',
+          border:
+            'token(borderWidths.divider) solid token(colors.border.subtle)',
+          bg: 'surface',
+          color: 'fg.strong',
+          textAlign: 'left',
+          cursor: 'pointer',
+          transition: 'transform 0.15s',
+          _active: { transform: 'scale(0.98)' },
+        })}
       >
-        <IconDownload size={22} />
+        <span
+          className={css({
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            w: '30px',
+            h: '30px',
+            borderRadius: 'full',
+            bg: 'accent.subtle',
+            color: 'accent.text',
+          })}
+        >
+          <IconDownload size={18} />
+        </span>
+        <span
+          className={css({
+            flex: 1,
+            minWidth: 0,
+            display: 'flex',
+            flexDirection: 'column',
+          })}
+        >
+          <span
+            className={css({
+              fontSize: 'sm',
+              fontWeight: 700,
+              lineHeight: 1.35,
+            })}
+          >
+            ホーム画面に追加
+          </span>
+          <span className={css({ fontSize: '2xs', color: 'fg.muted' })}>
+            電波が届きにくい場所でも企画や地図を見られます
+          </span>
+        </span>
+        <IconChevronRight
+          size={18}
+          className={css({ flexShrink: 0, color: 'fg.subtle' })}
+        />
       </button>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: キーボードでは Esc で閉じられる */}
       <dialog
