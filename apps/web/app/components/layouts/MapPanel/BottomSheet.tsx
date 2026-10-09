@@ -10,19 +10,19 @@ import {
 import { css, cx } from '../../../../styled-system/css';
 import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
-/** 畳んだ状態でも取っ手と検索欄（ProjectSearchBar の1段目）が見える高さ(px)。 */
+/** 最小段の高さ(px)。取っ手と検索欄（ProjectSearchBar の1段目）が見える。 */
 export const SHEET_PEEK = 78;
-const flingVelocity = 0.5;
+/** 最大段・中段の高さ（画面縦幅に対する割合）。 */
+const fullRatio = 0.9;
+const halfRatio = 0.5;
+// 指を離した位置に「速度(px/ms) × この時間」を足した位置を、止まる位置の予測とする。
+const projectionMs = 200;
+// 指を止めてから離すまでにこれ以上間が空いたら、勢いはないものとする。
+const releaseIdleMs = 100;
 const rubberDim = 200;
-// initiallyRaised時、収納状態(max)からどこまで引き上げて開始するかの割合。小さいほど大きく開く。
-const raisedFraction = 0.4;
-// raise() で地図とシートを半々に見せるときの割合。
-const halfFraction = 0.5;
 
 interface BottomSheetProps {
   children?: ReactNode;
-  /** trueの場合、初期表示をSHEET_PEEKまで畳まず、ある程度引き上げた状態で開始する。 */
-  initiallyRaised?: boolean;
 }
 
 const rubberband = (overflow: number) =>
@@ -34,7 +34,7 @@ const sheetStyles = css({
   right: 0,
   bottom: 0,
   zIndex: 10,
-  h: 'calc(100dvh - 64px - env(safe-area-inset-top, 0px))',
+  h: `${fullRatio * 100}dvh`,
   display: 'flex',
   flexDirection: 'column',
   bg: 'sheet.background',
@@ -71,10 +71,7 @@ const handleStyles = css({
   bg: 'sheet.handle',
 });
 
-export default function BottomSheet({
-  children,
-  initiallyRaised = false,
-}: BottomSheetProps) {
+export default function BottomSheet({ children }: BottomSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [y, setY] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -90,21 +87,22 @@ export default function BottomSheet({
     velocity: 0,
   });
 
-  // 初回マウント時点の値のみを使う。以後 initiallyRaised が変化しても
-  // (例: シートを開いたまま検索条件だけ変わっても)勝手に開閉させない。
-  const initiallyRaisedRef = useRef(initiallyRaised);
-
-  const getMax = useCallback(
-    () => Math.max((ref.current?.offsetHeight ?? 0) - SHEET_PEEK, 0),
-    [],
-  );
+  // 各段でのシートの移動量（上端が最大段の位置から下がる距離）。
+  const getSnaps = useCallback(() => {
+    const height = ref.current?.offsetHeight ?? 0;
+    const viewport = height / fullRatio;
+    return {
+      full: 0,
+      half: Math.max(height - viewport * halfRatio, 0),
+      peek: Math.max(height - SHEET_PEEK, 0),
+    };
+  }, []);
 
   useLayoutEffect(() => {
-    const max = getMax();
-    const initial = initiallyRaisedRef.current ? max * raisedFraction : max;
-    setY(initial);
-    setOffscreen(initial);
-  }, [getMax]);
+    const { half } = getSnaps();
+    setY(half);
+    setOffscreen(half);
+  }, [getSnaps]);
 
   useLayoutEffect(() => {
     if (y < offscreen) setOffscreen(y);
@@ -129,28 +127,30 @@ export default function BottomSheet({
     drag.current.lastY = e.clientY;
     drag.current.lastT = e.timeStamp;
 
-    const max = getMax();
+    const max = getSnaps().peek;
     const raw = drag.current.baseY + (e.clientY - drag.current.pointerY);
     const next = raw < 0 ? 0 : raw > max ? max + rubberband(raw - max) : raw;
     setY(next);
   };
 
-  const onUp = () => {
-    const max = getMax();
-    const v = drag.current.velocity;
-    const next =
-      Math.abs(v) > flingVelocity ? (v > 0 ? max : 0) : y < max / 2 ? 0 : max;
+  const onUp = (e: PointerEvent<HTMLDivElement>) => {
+    const idle = e.timeStamp - drag.current.lastT > releaseIdleMs;
+    const projected = y + (idle ? 0 : drag.current.velocity * projectionMs);
+    const { full, half, peek } = getSnaps();
+    const next = [full, half, peek].reduce((a, b) =>
+      Math.abs(b - projected) < Math.abs(a - projected) ? b : a,
+    );
     setY(next);
     setDragging(false);
   };
 
   const panelApi = useMemo<MapPanelApi>(
     () => ({
-      expand: () => setY(0),
-      raise: () => setY(getMax() * halfFraction),
-      collapse: () => setY(getMax()),
+      expand: () => setY(getSnaps().full),
+      raise: () => setY(getSnaps().half),
+      collapse: () => setY(getSnaps().peek),
     }),
-    [getMax],
+    [getSnaps],
   );
 
   return (

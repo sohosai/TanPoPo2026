@@ -1,4 +1,4 @@
-import { Outlet, useSearchParams } from 'react-router';
+import { Outlet } from 'react-router';
 import CampusLayers from '~/components/features/Map/CampusLayers';
 import { MapProvider } from '~/components/features/Map/MapController';
 import MapControls from '~/components/features/Map/MapControls';
@@ -8,10 +8,6 @@ import SidePanel from '~/components/layouts/MapPanel/SidePanel';
 import { useIsDesktop } from '~/lib/viewport';
 
 export default function AppLayout() {
-  // 検索/絞り込み条件付きのURL（共有リンク等）で開いた場合は、
-  // シートを畳んだ状態ではなくある程度引き上げた状態から開始する。
-  const [searchParams] = useSearchParams();
-  const openedWithSearch = searchParams.toString() !== '';
   const isDesktop = useIsDesktop();
 
   return (
@@ -27,7 +23,7 @@ export default function AppLayout() {
             <Outlet />
           </SidePanel>
         ) : (
-          <BottomSheet initiallyRaised={openedWithSearch}>
+          <BottomSheet>
             <Outlet />
           </BottomSheet>
         )}
