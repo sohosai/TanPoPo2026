@@ -2,6 +2,7 @@ import { IconX } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import RequireLineLogin from '~/components/features/Auth/RequireLineLogin';
+import { useOnline } from '~/lib/pwa';
 import { css } from '../../../../styled-system/css';
 
 type EventPageShellProps = {
@@ -14,12 +15,15 @@ type EventPageShellProps = {
 /**
  * 地図に紐づかない独立イベントページ（グランプリ投票・来場者アンケート等）の共通シェル。
  * スティッキーヘッダー（タイトル＋閉じるボタン）とLINEログインゲートをまとめて提供する。
+ * LINE ログインも送信も通信が要るため、オフラインの間は中身の代わりに案内を出す。
  */
 export default function EventPageShell({
   title,
   redirectPath,
   children,
 }: EventPageShellProps) {
+  const online = useOnline();
+
   return (
     <div
       className={css({
@@ -66,9 +70,29 @@ export default function EventPageShell({
         </Link>
       </header>
 
-      <RequireLineLogin redirectPath={redirectPath}>
-        {children}
-      </RequireLineLogin>
+      {online ? (
+        <RequireLineLogin redirectPath={redirectPath}>
+          {children}
+        </RequireLineLogin>
+      ) : (
+        <p
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '60vh',
+            px: '24px',
+            textAlign: 'center',
+            fontSize: 'md',
+            color: 'fg.muted',
+            lineHeight: 1.7,
+          })}
+        >
+          オフラインのため利用できません。
+          <br />
+          通信が戻ると表示されます。
+        </p>
+      )}
     </div>
   );
 }

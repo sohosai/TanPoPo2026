@@ -38,7 +38,7 @@ export type Performance = {
   title: string;
 };
 
-/** 一覧表示・フィルタに使う店舗情報（軽量。画像/長文説明は含めない） */
+/** 詳細を要らない画面（グランプリ投票等）に渡す店舗情報（軽量。画像/長文説明は含めない） */
 export type Project = {
   id: string;
   /** 3桁ゼロ埋めの企画番号（例: "001"）。URL に使う */
@@ -77,7 +77,7 @@ export type ProjectLink = {
   url: string;
 };
 
-/** 詳細ページに使う店舗情報（Project + 詳細フィールド） */
+/** 企画の一覧・詳細ページに使う店舗情報（Project + 詳細フィールド） */
 export type ProjectDetail = Project & {
   /** 詳細説明文。未登録なら空文字 */
   description: string;

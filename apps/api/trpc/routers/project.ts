@@ -1,14 +1,13 @@
 import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
-import type { Project, ProjectDetail } from '../../domain/project';
-import { SosClientError } from '../../services/sos';
+import type { ProjectDetail } from '../../domain/project';
 import { t } from '../trpc';
 
 export const projectRouter = t.router({
   project: t.router({
-    list: t.procedure.query(async ({ ctx }): Promise<Project[]> => {
+    // 詳細も一覧に含めて一度に返す。web はこれを端末に保存し、オフラインでも全企画の詳細を見せる。
+    list: t.procedure.query(async ({ ctx }): Promise<ProjectDetail[]> => {
       try {
-        return await ctx.sos.getProjects();
+        return await ctx.sos.getProjectDetails();
       } catch {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
@@ -16,25 +15,5 @@ export const projectRouter = t.router({
         });
       }
     }),
-
-    detail: t.procedure
-      .input(z.object({ number: z.string() }))
-      .query(async ({ ctx, input }): Promise<ProjectDetail> => {
-        try {
-          return await ctx.sos.getProjectDetail(input.number);
-        } catch (error: unknown) {
-          if (error instanceof SosClientError && error.code === 'NOT_FOUND') {
-            throw new TRPCError({
-              code: 'NOT_FOUND',
-              message: error.message,
-            });
-          }
-
-          throw new TRPCError({
-            code: 'INTERNAL_SERVER_ERROR',
-            message: '店舗詳細の取得に失敗しました',
-          });
-        }
-      }),
   }),
 });

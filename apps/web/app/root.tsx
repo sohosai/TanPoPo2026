@@ -11,6 +11,7 @@ import {
 import type { Route } from './+types/root';
 // 一時的に global-loader を無効化中。
 // import { GlobalLoader } from './components/features/Loader';
+import UpdateToast from './components/features/Pwa/UpdateToast';
 import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 
@@ -21,6 +22,8 @@ export const meta: Route.MetaFunction = () => {
 export const links: Route.LinksFunction = () => [
   { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
   { rel: 'icon', type: 'image/svg+xml', href: '/logo/square.svg' },
+  { rel: 'manifest', href: '/manifest.webmanifest' },
+  { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon.png' },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
     rel: 'preconnect',
@@ -55,6 +58,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="apple-mobile-web-app-title" content="雙峰祭" />
         <Meta />
         <Links />
       </head>
@@ -72,6 +77,7 @@ export default function App() {
   return (
     <TrpcProvider>
       <Outlet />
+      <UpdateToast />
     </TrpcProvider>
   );
 }

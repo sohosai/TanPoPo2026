@@ -6,6 +6,7 @@ import {
 } from '@tabler/icons-react';
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef, useState } from 'react';
+import InstallControl from '~/components/features/Pwa/InstallControl';
 import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
 import {
   hasSeenGeolocationIntro,
@@ -46,7 +47,7 @@ const roundButton = css({
 const PITCH_3D = 60;
 
 /**
- * 地図右下の操作ボタン（初期表示へ戻る、現在地の表示・追従、3D/2D の切り替え）。
+ * 地図右下の操作ボタン（ホーム画面への追加、初期表示へ戻る、現在地の表示・追従、3D/2D の切り替え）。
  * 現在地の点・精度の円・追従は MapLibre の GeolocateControl に任せ、標準のボタンは隠して
  * このボタンから操作する。
  */
@@ -264,6 +265,7 @@ export default function MapControls() {
           {message}
         </p>
       )}
+      <InstallControl className={roundButton} />
       <button
         type="button"
         onClick={goHome}
