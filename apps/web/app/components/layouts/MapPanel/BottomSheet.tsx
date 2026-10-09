@@ -78,6 +78,10 @@ export default function BottomSheet({
   const ref = useRef<HTMLDivElement>(null);
   const [y, setY] = useState(0);
   const [dragging, setDragging] = useState(false);
+  // シートの下端のうち画面外にはみ出している高さ。中身のスクロール領域をこの分だけ縮め、
+  // どの開き具合でも末尾まで画面内にスクロールできるようにする。広げるのは即座に、縮めるのは
+  // シートが下がりきってからにして、閉じる途中で中身が先に切れて空白が見えないようにする。
+  const [offscreen, setOffscreen] = useState(0);
   const drag = useRef({
     pointerY: 0,
     baseY: 0,
@@ -97,8 +101,14 @@ export default function BottomSheet({
 
   useLayoutEffect(() => {
     const max = getMax();
-    setY(initiallyRaisedRef.current ? max * raisedFraction : max);
+    const initial = initiallyRaisedRef.current ? max * raisedFraction : max;
+    setY(initial);
+    setOffscreen(initial);
   }, [getMax]);
+
+  useLayoutEffect(() => {
+    if (y < offscreen) setOffscreen(y);
+  }, [y, offscreen]);
 
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -149,6 +159,11 @@ export default function BottomSheet({
       className={cx(sheetStyles, dragging && noTransitionStyles)}
       // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
       style={{ transform: `translate3d(0, ${Math.round(y)}px, 0)` }}
+      onTransitionEnd={(e) => {
+        if (e.target === e.currentTarget && e.propertyName === 'transform') {
+          setOffscreen(y);
+        }
+      }}
     >
       <div
         className={handleAreaStyles}
@@ -160,7 +175,12 @@ export default function BottomSheet({
         <div className={handleStyles} />
       </div>
       <MapPanelContext.Provider value={panelApi}>
-        <div className={contentStyles}>{children}</div>
+        <div
+          className={contentStyles}
+          style={{ marginBottom: Math.round(offscreen) }}
+        >
+          {children}
+        </div>
       </MapPanelContext.Provider>
     </div>
   );

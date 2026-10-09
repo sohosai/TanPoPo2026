@@ -1,0 +1,459 @@
+{
+  "5": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day2",
+      "start": "12:25",
+      "end": "14:05",
+      "title": "アンプラグド弾き語りライブ"
+    }
+  ],
+  "7": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "19:20",
+      "end": "19:30",
+      "title": "雙峰祭グランプリ2026"
+    }
+  ],
+  "14": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "14:24",
+      "end": "15:14",
+      "title": "Bombs!学祭公演vol.6"
+    }
+  ],
+  "21": [
+    {
+      "placeId": "stage-united",
+      "day": "前夜祭",
+      "start": "17:00",
+      "end": "17:10",
+      "title": "樽酒振る舞い 鏡開き"
+    }
+  ],
+  "26": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "18:40",
+      "end": "19:15",
+      "title": "つくばお笑いライブ2026"
+    }
+  ],
+  "50": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "12:20",
+      "end": "13:05",
+      "title": "Doo-WopアカペラUNITEDステージ"
+    }
+  ],
+  "51": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "16:42",
+      "end": "17:07",
+      "title": "エイサー"
+    }
+  ],
+  "52": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "12:50",
+      "end": "13:57",
+      "title": "つくばフォーク村UNITEDステージ"
+    }
+  ],
+  "54": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "16:04",
+      "end": "16:35",
+      "title": "Scrambleダンスステージ"
+    }
+  ],
+  "64": [
+    {
+      "placeId": "stage-united",
+      "day": "前夜祭",
+      "start": "18:20",
+      "end": "19:40",
+      "title": "Tsukuba Trends〜New value, New voice〜"
+    },
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "19:30",
+      "end": "20:10",
+      "title": "Tsukuba Trends〜New value, New voice〜"
+    }
+  ],
+  "67": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "11:40",
+      "end": "12:40",
+      "title": "筑波音楽協会雙峰祭ステージ"
+    }
+  ],
+  "69": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day1",
+      "start": "12:05",
+      "end": "12:55",
+      "title": "コピカツ！~振りコピ班 踊ってみたSTAGE~"
+    }
+  ],
+  "79": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day1",
+      "start": "14:45",
+      "end": "15:05",
+      "title": "推進音楽隊による雙峰祭ライブ"
+    }
+  ],
+  "87": [
+    {
+      "placeId": "stage-kaikan-kodo",
+      "day": "Day1",
+      "start": "14:30",
+      "end": "15:20",
+      "title": "ダブルダッチ"
+    }
+  ],
+  "92": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day1",
+      "start": "10:00",
+      "end": "11:00",
+      "title": "邦楽部和楽器コンサート"
+    }
+  ],
+  "93": [
+    {
+      "placeId": "stage-kaikan-hall",
+      "day": "Day1",
+      "start": "15:50",
+      "end": "17:20",
+      "title": "声優班トークショーイベント"
+    }
+  ],
+  "95": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day2",
+      "start": "11:30",
+      "end": "12:10",
+      "title": "みれい×みん アイドルコピーダンスステージ"
+    }
+  ],
+  "98": [
+    {
+      "placeId": "stage-kaikan-kodo",
+      "day": "Day1",
+      "start": "11:25",
+      "end": "12:45",
+      "title": "応援部WINSステージ パフォーマンスショー"
+    }
+  ],
+  "101": [
+    {
+      "placeId": "stage-kaikan-hall",
+      "day": "Day2",
+      "start": "15:50",
+      "end": "16:35",
+      "title": "筑波大学むくどり雙峰祭ステージ"
+    }
+  ],
+  "108": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "10:53",
+      "end": "11:28",
+      "title": "斬桐舞スペシャルパフォーマンス"
+    }
+  ],
+  "115": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "10:00",
+      "end": "10:35",
+      "title": "Neopolis雙峰祭スペシャルライブ"
+    }
+  ],
+  "123": [
+    {
+      "placeId": "stage-kaikan-hall",
+      "day": "Day2",
+      "start": "10:15",
+      "end": "11:45",
+      "title": "筑波大学お笑い集団DONPAPAお笑いライブ"
+    }
+  ],
+  "127": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "16:29",
+      "end": "17:09",
+      "title": "ひらがなつくば坂道LIVE〜この想い届け〜"
+    }
+  ],
+  "129": [
+    {
+      "placeId": "stage-united",
+      "day": "前夜祭",
+      "start": "17:50",
+      "end": "18:10",
+      "title": "夜祭パフォーマンスショー第2部 応援部WINS×斬桐舞 合同ステージ"
+    }
+  ],
+  "143": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "18:49",
+      "end": "19:59",
+      "title": "Realjam"
+    }
+  ],
+  "146": [
+    {
+      "placeId": "stage-kaikan-kodo",
+      "day": "Day1",
+      "start": "17:30",
+      "end": "18:40",
+      "title": "マジシャンズクラブ ステージマジックショー"
+    }
+  ],
+  "147": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day1",
+      "start": "11:20",
+      "end": "11:55",
+      "title": "愛のリコーダー"
+    }
+  ],
+  "162": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "11:53",
+      "end": "12:13",
+      "title": "研究学園戦士ツクバダインショー"
+    }
+  ],
+  "167": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day2",
+      "start": "15:20",
+      "end": "15:45",
+      "title": "稲妻よ走れ！上昇志向ベイビーズ 炎のライブ"
+    }
+  ],
+  "168": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "18:11",
+      "end": "18:41",
+      "title": "帝国雙峰祭ステージ2026"
+    }
+  ],
+  "170": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "17:24",
+      "end": "17:54",
+      "title": "書道パフォーマンス2026"
+    }
+  ],
+  "176": [
+    {
+      "placeId": "stage-kaikan-hall",
+      "day": "Day2",
+      "start": "12:45",
+      "end": "13:31",
+      "title": "令和八年度 鹿島神流武道部雙峰祭演武"
+    }
+  ],
+  "180": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "11:32",
+      "end": "11:47",
+      "title": "Dance in the moment~今この瞬間~"
+    }
+  ],
+  "183": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day2",
+      "start": "10:00",
+      "end": "10:45",
+      "title": "能・狂言研究会特別公演"
+    }
+  ],
+  "187": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "10:00",
+      "end": "10:20",
+      "title": "医学音楽同好会ステージ"
+    }
+  ],
+  "197": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day2",
+      "start": "16:15",
+      "end": "17:30",
+      "title": "PBCM雙峰祭SPステージ"
+    }
+  ],
+  "198": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day1",
+      "start": "15:30",
+      "end": "17:45",
+      "title": "GSKバンドステージ"
+    }
+  ],
+  "201": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "13:09",
+      "end": "14:16",
+      "title": "コグマKPOP COPY DANCE STAGE"
+    }
+  ],
+  "202": [
+    {
+      "placeId": "stage-united",
+      "day": "Day1",
+      "start": "15:34",
+      "end": "16:14",
+      "title": "無絃塾SUPER LIVE"
+    }
+  ],
+  "205": [
+    {
+      "placeId": "stage-kaikan-hall",
+      "day": "Day1",
+      "start": "10:25",
+      "end": "11:10",
+      "title": "Sheepジャグリングパフォーマンス"
+    }
+  ],
+  "207": [
+    {
+      "placeId": "stage-kaikan-kodo",
+      "day": "Day2",
+      "start": "16:00",
+      "end": "16:15",
+      "title": "体操部"
+    }
+  ],
+  "208": [
+    {
+      "placeId": "stage-kaikan-kodo",
+      "day": "Day2",
+      "start": "13:15",
+      "end": "14:25",
+      "title": "2026雙峰祭ステージ「月華」"
+    }
+  ],
+  "223": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "18:15",
+      "end": "18:35",
+      "title": "夜祭パフォーマンスショー第4部 はつこい帝国スペシャルコラボステージ"
+    }
+  ],
+  "229": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "15:07",
+      "end": "15:53",
+      "title": "学園祭ライブ Produced by TMP"
+    }
+  ],
+  "250": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day2",
+      "start": "11:00",
+      "end": "11:27",
+      "title": "ヤロイには内緒で歌います"
+    }
+  ],
+  "261": [
+    {
+      "placeId": "stage-united",
+      "day": "Day2",
+      "start": "10:30",
+      "end": "11:30",
+      "title": "E.L.L.野外ライブステージ2026"
+    }
+  ],
+  "269": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day1",
+      "start": "13:00",
+      "end": "13:40",
+      "title": "ふみなな"
+    }
+  ],
+  "270": [
+    {
+      "placeId": "stage-1a",
+      "day": "Day2",
+      "start": "14:30",
+      "end": "14:55",
+      "title": "すいしんばんど その２ "
+    }
+  ],
+  "342": [
+    {
+      "placeId": "stage-united",
+      "day": "前夜祭",
+      "start": "17:15",
+      "end": "17:35",
+      "title": "夜祭パフォーマンスショー第1部 吹奏楽団夜祭ステージ"
+    }
+  ],
+  "343": [
+    {
+      "placeId": "stage-united",
+      "day": "前夜祭",
+      "start": "19:50",
+      "end": "20:20",
+      "title": "夜祭パフォーマンスショー第3部 Realjam Special Stage"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ export type {
   ProjectLink,
   ProjectLinkKind,
   ProjectLocation,
+  Performance,
 } from './domain/project';
 
 // web の静的アセットと同一オリジンで配信するため CORS は不要。

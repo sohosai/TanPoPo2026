@@ -9,6 +9,7 @@
     "check:map-data": "bun run scripts/validate-map-data.ts",
     "import:project-locations": "bun run scripts/import-project-locations.ts",
     "import:stage-projects": "bun run scripts/import-stage-projects.ts",
+    "import:stage-timetable": "bun run scripts/import-stage-timetable.ts",
     "ingest:osm": "bun run scripts/ingest-osm.ts",
     "ingest:campus-buildings": "bun run scripts/ingest-campus-buildings.ts",
     "merge:osm": "bun run scripts/merge-osm.ts",

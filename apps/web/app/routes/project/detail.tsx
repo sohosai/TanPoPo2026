@@ -1,4 +1,9 @@
-import { IconCalendarEvent, IconMap, IconMapPin } from '@tabler/icons-react';
+import {
+  IconCalendarEvent,
+  IconClock,
+  IconMap,
+  IconMapPin,
+} from '@tabler/icons-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
@@ -18,6 +23,7 @@ import ImageViewer from '~/components/features/Project/ImageViewer';
 import {
   badgeClass,
   CATEGORY_COLOR_CLASS,
+  formatPerformance,
   formatSchedule,
 } from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
@@ -28,13 +34,15 @@ import { formatLocation, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
-/** 場所・日程。未確定の項目は「未定」と表示する。 */
+/** 場所と、日程またはステージの出演時間。出演時間は日も含むため、あれば日程の代わりに出す。未確定の項目は「未定」と表示する。 */
 function ProjectFacts({
   locations,
   schedule,
+  performances,
 }: {
   locations: string[];
   schedule: string;
+  performances: string[];
 }) {
   return (
     <dl
@@ -83,15 +91,33 @@ function ProjectFacts({
             : '未定'}
         </dd>
       </div>
-      <div>
-        <dt>
-          <IconCalendarEvent size={16} />
-          <span className={css({ textBox: 'trim-both cap alphabetic' })}>
-            日程
-          </span>
-        </dt>
-        <dd>{schedule || '未定'}</dd>
-      </div>
+      {performances.length > 0 ? (
+        <div>
+          <dt>
+            <IconClock size={16} />
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              時間
+            </span>
+          </dt>
+          <dd>
+            {performances.map((label) => (
+              <span key={label} className={css({ display: 'block' })}>
+                {label}
+              </span>
+            ))}
+          </dd>
+        </div>
+      ) : (
+        <div>
+          <dt>
+            <IconCalendarEvent size={16} />
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              日程
+            </span>
+          </dt>
+          <dd>{schedule || '未定'}</dd>
+        </div>
+      )}
     </dl>
   );
 }
@@ -255,6 +281,10 @@ export default function Detail() {
           ),
         ]}
         schedule={formatSchedule(project.schedule)}
+        performances={project.performances.map(
+          (performance) =>
+            `${formatPerformance(performance)} ${placesById.get(performance.placeId)?.name ?? ''}`,
+        )}
       />
 
       {project.links.length > 0 && (
