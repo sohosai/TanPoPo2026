@@ -131,6 +131,58 @@ authRoutes.get('/line/callback', async (c) => {
   }
 });
 
+authRoutes.post('/line/liff', async (c) => {
+  const { idToken } = await c.req.json<{ idToken?: string }>();
+  if (!idToken) {
+    return c.json({ error: 'idToken is required' }, 400);
+  }
+
+  try {
+    const db = createDb(c.env.DB);
+    // line-auth.ts に追記した verifyLiffIdToken を呼び出す
+    const { verifyLiffIdToken } = await import('../services/line-auth');
+    const profile = await verifyLiffIdToken(c.env, idToken);
+
+    const existingUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.lineUserId, profile.sub))
+      .get();
+
+    let userId: string;
+    if (existingUser) {
+      userId = existingUser.id;
+      if (profile.name && profile.name !== existingUser.displayName) {
+        await db
+          .update(users)
+          .set({ displayName: profile.name })
+          .where(eq(users.id, userId));
+      }
+    } else {
+      userId = crypto.randomUUID();
+      await db.insert(users).values({
+        id: userId,
+        lineUserId: profile.sub,
+        displayName: profile.name,
+      });
+    }
+
+    const { token } = await createSession(db, userId);
+    setCookie(c, SESSION_COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: isSecureRequest(c),
+      sameSite: 'Lax',
+      maxAge: SESSION_COOKIE_MAX_AGE,
+      path: '/',
+    });
+
+    return c.json({ success: true });
+  } catch (error) {
+    console.error('LIFF login failed', error);
+    return c.json({ error: 'ログインに失敗しました' }, 400);
+  }
+});
+
 authRoutes.get('/logout', async (c) => {
   await destroySession(createDb(c.env.DB), getCookie(c, SESSION_COOKIE_NAME));
   deleteCookie(c, SESSION_COOKIE_NAME, { path: '/' });

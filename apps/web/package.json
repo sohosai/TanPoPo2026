@@ -12,6 +12,7 @@
     "prepare": "panda codegen"
   },
   "dependencies": {
+    "@line/liff": "^2.31.2",
     "@react-router/node": "7.14.0",
     "@react-router/serve": "7.14.0",
     "@tabler/icons-react": "^3.44.0",

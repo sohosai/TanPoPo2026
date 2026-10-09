@@ -96,3 +96,36 @@ export async function verifyIdToken(
     name: typeof payload.name === 'string' ? payload.name : undefined,
   };
 }
+
+/**
+ * LIFFから送られてきたID TokenをLINEのAPIで検証する。
+ */
+export async function verifyLiffIdToken(
+  config: LineConfig,
+  idToken: string,
+): Promise<LineProfile> {
+  const response = await fetch('https://api.line.me/oauth2/v2.1/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      id_token: idToken,
+      client_id: config.LINE_CHANNEL_ID,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new LineAuthError(
+      `LIFF ID Tokenの検証に失敗しました: ${response.status}`,
+    );
+  }
+
+  const json = await response.json() as any;
+  if (!json.sub) {
+    throw new LineAuthError('LIFF ID Tokenにsubがありません');
+  }
+
+  return {
+    sub: json.sub,
+    name: typeof json.name === 'string' ? json.name : undefined,
+  };
+}
