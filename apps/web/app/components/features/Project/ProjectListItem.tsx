@@ -31,9 +31,11 @@ const metaClass = css({
 export function ProjectRowContent({
   project,
   locationLabel,
+  action,
 }: {
   project: Project;
   locationLabel?: string;
+  action?: React.ReactNode;
 }) {
   const {
     name,
@@ -142,6 +144,9 @@ export function ProjectRowContent({
               </span>
             )
           )}
+          {action && (
+            <div className={css({ ml: 'auto', display: 'flex' })}>{action}</div>
+          )}
         </div>
       </div>
     </>
@@ -204,18 +209,21 @@ export default function ProjectListItem({
       className={cx(projectCardClass, className)}
       style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
     >
-      <ProjectRowContent project={project} locationLabel={locationLabel} />
-
-      <FavoriteButton
-        active={favorite}
-        onToggle={() => onToggleFavorite?.(id)}
-        size={22}
-        className={css({
-          flexShrink: 0,
-          alignSelf: 'flex-end',
-          mb: '-2px',
-          mr: '-4px',
-        })}
+      <ProjectRowContent
+        project={project}
+        locationLabel={locationLabel}
+        action={
+          <FavoriteButton
+            active={favorite}
+            onToggle={() => onToggleFavorite?.(id)}
+            size={22}
+            className={css({
+              flexShrink: 0,
+              mr: '-4px',
+              mt: '-2px',
+            })}
+          />
+        }
       />
     </Link>
   );
