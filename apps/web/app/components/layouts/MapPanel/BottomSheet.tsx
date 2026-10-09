@@ -152,6 +152,14 @@ export default function BottomSheet({ children }: BottomSheetProps) {
     if (y < offscreen) setOffscreen(y);
   }, [y, offscreen]);
 
+  // 最小段の付近（中段との中間より下）にあるあいだ data-peek を付け、中身が最小段向けの表示に
+  // 切り替えられるようにする。ドラッグ中も位置で判定し、最小段から上下に引いても表示を保つ。
+  const [atPeek, setAtPeek] = useState(false);
+  useLayoutEffect(() => {
+    const { half, peek } = getSnaps();
+    setAtPeek(y > (half + peek) / 2);
+  }, [y, getSnaps]);
+
   const startDrag = useCallback((clientY: number, timeStamp: number) => {
     drag.current = {
       pointerY: clientY,
@@ -348,6 +356,7 @@ export default function BottomSheet({ children }: BottomSheetProps) {
   return (
     <div
       ref={ref}
+      data-peek={atPeek || undefined}
       className={cx(sheetStyles, dragging && noTransitionStyles)}
       // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
       style={{ transform: `translate3d(0, ${Math.round(y)}px, 0)` }}

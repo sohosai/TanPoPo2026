@@ -2,6 +2,7 @@ import { IconX } from '@tabler/icons-react';
 import type { MouseEvent } from 'react';
 import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
+import { listPath } from './useDetailClose';
 
 const buttonStyles = css({
   flexShrink: 0,
@@ -36,7 +37,7 @@ export default function DetailCloseButton({
 }) {
   return (
     <Link
-      to="/"
+      to={listPath()}
       aria-label="閉じる"
       onClick={onClick}
       className={cx(buttonStyles, closing && closingButtonStyles)}

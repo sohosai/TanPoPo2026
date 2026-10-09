@@ -6,7 +6,7 @@ import {
 } from '@tabler/icons-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
+import DetailTitleRow from '~/components/features/Detail/DetailTitleRow';
 import {
   detailEnterStyles,
   detailExitStyles,
@@ -158,6 +158,12 @@ export default function Detail() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const { closing, close } = useDetailClose();
 
+  // 直前の段にかかわらず、地図と詳細の両方が見える中段で開く。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 企画が変わったときだけ開く
+  useEffect(() => {
+    panel.raise();
+  }, [number]);
+
   const scrollCarouselTo = (index: number, behavior: ScrollBehavior) => {
     const el = carouselRef.current;
     if (!el) return;
@@ -219,32 +225,25 @@ export default function Detail() {
         closing ? detailExitStyles : detailEnterStyles,
       )}
     >
-      {/* シートを畳んだ状態でもこのヘッダーだけは見えるため、企画を識別できる情報を集める */}
-      <header
-        className={css({
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '12px',
-          px: '16px',
-          pt: '2px',
-        })}
-      >
-        <ProjectIcon project={project} size={48} />
-
-        <div className={css({ flex: 1, minWidth: 0 })}>
-          <h1
-            className={css({
-              fontSize: '2xl',
-              fontWeight: 700,
-              lineHeight: 1.35,
-              color: 'fg.strong',
-            })}
-          >
-            {project.name}
-          </h1>
+      <header className={css({ px: '16px', pt: '4px' })}>
+        <DetailTitleRow
+          title={project.name}
+          closing={closing}
+          onClose={close}
+        />
+        <div
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            mt: '10px',
+          })}
+        >
+          <ProjectIcon project={project} size={48} />
           <p
             className={css({
-              mt: '2px',
+              flex: 1,
+              minWidth: 0,
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
@@ -258,8 +257,6 @@ export default function Detail() {
             </span>
           </p>
         </div>
-
-        <DetailCloseButton closing={closing} onClick={close} />
       </header>
 
       {project.cancelled && (
@@ -408,6 +405,8 @@ export default function Detail() {
           bottom: 0,
           mt: 'auto',
           display: 'flex',
+          // 見えている範囲の下端に貼り付くため、最小段では企画名の行を覆ってしまう。
+          '[data-peek] &': { display: 'none' },
           alignItems: 'center',
           gap: '12px',
           px: '16px',
