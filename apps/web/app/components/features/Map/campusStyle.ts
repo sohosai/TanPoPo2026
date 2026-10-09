@@ -17,7 +17,7 @@ export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
   物販: '#ec659f', // token('colors.category.goods')
   展示: '#39c684', // token('colors.category.exhibit')
   学術: '#9679ec', // token('colors.category.academic')
-  ステージ: '#3aaddf', // token('colors.category.stage')
+  ステージ: '#fa7a18', // token('colors.category.stage')
   その他: '#8d9bb0', // token('colors.category.other')
 };
 

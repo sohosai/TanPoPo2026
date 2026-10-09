@@ -170,7 +170,7 @@ export default defineConfig({
               DEFAULT: { value: '#9679ec' },
               bg: { value: '#e2d9fa' },
             },
-            stage: { DEFAULT: { value: '#3aaddf' }, bg: { value: '#c8e8f6' } },
+            stage: { DEFAULT: { value: '#fa7a18' }, bg: { value: '#fcdbc1' } },
             other: { DEFAULT: { value: '#8d9bb0' }, bg: { value: '#dfe3e9' } },
           },
           // 文字・アイコンの色。濃いほど主要な情報に使う。
