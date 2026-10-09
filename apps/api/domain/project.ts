@@ -1,18 +1,22 @@
-/** 企画（SOS の企画を画面向けに整えたもの）の型。API の応答と web 側の表示で共有する。 */
+/** 企画（SOS の企画と、リポジトリで追加した企画を画面向けに整えたもの）の型。API の応答と web 側の表示で共有する。 */
 
-export type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
+/** 実施日。並びは日付順。 */
+export const SCHEDULE_DAYS = ['前夜祭', 'Day1', 'Day2'] as const;
+export type ScheduleDay = (typeof SCHEDULE_DAYS)[number];
 
 /**
  * 企画の主分類。フィルタの主軸として使う。
  * TODO: 正式な分類体系に合わせて増やす。
  */
-export type ProjectCategory =
-  | '食品'
-  | '物販'
-  | '展示'
-  | '学術'
-  | 'ステージ'
-  | 'その他';
+export const PROJECT_CATEGORIES = [
+  '食品',
+  '物販',
+  '展示',
+  '学術',
+  'ステージ',
+  'その他',
+] as const;
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
 /**
  * 店舗が紐づく場所。`placeId` は Place（建物・ステージ・屋外のテント列等）を指す。

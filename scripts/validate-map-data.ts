@@ -6,13 +6,14 @@
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
  *  - 企画実施場所（apps/api/data/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
+ *  - SOS に無い企画（apps/api/data/extra-projects.json） … 実施場所（同上）・SOS の企画番号との重複・画像ファイルの有無
  *  - 店舗の場所参照（apps/api: project.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
  *  - 座標が [経度, 緯度] の順かどうか（緯度経度の取り違え検出）
  *
  * 実行: bun run scripts/validate-map-data.ts
  * エラーがあれば終了コード 1 で終了する（CI に組み込み可能）。
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createMapDataCaller } from './api-caller';
 
@@ -252,7 +253,13 @@ async function main() {
     }
   }
 
-  checkProjectLocations(placeById);
+  const boothShapes = checkBoothShapes();
+  checkProjectLocations(placeById, boothShapes);
+  checkExtraProjects(
+    placeById,
+    boothShapes,
+    new Set(projects.map(({ id }) => id)),
+  );
 
   // ---- 4. 店舗の場所参照 ----
   for (const project of projects) {
@@ -297,29 +304,26 @@ function readData<T>(path: string): T {
   return JSON.parse(readFileSync(join(import.meta.dir, '..', path), 'utf-8'));
 }
 
+/** `where` はエラーに出す、どのファイルのどの企画か（例: `project-locations 56`）。 */
 function checkLocation(
-  number: string,
+  where: string,
   { placeId, room, days }: LocationRecord,
   placeById: ReadonlyMap<string, unknown>,
   boothShapes: ReadonlySet<string>,
 ) {
   if (!placeById.has(placeId)) {
-    err(`project-locations ${number}: placeId が存在しない: ${placeId}`);
+    err(`${where}: placeId が存在しない: ${placeId}`);
   }
   if (placeId.startsWith('booth-') && !(room && boothShapes.has(room))) {
-    err(
-      `project-locations ${number}: ブースのテントの形が無い: ${room ?? '(番号なし)'}`,
-    );
+    err(`${where}: ブースのテントの形が無い: ${room ?? '(番号なし)'}`);
   }
   if (days.length === 0 || days.some((d) => !SCHEDULE_DAYS.includes(d))) {
-    err(`project-locations ${number}: 実施日が不正: ${JSON.stringify(days)}`);
+    err(`${where}: 実施日が不正: ${JSON.stringify(days)}`);
   }
 }
 
-function checkProjectLocations(placeById: ReadonlyMap<string, unknown>) {
-  const data = readData<Record<string, LocationRecord[]>>(
-    'apps/api/data/project-locations.json',
-  );
+/** 屋外ブースのテントの形を検証し、形のあるブース番号を返す。 */
+function checkBoothShapes(): ReadonlySet<string> {
   const booths = readData<{
     features: {
       properties: { booth: string };
@@ -331,10 +335,61 @@ function checkProjectLocations(placeById: ReadonlyMap<string, unknown>) {
       err(`booths.geojson ${properties.booth}: 座標が範囲外（取り違え?）`);
     }
   }
-  const boothShapes = new Set(booths.map(({ properties }) => properties.booth));
+  return new Set(booths.map(({ properties }) => properties.booth));
+}
+
+function checkProjectLocations(
+  placeById: ReadonlyMap<string, unknown>,
+  boothShapes: ReadonlySet<string>,
+) {
+  const data = readData<Record<string, LocationRecord[]>>(
+    'apps/api/data/project-locations.json',
+  );
   for (const [number, locations] of Object.entries(data)) {
     for (const location of locations) {
-      checkLocation(number, location, placeById, boothShapes);
+      checkLocation(
+        `project-locations ${number}`,
+        location,
+        placeById,
+        boothShapes,
+      );
+    }
+  }
+}
+
+/**
+ * 項目の形は API の起動時（apps/api/services/project-data.ts）に検証済みのため、
+ * ここでは他のデータとの突き合わせだけを行う。
+ */
+function checkExtraProjects(
+  placeById: ReadonlyMap<string, unknown>,
+  boothShapes: ReadonlySet<string>,
+  listedIds: ReadonlySet<string>,
+) {
+  const data = readData<
+    Record<
+      string,
+      { locations: LocationRecord[]; thumbnail?: string; images?: string[] }
+    >
+  >('apps/api/data/extra-projects.json');
+  for (const [number, { locations, thumbnail, images = [] }] of Object.entries(
+    data,
+  )) {
+    const where = `extra-projects ${number}`;
+    // SOS の企画と番号が重なると、API は SOS を優先してこの企画を一覧に出さない。
+    if (!listedIds.has(`extra-${number}`)) {
+      err(`${where}: SOS の企画と番号が重なっている`);
+    }
+    for (const location of locations) {
+      checkLocation(where, location, placeById, boothShapes);
+    }
+    for (const src of [thumbnail, ...images]) {
+      if (
+        src?.startsWith('/') &&
+        !existsSync(join(import.meta.dir, '..', 'apps/web/public', src))
+      ) {
+        err(`${where}: 画像ファイルが apps/web/public に無い: ${src}`);
+      }
     }
   }
 }

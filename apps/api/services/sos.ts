@@ -1,17 +1,22 @@
 import { z } from 'zod';
-import projectLocationsJson from '../data/project-locations.json';
-import stageProjectsJson from '../data/stage-projects.json';
-import stageTimetableJson from '../data/stage-timetable.json';
-import type {
-  Performance,
-  ScheduleDay,
-  Project,
-  ProjectCategory,
-  ProjectDetail,
-  ProjectImage,
-  ProjectLink,
-  ProjectLocation,
+import {
+  type Performance,
+  type Project,
+  type ProjectCategory,
+  type ProjectDetail,
+  type ProjectImage,
+  type ProjectLink,
+  type ProjectLocation,
+  SCHEDULE_DAYS,
+  type ScheduleDay,
 } from '../domain/project';
+import {
+  EXTRA_PROJECTS,
+  type ExtraProject,
+  PROJECT_LOCATIONS,
+  STAGE_PROJECTS,
+  STAGE_TIMETABLE,
+} from './project-data';
 import { fallbackProjectDetails } from './sos-fallback';
 
 // SOS OpenAPIのレスポンスZodスキーマ定義
@@ -47,59 +52,14 @@ const CATEGORY_BY_TYPE: Record<SosPublicProject['type'], ProjectCategory> = {
   NORMAL: 'その他',
 };
 
-const SCHEDULE_DAYS = [
-  '前夜祭',
-  'Day1',
-  'Day2',
-] as const satisfies ScheduleDay[];
-
-// 企画番号 → 実施場所。scripts/import-project-locations.ts で企画実施場所一覧から生成する。
-const PROJECT_LOCATIONS: Record<string, ProjectLocation[]> = z
-  .record(
-    z.string(),
-    z.array(
-      z.object({
-        placeId: z.string(),
-        room: z.string().optional(),
-        days: z.array(z.enum(SCHEDULE_DAYS)),
-      }),
-    ),
-  )
-  .parse(projectLocationsJson);
-
-// 企画番号 → 実施ステージの placeId。scripts/import-stage-projects.ts で SOS から生成する。
-const STAGE_PROJECTS: Record<string, string> = z
-  .record(z.string(), z.string())
-  .parse(stageProjectsJson);
-
-// 企画番号 → ステージの出演枠。apps/api の build（scripts/import-stage-timetable.ts）で公式サイトから生成する。
-const STAGE_TIMETABLE: Record<string, Performance[]> = z
-  .record(
-    z.string(),
-    z.array(
-      z.object({
-        placeId: z.string(),
-        day: z.enum(SCHEDULE_DAYS),
-        start: z.string(),
-        end: z.string(),
-        title: z.string(),
-      }),
-    ),
-  )
-  .parse(stageTimetableJson);
-
 /**
- * 企画の実施場所を返す。分からない企画は空配列（表示上は「未定」）。
- * タイムテーブルに載るステージは、出演する日を添えて実施場所に含める。
+ * 実施場所に、タイムテーブルに載るステージを出演する日を添えて加える。
+ * 部屋の無いステージの記載は、出演日の分かるタイムテーブル側に置き換える。
  */
-function mapLocations(
-  project: SosPublicProject,
+function withStageDays(
+  listed: ProjectLocation[],
   performances: Performance[],
 ): ProjectLocation[] {
-  const stage = STAGE_PROJECTS[project.number];
-  const listed =
-    PROJECT_LOCATIONS[project.number] ?? (stage ? [{ placeId: stage }] : []);
-
   const stageDays = new Map<string, ScheduleDay[]>();
   for (const { placeId, day } of performances) {
     const days = stageDays.get(placeId) ?? [];
@@ -153,7 +113,12 @@ function formatProjectNumber(number: number): string {
 function mapToProject(project: SosPublicProject, baseUrl: string): Project {
   const { iconFileId } = project.publicInfo;
   const performances = STAGE_TIMETABLE[project.number] ?? [];
-  const locations = mapLocations(project, performances);
+  // 分からない企画は空配列（表示上は「未定」）。
+  const stage = STAGE_PROJECTS[project.number];
+  const locations = withStageDays(
+    PROJECT_LOCATIONS[project.number] ?? (stage ? [{ placeId: stage }] : []),
+    performances,
+  );
   return {
     id: project.id,
     number: formatProjectNumber(project.number),
@@ -249,13 +214,17 @@ function linkFromId(
 }
 
 function mapLinks(info: SosPublicProject['publicInfo']): ProjectLink[] {
-  const links = [
+  return uniqueLinks([
     ...(info.websiteUrls ?? []).map((url) => linkFromUrl(url.trim())),
     ...(info.xIds ?? []).map((id) => linkFromId(id, xLink)),
     ...(info.instagramIds ?? []).map((id) => linkFromId(id, instagramLink)),
     ...(info.youtubeIds ?? []).map((id) => linkFromId(id, youtubeLink)),
-  ].filter((link): link is ProjectLink => link !== null);
+  ]);
+}
 
+/** 読めなかったものと、同じアカウント・サイトへの重複を除き、種類順に並べる。 */
+function uniqueLinks(candidates: (ProjectLink | null)[]): ProjectLink[] {
+  const links = candidates.filter((link): link is ProjectLink => link !== null);
   const seen = new Set<string>();
   return links
     .filter((link) => {
@@ -289,6 +258,35 @@ function mapToProjectDetail(
     links: mapLinks(project.publicInfo),
   };
 }
+
+/**
+ * SOS に無い企画を、SOS の企画と同じ形にする。
+ * id はお気に入りや投票の記録に残るため、番号から決まる変わらない値にする。
+ */
+function mapExtraProject(number: string, extra: ExtraProject): ProjectDetail {
+  const performances = extra.performances ?? STAGE_TIMETABLE[number] ?? [];
+  const locations = withStageDays(extra.locations, performances);
+  return {
+    id: `extra-${number}`,
+    number,
+    name: extra.name,
+    organization: extra.organization,
+    locations,
+    schedule: scheduleOf(locations),
+    performances,
+    category: extra.category,
+    tags: extra.tags,
+    thumbnail: extra.thumbnail ? { src: extra.thumbnail } : undefined,
+    cancelled: extra.cancelled,
+    description: extra.description.trim(),
+    images: extra.images.map((src) => ({ src })),
+    links: uniqueLinks(extra.links.map((url) => linkFromUrl(url.trim()))),
+  };
+}
+
+const extraProjectDetails = Object.entries(EXTRA_PROJECTS).map(
+  ([number, extra]) => mapExtraProject(number, extra),
+);
 
 function toProject(detail: ProjectDetail): Project {
   const {
@@ -350,9 +348,21 @@ export class SosClient {
     return details.map(toProject);
   }
 
-  /** 画面に出す企画を、詳細情報まで含めて返す。 */
+  /**
+   * 画面に出す企画を、詳細情報まで含めて返す。SOS に無い企画（extra-projects.json）も加える。
+   * グランプリの投票対象（getProjects・getLiveProjects）には加えない。
+   */
   async getProjectDetails(): Promise<ProjectDetail[]> {
-    return (await this.getCachedDetails()).details;
+    const { details } = await this.getCachedDetails();
+    // 番号が SOS の企画と重なったら SOS を優先する（検証スクリプトでもエラーにする）。
+    const sosNumbers = new Set(details.map(({ number }) => number));
+    return [
+      ...details,
+      ...extraProjectDetails.filter(
+        ({ number }) =>
+          !sosNumbers.has(number) && !this.hiddenNumbers.has(number),
+      ),
+    ];
   }
 
   // 非表示の企画は取得結果から除く。キャッシュには全件を残し、除外は読み出しごとに行う。
