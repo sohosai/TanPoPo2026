@@ -1,12 +1,7 @@
 import { IconChevronRight, IconDownload } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { openInExternalBrowser } from '~/lib/geolocation';
-import {
-  hasSeenInstallIntro,
-  markInstallIntroSeen,
-  promptInstall,
-  useInstallMethod,
-} from '~/lib/pwa';
+import { promptInstall, useInstallMethod } from '~/lib/pwa';
 import { css, cx } from '../../../../styled-system/css';
 
 const button = css({
@@ -34,13 +29,6 @@ export default function InstallBanner() {
   const [copyResult, setCopyResult] = useState<string | null>(null);
 
   useEffect(() => {
-    if ((method === 'prompt' || method === 'ios') && !hasSeenInstallIntro()) {
-      markInstallIntroSeen();
-      setOpen(true);
-    }
-  }, [method]);
-
-  useEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
     if (open && !dialog.open) dialog.showModal();
@@ -50,9 +38,16 @@ export default function InstallBanner() {
 
   if (!method) return null;
 
-  const install = () => {
-    setOpen(false);
-    void promptInstall();
+  const [promptFailed, setPromptFailed] = useState(false);
+
+  const install = async () => {
+    const success = await promptInstall();
+    if (success) {
+      setOpen(false);
+    } else {
+      setPromptFailed(true);
+      setOpen(true);
+    }
   };
 
   const openExternal = async () => {
@@ -184,6 +179,13 @@ export default function InstallBanner() {
             </ol>
           )}
 
+          {method === 'prompt' && promptFailed && (
+            <ol className={css({ pl: '1.4em', listStyle: 'decimal' })}>
+              <li>ブラウザのメニュー（⋮）をタップ</li>
+              <li>「ホーム画面に追加」または「アプリをインストール」を選ぶ</li>
+            </ol>
+          )}
+
           {method === 'in-app' && (
             <p>
               アプリ内のブラウザでは追加できません。
@@ -220,9 +222,9 @@ export default function InstallBanner() {
               onClick={() => setOpen(false)}
               className={cx(button, textButton)}
             >
-              {method === 'prompt' ? '今はしない' : '閉じる'}
+              {method === 'prompt' && !promptFailed ? '今はしない' : '閉じる'}
             </button>
-            {method === 'prompt' && (
+            {method === 'prompt' && !promptFailed && (
               <button
                 type="button"
                 onClick={install}
