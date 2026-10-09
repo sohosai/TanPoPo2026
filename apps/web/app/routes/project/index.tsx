@@ -6,6 +6,7 @@ import {
   itemEnterStyle,
   itemEnterStyles,
   listEnterStyles,
+  rememberListSearch,
 } from '~/components/features/Detail/useDetailClose';
 import EventBanner from '~/components/features/EventLinks/EventBanner';
 import InstallBanner from '~/components/features/Pwa/InstallBanner';
@@ -22,6 +23,7 @@ import {
   StateMessage,
 } from '~/components/features/Project/StateMessage';
 import { useFilteredProjects } from '~/components/features/Project/useFilteredProjects';
+import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
@@ -34,6 +36,17 @@ export default function List() {
     () => criteriaFromParams(searchParams),
     [searchParams],
   );
+
+  useEffect(() => {
+    rememberListSearch(searchParams.toString());
+  }, [searchParams]);
+
+  // 詳細から（× でも戻る操作でも）戻ってきたときは、直前の段にかかわらず中段で見せる。
+  const panel = useMapPanel();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 一覧を開いたときだけ
+  useEffect(() => {
+    panel.raise();
+  }, []);
 
   const updateCriteria = (next: ProjectFilterCriteria) => {
     // replace: true で履歴を汚さずにフィルタ操作を反映する。

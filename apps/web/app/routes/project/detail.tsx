@@ -153,6 +153,12 @@ export default function Detail() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const { closing, close } = useDetailClose();
 
+  // 直前の段にかかわらず、地図と詳細の両方が見える中段で開く。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 企画が変わったときだけ開く
+  useEffect(() => {
+    panel.raise();
+  }, [number]);
+
   const scrollCarouselTo = (index: number, behavior: ScrollBehavior) => {
     const el = carouselRef.current;
     if (!el) return;
@@ -201,7 +207,6 @@ export default function Detail() {
         closing ? detailExitStyles : detailEnterStyles,
       )}
     >
-      {/* シートを畳んだ状態でもこのヘッダーだけは見えるため、企画を識別できる情報を集める */}
       <header
         className={css({
           display: 'flex',
@@ -209,6 +214,8 @@ export default function Detail() {
           gap: '12px',
           px: '16px',
           pt: '2px',
+          // 最小段では企画名だけを見せる。
+          '[data-peek] &': { '& > :first-child': { display: 'none' } },
         })}
       >
         <ProjectIcon project={project} size={48} />
@@ -220,6 +227,7 @@ export default function Detail() {
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
+              '[data-peek] &': { truncate: true },
             })}
           >
             {project.name}
@@ -232,6 +240,7 @@ export default function Detail() {
               gap: '6px',
               fontSize: 'sm',
               color: 'fg.subtle',
+              '[data-peek] &': { display: 'none' },
             })}
           >
             <CategoryLabel category={project.category} />
@@ -383,13 +392,16 @@ export default function Detail() {
 
       <ProjectDescription text={project.description} />
 
-      {/* 下部の操作バー */}
+      {/* 下部の操作バー。シートが動いているあいだは画面の下端に留める（BottomSheet が扱う） */}
       <div
+        data-sheet-bottom
         className={css({
           position: 'sticky',
           bottom: 0,
           mt: 'auto',
           display: 'flex',
+          // 見えている範囲の下端に貼り付くため、最小段では企画名の行を覆ってしまう。
+          '[data-peek] &': { display: 'none' },
           alignItems: 'center',
           gap: '12px',
           px: '16px',

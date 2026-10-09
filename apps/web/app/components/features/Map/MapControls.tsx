@@ -5,7 +5,7 @@ import {
   IconLoader2,
 } from '@tabler/icons-react';
 import maplibregl from 'maplibre-gl';
-import { useEffect, useRef, useState } from 'react';
+import { type Ref, useEffect, useRef, useState } from 'react';
 import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
 import { useIsEmbed } from '~/lib/embed';
 import {
@@ -53,7 +53,7 @@ const PITCH_3D = 60;
  * 埋め込みでは現在地を出さない。iframe では埋め込み先の許可が無いと位置情報が常に拒否され、
  * 設定手順を案内しても直せないため。
  */
-export default function MapControls() {
+export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
   const { isReady, getMap, resetView } = useMap();
   const isDesktop = useIsDesktop();
   const isEmbed = useIsEmbed();
@@ -227,7 +227,9 @@ export default function MapControls() {
         : IconCurrentLocation;
 
   return (
+    // スマホでは BottomSheet がこの要素の transform を書き換え、シートの上端に追従させる。
     <div
+      ref={ref}
       className={css({
         position: 'fixed',
         right: 'calc(env(safe-area-inset-right, 0px) + 16px)',
