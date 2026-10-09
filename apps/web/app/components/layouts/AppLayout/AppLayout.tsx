@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Outlet } from 'react-router';
 import CampusLayers from '~/components/features/Map/CampusLayers';
 import { MapProvider } from '~/components/features/Map/MapController';
@@ -9,6 +10,7 @@ import { useIsDesktop } from '~/lib/viewport';
 
 export default function AppLayout() {
   const isDesktop = useIsDesktop();
+  const controlsRef = useRef<HTMLDivElement>(null);
 
   return (
     // 地図実体を MapProvider で共有し、シート内（Outlet）からも統一APIで操作する。
@@ -16,14 +18,14 @@ export default function AppLayout() {
       <div>
         <MapView />
         <CampusLayers />
-        <MapControls />
+        <MapControls ref={controlsRef} />
 
         {isDesktop ? (
           <SidePanel>
             <Outlet />
           </SidePanel>
         ) : (
-          <BottomSheet>
+          <BottomSheet controlsRef={controlsRef}>
             <Outlet />
           </BottomSheet>
         )}

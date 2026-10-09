@@ -2,6 +2,7 @@ import type { LngLat } from 'maplibre-gl';
 import {
   type PointerEvent,
   type ReactNode,
+  type RefObject,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -10,7 +11,7 @@ import {
   useState,
 } from 'react';
 import { useMap } from '~/components/features/Map/MapController';
-import { css, cx } from '../../../../styled-system/css';
+import { css } from '../../../../styled-system/css';
 import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
 /** 最小段の高さ(px)。取っ手と検索欄（ProjectSearchBar の1段目）が見える。 */
@@ -32,6 +33,14 @@ const sheetTransition = 'transform 0.45s cubic-bezier(0.32, 0.72, 0, 1)';
 
 interface BottomSheetProps {
   children?: ReactNode;
+  /** シートの上端に追従させる地図コントロールの要素。 */
+  controlsRef?: RefObject<HTMLDivElement | null>;
+}
+
+interface Snaps {
+  full: number;
+  half: number;
+  peek: number;
 }
 
 const rubberband = (overflow: number) =>
@@ -86,7 +95,6 @@ const sheetStyles = css({
   bg: 'sheet.background',
   borderTopRadius: '2xl',
   boxShadow: 'sheet',
-  transition: sheetTransition,
   touchAction: 'none',
 });
 
@@ -96,10 +104,6 @@ const contentStyles = css({
   overflowY: 'auto',
   overscrollBehavior: 'contain',
   touchAction: 'pan-y',
-});
-
-const noTransitionStyles = css({
-  transition: 'none!',
 });
 
 const handleAreaStyles = css({
@@ -117,16 +121,24 @@ const handleStyles = css({
   bg: 'sheet.handle',
 });
 
-export default function BottomSheet({ children }: BottomSheetProps) {
+export default function BottomSheet({
+  children,
+  controlsRef,
+}: BottomSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [y, setY] = useState(0);
-  const yRef = useRef(y);
-  yRef.current = y;
-  const [dragging, setDragging] = useState(false);
+  // シートの位置（上端が最大段の位置から下がる距離）。ドラッグ中は指の動きごとに変わるため、
+  // React の state を通さず、place() で DOM の transform に直接書き込む。
+  const yRef = useRef(0);
   // シートの下端のうち画面外にはみ出している高さ。中身のスクロール領域をこの分だけ縮め、
   // どの開き具合でも末尾まで画面内にスクロールできるようにする。広げるのは即座に、縮めるのは
   // シートが下がりきってからにして、閉じる途中で中身が先に切れて空白が見えないようにする。
-  const [offscreen, setOffscreen] = useState(0);
+  const [offscreen, setOffscreenState] = useState(0);
+  const offscreenRef = useRef(0);
+  const setOffscreen = useCallback((value: number) => {
+    offscreenRef.current = value;
+    setOffscreenState(value);
+  }, []);
+  const [atPeek, setAtPeek] = useState(false);
   const drag = useRef({
     pointerY: 0,
     baseY: 0,
@@ -134,11 +146,12 @@ export default function BottomSheet({ children }: BottomSheetProps) {
     lastY: 0,
     lastT: 0,
     velocity: 0,
+    snaps: { full: 0, half: 0, peek: 0 } as Snaps,
   });
   const mouseDragging = useRef(false);
 
-  // 各段でのシートの移動量（上端が最大段の位置から下がる距離）。
-  const getSnaps = useCallback(() => {
+  // 各段でのシートの位置。
+  const getSnaps = useCallback((): Snaps => {
     const height = ref.current?.offsetHeight ?? 0;
     const viewport = height / fullRatio;
     return {
@@ -148,23 +161,49 @@ export default function BottomSheet({ children }: BottomSheetProps) {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    const { half } = getSnaps();
-    setY(half);
-    setOffscreen(half);
-  }, [getSnaps]);
+  // シートを next の位置へ動かす。animate が false のときはアニメーションせずに動かす。
+  const place = useCallback(
+    (next: number, animate: boolean, snaps: Snaps = getSnaps()) => {
+      const sheet = ref.current;
+      if (!sheet) return;
+      yRef.current = next;
+      const transition = animate ? sheetTransition : 'none';
+      sheet.style.transition = transition;
+      // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
+      sheet.style.transform = `translate3d(0, ${Math.round(next)}px, 0)`;
+
+      // 地図コントロールも同じ動きでシートの上端に追従させる。
+      // 追従は中段までとし、それより上ではシートに隠れる。
+      const controls = controlsRef?.current;
+      if (controls) {
+        const lift = Math.max(next, snaps.half) - snaps.peek;
+        controls.style.transition = transition;
+        controls.style.transform = `translate3d(0, ${Math.round(lift)}px, 0)`;
+      }
+
+      // 最小段の付近（中段との中間より下）にあるあいだ data-peek を付け、中身が最小段向けの表示に
+      // 切り替えられるようにする。ドラッグ中も位置で判定し、最小段から上下に引いても表示を保つ。
+      setAtPeek(next > (snaps.half + snaps.peek) / 2);
+
+      if (next < offscreenRef.current) setOffscreen(next);
+    },
+    [getSnaps, controlsRef, setOffscreen],
+  );
 
   useLayoutEffect(() => {
-    if (y < offscreen) setOffscreen(y);
-  }, [y, offscreen]);
+    const snaps = getSnaps();
+    place(snaps.half, false, snaps);
+    setOffscreen(snaps.half);
+  }, [getSnaps, place, setOffscreen]);
 
-  // 最小段の付近（中段との中間より下）にあるあいだ data-peek を付け、中身が最小段向けの表示に
-  // 切り替えられるようにする。ドラッグ中も位置で判定し、最小段から上下に引いても表示を保つ。
-  const [atPeek, setAtPeek] = useState(false);
-  useLayoutEffect(() => {
-    const { half, peek } = getSnaps();
-    setAtPeek(y > (half + peek) / 2);
-  }, [y, getSnaps]);
+  useEffect(() => {
+    const controls = controlsRef?.current;
+    return () => {
+      if (!controls) return;
+      controls.style.transition = '';
+      controls.style.transform = '';
+    };
+  }, [controlsRef]);
 
   // シート内の入力欄からフォーカスを外し、キーボードを閉じる。
   const blurFocused = useCallback(() => {
@@ -173,23 +212,6 @@ export default function BottomSheet({ children }: BottomSheetProps) {
       focused.blur();
     }
   }, []);
-
-  // 地図コントロールはシートの外にあるため、シートの上端に追従させる量とアニメーションを
-  // ルートの CSS 変数で渡す。追従は中段までとし、それより上ではシートに隠れる。
-  useLayoutEffect(() => {
-    const { half, peek } = getSnaps();
-    const root = document.documentElement.style;
-    root.setProperty('--sheet-lift', `${peek - Math.max(y, half)}px`);
-    root.setProperty('--sheet-transition', dragging ? 'none' : sheetTransition);
-  }, [y, dragging, getSnaps]);
-  useEffect(
-    () => () => {
-      const root = document.documentElement.style;
-      root.removeProperty('--sheet-lift');
-      root.removeProperty('--sheet-transition');
-    },
-    [],
-  );
 
   // 利用者が地図を一定量以上動かしたら、地図を広く見せるためにシートを最小段に下げる。
   // 詳細を開いたときの flyTo などの自動の移動には originalEvent が無いので数えない。
@@ -212,8 +234,8 @@ export default function BottomSheet({ children }: BottomSheetProps) {
       const zoomed = Math.abs(map.getZoom() - start.zoom);
       if (panned < mapPanThreshold && zoomed < mapZoomThreshold) return;
       start = null;
-      const { peek } = getSnaps();
-      if (yRef.current < peek) setY(peek);
+      const snaps = getSnaps();
+      if (yRef.current < snaps.peek) place(snaps.peek, true, snaps);
       blurFocused();
     };
     const onMoveEnd = () => {
@@ -228,19 +250,31 @@ export default function BottomSheet({ children }: BottomSheetProps) {
       map.off('move', onMove);
       map.off('moveend', onMoveEnd);
     };
-  }, [getMap, isReady, getSnaps, blurFocused]);
+  }, [getMap, isReady, getSnaps, place, blurFocused]);
 
-  const startDrag = useCallback((clientY: number, timeStamp: number) => {
-    drag.current = {
-      pointerY: clientY,
-      baseY: yRef.current,
-      y: yRef.current,
-      lastY: clientY,
-      lastT: timeStamp,
-      velocity: 0,
-    };
-    setDragging(true);
-  }, []);
+  const startDrag = useCallback(
+    (clientY: number, timeStamp: number) => {
+      const sheet = ref.current;
+      if (!sheet) return;
+      // アニメーションの途中で掴んだときは、目標の段ではなくいま見えている位置から動かす。
+      const current = new DOMMatrixReadOnly(getComputedStyle(sheet).transform)
+        .m42;
+      const snaps = getSnaps();
+      drag.current = {
+        pointerY: clientY,
+        baseY: current,
+        y: current,
+        lastY: clientY,
+        lastT: timeStamp,
+        velocity: 0,
+        snaps,
+      };
+      place(current, false, snaps);
+      // ドラッグ中は中身の下端を画面外まで伸ばしたままにし、指の動きごとにレイアウトし直さない。
+      setOffscreen(0);
+    },
+    [getSnaps, place, setOffscreen],
+  );
 
   const moveDrag = useCallback(
     (clientY: number, timeStamp: number) => {
@@ -249,13 +283,14 @@ export default function BottomSheet({ children }: BottomSheetProps) {
       drag.current.lastY = clientY;
       drag.current.lastT = timeStamp;
 
-      const max = getSnaps().peek;
+      const { snaps } = drag.current;
+      const max = snaps.peek;
       const raw = drag.current.baseY + (clientY - drag.current.pointerY);
       const next = raw < 0 ? 0 : raw > max ? max + rubberband(raw - max) : raw;
       drag.current.y = next;
-      setY(next);
+      place(next, false, snaps);
     },
-    [getSnaps],
+    [place],
   );
 
   const endDrag = useCallback(
@@ -263,16 +298,18 @@ export default function BottomSheet({ children }: BottomSheetProps) {
       const idle = timeStamp - drag.current.lastT > releaseIdleMs;
       const projected =
         drag.current.y + (idle ? 0 : drag.current.velocity * projectionMs);
-      const { full, half, peek } = getSnaps();
+      const { snaps } = drag.current;
+      const { full, half, peek } = snaps;
       const next = [full, half, peek].reduce((a, b) =>
         Math.abs(b - projected) < Math.abs(a - projected) ? b : a,
       );
-      setY(next);
-      setDragging(false);
+      place(next, true, snaps);
+      // 位置が変わらないと transitionend が来ないため、ここで中身の高さを戻す。
+      if (Math.round(next) === Math.round(drag.current.y)) setOffscreen(next);
       // 検索中に手でシートを下げたら、キーボードも閉じる。
       if (next !== full) blurFocused();
     },
-    [getSnaps, blurFocused],
+    [place, setOffscreen, blurFocused],
   );
 
   // タッチはシート全体で受け、シートを伸縮させるかスクロールに任せるかを指の動きから決める。
@@ -409,23 +446,21 @@ export default function BottomSheet({ children }: BottomSheetProps) {
 
   const panelApi = useMemo<MapPanelApi>(
     () => ({
-      expand: () => setY(getSnaps().full),
-      raise: () => setY(getSnaps().half),
-      collapse: () => setY(getSnaps().peek),
+      expand: () => place(getSnaps().full, true),
+      raise: () => place(getSnaps().half, true),
+      collapse: () => place(getSnaps().peek, true),
     }),
-    [getSnaps],
+    [getSnaps, place],
   );
 
   return (
     <div
       ref={ref}
       data-peek={atPeek || undefined}
-      className={cx(sheetStyles, dragging && noTransitionStyles)}
-      // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
-      style={{ transform: `translate3d(0, ${Math.round(y)}px, 0)` }}
+      className={sheetStyles}
       onTransitionEnd={(e) => {
         if (e.target === e.currentTarget && e.propertyName === 'transform') {
-          setOffscreen(y);
+          setOffscreen(yRef.current);
         }
       }}
     >
