@@ -119,7 +119,7 @@ export async function verifyLiffIdToken(
     );
   }
 
-  const json = await response.json() as any;
+  const json = (await response.json()) as any;
   if (!json.sub) {
     throw new LineAuthError('LIFF ID Tokenにsubがありません');
   }
