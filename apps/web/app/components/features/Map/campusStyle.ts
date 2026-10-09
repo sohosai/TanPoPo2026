@@ -64,6 +64,7 @@ const FLAT_LAYERS = [
 export const SOURCES = {
   areas: 'campus-areas',
   buildings: 'campus-buildings',
+  buildingShells: 'campus-building-shells',
   places: 'campus-places',
   booths: 'campus-booths',
   boothShapes: 'campus-booth-shapes',
@@ -206,7 +207,7 @@ function addExtrusionLayers(map: MlMap, basemapBuildingIds: number[]) {
     {
       id: 'campus-building-3d',
       type: 'fill-extrusion',
-      source: SOURCES.buildings,
+      source: SOURCES.buildingShells,
       layout: hidden,
       paint: {
         'fill-extrusion-color': buildingColor([]),
