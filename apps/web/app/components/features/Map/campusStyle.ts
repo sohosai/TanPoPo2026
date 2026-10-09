@@ -36,17 +36,17 @@ const BOOTH_ZOOM = 18;
 const BOOTH_DOT_RADIUS = 4.5;
 const BOOTH_NAME_ZOOM = 18.3;
 
-// 階数から高さ(m)にする係数。大学の建物は1フロアが高めなので一般的な 3m より大きく取る。
-const FLOOR_HEIGHT = 4;
 const BOOTH_HEIGHT = 2;
 // 地図スタイルの sohosai-buildings（平面の建物の塗り）と揃える。
 const CAMPUS_BUILDING_COLOR = token('colors.map.campusBuilding');
 const BASEMAP_BUILDING_COLOR = token('colors.map.basemapBuilding');
-const BASEMAP_3D_OPACITY = 0.6;
+const OTHER_BUILDING_3D_OPACITY = 0.6;
+const PLATEAU_ATTRIBUTION =
+  '<a href="https://www.mlit.go.jp/plateau/" target="_blank" rel="noopener">3D都市モデル（Project PLATEAU）つくば市（国土交通省）を加工して作成</a>';
 
 /** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤ。 */
 const EXTRUSION_LAYERS = {
-  'basemap-building-3d': BASEMAP_3D_OPACITY,
+  'campus-other-building-3d': OTHER_BUILDING_3D_OPACITY,
   'campus-building-3d': 1,
   'campus-booth-3d': 1,
 } as const;
@@ -64,7 +64,7 @@ const FLAT_LAYERS = [
 export const SOURCES = {
   areas: 'campus-areas',
   buildings: 'campus-buildings',
-  buildingShells: 'campus-building-shells',
+  buildingSolids: 'campus-building-solids',
   places: 'campus-places',
   booths: 'campus-booths',
   boothShapes: 'campus-booth-shapes',
@@ -180,24 +180,22 @@ const buildingColor = (placeIds: string[]): ExpressionSpecification => [
  * 建物とテントの立体を追加する（はじめは非表示）。
  * 道路などの平面のレイヤより後に描かないと立体の上に道路が重なるため、地図スタイルの最初の文字レイヤの前に差し込む。
  */
-function addExtrusionLayers(map: MlMap, basemapBuildingIds: number[]) {
+function addExtrusionLayers(map: MlMap) {
   const beforeId = map.getStyle().layers.find((l) => l.type === 'symbol')?.id;
   const hidden = { visibility: 'none' } as const;
 
+  // 透明度はレイヤ単位でしか変えられないため、同じソースを会場とそれ以外の 2 つのレイヤに分ける。
   map.addLayer(
     {
-      id: 'basemap-building-3d',
+      id: 'campus-other-building-3d',
       type: 'fill-extrusion',
-      source: 'openmaptiles',
-      'source-layer': 'building',
+      source: SOURCES.buildingSolids,
+      filter: ['!', ['has', 'placeId']],
       minzoom: 15,
-      // タイルの建物の id は OSM の way id。
-      filter: ['in', ['id'], ['literal', basemapBuildingIds]],
       layout: hidden,
       paint: {
         'fill-extrusion-color': BASEMAP_BUILDING_COLOR,
-        'fill-extrusion-height': ['get', 'render_height'],
-        'fill-extrusion-base': ['get', 'render_min_height'],
+        'fill-extrusion-height': ['get', 'height'],
         'fill-extrusion-opacity': 0,
       },
     },
@@ -207,11 +205,12 @@ function addExtrusionLayers(map: MlMap, basemapBuildingIds: number[]) {
     {
       id: 'campus-building-3d',
       type: 'fill-extrusion',
-      source: SOURCES.buildingShells,
+      source: SOURCES.buildingSolids,
+      filter: ['has', 'placeId'],
       layout: hidden,
       paint: {
         'fill-extrusion-color': buildingColor([]),
-        'fill-extrusion-height': ['*', ['get', 'levels'], FLOOR_HEIGHT],
+        'fill-extrusion-height': ['get', 'height'],
         'fill-extrusion-opacity': 0,
       },
     },
@@ -246,18 +245,17 @@ export function setExtrusionVisible(map: MlMap, visible: boolean) {
   }
 }
 
-/**
- * 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。
- * basemapBuildingIds は地図タイルの建物のうち 3D 表示で立体にするものの id。
- */
-export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
+/** 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。 */
+export function addCampusLayers(map: MlMap) {
   for (const id of Object.values(SOURCES)) {
     map.addSource(id, {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
+      attribution:
+        id === SOURCES.buildingSolids ? PLATEAU_ATTRIBUTION : undefined,
     });
   }
-  addExtrusionLayers(map, basemapBuildingIds);
+  addExtrusionLayers(map);
 
   map.addLayer({
     id: 'campus-building-fill',

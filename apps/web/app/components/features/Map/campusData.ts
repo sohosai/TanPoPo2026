@@ -8,14 +8,8 @@ import {
 import { boothCenter, boothShapes } from './booths';
 import { CATEGORY_COLORS } from './campusStyle';
 import buildingsRaw from './data/buildings.geojson?raw';
-import campusBuildingIds from './data/campus-building-ids.json';
-import {
-  type LngLat,
-  offsetRing,
-  ringBounds,
-  ringCenter,
-  ringContains,
-} from './geo';
+import buildings3dRaw from './data/buildings-3d.geojson?raw';
+import { type LngLat, ringBounds, ringCenter, ringContains } from './geo';
 import sohosaiMap from './sohosai-map.json';
 
 // 地図スタイルに塗り分けとして入っている会場エリア。
@@ -58,36 +52,24 @@ export function areasOfProject(
 const buildings = JSON.parse(buildingsRaw) as {
   features: {
     type: 'Feature';
-    properties: {
-      placeId: string;
-      name: string;
-      osmId: number;
-      levels: number;
-    };
+    properties: { placeId: string; name: string };
     geometry: { type: 'Polygon'; coordinates: LngLat[][] };
   }[];
 };
 
-const venueBuildingIds = new Set(
-  buildings.features.map((feature) => feature.properties.osmId),
-);
-
 /**
- * 地図タイルの建物のうち 3D 表示で立体にするもの（学内の、会場以外の建物）の OSM way id。
- * 会場の建物は階数から別に立てるため、同じ輪郭が二重に立って壁がちらつかないよう除く。
+ * 3D で立てる敷地内の建物（scripts/ingest-plateau-buildings.ts が PLATEAU から作る）。
+ * 会場の建物は placeId 付きで buildings.geojson と同じ輪郭、それ以外は PLATEAU の輪郭。
  */
-export const otherCampusBuildingIds = campusBuildingIds.filter(
-  (id) => !venueBuildingIds.has(id),
-);
-
-// 地図タイルは同じ高さの建物を 1 つの地物にまとめて別の棟の id を付けることがあり（5C・大学会館など）、
-// id では除ききれない。3D の会場の建物はタイルの座標の丸め誤差（ズーム 14 で最大約 0.3m）より外へ広げ、
-// 二重に立った同じ輪郭の壁をその内側に隠す。
-const SHELL_OFFSET = 0.5;
-const buildingShells = buildings.features.map(({ geometry }) => ({
-  type: 'Polygon' as const,
-  coordinates: [offsetRing(geometry.coordinates[0], SHELL_OFFSET)],
-}));
+const buildings3d = JSON.parse(buildings3dRaw) as {
+  features: {
+    type: 'Feature';
+    properties: { height: number; placeId?: string };
+    geometry:
+      | { type: 'Polygon'; coordinates: LngLat[][] }
+      | { type: 'MultiPolygon'; coordinates: LngLat[][][] };
+  }[];
+};
 
 const truncate = (text: string, max: number) =>
   text.length > max ? `${text.slice(0, max)}…` : text;
@@ -214,11 +196,20 @@ export function buildCampusData(projects: Project[], places: Place[]) {
   return {
     areas: collection(areaFeatures),
     buildings: collection(buildingFeatures),
-    buildingShells: collection(
-      buildingFeatures.map((feature, i) => ({
-        ...feature,
-        geometry: buildingShells[i],
-      })),
+    // 3D でも会場の建物をタップで開けるよう、2D の建物と同じく企画数を持たせる。
+    buildingSolids: collection(
+      buildings3d.features.map((feature) => {
+        const { placeId } = feature.properties;
+        return placeId
+          ? {
+              ...feature,
+              properties: {
+                ...feature.properties,
+                count: countProjects(byPlace.get(placeId) ?? []),
+              },
+            }
+          : feature;
+      }),
     ),
     places: collection(placeFeatures),
     booths: collection(booths.points),

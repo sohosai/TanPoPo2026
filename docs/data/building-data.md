@@ -46,8 +46,9 @@ type Place = {
 
 `properties.placeId` が `place.ts` の `Place.id` と一致することで属性と結合する。
 
-- `osmId`: その建物の OSM way id。3D 表示で、地図タイル側の同じ建物を立体の対象から外すのに使う（タイルの建物の id は OSM の way id）。
-- `levels`: 地上の階数。3D 表示で「階数 × 4m」の高さに立てる。OSM の `building:levels` を基本とし、OSM に無い建物は大学の講義室一覧や部屋番号から最上階を調べて入れる。
+- `osmId`: 輪郭の取得元の OSM way id。
+- `levels`: 地上の階数（記録用）。
+- 3D 表示の立体は、このファイルの輪郭を使って `buildings-3d.geojson` に作る（高さは PLATEAU から取る）。建物を追加・変更したら `bun run ingest:plateau-buildings` で作り直す（`docs/web/map-layers.md` の「3D 表示」参照）。
 
 ### 入口/接続路（`path-network.geojson`）
 
@@ -97,7 +98,7 @@ project-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
 3. **ポリゴンを追加** — `buildings.geojson` の `features` に建物の輪郭を足す。
    `properties.placeId` は手順1の id と一致させる。
 
-   `osmId` と `levels` も入れる（上記「建物ポリゴン」参照）。
+   `osmId` と `levels` も入れ、`bun run ingest:plateau-buildings` で 3D の立体を作り直す（上記「建物ポリゴン」参照）。
 
    ```jsonc
    {

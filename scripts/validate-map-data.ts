@@ -3,7 +3,8 @@
  *
  * 検証対象:
  *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性
- *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
+ *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応
+ *  - 3D の建物（buildings-3d.geojson） … 高さ・会場の建物がちょうど 1 つずつあるか・座標の範囲
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
  *  - 企画実施場所（apps/api/data/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
  *  - 店舗の場所参照（apps/api: project.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
@@ -86,7 +87,7 @@ async function main() {
   const buildings = readJson('buildings.geojson') as {
     type: string;
     features: Array<{
-      properties?: { placeId?: string; osmId?: unknown; levels?: unknown };
+      properties?: { placeId?: string };
       geometry?: { type?: string; coordinates?: Position[][] };
     }>;
   };
@@ -113,15 +114,6 @@ async function main() {
       err(
         `${where}: placeId ${placeId} の kind が building でない（${place.kind}）`,
       );
-    }
-
-    // 3D 表示で階数から高さを出し、osmId で地図タイルの同じ建物を除くために使う。
-    const { osmId, levels } = f.properties ?? {};
-    if (!Number.isInteger(osmId) || (osmId as number) <= 0) {
-      err(`${where} (${placeId}): properties.osmId が正の整数でない`);
-    }
-    if (!Number.isInteger(levels) || (levels as number) <= 0) {
-      err(`${where} (${placeId}): properties.levels が正の整数でない`);
     }
 
     if (f.geometry?.type !== 'Polygon') {
@@ -158,6 +150,8 @@ async function main() {
       );
     }
   }
+
+  checkBuildingSolids(buildingPlaceIds);
 
   // ---- 3. 通路ネットワーク ----
   const network = readJson('path-network.geojson') as {
@@ -313,6 +307,40 @@ function checkLocation(
   }
   if (days.length === 0 || days.some((d) => !SCHEDULE_DAYS.includes(d))) {
     err(`project-locations ${number}: 実施日が不正: ${JSON.stringify(days)}`);
+  }
+}
+
+/** 3D の建物（scripts/ingest-plateau-buildings.ts が作る）が、会場の建物を placeId 付きで 1 つずつ含むか。 */
+function checkBuildingSolids(buildingPlaceIds: ReadonlySet<string>) {
+  const solids = readJson('buildings-3d.geojson') as {
+    features: Array<{
+      properties: { placeId?: string; height?: unknown };
+      geometry: { coordinates: unknown };
+    }>;
+  };
+  const solidPlaceIds = new Map<string, number>();
+  for (const [i, { properties, geometry }] of solids.features.entries()) {
+    const { placeId, height } = properties;
+    if (!(Number(height) > 0)) {
+      err(`buildings-3d[${i}]: properties.height が正の数でない`);
+    }
+    // 最初の頂点だけで、経度緯度の取り違えを見る。
+    const [, lng, lat] =
+      JSON.stringify(geometry.coordinates).match(/\[(-?[\d.]+),(-?[\d.]+)\]/) ??
+      [];
+    if (!inBbox([Number(lng), Number(lat)])) {
+      err(`buildings-3d[${i}]: 座標が範囲外（取り違え?）`);
+    }
+    if (placeId)
+      solidPlaceIds.set(placeId, (solidPlaceIds.get(placeId) ?? 0) + 1);
+  }
+  for (const placeId of buildingPlaceIds) {
+    const count = solidPlaceIds.get(placeId) ?? 0;
+    if (count !== 1) {
+      err(
+        `buildings-3d.geojson: 会場の建物 ${placeId} が ${count} 件（1 件であるべき。bun run ingest:plateau-buildings で作り直す）`,
+      );
+    }
   }
 }
 
