@@ -8,7 +8,7 @@
 | `apps/web/scripts/build-sw.ts` | `build` の最後に `build/client/sw.js` を Workbox で生成する |
 | `apps/web/app/lib/pwa.ts` | Service Worker の登録と更新検知、追加方法の判定、オンライン状態 |
 | `apps/web/app/lib/trpc-provider.tsx` | 公開データのクエリを IndexedDB に保存・復元する |
-| `apps/web/app/components/features/Pwa/InstallControl.tsx` | 地図右下の追加ボタンと案内ダイアログ |
+| `apps/web/app/components/features/Pwa/InstallBanner.tsx` | 企画一覧の先頭の追加ボタンと案内ダイアログ |
 | `apps/web/app/components/features/Pwa/UpdateToast.tsx` | 新しい版の案内 |
 
 Service Worker は本番ビルドでだけ登録する。`bun run dev` では動かない。
@@ -17,14 +17,16 @@ Service Worker は本番ビルドでだけ登録する。`bun run dev` では動
 
 環境ごとに追加の方法が違うため、`useInstallMethod()` で出し分ける。追加済み（standalone で起動中）のときは何も出さない。
 
-| 環境 | 方法 | 初回の自動表示 |
+企画一覧の先頭（グランプリ投票・アンケートの導線の下）に「ホーム画面に追加」を置く。検索・絞り込み中は出さない。
+
+| 環境 | ボタンを押したとき | 初回の自動表示 |
 | --- | --- | --- |
-| Chromium 系（Android Chrome、PC の Chrome・Edge） | 「追加する」でブラウザの確認を出す | する |
-| iOS | 共有メニューからの手順を出す | する |
+| Chromium 系（Android Chrome、PC の Chrome・Edge） | ブラウザのインストール確認を直接出す | する |
+| iOS | 共有メニューからの手順を出す（Web から確認を出す手段が無い） | する |
 | LINE などのアプリ内ブラウザ | 追加できない旨と「ブラウザで開く」を出す | しない |
 | その他 | ボタン自体を出さない | – |
 
-初回の自動表示は端末ごとに一度だけ（`localStorage` の `tanpopo-install-intro-seen`）。以降は地図右下のボタンからいつでも開ける。Chromium 系でブラウザの確認を断ると、ブラウザが次に `beforeinstallprompt` を発火するまでボタンは消える。
+ブラウザの確認はユーザー操作の中でしか出せないため、初回の自動表示は案内ダイアログを出し、その「追加する」で確認を出す。自動表示は端末ごとに一度だけ（`localStorage` の `tanpopo-install-intro-seen`）。Chromium 系でブラウザの確認を断ると、ブラウザが次に `beforeinstallprompt` を発火するまでボタンは消える。
 
 ## オフラインで使えるもの
 
