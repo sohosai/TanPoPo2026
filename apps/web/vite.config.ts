@@ -9,6 +9,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [reactRouter()],
+    define: {
+      __BUILD_ID__: JSON.stringify(Date.now().toString(36)),
+    },
     resolve: {
       tsconfigPaths: true,
     },

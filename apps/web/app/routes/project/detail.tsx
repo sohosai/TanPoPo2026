@@ -145,14 +145,8 @@ function ProjectDescription({ text }: { text: string }) {
 
 export default function Detail() {
   const { number } = useParams();
-  const {
-    data: project,
-    status,
-    isError,
-  } = trpc.project.detail.useQuery(
-    { number: number ?? '' },
-    { enabled: number !== undefined },
-  );
+  const { data: projects, status } = trpc.project.list.useQuery();
+  const project = projects?.find((p) => p.number === number);
 
   const { isFavorite, toggle } = useFavorites();
   const { byId: placesById } = usePlaces();
@@ -199,13 +193,15 @@ export default function Detail() {
     return <p className={css({ p: '16px' })}>読み込み中...</p>;
   }
 
-  if (isError && !project) {
+  if (!project) {
     return (
-      <p className={css({ p: '16px' })}>店舗情報を取得できませんでした。</p>
+      <p className={css({ p: '16px' })}>
+        {status === 'error'
+          ? '店舗情報を取得できませんでした。'
+          : '店舗が見つかりませんでした。'}
+      </p>
     );
   }
-
-  if (!project) return null;
 
   const showOnMap = () => {
     focusProject();

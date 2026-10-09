@@ -4,3 +4,6 @@ interface ImportMetaEnv {
   /** LINE Front-end Framework (LIFF) の ID。設定すると自動でLINEアプリへのログインを行う。 */
   readonly VITE_LIFF_ID?: string;
 }
+
+/** ビルドごとに変わる識別子。vite.config.ts の define で埋め込む。 */
+declare const __BUILD_ID__: string;

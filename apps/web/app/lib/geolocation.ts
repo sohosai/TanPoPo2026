@@ -71,7 +71,7 @@ const IN_APP_BROWSERS: [RegExp, string][] = [
   [/BytedanceWebview|musical_ly|TikTok/i, 'TikTok'],
 ];
 
-function isIos(ua: string): boolean {
+export function isIos(ua: string): boolean {
   // iPadOS の Safari は Mac と同じ UA を名乗るため、タッチ対応かどうかで見分ける。
   return (
     /iPhone|iPad|iPod/.test(ua) ||

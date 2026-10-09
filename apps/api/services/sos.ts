@@ -302,7 +302,7 @@ function toProject(detail: ProjectDetail): Project {
 
 export class SosClientError extends Error {
   constructor(
-    public readonly code: 'NOT_FOUND' | 'UPSTREAM',
+    public readonly code: 'UPSTREAM',
     message: string,
   ) {
     super(message);
@@ -310,7 +310,7 @@ export class SosClientError extends Error {
 }
 
 // 企画一覧をこの期間キャッシュする。企画一覧は頻繁には変わらない一方、
-// project.list・project.detail・grandprix.submit（投票時のID検証）から
+// project.list・grandprix.*（投票時のID検証を含む）から
 // 呼ばれるため、毎回外部APIを叩かないようにする。
 const PROJECTS_CACHE_TTL_MS = 30_000;
 
@@ -350,20 +350,9 @@ export class SosClient {
     return details.map(toProject);
   }
 
-  /**
-   * 3桁ゼロ埋めの企画番号（例: "001"）から企画詳細を返す。
-   */
-  async getProjectDetail(number: string): Promise<ProjectDetail> {
-    const { details, isFallback } = await this.getCachedDetails();
-    const detail = details.find((project) => project.number === number);
-    if (detail) return detail;
-    if (isFallback) {
-      throw new SosClientError(
-        'UPSTREAM',
-        `SOS API is unavailable and fallback data has no project: ${number}`,
-      );
-    }
-    throw new SosClientError('NOT_FOUND', `店舗が見つかりません: ${number}`);
+  /** 画面に出す企画を、詳細情報まで含めて返す。 */
+  async getProjectDetails(): Promise<ProjectDetail[]> {
+    return (await this.getCachedDetails()).details;
   }
 
   // 非表示の企画は取得結果から除く。キャッシュには全件を残し、除外は読み出しごとに行う。

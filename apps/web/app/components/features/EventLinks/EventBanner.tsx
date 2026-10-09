@@ -4,6 +4,7 @@ import {
   type TablerIcon,
 } from '@tabler/icons-react';
 import { Link } from 'react-router';
+import { useOnline } from '~/lib/pwa';
 import { css, cx } from '../../../../styled-system/css';
 
 // Panda は css() の引数を静的解析するため、色の組み合わせは動的に組み立てず列挙しておく。
@@ -45,6 +46,8 @@ const EVENT_LINKS: {
 
 /** 企画一覧の先頭に置く、グランプリ投票・来場者アンケートへの導線。 */
 export default function EventBanner() {
+  const online = useOnline();
+
   return (
     <div
       className={css({
@@ -75,6 +78,7 @@ export default function EventBanner() {
               _active: { transform: 'scale(0.97)' },
             }),
             TONE_CLASS[tone].tile,
+            !online && css({ opacity: 0.5 }),
           )}
         >
           <Icon
@@ -133,7 +137,7 @@ export default function EventBanner() {
                 whiteSpace: 'nowrap',
               })}
             >
-              {caption}
+              {online ? caption : 'オフライン中は利用不可'}
             </span>
           </span>
         </Link>
