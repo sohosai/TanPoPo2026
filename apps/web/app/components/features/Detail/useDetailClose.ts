@@ -12,6 +12,20 @@ import { css } from '../../../../styled-system/css';
 /** 退場アニメの長さ(ms)。下の detailExitStyles の秒数と揃える。 */
 const DETAIL_EXIT_MS = 100;
 
+// 一覧で最後に使っていた検索条件（URL クエリ）。詳細を閉じたときはこの条件の一覧へ戻す。
+// 地図のピンや場所詳細を経由して開いた詳細からも戻れるよう、リンクの state ではなくここに持つ。
+let listSearch = '';
+
+/** 一覧の検索条件を覚えておく。一覧画面が条件の変わるたびに呼ぶ。 */
+export function rememberListSearch(search: string) {
+  listSearch = search;
+}
+
+/** 詳細を閉じたときに戻る一覧の URL。 */
+export function listPath() {
+  return listSearch ? `/?${listSearch}` : '/';
+}
+
 /** 一覧へ戻ったことを一覧側に伝えるための location.state。 */
 export interface FromDetailState {
   fromDetail?: boolean;
@@ -51,10 +65,10 @@ export function itemEnterStyle(index: number): CSSProperties {
 }
 
 /**
- * 詳細を × で閉じるときに、退場アニメを再生してから一覧へ遷移する。
+ * 詳細を × で閉じるときに、退場アニメを再生してから、詳細を開く前の検索条件の一覧へ遷移する。
  * 新しいタブで開く等の修飾キー付きクリックや、視差効果を減らす設定では即座に遷移する。
  */
-export function useDetailClose(to = '/') {
+export function useDetailClose() {
   const navigate = useNavigate();
   const [closing, setClosing] = useState(false);
   const timer = useRef<number | undefined>(undefined);
@@ -69,7 +83,7 @@ export function useDetailClose(to = '/') {
       if (closing) return;
 
       const state: FromDetailState = { fromDetail: true };
-      const go = () => navigate(to, { state });
+      const go = () => navigate(listPath(), { state });
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         go();
         return;
@@ -77,7 +91,7 @@ export function useDetailClose(to = '/') {
       setClosing(true);
       timer.current = window.setTimeout(go, DETAIL_EXIT_MS);
     },
-    [closing, navigate, to],
+    [closing, navigate],
   );
 
   return { closing, close };

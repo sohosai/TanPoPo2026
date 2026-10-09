@@ -30,6 +30,12 @@ export default function ProjectSearchBar({
   // 入力欄はローカル下書きで制御し、変換確定後にだけ URL 状態へ反映する。
   const [qDraft, setQDraft] = useState(criteria.q);
   const composingRef = useRef(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // 検索を確定したらキーボードを閉じる。地図は検索結果に連動しないため、シートは最大段のまま結果を見せる。
+  const submit = () => {
+    inputRef.current?.blur();
+  };
 
   // クリアボタンや戻る操作など、外部要因で q が変わったら下書きを同期する。
   // 変換中は IME バッファを尊重して同期しない。
@@ -74,10 +80,22 @@ export default function ProjectSearchBar({
         })}
       >
         <input
+          ref={inputRef}
           type="search"
           value={qDraft}
           placeholder="企画名・団体名・場所で検索"
           onFocus={panel.expand}
+          onKeyDown={(e) => {
+            // 変換確定のエンターでは確定しない。Safari は compositionend の後に
+            // isComposing=false で keydown を送るため、keyCode 229 でも見分ける。
+            if (
+              e.key === 'Enter' &&
+              !e.nativeEvent.isComposing &&
+              e.keyCode !== 229
+            ) {
+              submit();
+            }
+          }}
           onChange={(e) => {
             const value = e.target.value;
             setQDraft(value);
@@ -108,6 +126,8 @@ export default function ProjectSearchBar({
           <button
             type="button"
             aria-label="検索キーワードを消す"
+            // 押しても入力欄のフォーカスを外さず、キーボードを出したままにする。
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => onChange({ ...criteria, q: '' })}
             className={css({
               display: 'flex',
@@ -119,13 +139,19 @@ export default function ProjectSearchBar({
             <IconX size={16} />
           </button>
         )}
-        <img
-          src="/logo/search.webp"
-          alt=""
-          width={18}
-          height={22}
-          className={css({ flexShrink: 0, mr: '4px' })}
-        />
+        <button
+          type="button"
+          aria-label="検索"
+          onClick={submit}
+          className={css({
+            flexShrink: 0,
+            display: 'flex',
+            mr: '4px',
+            cursor: 'pointer',
+          })}
+        >
+          <img src="/logo/search.webp" alt="" width={18} height={22} />
+        </button>
       </label>
 
       <div

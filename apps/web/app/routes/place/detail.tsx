@@ -162,6 +162,8 @@ export default function PlaceDetail() {
             borderRadius: 'xl',
             bg: 'accent.subtle',
             color: 'accent.text',
+            // 最小段では名前だけを見せる。
+            '[data-peek] &': { display: 'none' },
           })}
         >
           <Icon size={26} />
@@ -173,11 +175,18 @@ export default function PlaceDetail() {
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
+              '[data-peek] &': { truncate: true },
             })}
           >
             {place.name}
           </h1>
-          <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
+          <p
+            className={css({
+              fontSize: 'sm',
+              color: 'fg.subtle',
+              '[data-peek] &': { display: 'none' },
+            })}
+          >
             {info?.label}
             {status === 'success' && ` · ${count}企画`}
           </p>
