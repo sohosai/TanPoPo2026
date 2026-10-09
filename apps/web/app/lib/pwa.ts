@@ -106,15 +106,16 @@ export function useInstallMethod(): InstallMethod | null {
 export async function promptInstall(): Promise<boolean> {
   const prompt = installPrompt;
   if (!prompt) return false;
+  try {
+    await prompt.prompt();
+  } catch {
+    // 確認を出せなかったときは、ボタンを残してメニューからの手順を案内する。
+    return false;
+  }
   // 一度出した確認は使い回せない。断られても、ブラウザが次に発火するまで出せない。
   installPrompt = null;
   emit();
-  try {
-    await prompt.prompt();
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return true;
 }
 
 /** 新しい版がダウンロード済みで、切り替えを待っているか。 */

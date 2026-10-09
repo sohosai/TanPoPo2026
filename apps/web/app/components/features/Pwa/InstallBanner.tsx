@@ -27,6 +27,7 @@ export default function InstallBanner() {
   const ref = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [copyResult, setCopyResult] = useState<string | null>(null);
+  const [promptFailed, setPromptFailed] = useState(false);
 
   useEffect(() => {
     const dialog = ref.current;
@@ -37,8 +38,6 @@ export default function InstallBanner() {
   }, [open]);
 
   if (!method) return null;
-
-  const [promptFailed, setPromptFailed] = useState(false);
 
   const install = async () => {
     const success = await promptInstall();
