@@ -24,6 +24,8 @@ jobs:
 
       - name: Build
         run: bun run build
+        env:
+          VITE_MAPTILER_KEY: ${{ secrets.VITE_MAPTILER_KEY }}
 
       - name: Apply DB Migrations
         uses: cloudflare/wrangler-action@v3
