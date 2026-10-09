@@ -5,21 +5,20 @@ import type {
   Map as MlMap,
   SymbolLayerSpecification,
 } from 'maplibre-gl';
-import { token } from '../../../../styled-system/tokens';
 import type { CampusData } from './campusData';
 
 // MapLibre は CSS 変数を解釈できないため、16進の値を持つトークンだけを使う。
-export const ACCENT = token('colors.brand.500');
-const ACCENT_TEXT = token('colors.brand.700');
-const TEXT = token('colors.fg.strong');
-const WHITE = token('colors.white');
+export const ACCENT = '#4a93d7'; // token('colors.brand.500')
+const ACCENT_TEXT = '#2f6fb0'; // token('colors.brand.700')
+const TEXT = '#1f2834'; // token('colors.fg.strong')
+const WHITE = '#ffffff'; // token('colors.white')
 export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
-  食品: token('colors.category.food'),
-  物販: token('colors.category.goods'),
-  展示: token('colors.category.exhibit'),
-  学術: token('colors.category.academic'),
-  ステージ: token('colors.category.stage'),
-  その他: token('colors.category.other'),
+  食品: '#f9c310', // token('colors.category.food')
+  物販: '#ec659f', // token('colors.category.goods')
+  展示: '#39c684', // token('colors.category.exhibit')
+  学術: '#9679ec', // token('colors.category.academic')
+  ステージ: '#3aaddf', // token('colors.category.stage')
+  その他: '#8d9bb0', // token('colors.category.other')
 };
 
 const FONT = ['Arial Unicode MS Regular'];
@@ -40,8 +39,8 @@ const BOOTH_NAME_ZOOM = 18.3;
 const FLOOR_HEIGHT = 4;
 const BOOTH_HEIGHT = 2;
 // 地図スタイルの sohosai-buildings（平面の建物の塗り）と揃える。
-const CAMPUS_BUILDING_COLOR = token('colors.map.campusBuilding');
-const BASEMAP_BUILDING_COLOR = token('colors.map.basemapBuilding');
+const CAMPUS_BUILDING_COLOR = '#97bbdc'; // token('colors.map.campusBuilding')
+const BASEMAP_BUILDING_COLOR = '#d9d9d2'; // token('colors.map.basemapBuilding')
 const BASEMAP_3D_OPACITY = 0.6;
 
 /** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤ。 */

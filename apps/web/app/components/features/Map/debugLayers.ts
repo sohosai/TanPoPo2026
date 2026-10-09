@@ -1,5 +1,4 @@
 import maplibregl, { type Map as MlMap } from 'maplibre-gl';
-import { token } from '../../../../styled-system/tokens';
 import buildingsRaw from './data/buildings.geojson?raw';
 import { type LngLat, ringCenter } from './geo';
 import { pathNetwork } from './paths';
@@ -13,9 +12,9 @@ type BuildingFeature = {
 };
 
 const buildingsData = JSON.parse(buildingsRaw);
-const ACCENT = token('colors.brand.500');
-const PATH_COLOR = token('colors.debug.path'); // 一般通路
-const ENTRANCE_COLOR = token('colors.debug.entrance'); // 入口/接続路
+const ACCENT = '#4a93d7'; // token('colors.brand.500')
+const PATH_COLOR = '#ff5a36'; // token('colors.debug.path')
+const ENTRANCE_COLOR = '#2e9e5b'; // token('colors.debug.entrance')
 
 /** 通路の全頂点を点として可視化するためのソースを作る（ノード接続の確認用）。 */
 function buildNodeCollection() {
@@ -77,7 +76,7 @@ export function addDebugLayers(map: MlMap): void {
     paint: {
       'circle-radius': 4,
       'circle-color': PATH_COLOR,
-      'circle-stroke-color': token('colors.white'),
+      'circle-stroke-color': '#ffffff', // token('colors.white')
       'circle-stroke-width': 1.5,
     },
   });
@@ -86,7 +85,7 @@ export function addDebugLayers(map: MlMap): void {
   for (const f of buildingsData.features as BuildingFeature[]) {
     const el = document.createElement('div');
     el.textContent = f.properties.placeId.replace(/^bldg-/, '');
-    el.style.cssText = `font-size:10px;font-weight:700;color:${token.var('colors.debug.label')};background:${token.var('colors.debug.labelBg')};padding:1px 4px;border-radius:4px;white-space:nowrap;pointer-events:none;`;
+    el.style.cssText = `font-size:10px;font-weight:700;color:#0a6b6b;background:rgba(255, 255, 255, 0.82);padding:1px 4px;border-radius:4px;white-space:nowrap;pointer-events:none;`;
     new maplibregl.Marker({ element: el })
       .setLngLat(ringCenter(f.geometry.coordinates[0]))
       .addTo(map);
