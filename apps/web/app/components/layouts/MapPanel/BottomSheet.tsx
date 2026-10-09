@@ -1,3 +1,4 @@
+import type { LngLat } from 'maplibre-gl';
 import {
   type PointerEvent,
   type ReactNode,
@@ -8,6 +9,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useMap } from '~/components/features/Map/MapController';
 import { css, cx } from '../../../../styled-system/css';
 import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
@@ -23,6 +25,10 @@ const releaseIdleMs = 100;
 // 指がこれ以上動くまではタップとみなし、シートを動かさない。
 const dragSlop = 8;
 const rubberDim = 200;
+// 地図をこれ以上動かしたら（画面上の移動量 px、ズームの段数）、シートを最小段に下げる。
+const mapPanThreshold = 60;
+const mapZoomThreshold = 0.5;
+const sheetTransition = 'transform 0.45s cubic-bezier(0.32, 0.72, 0, 1)';
 
 interface BottomSheetProps {
   children?: ReactNode;
@@ -80,7 +86,7 @@ const sheetStyles = css({
   bg: 'sheet.background',
   borderTopRadius: '2xl',
   boxShadow: 'sheet',
-  transition: 'transform 0.45s cubic-bezier(0.32, 0.72, 0, 1)',
+  transition: sheetTransition,
   touchAction: 'none',
 });
 
@@ -160,6 +166,70 @@ export default function BottomSheet({ children }: BottomSheetProps) {
     setAtPeek(y > (half + peek) / 2);
   }, [y, getSnaps]);
 
+  // シート内の入力欄からフォーカスを外し、キーボードを閉じる。
+  const blurFocused = useCallback(() => {
+    const focused = document.activeElement;
+    if (focused instanceof HTMLElement && ref.current?.contains(focused)) {
+      focused.blur();
+    }
+  }, []);
+
+  // 地図コントロールはシートの外にあるため、シートの上端に追従させる量とアニメーションを
+  // ルートの CSS 変数で渡す。追従は中段までとし、それより上ではシートに隠れる。
+  useLayoutEffect(() => {
+    const { half, peek } = getSnaps();
+    const root = document.documentElement.style;
+    root.setProperty('--sheet-lift', `${peek - Math.max(y, half)}px`);
+    root.setProperty('--sheet-transition', dragging ? 'none' : sheetTransition);
+  }, [y, dragging, getSnaps]);
+  useEffect(
+    () => () => {
+      const root = document.documentElement.style;
+      root.removeProperty('--sheet-lift');
+      root.removeProperty('--sheet-transition');
+    },
+    [],
+  );
+
+  // 利用者が地図を一定量以上動かしたら、地図を広く見せるためにシートを最小段に下げる。
+  // 詳細を開いたときの flyTo などの自動の移動には originalEvent が無いので数えない。
+  const { getMap, isReady } = useMap();
+  useEffect(() => {
+    const map = getMap();
+    if (!isReady || !map) return;
+
+    let start: { center: LngLat; zoom: number } | null = null;
+    const onMoveStart = (e: { originalEvent?: unknown }) => {
+      start = e.originalEvent
+        ? { center: map.getCenter(), zoom: map.getZoom() }
+        : null;
+    };
+    const onMove = (e: { originalEvent?: unknown }) => {
+      if (!start || !e.originalEvent) return;
+      const from = map.project(start.center);
+      const to = map.project(map.getCenter());
+      const panned = Math.hypot(from.x - to.x, from.y - to.y);
+      const zoomed = Math.abs(map.getZoom() - start.zoom);
+      if (panned < mapPanThreshold && zoomed < mapZoomThreshold) return;
+      start = null;
+      const { peek } = getSnaps();
+      if (yRef.current < peek) setY(peek);
+      blurFocused();
+    };
+    const onMoveEnd = () => {
+      start = null;
+    };
+
+    map.on('movestart', onMoveStart);
+    map.on('move', onMove);
+    map.on('moveend', onMoveEnd);
+    return () => {
+      map.off('movestart', onMoveStart);
+      map.off('move', onMove);
+      map.off('moveend', onMoveEnd);
+    };
+  }, [getMap, isReady, getSnaps, blurFocused]);
+
   const startDrag = useCallback((clientY: number, timeStamp: number) => {
     drag.current = {
       pointerY: clientY,
@@ -200,16 +270,9 @@ export default function BottomSheet({ children }: BottomSheetProps) {
       setY(next);
       setDragging(false);
       // 検索中に手でシートを下げたら、キーボードも閉じる。
-      const focused = document.activeElement;
-      if (
-        next !== full &&
-        focused instanceof HTMLElement &&
-        ref.current?.contains(focused)
-      ) {
-        focused.blur();
-      }
+      if (next !== full) blurFocused();
     },
-    [getSnaps],
+    [getSnaps, blurFocused],
   );
 
   // タッチはシート全体で受け、シートを伸縮させるかスクロールに任せるかを指の動きから決める。

@@ -230,6 +230,9 @@ export default function MapControls() {
         right: 'calc(env(safe-area-inset-right, 0px) + 16px)',
         // シートより下に置き、シートを開いたときはその下に隠れるようにする。
         zIndex: 5,
+        // スマホではシートの上端に追従する。追従量とアニメーションは BottomSheet が CSS 変数で渡す。
+        transform: 'translateY(calc(-1 * var(--sheet-lift, 0px)))',
+        transition: 'var(--sheet-transition)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
