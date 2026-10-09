@@ -9,7 +9,7 @@ import { matchPath, useLocation, useNavigate } from 'react-router';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { boothCenter } from './booths';
-import { buildCampusData, otherCampusBuildingIds } from './campusData';
+import { buildCampusData } from './campusData';
 import {
   addCampusLayers,
   applySelection,
@@ -113,7 +113,7 @@ export default function CampusLayers() {
 
     const setup = () => {
       if (!map.isStyleLoaded() || map.getSource(SOURCES.places)) return;
-      addCampusLayers(map, otherCampusBuildingIds);
+      addCampusLayers(map);
       syncExtrusion();
       setLoaded(true);
     };
