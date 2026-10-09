@@ -1,10 +1,7 @@
 import { IconChevronRight, IconDownload } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { openInExternalBrowser } from '~/lib/geolocation';
-import {
-  promptInstall,
-  useInstallMethod,
-} from '~/lib/pwa';
+import { promptInstall, useInstallMethod } from '~/lib/pwa';
 import { css, cx } from '../../../../styled-system/css';
 
 const button = css({

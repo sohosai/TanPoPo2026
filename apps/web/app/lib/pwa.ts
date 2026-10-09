@@ -111,7 +111,6 @@ export async function promptInstall(): Promise<boolean> {
   }
 }
 
-
 /** 新しい版がダウンロード済みで、切り替えを待っているか。 */
 export function useUpdateReady(): boolean {
   return useSyncExternalStore(
