@@ -284,7 +284,7 @@ function mapToProjectDetail(
 
   return {
     ...mapToProject(project, baseUrl),
-    description: project.publicInfo.description || '詳細説明はありません。',
+    description: project.publicInfo.description?.trim() ?? '',
     images,
     links: mapLinks(project.publicInfo),
   };

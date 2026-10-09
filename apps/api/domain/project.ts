@@ -79,7 +79,7 @@ export type ProjectLink = {
 
 /** 詳細ページに使う店舗情報（Project + 詳細フィールド） */
 export type ProjectDetail = Project & {
-  /** 詳細説明文 */
+  /** 詳細説明文。未登録なら空文字 */
   description: string;
   /** ギャラリー画像URLの配列 */
   images: ProjectImage[];

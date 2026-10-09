@@ -114,6 +114,35 @@ function ProjectFacts({
   );
 }
 
+/** 企画紹介。紹介文が未登録の企画では見出しごと出さない。 */
+function ProjectDescription({ text }: { text: string }) {
+  if (!text) return null;
+  return (
+    <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
+      <h2
+        className={css({
+          fontSize: '15px',
+          fontWeight: 700,
+          color: 'fg.strong',
+        })}
+      >
+        企画紹介
+      </h2>
+      <p
+        className={css({
+          mt: '8px',
+          fontSize: '15px',
+          lineHeight: 1.8,
+          color: 'fg',
+          whiteSpace: 'pre-wrap',
+        })}
+      >
+        {text}
+      </p>
+    </section>
+  );
+}
+
 export default function Detail() {
   const { number } = useParams();
   const {
@@ -373,28 +402,7 @@ export default function Detail() {
         </div>
       )}
 
-      <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
-        <h2
-          className={css({
-            fontSize: '15px',
-            fontWeight: 700,
-            color: 'fg.strong',
-          })}
-        >
-          企画紹介
-        </h2>
-        <p
-          className={css({
-            mt: '8px',
-            fontSize: '15px',
-            lineHeight: 1.8,
-            color: 'fg',
-            whiteSpace: 'pre-wrap',
-          })}
-        >
-          {project.description}
-        </p>
-      </section>
+      <ProjectDescription text={project.description} />
 
       {/* 下部の操作バー */}
       <div
