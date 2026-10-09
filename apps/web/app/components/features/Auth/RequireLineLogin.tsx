@@ -1,5 +1,6 @@
 import { IconBrandLine, IconLoader2 } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { getLineLoginUrl, useAuth } from '~/lib/auth';
 import { css } from '../../../../styled-system/css';
 
@@ -14,7 +15,85 @@ export default function RequireLineLogin({
   redirectPath,
   children,
 }: RequireLineLoginProps) {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
+  const [liffLoading, setLiffLoading] = useState(false);
+
+  // コンポーネントマウント時（またはLIFFリダイレクトから戻ってきた時）に自動ログインを試みる
+  useEffect(() => {
+    // 既に自社セッションがあるなら何もしない
+    if (user || authLoading) return;
+
+    const liffId = import.meta.env.VITE_LIFF_ID;
+    if (!liffId) return;
+
+    let mounted = true;
+    (async () => {
+      try {
+        setLiffLoading(true);
+        const liff = (await import('@line/liff')).default;
+        await liff.init({ liffId });
+
+        if (liff.isLoggedIn()) {
+          const idToken = liff.getIDToken();
+          if (!idToken) throw new Error('ID Token not found');
+
+          const res = await fetch('/auth/line/liff', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken }),
+          });
+
+          if (!res.ok) throw new Error('Server login failed');
+          if (mounted) window.location.reload();
+        }
+      } catch (error) {
+        console.error('LIFF Auto Login Error:', error);
+      } finally {
+        if (mounted) setLiffLoading(false);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [user, authLoading]);
+
+  const handleLiffLogin = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      setLiffLoading(true);
+      const liffId = import.meta.env.VITE_LIFF_ID;
+      if (!liffId) {
+        window.location.href = getLineLoginUrl(redirectPath);
+        return;
+      }
+
+      const liff = (await import('@line/liff')).default;
+      await liff.init({ liffId });
+
+      if (!liff.isLoggedIn()) {
+        liff.login({ redirectUri: window.location.href });
+        return;
+      }
+
+      const idToken = liff.getIDToken();
+      if (!idToken) throw new Error('ID Token not found');
+
+      const res = await fetch('/auth/line/liff', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!res.ok) throw new Error('Server login failed');
+
+      window.location.reload();
+    } catch (error) {
+      console.error('LIFF Login Error:', error);
+      window.location.href = getLineLoginUrl(redirectPath);
+    }
+  };
+
+  const isLoading = authLoading || liffLoading;
 
   if (isLoading) {
     return (
@@ -61,8 +140,8 @@ export default function RequireLineLogin({
         >
           この機能を利用するにはLINEでログインしてください。
         </p>
-        <a
-          href={getLineLoginUrl(redirectPath)}
+        <button
+          onClick={handleLiffLogin}
           className={css({
             display: 'inline-flex',
             alignItems: 'center',
@@ -74,14 +153,15 @@ export default function RequireLineLogin({
             color: 'surface',
             fontSize: 'md',
             fontWeight: 'bold',
-            textDecoration: 'none',
+            border: 'none',
+            cursor: 'pointer',
           })}
         >
           <IconBrandLine size={20} />
           <span className={css({ textBox: 'trim-both cap alphabetic' })}>
             LINEでログイン
           </span>
-        </a>
+        </button>
       </div>
     );
   }
