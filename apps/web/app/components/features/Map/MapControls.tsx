@@ -6,8 +6,8 @@ import {
 } from '@tabler/icons-react';
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef, useState } from 'react';
-import InstallControl from '~/components/features/Pwa/InstallControl';
 import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
+import { useIsEmbed } from '~/lib/embed';
 import {
   hasSeenGeolocationIntro,
   markGeolocationIntroSeen,
@@ -47,13 +47,16 @@ const roundButton = css({
 const PITCH_3D = 60;
 
 /**
- * 地図右下の操作ボタン（ホーム画面への追加、初期表示へ戻る、現在地の表示・追従、3D/2D の切り替え）。
+ * 地図右下の操作ボタン（初期表示へ戻る、現在地の表示・追従、3D/2D の切り替え）。
  * 現在地の点・精度の円・追従は MapLibre の GeolocateControl に任せ、標準のボタンは隠して
  * このボタンから操作する。
+ * 埋め込みでは現在地を出さない。iframe では埋め込み先の許可が無いと位置情報が常に拒否され、
+ * 設定手順を案内しても直せないため。
  */
 export default function MapControls() {
   const { isReady, getMap, resetView } = useMap();
   const isDesktop = useIsDesktop();
+  const isEmbed = useIsEmbed();
   const geolocateRef = useRef<maplibregl.GeolocateControl | null>(null);
   const stateRef = useRef<LocateState>('off');
   const [state, setStateValue] = useState<LocateState>('off');
@@ -239,8 +242,8 @@ export default function MapControls() {
         gap: '10px',
       })}
       style={{
-        // PC ではシートが下に無いため、地図右下の著作権表記のすぐ上に寄せる。
-        bottom: `calc(env(safe-area-inset-bottom, 0px) + ${isDesktop ? 40 : SHEET_PEEK + 16}px)`,
+        // PC と埋め込みではシートが下に無いため、地図右下の著作権表記のすぐ上に寄せる。
+        bottom: `calc(env(safe-area-inset-bottom, 0px) + ${isDesktop || isEmbed ? 40 : SHEET_PEEK + 16}px)`,
       }}
     >
       <LocationPermissionDialog
@@ -268,7 +271,6 @@ export default function MapControls() {
           {message}
         </p>
       )}
-      <InstallControl className={roundButton} />
       <button
         type="button"
         onClick={goHome}
@@ -277,28 +279,30 @@ export default function MapControls() {
       >
         <IconHome size={22} />
       </button>
-      <button
-        type="button"
-        onClick={toggleLocate}
-        aria-label={
-          state === 'active' ? '現在地の追従をやめる' : '現在地を表示'
-        }
-        aria-pressed={state === 'active'}
-        className={cx(
-          roundButton,
-          css({ '&[aria-pressed=true]': { color: 'accent.text' } }),
-          state === 'background' && css({ color: 'accent.text' }),
-        )}
-      >
-        <LocateIcon
-          size={22}
-          className={
-            state === 'waiting'
-              ? css({ animation: 'spin 1s linear infinite' })
-              : undefined
+      {!isEmbed && (
+        <button
+          type="button"
+          onClick={toggleLocate}
+          aria-label={
+            state === 'active' ? '現在地の追従をやめる' : '現在地を表示'
           }
-        />
-      </button>
+          aria-pressed={state === 'active'}
+          className={cx(
+            roundButton,
+            css({ '&[aria-pressed=true]': { color: 'accent.text' } }),
+            state === 'background' && css({ color: 'accent.text' }),
+          )}
+        >
+          <LocateIcon
+            size={22}
+            className={
+              state === 'waiting'
+                ? css({ animation: 'spin 1s linear infinite' })
+                : undefined
+            }
+          />
+        </button>
+      )}
       <button
         type="button"
         onClick={toggle3d}

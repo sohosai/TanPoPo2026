@@ -39,6 +39,11 @@ const areaPolygons = AREAS.map(({ source, name }) => {
   return { id: source, name, ring, bounds: ringBounds(ring) };
 });
 
+/** 会場エリアがすべて収まる範囲。地図の初期表示に使う。 */
+export const CAMPUS_BOUNDS = ringBounds(
+  areaPolygons.flatMap(({ bounds }) => bounds),
+);
+
 export const findCampusArea = (id: string | undefined) =>
   areaPolygons.find((area) => area.id === id);
 

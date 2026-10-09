@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   isRouteErrorResponse,
   Links,
@@ -9,8 +8,6 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
-// 一時的に global-loader を無効化中。
-// import { GlobalLoader } from './components/features/Loader';
 import UpdateToast from './components/features/Pwa/UpdateToast';
 import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
@@ -37,22 +34,6 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('debug-loader')) {
-      return;
-    }
-
-    const loader = document.getElementById('global-loader');
-    if (loader) {
-      loader.classList.add('fade-out');
-      const timeout = setTimeout(() => {
-        loader.remove();
-      }, 600);
-      return () => clearTimeout(timeout);
-    }
-  }, []);
-
   return (
     <html lang="ja">
       <head>
@@ -64,13 +45,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {/* <GlobalLoader /> */}
         {children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
+}
+
+export function HydrateFallback() {
+  return <span style={{ display: 'none' }} />;
 }
 
 export default function App() {

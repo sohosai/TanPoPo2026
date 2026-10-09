@@ -1,0 +1,12 @@
+# 投票・アンケート等を他サイトの iframe に入れて操作させられないよう、埋め込みは自サイトだけに許す。
+/*
+  Content-Security-Policy: frame-ancestors 'self'
+
+# 地図の埋め込みだけは雙峰祭のサイトと、その開発用のローカル環境に許す。
+# 上の規則にも当たるため、同名ヘッダーが連結されて両方の制限がかからないよう外してから付け直す。
+/embed
+  ! Content-Security-Policy
+  Content-Security-Policy: frame-ancestors 'self' https://sohosai.com https://*.sohosai.com http://localhost:* http://127.0.0.1:*
+/embed/*
+  ! Content-Security-Policy
+  Content-Security-Policy: frame-ancestors 'self' https://sohosai.com https://*.sohosai.com http://localhost:* http://127.0.0.1:*

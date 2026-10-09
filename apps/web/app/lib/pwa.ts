@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { isEmbedPath } from './embed';
 import { detectInAppBrowser, isIos } from './geolocation';
 
 /**
@@ -74,8 +75,6 @@ async function registerServiceWorker() {
 
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (event) => {
-    // ブラウザ標準の小さな案内は出さず、こちらのダイアログから確認を出す。
-    event.preventDefault();
     installPrompt = event as BeforeInstallPromptEvent;
     emit();
   });
@@ -87,7 +86,12 @@ if (typeof window !== 'undefined') {
   window.addEventListener('online', emit);
   window.addEventListener('offline', emit);
 
-  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  // 埋め込みは他サイトの中で開かれるため、アプリ一式を端末に保存させない。
+  if (
+    import.meta.env.PROD &&
+    'serviceWorker' in navigator &&
+    !isEmbedPath(location.pathname)
+  ) {
     registerServiceWorker().catch((error) => {
       console.warn('Service Worker を登録できませんでした。', error);
     });
@@ -99,32 +103,17 @@ export function useInstallMethod(): InstallMethod | null {
 }
 
 /** ブラウザのインストール確認を出す。ユーザー操作の中で呼ぶ。 */
-export async function promptInstall(): Promise<void> {
+export async function promptInstall(): Promise<boolean> {
   const prompt = installPrompt;
-  if (!prompt) return;
+  if (!prompt) return false;
   // 一度出した確認は使い回せない。断られても、ブラウザが次に発火するまで出せない。
   installPrompt = null;
   emit();
-  await prompt.prompt();
-}
-
-const INSTALL_INTRO_SEEN_KEY = 'tanpopo-install-intro-seen';
-
-/** 初回のインストール案内を、すでに一度出したかどうか。 */
-export function hasSeenInstallIntro(): boolean {
   try {
-    return localStorage.getItem(INSTALL_INTRO_SEEN_KEY) === '1';
-  } catch {
-    // 読めない環境で毎回出してしまわないよう、出したものとして扱う。
+    await prompt.prompt();
     return true;
-  }
-}
-
-export function markInstallIntroSeen(): void {
-  try {
-    localStorage.setItem(INSTALL_INTRO_SEEN_KEY, '1');
-  } catch {
-    // 保存できなくても困るのは案内の出し分けだけなので無視する。
+  } catch (e) {
+    return false;
   }
 }
 

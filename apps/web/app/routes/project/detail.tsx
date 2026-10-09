@@ -4,7 +4,7 @@ import {
   IconMap,
   IconMapPin,
 } from '@tabler/icons-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import DetailTitleRow from '~/components/features/Detail/DetailTitleRow';
 import {
@@ -12,11 +12,7 @@ import {
   detailExitStyles,
   useDetailClose,
 } from '~/components/features/Detail/useDetailClose';
-import { boothCenter } from '~/components/features/Map/booths';
-import {
-  BOOTH_FOCUS_ZOOM,
-  useMap,
-} from '~/components/features/Map/MapController';
+import { useProjectFocus } from '~/components/features/Map/useProjectFocus';
 import CarouselButton from '~/components/features/Project/CarouselButton';
 import CategoryLabel from '~/components/features/Project/CategoryLabel';
 import FavoriteButton from '~/components/features/Project/FavoriteButton';
@@ -150,7 +146,6 @@ export default function Detail() {
 
   const { isFavorite, toggle } = useFavorites();
   const { byId: placesById } = usePlaces();
-  const { flyTo, focusPoint, highlight } = useMap();
   const panel = useMapPanel();
   const favorite = project !== undefined && isFavorite(project.id);
   const [imageIndex, setImageIndex] = useState(0);
@@ -171,20 +166,7 @@ export default function Detail() {
   };
 
   // 詳細を開いたら、紐づく場所へ地図をフォーカスする（シートの外の地図を統一APIで操作）。
-  // 屋外ブースはテント列の代表点ではなく、テントそのものの位置へ、形が見えるところまで寄せる。
-  // テントは地図上で枠線で強調されるため、テントを隠してしまうピンは立てない。
-  const primaryLocation = project?.locations[0];
-  const primaryPlace = placesById.get(primaryLocation?.placeId ?? '');
-  const boothPoint = boothCenter(primaryPlace, primaryLocation?.room);
-  const placePoint = primaryPlace?.point;
-  const focusProject = useCallback(() => {
-    if (boothPoint) flyTo(boothPoint, { zoom: BOOTH_FOCUS_ZOOM });
-    else if (placePoint) focusPoint(placePoint);
-  }, [boothPoint, placePoint, flyTo, focusPoint]);
-  useEffect(() => {
-    focusProject();
-    return () => highlight(null);
-  }, [focusProject, highlight]);
+  const focusProject = useProjectFocus(project);
 
   useEffect(() => {
     if (project) {

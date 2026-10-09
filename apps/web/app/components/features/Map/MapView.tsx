@@ -1,6 +1,7 @@
 import maplibregl, { type StyleSpecification } from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useIsEmbed } from '~/lib/embed';
 import { css } from '../../../../styled-system/css';
 import { addDebugLayers } from './debugLayers';
 import { INITIAL_VIEW, useMap } from './MapController';
@@ -27,7 +28,8 @@ function withMapTilerKey(url: string) {
 export default function MapView() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
-  const { register } = useMap();
+  const { register, resetView } = useMap();
+  const isEmbed = useIsEmbed();
 
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
@@ -43,10 +45,21 @@ export default function MapView() {
         [140.135, 36.135],
       ],
       minZoom: 14,
+      // 埋め込みでは、地図の上でも埋め込み先のページをスクロールできるよう、
+      // Ctrl＋ホイールや2本指のときだけ地図を動かす。
+      cooperativeGestures: isEmbed,
+      locale: {
+        'CooperativeGesturesHandler.WindowsHelpText':
+          'Ctrl キーを押しながらスクロールで拡大・縮小',
+        'CooperativeGesturesHandler.MacHelpText':
+          '⌘ キーを押しながらスクロールで拡大・縮小',
+        'CooperativeGesturesHandler.MobileHelpText': '2本指で地図を動かす',
+      },
     });
     map.current = instance;
     // 統一操作 API から参照できるよう登録する。
     register(instance);
+    resetView(0);
 
     // デバッグ用：URL に ?debug があるときだけ建物・通路データを重ねる。
     const debugEnabled = new URLSearchParams(window.location.search).has(
@@ -66,7 +79,7 @@ export default function MapView() {
       instance.remove();
       map.current = null;
     };
-  }, [register]);
+  }, [register, resetView, isEmbed]);
 
   return (
     <div

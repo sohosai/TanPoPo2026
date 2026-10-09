@@ -9,6 +9,7 @@ import {
   rememberListSearch,
 } from '~/components/features/Detail/useDetailClose';
 import EventBanner from '~/components/features/EventLinks/EventBanner';
+import InstallBanner from '~/components/features/Pwa/InstallBanner';
 import {
   criteriaFromParams,
   criteriaToParams,
@@ -101,6 +102,7 @@ export default function List() {
         {showBanner && (
           <div {...enterProps(0)}>
             <EventBanner />
+            <InstallBanner />
           </div>
         )}
 

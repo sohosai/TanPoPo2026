@@ -5,26 +5,25 @@ import type {
   Map as MlMap,
   SymbolLayerSpecification,
 } from 'maplibre-gl';
-import { token } from '../../../../styled-system/tokens';
 import type { CampusData } from './campusData';
 
 // MapLibre は CSS 変数を解釈できないため、16進の値を持つトークンだけを使う。
-export const ACCENT = token('colors.brand.500');
-const ACCENT_TEXT = token('colors.accent.text');
-const TEXT = token('colors.fg.strong');
-const WHITE = token('colors.white');
+export const ACCENT = '#4a93d7'; // token('colors.brand.500')
+const ACCENT_TEXT = '#2f6fb0'; // token('colors.brand.700')
+const TEXT = '#1f2834'; // token('colors.fg.strong')
+const WHITE = '#ffffff'; // token('colors.white')
 export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
-  食品: token('colors.category.food'),
-  物販: token('colors.category.goods'),
-  展示: token('colors.category.exhibit'),
-  学術: token('colors.category.academic'),
-  ステージ: token('colors.category.stage'),
-  その他: token('colors.category.other'),
+  食品: '#f9c310', // token('colors.category.food')
+  物販: '#ec659f', // token('colors.category.goods')
+  展示: '#39c684', // token('colors.category.exhibit')
+  学術: '#9679ec', // token('colors.category.academic')
+  ステージ: '#3aaddf', // token('colors.category.stage')
+  その他: '#8d9bb0', // token('colors.category.other')
 };
 
 const FONT = ['Arial Unicode MS Regular'];
 // これより引くとエリア名、寄ると建物名・テント列を出す。
-export const AREA_MAX_ZOOM = 16.2;
+export const AREA_MAX_ZOOM = 15.8;
 const DETAIL_ZOOM = 17.4;
 // これより寄ると、建物名の下に中の企画名を並べる。
 const PREVIEW_ZOOM = 18.2;
@@ -40,8 +39,8 @@ const BOOTH_NAME_ZOOM = 18.3;
 const FLOOR_HEIGHT = 4;
 const BOOTH_HEIGHT = 2;
 // 地図スタイルの sohosai-buildings（平面の建物の塗り）と揃える。
-const CAMPUS_BUILDING_COLOR = token('colors.map.campusBuilding');
-const BASEMAP_BUILDING_COLOR = token('colors.map.basemapBuilding');
+const CAMPUS_BUILDING_COLOR = '#97bbdc'; // token('colors.map.campusBuilding')
+const BASEMAP_BUILDING_COLOR = '#d9d9d2'; // token('colors.map.basemapBuilding')
 const BASEMAP_3D_OPACITY = 0.6;
 
 /** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤ。 */
@@ -300,6 +299,8 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
       'text-font': FONT,
       'text-size': 15,
       'text-line-height': 1.3,
+      // 「第二・第三エリア」を途中で折り返さない。
+      'text-max-width': 12,
     },
     paint: { ...textPaint, 'text-color': ACCENT_TEXT, 'text-halo-width': 2 },
   });

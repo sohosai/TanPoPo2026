@@ -14,7 +14,7 @@ import {
   useDetailClose,
 } from '~/components/features/Detail/useDetailClose';
 import {
-  BOOTH_FOCUS_ZOOM,
+  placeFocusZoom,
   useMap,
 } from '~/components/features/Map/MapController';
 import ProjectListItem from '~/components/features/Project/ProjectListItem';
@@ -98,8 +98,7 @@ export default function PlaceDetail() {
   useEffect(() => {
     if (!place) return;
     flyTo(place.point, {
-      // 屋外はテントの形が見えるところまで寄る。
-      zoom: place.kind === 'outdoor' ? BOOTH_FOCUS_ZOOM : 17.6,
+      zoom: placeFocusZoom(place),
       // スマホではシートを半分開いているので、残りの地図の中央に来るよう上へずらす。
       offset: isDesktopViewport()
         ? undefined

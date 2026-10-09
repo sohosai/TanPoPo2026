@@ -10,7 +10,9 @@ const { count, size, warnings } = await generateSW({
   swDest: 'build/client/sw.js',
   navigateFallback: '/index.html',
   // LINE ログインのリダイレクト等は Worker に届かせる。
-  navigateFallbackDenylist: [/^\/trpc\//, /^\/auth\//],
+  // 埋め込みは他サイトの iframe に入れられるよう、保存した index.html（埋め込みを禁じるヘッダー付き）
+  // ではなく、埋め込み用のヘッダーが付いた応答を毎回サーバーから受け取る。
+  navigateFallbackDenylist: [/^\/trpc\//, /^\/auth\//, /^\/embed(\/|$)/],
   cleanupOutdatedCaches: true,
   // tRPC の応答は Service Worker では扱わず、web 側で TanStack Query のキャッシュとして端末に保存する。
   runtimeCaching: [
