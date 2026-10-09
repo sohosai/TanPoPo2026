@@ -186,6 +186,15 @@ export default function Detail() {
     return () => highlight(null);
   }, [focusProject, highlight]);
 
+  useEffect(() => {
+    if (project) {
+      document.title = `${project.name} | 雙峰祭 企画検索システム`;
+      return () => {
+        document.title = '雙峰祭 企画検索システム';
+      };
+    }
+  }, [project]);
+
   if (status === 'pending') {
     return <p className={css({ p: '16px' })}>読み込み中...</p>;
   }

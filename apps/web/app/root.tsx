@@ -14,6 +14,12 @@ import type { Route } from './+types/root';
 import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 
+export const meta: Route.MetaFunction = () => {
+  return [
+    { title: '雙峰祭 企画検索システム' }
+  ];
+};
+
 export const links: Route.LinksFunction = () => [
   { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
   { rel: 'icon', type: 'image/svg+xml', href: '/logo/square.svg' },
