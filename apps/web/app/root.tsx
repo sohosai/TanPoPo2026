@@ -15,9 +15,7 @@ import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 
 export const meta: Route.MetaFunction = () => {
-  return [
-    { title: '雙峰祭 企画検索システム' }
-  ];
+  return [{ title: '雙峰祭 企画検索システム' }];
 };
 
 export const links: Route.LinksFunction = () => [
