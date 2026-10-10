@@ -1,12 +1,15 @@
 import { IconMap2 } from '@tabler/icons-react';
 import { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
   detailExitStyles,
+  listPath,
+  rememberListPath,
   useDetailClose,
 } from '~/components/features/Detail/useDetailClose';
+import { useListScroll } from '~/components/features/Detail/useListScroll';
 import {
   areasOfProject,
   findCampusArea,
@@ -42,7 +45,12 @@ export default function AreaDetail() {
         : 'pending';
   const { fitBounds } = useMap();
   const panel = useMapPanel();
-  const { closing, close } = useDetailClose();
+  const { to, closing, close } = useDetailClose(listPath());
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    rememberListPath(pathname);
+  }, [pathname]);
 
   // 地図から開いたときに、エリアと一覧の両方が見えるようにする。
   // biome-ignore lint/correctness/useExhaustiveDependencies: エリアが変わったときだけ開く
@@ -66,6 +74,7 @@ export default function AreaDetail() {
         : undefined,
     [status, projects, byId, areaId],
   );
+  const scroll = useListScroll(areaProjects !== undefined);
 
   if (!area) {
     return (
@@ -142,6 +151,7 @@ export default function AreaDetail() {
           </p>
         </div>
         <DetailCloseButton
+          to={to}
           closing={closing}
           onClick={close}
           className={peekCloseCenteredStyles}
@@ -149,6 +159,7 @@ export default function AreaDetail() {
       </header>
 
       <div
+        {...scroll}
         className={css({
           flex: 1,
           minHeight: 0,

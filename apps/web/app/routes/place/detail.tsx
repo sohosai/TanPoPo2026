@@ -6,13 +6,16 @@ import {
 } from '@tabler/icons-react';
 import type { Place, PlaceKind, Project } from 'api';
 import { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
   detailExitStyles,
+  listPath,
+  rememberListPath,
   useDetailClose,
 } from '~/components/features/Detail/useDetailClose';
+import { useListScroll } from '~/components/features/Detail/useListScroll';
 import {
   placeFocusZoom,
   useMap,
@@ -94,7 +97,12 @@ export default function PlaceDetail() {
   const { isFavorite, toggle } = useFavorites();
   const { flyTo } = useMap();
   const panel = useMapPanel();
-  const { closing, close } = useDetailClose();
+  const { to, closing, close } = useDetailClose(listPath());
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    rememberListPath(pathname);
+  }, [pathname]);
 
   // 地図から開いたときに、場所と一覧の両方が見えるようにする。
   // biome-ignore lint/correctness/useExhaustiveDependencies: 場所が変わったときだけ開く
@@ -125,6 +133,7 @@ export default function PlaceDetail() {
     [place, entries],
   );
   const count = countProjects(entries);
+  const scroll = useListScroll(status === 'success' && place !== undefined);
 
   if (!place) {
     return (
@@ -205,6 +214,7 @@ export default function PlaceDetail() {
           </p>
         </div>
         <DetailCloseButton
+          to={to}
           closing={closing}
           onClick={close}
           className={peekCloseCenteredStyles}
@@ -212,6 +222,7 @@ export default function PlaceDetail() {
       </header>
 
       <div
+        {...scroll}
         className={css({
           flex: 1,
           minHeight: 0,
