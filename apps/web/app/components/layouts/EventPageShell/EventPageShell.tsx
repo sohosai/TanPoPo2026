@@ -42,7 +42,8 @@ export default function EventPageShell({
           alignItems: 'center',
           justifyContent: 'space-between',
           px: '16px',
-          py: '14px',
+          pt: 'calc(14px + env(safe-area-inset-top, 0px))',
+          pb: '14px',
           bg: 'sheet.background',
           borderBottom:
             'token(borderWidths.divider) solid token(colors.border.subtle)',
