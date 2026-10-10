@@ -154,7 +154,8 @@ export default function PlaceDetail() {
           alignItems: 'center',
           gap: '12px',
           px: '16px',
-          pt: '10px',
+          // 上の余白はシートの取っ手が重なる分を含む。
+          pt: '24px',
           pb: '12px',
           borderBottom:
             'token(borderWidths.divider) solid token(colors.border.subtle)',

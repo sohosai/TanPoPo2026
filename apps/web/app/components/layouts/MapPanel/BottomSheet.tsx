@@ -16,11 +16,8 @@ import { useMap } from '~/components/features/Map/MapController';
 import { css } from '../../../../styled-system/css';
 import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
-/**
- * 最小段の高さ(px)。取っ手の領域(14px)と、上下に18pxずつ余白を取った検索欄(44px)が収まり、
- * 検索欄がカードの上下中央に来る。
- */
-export const SHEET_PEEK = 80;
+/** 最小段の高さ(px)。検索欄(44px)を上下に 6px ずつの余白で囲む。 */
+export const SHEET_PEEK = 56;
 /** 最大段・中段の高さ（画面縦幅に対する割合）。 */
 const fullRatio = 0.95;
 const halfRatio = 0.5;
@@ -54,8 +51,8 @@ interface Shape {
 }
 
 // 段ごとのカードの形(px)。段の間は線形に補間する。
-// 角丸の 40px は、検索欄の角丸 22px に、検索欄からカードの縁までの余白 18px を足した値。
-// 角丸を同心にして、最小段のカードを検索欄を囲むカプセルの形にする。
+// 角丸は、検索欄の角丸 22px に検索欄からカードの縁までの余白を足して同心にする
+// （中段は余白 18px で 40px、最小段は余白 6px で 28px）。最小段のカードは検索欄を囲むカプセルになる。
 const fullShape: Shape = {
   side: 0,
   gap: 0,
@@ -72,11 +69,11 @@ const halfShape: Shape = {
 };
 // 最小段は中段より横幅を狭くする。
 const peekShape: Shape = {
-  side: 16,
-  gap: 12,
+  side: 28,
+  gap: 24,
   pad: 10,
-  radiusTop: 40,
-  radiusBottom: 40,
+  radiusTop: 28,
+  radiusBottom: 28,
 };
 
 type Stage = 'full' | 'half' | 'peek';
@@ -222,13 +219,23 @@ const contentStyles = css({
   '[data-peek] &': { overflowY: 'hidden' },
 });
 
+// 取っ手。上へ広げられることを示すため、どの段でも見せる。カードに切り抜かれないよう
+// カードの外に置き、中段と最大段ではカードの上端に重ね、最小段ではカプセルの上へ
+// place() が持ち上げる。中身の配置に場所を取らない（各ページが上の余白を取る）。
+// 押せる範囲は WCAG 2.5.8 の最小寸法を満たす幅 44px・高さ 24px にする。
 const handleAreaStyles = css({
-  flexShrink: 0,
-  w: 'full',
-  h: '14px',
+  position: 'absolute',
+  top: 0,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  w: '44px',
+  h: '24px',
+  pt: '5px',
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   justifyContent: 'center',
+  pointerEvents: 'auto',
+  touchAction: 'none',
   cursor: 'grab',
   _focusVisible: {
     outline: '2px solid',
@@ -262,6 +269,7 @@ export default function BottomSheet({
   const innerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const safeAreaRef = useRef<HTMLDivElement>(null);
+  const handleRef = useRef<HTMLButtonElement>(null);
   // シートの位置（上端が最大段の位置から下がる距離）。毎フレーム変わるため、React の state を
   // 通さず、place() で DOM に直接書き込む。
   const yRef = useRef(0);
@@ -346,6 +354,10 @@ export default function BottomSheet({
       const progress = clamp01((y - snaps.half) / (snaps.peek - snaps.half));
       for (const el of morphs.current) {
         el.style.setProperty('--sheet-peek', progress.toFixed(3));
+      }
+      // 取っ手は最小段へ寄るにつれて上へ移し、最小段ではカプセルの上端から 7px 上に棒が来る。
+      if (handleRef.current) {
+        handleRef.current.style.transform = `translate3d(-50%, ${-17 * progress}px, 0)`;
       }
 
       // 最小段の付近（中段との中間より下）にあるあいだ data-peek を付け、中身が最小段向けの表示に
@@ -766,18 +778,6 @@ export default function BottomSheet({
         onFocus={onCardFocus}
       >
         <div ref={innerRef} className={innerStyles}>
-          <button
-            type="button"
-            aria-label={stage === 'full' ? 'シートを縮める' : 'シートを広げる'}
-            className={handleAreaStyles}
-            onPointerDown={onDown}
-            onPointerMove={onMove}
-            onPointerUp={onUp}
-            onPointerCancel={onUp}
-            onClick={onHandleClick}
-          >
-            <span className={handleStyles} />
-          </button>
           <MapPanelContext.Provider value={panelApi}>
             <div ref={contentRef} className={contentStyles}>
               {children}
@@ -785,6 +785,19 @@ export default function BottomSheet({
           </MapPanelContext.Provider>
         </div>
       </div>
+      <button
+        ref={handleRef}
+        type="button"
+        aria-label={stage === 'full' ? 'シートを縮める' : 'シートを広げる'}
+        className={handleAreaStyles}
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onUp}
+        onClick={onHandleClick}
+      >
+        <span className={handleStyles} />
+      </button>
     </div>
   );
 }

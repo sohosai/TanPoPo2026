@@ -50,7 +50,8 @@ export default function ProjectSearchBar({
 
   return (
     // スクロール領域の外に置いて固定する（sticky だとスクロール中に振動・隙間が出るため）。
-    // 最小段ではカードが細くなる分だけ左右の余白を広げ、検索欄からカードの縁までを 18px に保つ。
+    // 上の余白はシートの取っ手が重なる分を含む。最小段へ寄るにつれて上へずらし、左右の余白を
+    // カードが細くなる分だけ広げて、最小段のカードの縁から検索欄まで上下左右とも 6px にする。
     <div
       data-sheet-morph
       className={css({
@@ -59,7 +60,8 @@ export default function ProjectSearchBar({
         flexDirection: 'column',
         gap: '10px',
         px: 'calc(16px + var(--sheet-peek, 0) * 8px)',
-        pt: '4px',
+        pt: '18px',
+        translate: '0 calc(var(--sheet-peek, 0) * -12px)',
         pb: '12px',
         bg: 'sheet.background',
       })}

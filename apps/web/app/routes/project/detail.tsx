@@ -222,7 +222,8 @@ export default function Detail() {
           alignItems: 'flex-start',
           gap: '12px',
           px: '16px',
-          pt: '10px',
+          // 上の余白はシートの取っ手が重なる分を含む。
+          pt: '24px',
         })}
       >
         <ProjectIcon project={project} size={48} className={peekIconStyles} />
