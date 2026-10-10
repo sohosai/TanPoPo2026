@@ -10,6 +10,7 @@ import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
   detailExitStyles,
+  lastListUrl,
   useDetailClose,
 } from '~/components/features/Detail/useDetailClose';
 import { useProjectFocus } from '~/components/features/Map/useProjectFocus';
@@ -151,7 +152,7 @@ export default function Detail() {
   const [imageIndex, setImageIndex] = useState(0);
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const { closing, close } = useDetailClose();
+  const { to, closing, close } = useDetailClose(lastListUrl());
 
   // 直前の段にかかわらず、地図と詳細の両方が見える中段で開く。
   // biome-ignore lint/correctness/useExhaustiveDependencies: 企画が変わったときだけ開く
@@ -250,7 +251,7 @@ export default function Detail() {
           </p>
         </div>
 
-        <DetailCloseButton closing={closing} onClick={close} />
+        <DetailCloseButton to={to} closing={closing} onClick={close} />
       </header>
 
       {project.cancelled && (
