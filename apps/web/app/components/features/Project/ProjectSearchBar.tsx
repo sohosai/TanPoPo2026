@@ -1,7 +1,8 @@
 import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
-import { css } from '../../../../styled-system/css';
+import { peekFadeStyles } from '~/components/layouts/MapPanel/peekMorph';
+import { css, cx } from '../../../../styled-system/css';
 import {
   CATEGORY_OPTIONS,
   emptyCriteria,
@@ -49,14 +50,18 @@ export default function ProjectSearchBar({
 
   return (
     // スクロール領域の外に置いて固定する（sticky だとスクロール中に振動・隙間が出るため）。
+    // 上の余白はシートの取っ手が重なる分を含む。最小段へ寄るにつれて上へずらし、左右の余白を
+    // カードが細くなる分だけ広げて、最小段のカードの縁から検索欄まで上下左右とも 6px にする。
     <div
+      data-sheet-morph
       className={css({
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        px: '16px',
-        pt: '4px',
+        px: 'calc(16px + var(--sheet-peek, 0) * 8px)',
+        pt: '18px',
+        translate: '0 calc(var(--sheet-peek, 0) * -12px)',
         pb: '12px',
         bg: 'sheet.background',
       })}
@@ -154,18 +159,24 @@ export default function ProjectSearchBar({
         </button>
       </label>
 
+      {/* 最小段では検索欄だけを見せる。最小段へ寄るにつれて消す */}
       <div
-        className={css({
-          display: 'flex',
-          gap: '8px',
-          mx: '-16px',
-          px: '16px',
-          overflowX: 'auto',
-          scrollbarWidth: 'none',
-          '&::-webkit-scrollbar': { display: 'none' },
-          // マウスでは隠れた横スクロールに気づけず操作もしづらいため、PC では折り返して全部見せる。
-          md: { flexWrap: 'wrap', overflowX: 'visible' },
-        })}
+        data-sheet-morph
+        className={cx(
+          peekFadeStyles,
+          css({
+            display: 'flex',
+            gap: '8px',
+            mx: '-16px',
+            px: '16px',
+            '[data-peek] &': { visibility: 'hidden' },
+            overflowX: 'auto',
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            // マウスでは隠れた横スクロールに気づけず操作もしづらいため、PC では折り返して全部見せる。
+            md: { flexWrap: 'wrap', overflowX: 'visible' },
+          }),
+        )}
       >
         <FavoriteFilterChip
           active={criteria.favorite}

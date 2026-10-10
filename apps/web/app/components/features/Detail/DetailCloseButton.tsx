@@ -31,17 +31,19 @@ export default function DetailCloseButton({
   to,
   closing,
   onClick,
+  className,
 }: {
   to: string;
   closing: boolean;
   onClick: (e: MouseEvent<HTMLAnchorElement>) => void;
+  className?: string;
 }) {
   return (
     <Link
       to={to}
       aria-label="閉じる"
       onClick={onClick}
-      className={cx(buttonStyles, closing && closingButtonStyles)}
+      className={cx(buttonStyles, closing && closingButtonStyles, className)}
     >
       <IconX size={20} className={closing ? closingIconStyles : undefined} />
     </Link>

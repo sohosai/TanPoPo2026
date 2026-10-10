@@ -179,6 +179,9 @@ const projectCardClass = css({
   color: 'inherit',
   textDecoration: 'none',
   transition: 'background 0.15s',
+  // 画面外の行はレイアウトと描画を省く。シートを動かすと中身の幅が変わり、一覧をレイアウトし直すため。
+  contentVisibility: 'auto',
+  containIntrinsicSize: 'auto 92px',
   _active: { bg: 'accent.subtle' },
   _after: {
     content: '""',

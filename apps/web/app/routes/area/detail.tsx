@@ -19,6 +19,13 @@ import { useMap } from '~/components/features/Map/MapController';
 import { compareProjects } from '~/components/features/Project/filter';
 import ProjectList from '~/components/features/Project/ProjectList';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
+import {
+  peekCloseCenteredStyles,
+  peekFadeStyles,
+  peekIconStyles,
+  peekTitleStyles,
+} from '~/components/layouts/MapPanel/peekMorph';
+
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
@@ -84,60 +91,71 @@ export default function AreaDetail() {
         closing ? detailExitStyles : detailEnterStyles,
       )}
     >
+      {/* 最小段へ寄るにつれて、アイコン・名前・バツを最小段のカードの形へ寄せる */}
       <header
+        data-sheet-morph
         className={css({
           flexShrink: 0,
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
           px: '16px',
-          pt: '2px',
+          // 上の余白はシートの取っ手が重なる分を含む。
+          pt: '24px',
           pb: '12px',
           borderBottom:
             'token(borderWidths.divider) solid token(colors.border.subtle)',
         })}
       >
         <span
-          className={css({
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            w: '48px',
-            h: '48px',
-            borderRadius: 'xl',
-            bg: 'accent.subtle',
-            color: 'accent.text',
-            // 最小段では名前だけを見せる。
-            '[data-peek] &': { display: 'none' },
-          })}
+          className={cx(
+            css({
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              w: '48px',
+              h: '48px',
+              borderRadius: 'xl',
+              bg: 'accent.subtle',
+              color: 'accent.text',
+            }),
+            peekIconStyles,
+          )}
         >
           <IconMap2 size={26} />
         </span>
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
-            className={css({
-              fontSize: '2xl',
-              fontWeight: 700,
-              lineHeight: 1.35,
-              color: 'fg.strong',
-              '[data-peek] &': { truncate: true },
-            })}
+            className={cx(
+              css({
+                fontSize: '2xl',
+                fontWeight: 700,
+                lineHeight: 1.35,
+                color: 'fg.strong',
+                '[data-peek] &': { truncate: true },
+              }),
+              peekTitleStyles,
+            )}
           >
             {area.name}
           </h1>
           <p
-            className={css({
-              fontSize: 'sm',
-              color: 'fg.subtle',
-              '[data-peek] &': { display: 'none' },
-            })}
+            className={cx(
+              css({ fontSize: 'sm', color: 'fg.subtle' }),
+              peekFadeStyles,
+            )}
           >
             会場エリア
             {areaProjects && ` · ${areaProjects.length}企画`}
           </p>
         </div>
-        <DetailCloseButton to={to} closing={closing} onClick={close} />
+        <DetailCloseButton
+          to={to}
+          closing={closing}
+          onClick={close}
+          className={peekCloseCenteredStyles}
+        />
       </header>
 
       <div

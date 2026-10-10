@@ -26,16 +26,22 @@ const iconClass = css({
 export default function ProjectIcon({
   project,
   size,
+  className,
 }: {
   project: Pick<Project, 'thumbnail' | 'name' | 'category'>;
   size: number;
+  className?: string;
 }) {
   const style = { width: size, height: size, fontSize: size * 0.35 };
 
   if (!project.thumbnail) {
     return (
       <div
-        className={cx(iconClass, CATEGORY_COLOR_CLASS[project.category])}
+        className={cx(
+          iconClass,
+          CATEGORY_COLOR_CLASS[project.category],
+          className,
+        )}
         style={style}
       >
         {project.name.slice(0, 1)}
@@ -43,7 +49,10 @@ export default function ProjectIcon({
     );
   }
   return (
-    <div className={cx(iconClass, css({ bg: 'surface' }))} style={style}>
+    <div
+      className={cx(iconClass, css({ bg: 'surface' }), className)}
+      style={style}
+    >
       <img
         src={project.thumbnail.src}
         srcSet={project.thumbnail.srcSet}
