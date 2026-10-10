@@ -7,18 +7,19 @@ import { css } from '../../../../styled-system/css';
 // 最小段のカード（高さ 80px、角丸 40px）の上下中央へ寄せる量。最小段ではカードが細くなり、
 // カードの縁は中身の端より 6px 内側に来るため、横の位置はその分を含めて寄せる。
 
-/** アイコン。48px から 32px に縮め、カードと同心の位置（カードの縁から 24px）へ寄せる。 */
+/** アイコン。48px から 40px に縮め、カードと同心の位置（カードの縁から 20px）へ寄せる。 */
 export const peekIconStyles = css({
   transformOrigin: 'left top',
-  translate: 'calc(var(--sheet-peek, 0) * 14px) 0',
-  scale: 'calc(1 - var(--sheet-peek, 0) / 3)',
+  translate:
+    'calc(var(--sheet-peek, 0) * 10px) calc(var(--sheet-peek, 0) * -4px)',
+  scale: 'calc(1 - var(--sheet-peek, 0) / 6)',
 });
 
-/** 名前。0.8 倍に縮め、アイコンの右でカードの上下中央へ寄せる。 */
+/** 名前。0.8 倍に縮め、アイコンの右 14px でカードの上下中央へ寄せる。 */
 export const peekTitleStyles = css({
   transformOrigin: 'left top',
   translate:
-    'calc(var(--sheet-peek, 0) * -4px) calc(var(--sheet-peek, 0) * 4.7px)',
+    'calc(var(--sheet-peek, 0) * 4px) calc(var(--sheet-peek, 0) * 4.7px)',
   scale: 'calc(1 - var(--sheet-peek, 0) * 0.2)',
 });
 
