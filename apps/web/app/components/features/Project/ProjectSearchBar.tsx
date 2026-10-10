@@ -50,13 +50,15 @@ export default function ProjectSearchBar({
 
   return (
     // スクロール領域の外に置いて固定する（sticky だとスクロール中に振動・隙間が出るため）。
+    // 最小段ではカードが細くなる分だけ左右の余白を広げ、検索欄からカードの縁までを 18px に保つ。
     <div
+      data-sheet-morph
       className={css({
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        px: '16px',
+        px: 'calc(16px + var(--sheet-peek, 0) * 8px)',
         pt: '4px',
         pb: '12px',
         bg: 'sheet.background',

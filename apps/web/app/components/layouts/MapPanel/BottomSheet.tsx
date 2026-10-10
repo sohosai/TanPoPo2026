@@ -43,7 +43,11 @@ interface Shape {
   side: number;
   /** カードの下の余白 */
   gap: number;
-  /** 中身に足す左右の余白。カードの縁から中身（各ページの左右の余白 16px を含む）の端まで 18px にする */
+  /**
+   * 中身に足す左右の余白。中段ではカードの縁から中身（各ページの左右の余白 16px を含む）の端まで
+   * 18px にする。中段と最小段で同じ値にし、地図操作などで最も多い中段と最小段の移動では
+   * 中身の幅を変えない（最小段で細くなる分は、最小段で見える行だけが自分で合わせる）。
+   */
   pad: number;
   radiusTop: number;
   radiusBottom: number;
@@ -70,7 +74,7 @@ const halfShape: Shape = {
 const peekShape: Shape = {
   side: 16,
   gap: 12,
-  pad: 18,
+  pad: 10,
   radiusTop: 40,
   radiusBottom: 40,
 };
@@ -185,21 +189,26 @@ const sheetStyles = css({
   },
 });
 
-// カードの背景と影。位置と角丸は place() が毎フレーム書き込む。
+// カード。背景と影を描き、中身をカードの形で切り抜く。位置と角丸は place() が毎フレーム書き込む。
+// overflow: hidden による切り抜きは、clip-path と違って枠が変わっても中身を描き直さない。
 const cardStyles = css({
   position: 'absolute',
   top: 0,
+  overflow: 'hidden',
   bg: 'sheet.background',
   boxShadow: 'panel',
+  pointerEvents: 'auto',
 });
 
-// 取っ手と中身。カードと同じ形で切り抜く（clip-path は触れられる範囲も切り抜く）。
+// 取っ手と中身。カードの大きさが変わっても中身をレイアウトし直さないよう、シートと同じ大きさで
+// 固定し、カードの左の余白の分だけ place() が左へずらして画面上の位置を保つ。
 const innerStyles = css({
   position: 'absolute',
-  inset: 0,
+  top: 0,
+  w: '100vw',
+  h: `${fullRatio * 100}dvh`,
   display: 'flex',
   flexDirection: 'column',
-  pointerEvents: 'auto',
   touchAction: 'none',
 });
 
@@ -256,8 +265,10 @@ export default function BottomSheet({
   // シートの位置（上端が最大段の位置から下がる距離）。毎フレーム変わるため、React の state を
   // 通さず、place() で DOM に直接書き込む。
   const yRef = useRef(0);
-  // 中身に足している左右の余白。変わるとレイアウトし直すため、整数pxが変わったときだけ書き換える。
+  // 中身に足している左右の余白。変わると中身をレイアウトし直すため、整数pxが変わったときだけ書き換える。
   const padRef = useRef(-1);
+  // 指の動きを描画に反映する、次のフレームの予約。
+  const dragFrame = useRef<number | null>(null);
   const animation = useRef<number | null>(null);
   // 動いているあいだカードの下端に留める要素（中身の下端に貼り付く data-sheet-bottom）。
   const pinned = useRef<HTMLElement[]>([]);
@@ -306,12 +317,11 @@ export default function BottomSheet({
 
       const { side, pad, radiusTop, radiusBottom } = shapeAt(y, snaps);
       const bottom = cardBottomAt(y, snaps);
-      const radius = `${radiusTop}px ${radiusTop}px ${radiusBottom}px ${radiusBottom}px`;
       card.style.left = `${side}px`;
       card.style.right = `${side}px`;
       card.style.bottom = `${bottom}px`;
-      card.style.borderRadius = radius;
-      inner.style.clipPath = `inset(0 ${side}px ${bottom}px ${side}px round ${radius})`;
+      card.style.borderRadius = `${radiusTop}px ${radiusTop}px ${radiusBottom}px ${radiusBottom}px`;
+      inner.style.left = `${-side}px`;
       const roundedPad = Math.round(pad);
       if (roundedPad !== padRef.current) {
         padRef.current = roundedPad;
@@ -380,6 +390,8 @@ export default function BottomSheet({
   const stopAnimation = useCallback(() => {
     if (animation.current !== null) cancelAnimationFrame(animation.current);
     animation.current = null;
+    if (dragFrame.current !== null) cancelAnimationFrame(dragFrame.current);
+    dragFrame.current = null;
   }, []);
 
   // ばねの動きで target の位置へ動かす。velocity(px/ms) は指を離したときの速度で、ばねの初速にする。
@@ -524,9 +536,14 @@ export default function BottomSheet({
 
       const max = snaps.peek;
       const raw = drag.current.baseY + (clientY - drag.current.pointerY);
-      const next = raw < 0 ? 0 : raw > max ? max + rubberband(raw - max) : raw;
-      drag.current.y = next;
-      place(next, snaps);
+      drag.current.y =
+        raw < 0 ? 0 : raw > max ? max + rubberband(raw - max) : raw;
+      // 指の動きのイベントは画面の更新より多く届くことがあるため、描画は1フレームに1回にまとめる。
+      if (dragFrame.current !== null) return;
+      dragFrame.current = requestAnimationFrame(() => {
+        dragFrame.current = null;
+        if (drag.current.snaps) place(drag.current.y, drag.current.snaps);
+      });
     },
     [place],
   );
@@ -535,6 +552,9 @@ export default function BottomSheet({
     (timeStamp: number) => {
       const { snaps } = drag.current;
       if (!snaps) return;
+      // まだ描画していない指の位置を反映してから、そこを起点に動かす。
+      stopAnimation();
+      place(drag.current.y, snaps);
       const idle = timeStamp - drag.current.lastT > releaseIdleMs;
       const velocity = idle ? 0 : drag.current.velocity;
       const projected = drag.current.y + velocity * projectionMs;
@@ -546,7 +566,7 @@ export default function BottomSheet({
       // 検索中に手でシートを下げたら、キーボードも閉じる。
       if (next !== full) blurFocused();
     },
-    [animateTo, blurFocused],
+    [stopAnimation, place, animateTo, blurFocused],
   );
 
   // タッチはシート全体で受け、シートを伸縮させるかスクロールに任せるかを指の動きから決める。
@@ -737,32 +757,33 @@ export default function BottomSheet({
       className={sheetStyles}
     >
       <div ref={safeAreaRef} className={safeAreaStyles} />
-      <div ref={cardRef} className={cardStyles} />
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: キーボードでは取っ手のボタンで同じ操作ができる */}
       {/* biome-ignore lint/a11y/noStaticElementInteractions: 最小段のタップを広げる操作として扱う */}
       <div
-        ref={innerRef}
-        className={innerStyles}
+        ref={cardRef}
+        className={cardStyles}
         onClick={onCardClick}
         onFocus={onCardFocus}
       >
-        <button
-          type="button"
-          aria-label={stage === 'full' ? 'シートを縮める' : 'シートを広げる'}
-          className={handleAreaStyles}
-          onPointerDown={onDown}
-          onPointerMove={onMove}
-          onPointerUp={onUp}
-          onPointerCancel={onUp}
-          onClick={onHandleClick}
-        >
-          <span className={handleStyles} />
-        </button>
-        <MapPanelContext.Provider value={panelApi}>
-          <div ref={contentRef} className={contentStyles}>
-            {children}
-          </div>
-        </MapPanelContext.Provider>
+        <div ref={innerRef} className={innerStyles}>
+          <button
+            type="button"
+            aria-label={stage === 'full' ? 'シートを縮める' : 'シートを広げる'}
+            className={handleAreaStyles}
+            onPointerDown={onDown}
+            onPointerMove={onMove}
+            onPointerUp={onUp}
+            onPointerCancel={onUp}
+            onClick={onHandleClick}
+          >
+            <span className={handleStyles} />
+          </button>
+          <MapPanelContext.Provider value={panelApi}>
+            <div ref={contentRef} className={contentStyles}>
+              {children}
+            </div>
+          </MapPanelContext.Provider>
+        </div>
       </div>
     </div>
   );
