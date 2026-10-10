@@ -52,6 +52,19 @@ export default defineConfig({
         },
       },
       keyframes: {
+        // 404 ページの紙吹雪・見出しの文字・風船そぽたん。
+        drift: {
+          from: { transform: 'translateY(0) rotate(-20deg)' },
+          to: { transform: 'translateY(14px) rotate(25deg)' },
+        },
+        hop: {
+          '0%, 30%, 100%': { transform: 'translateY(0)' },
+          '12%': { transform: 'translateY(-10px)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0) rotate(-3deg)' },
+          '50%': { transform: 'translateY(-18px) rotate(3deg)' },
+        },
         // 地図の吹き出しで、次の企画を下から送り出す。
         tickerIn: {
           '0%': { transform: 'translateY(100%)', opacity: '0' },

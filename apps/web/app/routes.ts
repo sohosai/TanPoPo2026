@@ -14,4 +14,5 @@ export default [
   route('/questionnaire', 'routes/questionnaire/index.tsx'),
   // 他サイトの iframe に埋め込む地図。/embed の後ろはアプリ本体と同じパス。
   route('/embed/*', 'routes/embed.tsx'),
+  route('*', 'routes/not-found.tsx'),
 ] satisfies RouteConfig;
