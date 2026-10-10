@@ -8,6 +8,7 @@ import {
   listEnterStyles,
   rememberListSearch,
 } from '~/components/features/Detail/useDetailClose';
+import { useListScroll } from '~/components/features/Detail/useListScroll';
 import EventBanner from '~/components/features/EventLinks/EventBanner';
 import InstallBanner from '~/components/features/Pwa/InstallBanner';
 import {
@@ -69,6 +70,8 @@ export default function List() {
     return () => window.clearTimeout(timer);
   }, [entering]);
 
+  const scroll = useListScroll(projects !== undefined);
+
   const showBanner = !hasActiveFilter(criteria) && criteria.q === '';
   const enterProps = (index: number) =>
     entering
@@ -90,6 +93,7 @@ export default function List() {
       />
 
       <div
+        {...scroll}
         className={css({
           flex: 1,
           minHeight: 0,
