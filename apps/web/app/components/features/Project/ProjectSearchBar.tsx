@@ -1,7 +1,8 @@
 import { IconChevronDown, IconX } from '@tabler/icons-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
-import { css } from '../../../../styled-system/css';
+import { peekFadeStyles } from '~/components/layouts/MapPanel/peekMorph';
+import { css, cx } from '../../../../styled-system/css';
 import {
   CATEGORY_OPTIONS,
   emptyCriteria,
@@ -154,18 +155,24 @@ export default function ProjectSearchBar({
         </button>
       </label>
 
+      {/* 最小段では検索欄だけを見せる。最小段へ寄るにつれて消す */}
       <div
-        className={css({
-          display: 'flex',
-          gap: '8px',
-          mx: '-16px',
-          px: '16px',
-          overflowX: 'auto',
-          scrollbarWidth: 'none',
-          '&::-webkit-scrollbar': { display: 'none' },
-          // マウスでは隠れた横スクロールに気づけず操作もしづらいため、PC では折り返して全部見せる。
-          md: { flexWrap: 'wrap', overflowX: 'visible' },
-        })}
+        data-sheet-morph
+        className={cx(
+          peekFadeStyles,
+          css({
+            display: 'flex',
+            gap: '8px',
+            mx: '-16px',
+            px: '16px',
+            '[data-peek] &': { visibility: 'hidden' },
+            overflowX: 'auto',
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            // マウスでは隠れた横スクロールに気づけず操作もしづらいため、PC では折り返して全部見せる。
+            md: { flexWrap: 'wrap', overflowX: 'visible' },
+          }),
+        )}
       >
         <FavoriteFilterChip
           active={criteria.favorite}

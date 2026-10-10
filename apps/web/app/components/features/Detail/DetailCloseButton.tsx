@@ -31,16 +31,18 @@ const closingIconStyles = css({
 export default function DetailCloseButton({
   closing,
   onClick,
+  className,
 }: {
   closing: boolean;
   onClick: (e: MouseEvent<HTMLAnchorElement>) => void;
+  className?: string;
 }) {
   return (
     <Link
       to={listPath()}
       aria-label="閉じる"
       onClick={onClick}
-      className={cx(buttonStyles, closing && closingButtonStyles)}
+      className={cx(buttonStyles, closing && closingButtonStyles, className)}
     >
       <IconX size={20} className={closing ? closingIconStyles : undefined} />
     </Link>

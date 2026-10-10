@@ -1,6 +1,8 @@
 import type { LngLat } from 'maplibre-gl';
 import {
   type PointerEvent,
+  type FocusEvent as ReactFocusEvent,
+  type MouseEvent as ReactMouseEvent,
   type ReactNode,
   type RefObject,
   useCallback,
@@ -14,8 +16,11 @@ import { useMap } from '~/components/features/Map/MapController';
 import { css } from '../../../../styled-system/css';
 import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
-/** 最小段の高さ(px)。取っ手と検索欄（ProjectSearchBar の1段目）が見える。 */
-export const SHEET_PEEK = 78;
+/**
+ * 最小段の高さ(px)。取っ手の領域(14px)と、上下に18pxずつ余白を取った検索欄(44px)が収まり、
+ * 検索欄がカードの上下中央に来る。
+ */
+export const SHEET_PEEK = 80;
 /** 最大段・中段の高さ（画面縦幅に対する割合）。 */
 const fullRatio = 0.95;
 const halfRatio = 0.5;
@@ -29,7 +34,48 @@ const rubberDim = 200;
 // 地図をこれ以上動かしたら（画面上の移動量 px、ズームの段数）、シートを最小段に下げる。
 const mapPanThreshold = 60;
 const mapZoomThreshold = 0.5;
-const sheetTransition = 'transform 0.45s cubic-bezier(0.32, 0.72, 0, 1)';
+// 段へ動かすばね。応答時間(秒)と減衰比。減衰比が1未満だと、目標をわずかに行き過ぎてから戻る。
+const springResponse = 0.45;
+const springDamping = 0.85;
+
+interface Shape {
+  /** カードの左右の余白 */
+  side: number;
+  /** カードの下の余白 */
+  gap: number;
+  /** 中身に足す左右の余白。カードの縁から中身（各ページの左右の余白 16px を含む）の端まで 18px にする */
+  pad: number;
+  radiusTop: number;
+  radiusBottom: number;
+}
+
+// 段ごとのカードの形(px)。段の間は線形に補間する。
+// 角丸の 40px は、検索欄の角丸 22px に、検索欄からカードの縁までの余白 18px を足した値。
+// 角丸を同心にして、最小段のカードを検索欄を囲むカプセルの形にする。
+const fullShape: Shape = {
+  side: 0,
+  gap: 0,
+  pad: 0,
+  radiusTop: 22,
+  radiusBottom: 0,
+};
+const halfShape: Shape = {
+  side: 8,
+  gap: 8,
+  pad: 10,
+  radiusTop: 40,
+  radiusBottom: 40,
+};
+// 最小段は中段より横幅を狭くする。
+const peekShape: Shape = {
+  side: 16,
+  gap: 12,
+  pad: 18,
+  radiusTop: 40,
+  radiusBottom: 40,
+};
+
+type Stage = 'full' | 'half' | 'peek';
 
 interface BottomSheetProps {
   children?: ReactNode;
@@ -41,10 +87,44 @@ interface Snaps {
   full: number;
   half: number;
   peek: number;
+  /** シート要素の高さ */
+  height: number;
+  /** 画面下端の安全領域の高さ */
+  safeArea: number;
+  /** 最小段のカードの下の余白。安全領域より狭くしない */
+  peekGap: number;
 }
 
 const rubberband = (overflow: number) =>
   (1 - 1 / ((overflow * 0.55) / rubberDim + 1)) * rubberDim;
+
+const clamp01 = (t: number) => Math.min(Math.max(t, 0), 1);
+
+const mix = (a: Shape, b: Shape, t: number): Shape => ({
+  side: a.side + (b.side - a.side) * t,
+  gap: a.gap + (b.gap - a.gap) * t,
+  pad: a.pad + (b.pad - a.pad) * t,
+  radiusTop: a.radiusTop + (b.radiusTop - a.radiusTop) * t,
+  radiusBottom: a.radiusBottom + (b.radiusBottom - a.radiusBottom) * t,
+});
+
+// シートの位置 y でのカードの形。
+const shapeAt = (y: number, s: Snaps): Shape => {
+  if (y <= s.half) return mix(fullShape, halfShape, clamp01(y / s.half));
+  const peek = { ...peekShape, gap: s.peekGap };
+  return mix(halfShape, peek, clamp01((y - s.half) / (s.peek - s.half)));
+};
+
+// シート要素の下端から、カードの下端までの距離。最小段より下へ引っ張ったときは、
+// カードの高さを最小段のまま保ってカードごと下げる。
+const cardBottomAt = (y: number, s: Snaps) =>
+  Math.min(y + shapeAt(y, s).gap, s.height - SHEET_PEEK);
+
+const stageAt = (y: number, s: Snaps): Stage =>
+  y > (s.half + s.peek) / 2 ? 'peek' : y < s.half / 2 ? 'full' : 'half';
+
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // 触れた要素からシートまで遡り、最も近い縦スクロール領域を返す。
 // 一覧や場所詳細は、シートの中身の中にさらに自前のスクロール領域を持つため。
@@ -90,11 +170,36 @@ const sheetStyles = css({
   bottom: 0,
   zIndex: 10,
   h: `${fullRatio * 100}dvh`,
+  // 操作を受け付けるのはカードの内側だけにし、カードの外の余白では地図を操作できるようにする。
+  pointerEvents: 'none',
+  willChange: 'transform',
+  // 動いていないあいだに描画された data-sheet-morph の要素にも、いまの段の進み具合を渡す。
+  // 動いているあいだは place() が要素ごとに上書きする。
+  '&[data-peek] [data-sheet-morph]': { '--sheet-peek': '1' },
+  // 中身をスクロールできるのは最大段だけなので、それ以外の段ではスクロールバーを出さない。
+  '&:not([data-stage="full"])': {
+    '& *': {
+      scrollbarWidth: 'none',
+      '&::-webkit-scrollbar': { display: 'none' },
+    },
+  },
+});
+
+// カードの背景と影。位置と角丸は place() が毎フレーム書き込む。
+const cardStyles = css({
+  position: 'absolute',
+  top: 0,
+  bg: 'sheet.background',
+  boxShadow: 'panel',
+});
+
+// 取っ手と中身。カードと同じ形で切り抜く（clip-path は触れられる範囲も切り抜く）。
+const innerStyles = css({
+  position: 'absolute',
+  inset: 0,
   display: 'flex',
   flexDirection: 'column',
-  bg: 'sheet.background',
-  borderTopRadius: '2xl',
-  boxShadow: 'sheet',
+  pointerEvents: 'auto',
   touchAction: 'none',
 });
 
@@ -104,14 +209,24 @@ const contentStyles = css({
   overflowY: 'auto',
   overscrollBehavior: 'contain',
   touchAction: 'pan-y',
+  // 最小段では中身をスクロールさせないため、見えている高さを超える中身にスクロールバーを出さない。
+  '[data-peek] &': { overflowY: 'hidden' },
 });
 
 const handleAreaStyles = css({
-  h: '24px',
+  flexShrink: 0,
+  w: 'full',
+  h: '14px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'grab',
+  _focusVisible: {
+    outline: '2px solid',
+    outlineColor: 'accent',
+    outlineOffset: '-4px',
+    borderRadius: 'full',
+  },
 });
 
 const handleStyles = css({
@@ -121,18 +236,35 @@ const handleStyles = css({
   bg: 'sheet.handle',
 });
 
+// 画面下端の安全領域の高さを測るための見えない要素。
+const safeAreaStyles = css({
+  position: 'absolute',
+  w: 0,
+  h: 'env(safe-area-inset-bottom, 0px)',
+  visibility: 'hidden',
+});
+
 export default function BottomSheet({
   children,
   controlsRef,
 }: BottomSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
-  // シートの位置（上端が最大段の位置から下がる距離）。ドラッグ中は指の動きごとに変わるため、
-  // React の state を通さず、place() で DOM の transform に直接書き込む。
-  const yRef = useRef(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  // 動いているあいだ画面の下端に留める要素（中身の下端に貼り付く data-sheet-bottom）。
+  const safeAreaRef = useRef<HTMLDivElement>(null);
+  // シートの位置（上端が最大段の位置から下がる距離）。毎フレーム変わるため、React の state を
+  // 通さず、place() で DOM に直接書き込む。
+  const yRef = useRef(0);
+  // 中身に足している左右の余白。変わるとレイアウトし直すため、整数pxが変わったときだけ書き換える。
+  const padRef = useRef(-1);
+  const animation = useRef<number | null>(null);
+  // 動いているあいだカードの下端に留める要素（中身の下端に貼り付く data-sheet-bottom）。
   const pinned = useRef<HTMLElement[]>([]);
-  const [atPeek, setAtPeek] = useState(false);
+  // 最小段へ寄る進み具合を渡す要素（data-sheet-morph）。動いているあいだだけ集めておく。
+  const morphs = useRef<HTMLElement[]>([]);
+  const [stage, setStage] = useState<Stage>('half');
+  const stageRef = useRef<Stage>('half');
   const drag = useRef({
     pointerY: 0,
     baseY: 0,
@@ -140,32 +272,86 @@ export default function BottomSheet({
     lastY: 0,
     lastT: 0,
     velocity: 0,
-    snaps: { full: 0, half: 0, peek: 0 } as Snaps,
+    snaps: null as Snaps | null,
   });
-  const mouseDragging = useRef(false);
+  const mouseDrag = useRef<{ startY: number; moved: boolean } | null>(null);
+  const handleDragged = useRef(false);
 
   // 各段でのシートの位置。
   const getSnaps = useCallback((): Snaps => {
     const height = ref.current?.offsetHeight ?? 0;
     const viewport = height / fullRatio;
+    const safeArea = safeAreaRef.current?.offsetHeight ?? 0;
+    const peekGap = Math.max(peekShape.gap, safeArea);
     return {
       full: 0,
       half: Math.max(height - viewport * halfRatio, 0),
-      peek: Math.max(height - SHEET_PEEK, 0),
+      peek: Math.max(height - SHEET_PEEK - peekGap, 0),
+      height,
+      safeArea,
+      peekGap,
     };
   }, []);
 
-  // いま画面に見えているシートの位置。アニメーションの途中では目標の段と異なる。
-  const visualY = useCallback(() => {
-    const sheet = ref.current;
-    if (!sheet) return yRef.current;
-    return new DOMMatrixReadOnly(getComputedStyle(sheet).transform).m42;
-  }, []);
+  // シートを位置 y に置き、カードの形、地図コントロール、下端の操作バーをそれに合わせる。
+  const place = useCallback(
+    (y: number, snaps: Snaps) => {
+      const sheet = ref.current;
+      const card = cardRef.current;
+      const inner = innerRef.current;
+      if (!sheet || !card || !inner) return;
+      yRef.current = y;
+      // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
+      sheet.style.transform = `translate3d(0, ${Math.round(y)}px, 0)`;
 
-  // シートが動き出すときに呼ぶ。動いているあいだは中身の下端をシートの下端（画面外）まで伸ばし、
-  // 指の動きごとにレイアウトし直さない。中身の下端に貼り付く要素は、シートの動きを打ち消す向きに
-  // 動かして画面の下端に留める。
-  const beginMotion = useCallback((from: number) => {
+      const { side, pad, radiusTop, radiusBottom } = shapeAt(y, snaps);
+      const bottom = cardBottomAt(y, snaps);
+      const radius = `${radiusTop}px ${radiusTop}px ${radiusBottom}px ${radiusBottom}px`;
+      card.style.left = `${side}px`;
+      card.style.right = `${side}px`;
+      card.style.bottom = `${bottom}px`;
+      card.style.borderRadius = radius;
+      inner.style.clipPath = `inset(0 ${side}px ${bottom}px ${side}px round ${radius})`;
+      const roundedPad = Math.round(pad);
+      if (roundedPad !== padRef.current) {
+        padRef.current = roundedPad;
+        inner.style.paddingInline = `${roundedPad}px`;
+      }
+
+      // 地図コントロールはカードの上端に追従させる。追従は中段までとし、それより上ではシートに隠れる。
+      const controls = controlsRef?.current;
+      if (controls) {
+        const cardTop = snaps.height - Math.max(y, snaps.half);
+        const lift = cardTop - SHEET_PEEK - snaps.safeArea;
+        controls.style.transform = `translate3d(0, ${-Math.round(lift)}px, 0)`;
+      }
+
+      // 動いているあいだは中身の下端がシート要素の下端（画面外）にあるため、
+      // 下端に貼り付く要素をその分だけ戻し、カードの下端に留める。
+      for (const el of pinned.current) {
+        el.style.transform = `translate3d(0, ${-Math.round(bottom)}px, 0)`;
+      }
+
+      // 中段から最小段へ寄る進み具合（0〜1）。各ページはこれで最小段の形へ連続的に変わる。
+      const progress = clamp01((y - snaps.half) / (snaps.peek - snaps.half));
+      for (const el of morphs.current) {
+        el.style.setProperty('--sheet-peek', progress.toFixed(3));
+      }
+
+      // 最小段の付近（中段との中間より下）にあるあいだ data-peek を付け、中身が最小段向けの表示に
+      // 切り替えられるようにする。ドラッグ中も位置で判定し、最小段から上下に引いても表示を保つ。
+      const next = stageAt(y, snaps);
+      if (next !== stageRef.current) {
+        stageRef.current = next;
+        setStage(next);
+      }
+    },
+    [controlsRef],
+  );
+
+  // シートが動き出すときに呼ぶ。動いているあいだは中身の下端をシート要素の下端まで伸ばし、
+  // フレームごとにレイアウトし直さない。
+  const beginMotion = useCallback(() => {
     const sheet = ref.current;
     const content = contentRef.current;
     if (!sheet || !content) return;
@@ -173,89 +359,92 @@ export default function BottomSheet({
     pinned.current = Array.from(
       sheet.querySelectorAll<HTMLElement>('[data-sheet-bottom]'),
     );
-    for (const el of pinned.current) {
-      el.style.transition = 'none';
-      el.style.transform = `translate3d(0, ${-Math.round(from)}px, 0)`;
-    }
-    // 続けてアニメーションを指定したときに、ここで置いた位置から動き出すよう確定させる。
-    sheet.getBoundingClientRect();
+    morphs.current = Array.from(
+      sheet.querySelectorAll<HTMLElement>('[data-sheet-morph]'),
+    );
   }, []);
 
-  // シートが止まったときに呼ぶ。中身の下端を画面の下端にそろえ、どの段でも末尾まで
-  // 画面内にスクロールできるようにする。留めていた要素は本来の位置に戻す。
-  const endMotion = useCallback(() => {
+  // シートが止まったときに呼ぶ。中身の下端をカードの下端にそろえ、どの段でも末尾まで
+  // 見える範囲にスクロールできるようにする。留めていた要素は本来の位置に戻す。
+  const endMotion = useCallback((snaps: Snaps) => {
     const content = contentRef.current;
     if (!content) return;
-    content.style.marginBottom = `${Math.round(yRef.current)}px`;
-    for (const el of pinned.current) {
-      el.style.transition = '';
-      el.style.transform = '';
-    }
+    content.style.marginBottom = `${Math.round(cardBottomAt(yRef.current, snaps))}px`;
+    for (const el of pinned.current) el.style.transform = '';
     pinned.current = [];
+    // 止まった段の値は上の CSS が渡すので、要素ごとの値は外す。
+    for (const el of morphs.current) el.style.removeProperty('--sheet-peek');
+    morphs.current = [];
   }, []);
 
-  // シートを next の位置へ動かす。animate が false のときはアニメーションせずに動かす。
-  const place = useCallback(
-    (next: number, animate: boolean, snaps: Snaps = getSnaps()) => {
-      const sheet = ref.current;
-      if (!sheet) return;
-      yRef.current = next;
-      const transition = animate ? sheetTransition : 'none';
-      sheet.style.transition = transition;
-      // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
-      sheet.style.transform = `translate3d(0, ${Math.round(next)}px, 0)`;
+  const stopAnimation = useCallback(() => {
+    if (animation.current !== null) cancelAnimationFrame(animation.current);
+    animation.current = null;
+  }, []);
 
-      // 地図コントロールも同じ動きでシートの上端に追従させる。
-      // 追従は中段までとし、それより上ではシートに隠れる。
-      const controls = controlsRef?.current;
-      if (controls) {
-        const lift = Math.max(next, snaps.half) - snaps.peek;
-        controls.style.transition = transition;
-        controls.style.transform = `translate3d(0, ${Math.round(lift)}px, 0)`;
-      }
-
-      for (const el of pinned.current) {
-        el.style.transition = transition;
-        el.style.transform = `translate3d(0, ${-Math.round(next)}px, 0)`;
-      }
-
-      // 最小段の付近（中段との中間より下）にあるあいだ data-peek を付け、中身が最小段向けの表示に
-      // 切り替えられるようにする。ドラッグ中も位置で判定し、最小段から上下に引いても表示を保つ。
-      setAtPeek(next > (snaps.half + snaps.peek) / 2);
-    },
-    [getSnaps, controlsRef],
-  );
-
-  // アニメーションで next の段へ動かす。
+  // ばねの動きで target の位置へ動かす。velocity(px/ms) は指を離したときの速度で、ばねの初速にする。
   const animateTo = useCallback(
-    (next: number, snaps: Snaps = getSnaps()) => {
-      const from = visualY();
-      // 位置が変わらないと transitionend が来ないため、その場で止まったものとして扱う。
-      if (Math.round(from) === Math.round(next)) {
-        place(next, false, snaps);
-        endMotion();
+    (target: number, velocity = 0, snaps: Snaps = getSnaps()) => {
+      stopAnimation();
+      const settled =
+        Math.abs(yRef.current - target) < 0.5 && Math.abs(velocity) < 0.02;
+      if (settled || prefersReducedMotion()) {
+        place(target, snaps);
+        endMotion(snaps);
         return;
       }
-      beginMotion(from);
-      place(next, true, snaps);
+
+      beginMotion();
+      const omega = (2 * Math.PI) / springResponse;
+      const stiffness = omega * omega;
+      const damping = 2 * springDamping * omega;
+      let y = yRef.current;
+      let v = velocity * 1000;
+      let last: number | null = null;
+
+      const step = (now: number) => {
+        // フレームが落ちても動きが崩れないよう、経過時間を細かく刻んで積分する。
+        const dt =
+          last === null ? 1 / 60 : Math.min((now - last) / 1000, 1 / 20);
+        last = now;
+        const steps = Math.max(Math.ceil(dt * 240), 1);
+        const h = dt / steps;
+        for (let i = 0; i < steps; i++) {
+          v += (-stiffness * (y - target) - damping * v) * h;
+          y += v * h;
+        }
+        // 最大段より上には行き過ぎない。
+        if (y < snaps.full) {
+          y = snaps.full;
+          v = 0;
+        }
+        if (Math.abs(y - target) < 0.5 && Math.abs(v) < 20) {
+          animation.current = null;
+          place(target, snaps);
+          endMotion(snaps);
+          return;
+        }
+        place(y, snaps);
+        animation.current = requestAnimationFrame(step);
+      };
+      animation.current = requestAnimationFrame(step);
     },
-    [getSnaps, visualY, beginMotion, place, endMotion],
+    [getSnaps, stopAnimation, place, beginMotion, endMotion],
   );
 
   useLayoutEffect(() => {
     const snaps = getSnaps();
-    place(snaps.half, false, snaps);
-    endMotion();
+    place(snaps.half, snaps);
+    endMotion(snaps);
   }, [getSnaps, place, endMotion]);
 
   useEffect(() => {
     const controls = controlsRef?.current;
     return () => {
-      if (!controls) return;
-      controls.style.transition = '';
-      controls.style.transform = '';
+      stopAnimation();
+      if (controls) controls.style.transform = '';
     };
-  }, [controlsRef]);
+  }, [controlsRef, stopAnimation]);
 
   // シート内の入力欄からフォーカスを外し、キーボードを閉じる。
   const blurFocused = useCallback(() => {
@@ -287,7 +476,7 @@ export default function BottomSheet({
       if (panned < mapPanThreshold && zoomed < mapZoomThreshold) return;
       start = null;
       const snaps = getSnaps();
-      if (yRef.current < snaps.peek) animateTo(snaps.peek, snaps);
+      if (yRef.current < snaps.peek) animateTo(snaps.peek, 0, snaps);
       blurFocused();
     };
     const onMoveEnd = () => {
@@ -306,52 +495,54 @@ export default function BottomSheet({
 
   const startDrag = useCallback(
     (clientY: number, timeStamp: number) => {
-      // アニメーションの途中で掴んだときは、目標の段ではなくいま見えている位置から動かす。
-      const current = visualY();
+      // アニメーションの途中で掴んだときは、いま見えている位置からそのまま動かす。
+      stopAnimation();
       const snaps = getSnaps();
       drag.current = {
         pointerY: clientY,
-        baseY: current,
-        y: current,
+        baseY: yRef.current,
+        y: yRef.current,
         lastY: clientY,
         lastT: timeStamp,
         velocity: 0,
         snaps,
       };
-      beginMotion(current);
-      place(current, false, snaps);
+      beginMotion();
+      place(yRef.current, snaps);
     },
-    [visualY, getSnaps, beginMotion, place],
+    [stopAnimation, getSnaps, beginMotion, place],
   );
 
   const moveDrag = useCallback(
     (clientY: number, timeStamp: number) => {
+      const { snaps } = drag.current;
+      if (!snaps) return;
       const dt = Math.max(timeStamp - drag.current.lastT, 1);
       drag.current.velocity = (clientY - drag.current.lastY) / dt;
       drag.current.lastY = clientY;
       drag.current.lastT = timeStamp;
 
-      const { snaps } = drag.current;
       const max = snaps.peek;
       const raw = drag.current.baseY + (clientY - drag.current.pointerY);
       const next = raw < 0 ? 0 : raw > max ? max + rubberband(raw - max) : raw;
       drag.current.y = next;
-      place(next, false, snaps);
+      place(next, snaps);
     },
     [place],
   );
 
   const endDrag = useCallback(
     (timeStamp: number) => {
-      const idle = timeStamp - drag.current.lastT > releaseIdleMs;
-      const projected =
-        drag.current.y + (idle ? 0 : drag.current.velocity * projectionMs);
       const { snaps } = drag.current;
+      if (!snaps) return;
+      const idle = timeStamp - drag.current.lastT > releaseIdleMs;
+      const velocity = idle ? 0 : drag.current.velocity;
+      const projected = drag.current.y + velocity * projectionMs;
       const { full, half, peek } = snaps;
       const next = [full, half, peek].reduce((a, b) =>
         Math.abs(b - projected) < Math.abs(a - projected) ? b : a,
       );
-      animateTo(next, snaps);
+      animateTo(next, velocity, snaps);
       // 検索中に手でシートを下げたら、キーボードも閉じる。
       if (next !== full) blurFocused();
     },
@@ -473,21 +664,60 @@ export default function BottomSheet({
   }, [startDrag, moveDrag, endDrag]);
 
   // マウスでは取っ手だけを掴んで動かす。タッチは上のリスナーが扱う。
-  const onDown = (e: PointerEvent<HTMLDivElement>) => {
+  const onDown = (e: PointerEvent<HTMLButtonElement>) => {
     if (e.pointerType !== 'mouse') return;
     e.currentTarget.setPointerCapture(e.pointerId);
-    mouseDragging.current = true;
+    mouseDrag.current = { startY: e.clientY, moved: false };
     startDrag(e.clientY, e.timeStamp);
   };
 
-  const onMove = (e: PointerEvent<HTMLDivElement>) => {
-    if (mouseDragging.current) moveDrag(e.clientY, e.timeStamp);
+  const onMove = (e: PointerEvent<HTMLButtonElement>) => {
+    if (!mouseDrag.current) return;
+    if (Math.abs(e.clientY - mouseDrag.current.startY) >= dragSlop) {
+      mouseDrag.current.moved = true;
+    }
+    moveDrag(e.clientY, e.timeStamp);
   };
 
-  const onUp = (e: PointerEvent<HTMLDivElement>) => {
-    if (!mouseDragging.current) return;
-    mouseDragging.current = false;
+  const onUp = (e: PointerEvent<HTMLButtonElement>) => {
+    if (!mouseDrag.current) return;
+    handleDragged.current = mouseDrag.current.moved;
+    mouseDrag.current = null;
     endDrag(e.timeStamp);
+  };
+
+  // 取っ手を押したら段を切り替える。ドラッグできない利用者にも段の切り替えを用意するため。
+  const onHandleClick = () => {
+    if (handleDragged.current) {
+      handleDragged.current = false;
+      return;
+    }
+    const snaps = getSnaps();
+    animateTo(stageRef.current === 'half' ? snaps.full : snaps.half, 0, snaps);
+  };
+
+  // 最小段でカードの余白や名前をタップしたら、中段に広げる。
+  const onCardClick = (e: ReactMouseEvent<HTMLDivElement>) => {
+    if (stageRef.current !== 'peek') return;
+    const target = e.target as Element;
+    if (
+      target.closest(
+        'a, button, input, select, textarea, label, [role="button"]',
+      )
+    ) {
+      return;
+    }
+    animateTo(getSnaps().half);
+  };
+
+  // 最小段でキーボード操作によりカードの外へフォーカスが移ったら、中段に広げて見せる。
+  const onCardFocus = (e: ReactFocusEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (stageRef.current !== 'peek' || !card) return;
+    const cardBottom = card.getBoundingClientRect().bottom;
+    if (e.target.getBoundingClientRect().bottom > cardBottom) {
+      animateTo(getSnaps().half);
+    }
   };
 
   const panelApi = useMemo<MapPanelApi>(
@@ -502,28 +732,38 @@ export default function BottomSheet({
   return (
     <div
       ref={ref}
-      data-peek={atPeek || undefined}
+      data-stage={stage}
+      data-peek={stage === 'peek' || undefined}
       className={sheetStyles}
-      onTransitionEnd={(e) => {
-        if (e.target === e.currentTarget && e.propertyName === 'transform') {
-          endMotion();
-        }
-      }}
     >
+      <div ref={safeAreaRef} className={safeAreaStyles} />
+      <div ref={cardRef} className={cardStyles} />
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: キーボードでは取っ手のボタンで同じ操作ができる */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: 最小段のタップを広げる操作として扱う */}
       <div
-        className={handleAreaStyles}
-        onPointerDown={onDown}
-        onPointerMove={onMove}
-        onPointerUp={onUp}
-        onPointerCancel={onUp}
+        ref={innerRef}
+        className={innerStyles}
+        onClick={onCardClick}
+        onFocus={onCardFocus}
       >
-        <div className={handleStyles} />
+        <button
+          type="button"
+          aria-label={stage === 'full' ? 'シートを縮める' : 'シートを広げる'}
+          className={handleAreaStyles}
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          onPointerCancel={onUp}
+          onClick={onHandleClick}
+        >
+          <span className={handleStyles} />
+        </button>
+        <MapPanelContext.Provider value={panelApi}>
+          <div ref={contentRef} className={contentStyles}>
+            {children}
+          </div>
+        </MapPanelContext.Provider>
       </div>
-      <MapPanelContext.Provider value={panelApi}>
-        <div ref={contentRef} className={contentStyles}>
-          {children}
-        </div>
-      </MapPanelContext.Provider>
     </div>
   );
 }

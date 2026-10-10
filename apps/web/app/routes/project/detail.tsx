@@ -24,6 +24,13 @@ import {
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import ProjectLinks from '~/components/features/Project/ProjectLinks';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
+import {
+  peekCloseStyles,
+  peekFadeStyles,
+  peekIconStyles,
+  peekTitleStyles,
+} from '~/components/layouts/MapPanel/peekMorph';
+
 import { useFavorites } from '~/lib/favorites';
 import { formatLocation, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
@@ -207,41 +214,46 @@ export default function Detail() {
         closing ? detailExitStyles : detailEnterStyles,
       )}
     >
+      {/* 最小段へ寄るにつれて、アイコン・企画名・バツを最小段のカードの形へ寄せる */}
       <header
+        data-sheet-morph
         className={css({
           display: 'flex',
           alignItems: 'flex-start',
           gap: '12px',
           px: '16px',
-          pt: '2px',
-          // 最小段では企画名だけを見せる。
-          '[data-peek] &': { '& > :first-child': { display: 'none' } },
+          pt: '10px',
         })}
       >
-        <ProjectIcon project={project} size={48} />
+        <ProjectIcon project={project} size={48} className={peekIconStyles} />
 
         <div className={css({ flex: 1, minWidth: 0 })}>
           <h1
-            className={css({
-              fontSize: '2xl',
-              fontWeight: 700,
-              lineHeight: 1.35,
-              color: 'fg.strong',
-              '[data-peek] &': { truncate: true },
-            })}
+            className={cx(
+              css({
+                fontSize: '2xl',
+                fontWeight: 700,
+                lineHeight: 1.35,
+                color: 'fg.strong',
+                '[data-peek] &': { truncate: true },
+              }),
+              peekTitleStyles,
+            )}
           >
             {project.name}
           </h1>
           <p
-            className={css({
-              mt: '2px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: 'sm',
-              color: 'fg.subtle',
-              '[data-peek] &': { display: 'none' },
-            })}
+            className={cx(
+              css({
+                mt: '2px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: 'sm',
+                color: 'fg.subtle',
+              }),
+              peekFadeStyles,
+            )}
           >
             <CategoryLabel category={project.category} />
             <span className={css({ truncate: true })}>
@@ -250,7 +262,11 @@ export default function Detail() {
           </p>
         </div>
 
-        <DetailCloseButton closing={closing} onClick={close} />
+        <DetailCloseButton
+          closing={closing}
+          onClick={close}
+          className={peekCloseStyles}
+        />
       </header>
 
       {project.cancelled && (
@@ -395,22 +411,26 @@ export default function Detail() {
       {/* 下部の操作バー。シートが動いているあいだは画面の下端に留める（BottomSheet が扱う） */}
       <div
         data-sheet-bottom
-        className={css({
-          position: 'sticky',
-          bottom: 0,
-          mt: 'auto',
-          display: 'flex',
-          // 見えている範囲の下端に貼り付くため、最小段では企画名の行を覆ってしまう。
-          '[data-peek] &': { display: 'none' },
-          alignItems: 'center',
-          gap: '12px',
-          px: '16px',
-          pt: '12px',
-          pb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
-          bg: 'sheet.background',
-          borderTop:
-            'token(borderWidths.divider) solid token(colors.border.subtle)',
-        })}
+        data-sheet-morph
+        className={cx(
+          peekFadeStyles,
+          css({
+            position: 'sticky',
+            bottom: 0,
+            mt: 'auto',
+            display: 'flex',
+            // 見えている範囲の下端に貼り付くため、最小段では企画名の行を覆ってしまう。
+            '[data-peek] &': { visibility: 'hidden' },
+            alignItems: 'center',
+            gap: '12px',
+            px: '16px',
+            pt: '12px',
+            pb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
+            bg: 'sheet.background',
+            borderTop:
+              'token(borderWidths.divider) solid token(colors.border.subtle)',
+          }),
+        )}
       >
         <button
           type="button"
