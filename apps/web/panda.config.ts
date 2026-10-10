@@ -286,8 +286,10 @@ export default defineConfig({
       width: '100%',
       height: '100%',
       overflow: 'hidden',
+      overscrollBehavior: 'none',
     },
     body: {
+      backgroundColor: 'sheet.background',
       fontFamily: "'Inter', 'Noto Sans JP', sans-serif",
       color: 'fg',
       WebkitFontSmoothing: 'antialiased',
