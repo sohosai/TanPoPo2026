@@ -40,3 +40,11 @@ export const peekCloseCenteredStyles = css({
 export const peekFadeStyles = css({
   opacity: 'max(0, calc(1 - var(--sheet-peek, 0) * 2))',
 });
+
+/**
+ * 角丸のアイコンの角丸。中段ではカードの角丸 40px と同心の 16px にし、最小段では円にする
+ * （48px の要素の半径 24px。縮めた 40px の円は、カードの角丸 28px と同心になる）。
+ */
+export const peekIconRadiusStyles = css({
+  borderRadius: 'calc(16px + var(--sheet-peek, 0) * 8px)',
+});

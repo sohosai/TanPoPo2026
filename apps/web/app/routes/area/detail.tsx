@@ -22,6 +22,7 @@ import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import {
   peekCloseCenteredStyles,
   peekFadeStyles,
+  peekIconRadiusStyles,
   peekIconStyles,
   peekTitleStyles,
 } from '~/components/layouts/MapPanel/peekMorph';
@@ -116,11 +117,11 @@ export default function AreaDetail() {
               justifyContent: 'center',
               w: '48px',
               h: '48px',
-              borderRadius: 'xl',
               bg: 'accent.subtle',
               color: 'accent.text',
             }),
             peekIconStyles,
+            peekIconRadiusStyles,
           )}
         >
           <IconMap2 size={26} />
