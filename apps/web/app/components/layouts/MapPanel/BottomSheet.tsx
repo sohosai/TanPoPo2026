@@ -127,19 +127,25 @@ const stageAt = (y: number, s: Snaps): Stage =>
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// 触れた要素からシートまで遡り、最も近い縦スクロール領域を返す。
+// 触れた要素からシートまで遡り、最も近いスクロール領域（axis の向き）を返す。
 // 一覧や場所詳細は、シートの中身の中にさらに自前のスクロール領域を持つため。
-const findScroller = (target: EventTarget | null, root: Element) => {
+const findScroller = (
+  target: EventTarget | null,
+  root: Element,
+  axis: 'x' | 'y',
+) => {
   for (
     let el = target instanceof Element ? target : null;
     el && el !== root;
     el = el.parentElement
   ) {
-    const { overflowY } = getComputedStyle(el);
-    if (
-      (overflowY === 'auto' || overflowY === 'scroll') &&
-      el.scrollHeight > el.clientHeight
-    ) {
+    const style = getComputedStyle(el);
+    const overflow = axis === 'y' ? style.overflowY : style.overflowX;
+    const overflowing =
+      axis === 'y'
+        ? el.scrollHeight > el.clientHeight
+        : el.scrollWidth > el.clientWidth;
+    if ((overflow === 'auto' || overflow === 'scroll') && overflowing) {
       return el;
     }
   }
@@ -177,6 +183,10 @@ const sheetStyles = css({
   // 動いていないあいだに描画された data-sheet-morph の要素にも、いまの段の進み具合を渡す。
   // 動いているあいだは place() が要素ごとに上書きする。
   '&[data-peek] [data-sheet-morph]': { '--sheet-peek': '1' },
+  // 最大段に達していないあいだは、中身の縦スクロール領域（data-sheet-scroll）をスクロールできなくする。
+  // iOS Safari はスクロールが始まると touchmove の preventDefault が効かなくなり、シートの伸縮と
+  // 中身のスクロールが同時に起きるため、スクロールを止めるのに preventDefault だけに頼らない。
+  '&[data-scroll-locked] [data-sheet-scroll]': { overflowY: 'hidden' },
   // 中身をスクロールできるのは最大段だけなので、それ以外の段ではスクロールバーを出さない。
   '&:not([data-stage="full"])': {
     '& *': {
@@ -215,8 +225,6 @@ const contentStyles = css({
   overflowY: 'auto',
   overscrollBehavior: 'contain',
   touchAction: 'pan-y',
-  // 最小段では中身をスクロールさせないため、見えている高さを超える中身にスクロールバーを出さない。
-  '[data-peek] &': { overflowY: 'hidden' },
 });
 
 // 取っ手。上へ広げられることを示すため、どの段でも見せる。カードに切り抜かれないよう
@@ -275,6 +283,8 @@ export default function BottomSheet({
   const yRef = useRef(0);
   // 中身に足している左右の余白。変わると中身をレイアウトし直すため、整数pxが変わったときだけ書き換える。
   const padRef = useRef(-1);
+  // 中身の縦スクロールを止めているか。最大段にいるときだけスクロールできるようにする。
+  const scrollLockedRef = useRef<boolean | null>(null);
   // 指の動きを描画に反映する、次のフレームの予約。
   const dragFrame = useRef<number | null>(null);
   const animation = useRef<number | null>(null);
@@ -322,6 +332,11 @@ export default function BottomSheet({
       yRef.current = y;
       // 小数pxだと中身がサブピクセル位置で描画され、境目に隙間やちらつきが出るため丸める。
       sheet.style.transform = `translate3d(0, ${Math.round(y)}px, 0)`;
+      const locked = y > snaps.full;
+      if (locked !== scrollLockedRef.current) {
+        scrollLockedRef.current = locked;
+        sheet.toggleAttribute('data-scroll-locked', locked);
+      }
 
       const { side, pad, radiusTop, radiusBottom } = shapeAt(y, snaps);
       const bottom = cardBottomAt(y, snaps);
@@ -470,6 +485,16 @@ export default function BottomSheet({
     };
   }, [controlsRef, stopAnimation]);
 
+  // iOS Safari は、キーボードに隠れる入力欄へフォーカスすると、html の overflow: hidden を無視して
+  // 文書をずらす。シートと地図は画面に固定して配置しているため、ずれたら元に戻す。
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY !== 0) window.scrollTo(0, 0);
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   // シート内の入力欄からフォーカスを外し、キーボードを閉じる。
   const blurFocused = useCallback(() => {
     const focused = document.activeElement;
@@ -594,6 +619,8 @@ export default function BottomSheet({
       startY: number;
       lastY: number;
       scroller: Element | null;
+      /** 横スクロール領域（絞り込みチップ、画像カルーセル）の上で触れ始めたか */
+      inHorizontal: boolean;
       mode: GestureMode;
     } | null = null;
     let suppressClick = false;
@@ -616,7 +643,9 @@ export default function BottomSheet({
       const mode = classify(dx, dy, yRef.current > 0, atTop);
       if (Math.max(Math.abs(dx), Math.abs(dy)) < dragSlop) {
         // 判定がつくまでの間にブラウザのスクロールが始まらないよう止めておく。
-        if (mode === 'sheet') prevent(e);
+        // ただし横スクロール領域の上では止めない。iOS Safari は最初の touchmove を止めると、
+        // そのタッチのあいだ横スクロールも一切しなくなるため。
+        if (mode === 'sheet' && !gesture.inHorizontal) prevent(e);
         return false;
       }
       if (mode !== 'sheet') {
@@ -646,7 +675,8 @@ export default function BottomSheet({
         startX: touch.clientX,
         startY: touch.clientY,
         lastY: touch.clientY,
-        scroller: findScroller(e.target, sheet),
+        scroller: findScroller(e.target, sheet, 'y'),
+        inHorizontal: findScroller(e.target, sheet, 'x') !== null,
         mode: 'pending',
       };
     };
@@ -779,7 +809,7 @@ export default function BottomSheet({
       >
         <div ref={innerRef} className={innerStyles}>
           <MapPanelContext.Provider value={panelApi}>
-            <div ref={contentRef} className={contentStyles}>
+            <div ref={contentRef} data-sheet-scroll className={contentStyles}>
               {children}
             </div>
           </MapPanelContext.Provider>
