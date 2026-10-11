@@ -151,7 +151,7 @@ export default function ProjectSearchBar({
           className={css({
             flexShrink: 0,
             display: 'flex',
-            mr: '4px',
+            mr: '2px',
             cursor: 'pointer',
           })}
         >
