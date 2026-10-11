@@ -94,6 +94,7 @@ export default function List() {
 
       <div
         {...scroll}
+        data-sheet-scroll
         className={css({
           flex: 1,
           minHeight: 0,
