@@ -282,42 +282,35 @@ export default function NotFound() {
             URLが正しいかご確認ください。
           </p>
 
-          <ul
+          <div
             className={css({
               display: 'flex',
-              flexWrap: 'wrap',
-              gap: 'clamp(8px, 1.5svh, 12px) 16px',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: 'clamp(10px, 2svh, 16px)',
               mt: 'clamp(12px, 3.5svh, 28px)',
-              listStyle: 'none',
-              '& li:nth-child(1)': { transform: 'rotate(-2deg)' },
-              '& li:nth-child(2)': { transform: 'rotate(1.5deg)' },
             })}
           >
-            <li>
-              <Link to="/" className={linkButton}>
-                トップページへ戻る
-              </Link>
-            </li>
-            <li>
-              <a
-                href="https://sohosai.com"
-                target="_blank"
-                rel="noopener"
-                className={linkButton}
-              >
-                雙峰祭公式サイト
-                <small
-                  className={css({
-                    fontWeight: 500,
-                    fontSize: '0.8em',
-                    opacity: 0.7,
-                  })}
-                >
-                  sohosai.com
-                </small>
-              </a>
-            </li>
-          </ul>
+            <Link to="/" className={primaryButton}>
+              トップページへ戻る
+            </Link>
+            <a
+              href="https://sohosai.com"
+              target="_blank"
+              rel="noopener"
+              className={css({
+                fontSize: 'clamp(0.8rem, 2svh, 0.95rem)',
+                fontWeight: 500,
+                color: colors.ink,
+                textDecoration: 'underline',
+                textUnderlineOffset: '0.2em',
+                opacity: 0.8,
+                _hover: { color: colors.blue, opacity: 1 },
+              })}
+            >
+              雙峰祭公式サイト（sohosai.com）
+            </a>
+          </div>
         </div>
 
         <img
@@ -412,32 +405,36 @@ export default function NotFound() {
   );
 }
 
-const linkButton = css({
+const primaryButton = css({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '10px',
-  padding: '8px 24px',
-  border: `2px solid ${colors.blue}`,
-  borderRadius: '12px',
-  bg: 'white',
-  color: colors.ink,
-  fontWeight: 700,
+  gap: '12px',
+  padding: 'clamp(10px, 2svh, 14px) 32px',
+  border: `2px solid ${colors.ink}`,
+  borderRadius: '14px',
+  bg: colors.blue,
+  color: 'white',
+  fontSize: 'clamp(1rem, min(3vw, 3svh), 1.25rem)',
+  fontWeight: 900,
   textDecoration: 'none',
+  boxShadow: `4px 4px 0 ${colors.ink}`,
+  transform: 'rotate(-2deg)',
   transition:
-    'background-color .25s ease, color .25s ease, transform .3s cubic-bezier(.34, 1.56, .64, 1)',
+    'transform .3s cubic-bezier(.34, 1.56, .64, 1), box-shadow .2s ease',
   _after: {
     content: '""',
-    width: '10px',
-    height: '12px',
-    bg: colors.blue,
+    width: '11px',
+    height: '13px',
+    bg: 'white',
     clipPath: 'polygon(0 0, 100% 50%, 0 100%)',
-    transition:
-      'transform .3s cubic-bezier(.34, 1.56, .64, 1), background-color .25s ease',
+    transition: 'transform .3s cubic-bezier(.34, 1.56, .64, 1)',
   },
   _hover: {
-    bg: colors.blue,
-    color: 'white',
-    transform: 'scale(1.06)',
-    _after: { bg: 'white', transform: 'translateX(4px)' },
+    transform: 'rotate(-2deg) scale(1.06)',
+    _after: { transform: 'translateX(4px)' },
+  },
+  _active: {
+    transform: 'rotate(-2deg) translate(3px, 3px)',
+    boxShadow: `1px 1px 0 ${colors.ink}`,
   },
 });
