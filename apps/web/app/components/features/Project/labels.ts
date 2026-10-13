@@ -43,7 +43,6 @@ export const CATEGORY_TAG_CLASS: Record<ProjectCategory, string> = {
   学術: css({ bg: 'category.academic.bg' }),
   パフォーマンス: css({ bg: 'category.performance.bg' }),
   音楽: css({ bg: 'category.music.bg' }),
-  ステージ: css({ bg: 'category.stage.bg' }),
   委員会企画: css({ bg: 'category.committee.bg' }),
   その他: css({ bg: 'category.other.bg' }),
 };
@@ -59,7 +58,6 @@ export const CATEGORY_COLOR_CLASS: Record<ProjectCategory, string> = {
   学術: css({ color: 'fg', bg: 'category.academic.bg' }),
   パフォーマンス: css({ color: 'fg', bg: 'category.performance.bg' }),
   音楽: css({ color: 'fg', bg: 'category.music.bg' }),
-  ステージ: css({ color: 'fg', bg: 'category.stage.bg' }),
   委員会企画: css({ color: 'fg', bg: 'category.committee.bg' }),
   その他: css({ color: 'fg', bg: 'category.other.bg' }),
 };

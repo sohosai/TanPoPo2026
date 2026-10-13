@@ -186,7 +186,7 @@ function categoryOf(
   if (committee.has(project.number)) return '委員会企画';
   return (
     categories[project.number] ??
-    (project.type === 'STAGE' ? 'ステージ' : 'その他')
+    (project.type === 'STAGE' ? 'パフォーマンス' : 'その他')
   );
 }
 

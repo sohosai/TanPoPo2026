@@ -124,7 +124,7 @@
     "id": "cmo6g3g83004hqx01410wj7f8",
     "name": "アンプラグド弾き語りライブ",
     "organization": "弾き語りクラブアンプラグド",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -167,7 +167,7 @@
     "id": "cmo6kknut00gbqx01dcefsy1h",
     "name": "雙峰祭グランプリ2026",
     "organization": "筑波大学学園祭実行委員会本部企画局",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -284,7 +284,7 @@
     "id": "cmo6oqott003fnw013ujndhgf",
     "name": "Bombs! 学祭公演vol.6",
     "organization": "アイドル研究会",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -463,7 +463,7 @@
     "id": "cmo6v1rln002qjq017zu5sjlg",
     "name": "夜祭パフォーマンスショー",
     "organization": "筑波大学学園祭実行委員会 本部企画局",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
@@ -493,7 +493,7 @@
     "id": "cmo6y4yrb00afjq01q9y8yj96",
     "name": "つくばお笑いライブ2026",
     "organization": "筑波大学学園祭実行委員会本部企画局",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -680,7 +680,7 @@
     "id": "cmo7u2jhc0104jq01b0hjgr1n",
     "name": "Doo-WopアカペラUNITEDステージ",
     "organization": "アカペラサークルDoo-Wop",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -705,7 +705,7 @@
     "id": "cmo7xxbgz0001oy0178guqwxp",
     "name": "エイサー",
     "organization": "筑波大学沖縄県人会",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -730,7 +730,7 @@
     "id": "cmo82iyix003loy015lpjh1wx",
     "name": "つくばフォーク村UNITEDステージ",
     "organization": "つくばフォーク村",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -794,7 +794,7 @@
     "id": "cmo84q58m0084oy016s0cyy2k",
     "name": "Scrambleダンスステージ",
     "organization": "医学ダンスサークルScramble",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -999,7 +999,7 @@
     "id": "cmo8fqkt200rspx01djabg7hh",
     "name": "Tsukuba Trends",
     "organization": "筑波大学学園祭実行委員会 本部企画局",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["前夜祭", "Day2"],
     "locations": [
       {
@@ -1094,7 +1094,7 @@
     "id": "cmo8ii4ks011wpx01vqc1qq0g",
     "name": "筑波音楽協会雙峰祭ステージ",
     "organization": "筑波音楽協会",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -1143,7 +1143,7 @@
     "id": "cmo8p8pil002whm01kodhsyzw",
     "name": "コピカツ！~振りコピ班踊ってみたSTAGE~",
     "organization": "現代視覚文化研究会振りコピ班",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -1407,7 +1407,7 @@
     "id": "cmo9ta5r5019ihm01qdh8wa02",
     "name": "推進音楽隊による雙峰祭ライブ",
     "organization": "Unlimited SS",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -1580,7 +1580,7 @@
     "id": "cmob7l7gb007vjr01mq0hps6e",
     "name": "ダブルダッチ",
     "organization": "purplume",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -1710,7 +1710,7 @@
     "id": "cmobdq4lr00svjr01ezg0rkd8",
     "name": "邦楽部和楽器コンサート",
     "organization": "筑波大学邦楽部",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -1735,7 +1735,7 @@
     "id": "cmobf6y2600ufjr01bto8tu2r",
     "name": "声優班トークショーイベント",
     "organization": "現代視覚文化研究会声優班",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -1794,7 +1794,7 @@
     "id": "cmobl9lbs00vljr01kfyh7qkn",
     "name": "みれい×みんアイドルコピーダンスステージ",
     "organization": "みれみん",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -1866,7 +1866,7 @@
     "id": "cmocg3ivi01j4jr01hfhji6it",
     "name": "応援部WINSステージパフォーマンス",
     "organization": "筑波大学応援部WINS",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -1975,7 +1975,7 @@
     "id": "cmoclyttp01vsjr01rm710c5w",
     "name": "筑波大学合唱団むくどり雙峰祭ステージ",
     "organization": "筑波大学合唱団むくどり",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -2128,7 +2128,7 @@
     "id": "cmoe9dzhm03mxjr017bjck5vo",
     "name": "斬桐舞スペシャルパフォーマンス",
     "organization": "斬桐舞",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -2299,7 +2299,7 @@
     "id": "cmofpfeq504vtjr01ozc36vdt",
     "name": "Neopolis雙峰祭スペシャルライブ",
     "organization": "筑波大学ジャズ楽団Neopolis BIGBAND",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -2523,7 +2523,7 @@
     "id": "cmoh0cm4d016nna0134zkye1c",
     "name": "筑波大学お笑い集団DONPAPAお笑いライブ",
     "organization": "筑波大学お笑い集団DONPAPA",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -2666,7 +2666,7 @@
     "id": "cmohsn5ip005pq4014d32velu",
     "name": "ひらがなつくば坂道LIVE〜この想い届け〜",
     "organization": "ひらがなつくば",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -2725,7 +2725,7 @@
     "id": "cmohz887k00gfq401w10svegn",
     "name": "応援部WINS×斬桐舞 合同ステージ",
     "organization": "応援部WINS×斬桐舞",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["前夜祭"],
     "locations": [
       {
@@ -3042,7 +3042,7 @@
     "id": "cmojifo6l00r3o801m9si8dhz",
     "name": "Realjam",
     "organization": "ストリートダンスサークルRealjam",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -3107,7 +3107,7 @@
     "id": "cmojwtje800yao801pjqo5lf9",
     "name": "マジシャンズクラブステージマジックショー",
     "organization": "マジシャンズクラブ",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -3138,7 +3138,7 @@
     "id": "cmojyxtuw00zwo801guj3ju50",
     "name": "愛のリコーダー",
     "organization": "ブロックフレーテ同好会",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -3487,7 +3487,7 @@
     "id": "cmolawma003ioo801tzh4qfee",
     "name": "研究学園戦士ツクバダインショー",
     "organization": "ヒーローアクション同好会",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -3598,7 +3598,7 @@
     "id": "cmoldvom604d4o801yjbw9v23",
     "name": "稲妻よ走れ！上昇志向ベイビーズ炎のライブ",
     "organization": "上昇志向ベイビーズ",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -3623,7 +3623,7 @@
     "id": "cmoldyos104dpo801o6r6kk4s",
     "name": "帝国雙峰祭ステージ2026",
     "organization": "The Empire of TSUKUBA",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -3693,7 +3693,7 @@
     "id": "cmolg7xrr04w8o801q51hvn3o",
     "name": "書道パフォーマンス2026",
     "organization": "書道部",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -3832,7 +3832,7 @@
     "id": "cmomaqr6o010ep0013lt2641f",
     "name": "令和八年度鹿島神流武道部雙峰祭演武",
     "organization": "鹿島神流武道部",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -3905,7 +3905,7 @@
     "id": "cmomffxvj01nzp001wi7t71nw",
     "name": "Dance in the moment~今この瞬間~",
     "organization": "体育会ダンス部",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -3930,7 +3930,7 @@
     "id": "cmomkohwr029sp00160womrqk",
     "name": "アーティスト招致企画",
     "organization": "筑波大学学園祭実行委員会 本部企画局",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
@@ -3960,7 +3960,7 @@
     "id": "cmomocq7002q2p001lxutoqlr",
     "name": "能・狂言研究会特別公演",
     "organization": "筑波能・狂言研究会",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -4050,7 +4050,7 @@
     "id": "cmomunroa03tcp001oy8g31c9",
     "name": "医学音楽同好会ステージ",
     "organization": "医学音楽同好会SoundLoop",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -4251,7 +4251,7 @@
     "id": "cmoogtxm201x9oi010vnwjuk3",
     "name": "PBCM雙峰祭SPステージ",
     "organization": "バンドストッククラブPBCM",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -4276,7 +4276,7 @@
     "id": "cmoohjphe01ycoi01jwjr1ent",
     "name": "GSKバンドステージ",
     "organization": "現代視覚文化研究会音楽班",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -4364,7 +4364,7 @@
     "id": "cmopdkv3m03sfoi01bdgedpl3",
     "name": "コグマ KPOP COPY DANCE STAGE",
     "organization": "Kpopコピーダンスサークル고구마(コグマ)",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -4400,7 +4400,7 @@
     "id": "cmopg0pqx03tqoi01h2kiury7",
     "name": "無絃塾SUPER LIVE",
     "organization": "津軽三味線倶楽部無絃塾",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -4465,7 +4465,7 @@
     "id": "cmopkq38h000xjv01mp2x4u1e",
     "name": "Sheepジャグリングパフォーマンス",
     "organization": "筑波大学ジャグリングサークルSheep",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -4506,7 +4506,7 @@
     "id": "cmoqj0h3002ecjv01lbf0lq2z",
     "name": "体操部",
     "organization": "体操部",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -4542,7 +4542,7 @@
     "id": "cmoqj5k0s02epjv011f5gri87",
     "name": "2026雙峰祭ステージ「月華」",
     "organization": "ときめき太鼓塾",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -4807,7 +4807,7 @@
     "id": "cmos97o4506xfjv010bxins01",
     "name": "はつこい帝国スペシャルコラボステージ",
     "organization": "はつこい帝国",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -4947,7 +4947,7 @@
     "id": "cmoslqdfm07vnjv01kjmmwwvb",
     "name": "学園祭ライブ Produced by TMP",
     "organization": "TMP（つくばミュージックプロジェクト）",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -5399,7 +5399,7 @@
     "id": "cmou3zt8807wsq80136pg9lyh",
     "name": "ヤロイには内緒で歌います",
     "organization": "筑波大学独唱部",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -5588,7 +5588,7 @@
     "id": "cmouyt23z0divq801dzdid4em",
     "name": "E.L.L.野外ライブステージ2026",
     "organization": "筑波軽音楽協会E.L.L.",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -5673,7 +5673,7 @@
     "id": "cmov4tzti0gvgq801zddirpwz",
     "name": "ふみなな",
     "organization": "Bombs!×ひらがなつくば4年生",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day1"],
     "locations": [
       {
@@ -5698,7 +5698,7 @@
     "id": "cmov60cul0hl6q801qs3z23ku",
     "name": "すいしんばんど その２",
     "organization": "推進局だった人たち",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -6825,7 +6825,7 @@
     "id": "cmpnxl4dp002bo101zkgjujcn",
     "name": "吹奏楽団夜祭ステージ",
     "organization": "筑波大学吹奏楽団",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["前夜祭"],
     "locations": [
       {
@@ -6850,7 +6850,7 @@
     "id": "cmpnyjcah006yo1018nrypl6l",
     "name": "Realjam Special Stage",
     "organization": "ストリートダンスサークルRealjam",
-    "category": "ステージ",
+    "category": "パフォーマンス",
     "schedule": ["前夜祭"],
     "locations": [
       {

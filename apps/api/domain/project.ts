@@ -13,7 +13,6 @@ export const PROJECT_CATEGORIES = [
   '学術',
   'パフォーマンス',
   '音楽',
-  'ステージ',
   '委員会企画',
   'その他',
 ] as const;
