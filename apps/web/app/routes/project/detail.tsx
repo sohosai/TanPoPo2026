@@ -4,7 +4,7 @@ import {
   IconMap,
   IconMapPin,
 } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
@@ -24,6 +24,7 @@ import {
 } from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import ProjectLinks from '~/components/features/Project/ProjectLinks';
+import { useSnapCarousel } from '~/components/features/Project/useSnapCarousel';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import {
   peekCloseStyles,
@@ -156,9 +157,8 @@ export default function Detail() {
   const { byId: placesById } = usePlaces();
   const panel = useMapPanel();
   const favorite = project !== undefined && isFavorite(project.id);
-  const [imageIndex, setImageIndex] = useState(0);
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const carousel = useSnapCarousel(project?.images.length ?? 0);
   const { to, closing, close } = useDetailClose(lastListUrl());
 
   // 直前の段にかかわらず、地図と詳細の両方が見える中段で開く。
@@ -166,12 +166,6 @@ export default function Detail() {
   useEffect(() => {
     panel.raise();
   }, [number]);
-
-  const scrollCarouselTo = (index: number, behavior: ScrollBehavior) => {
-    const el = carouselRef.current;
-    if (!el) return;
-    el.scrollTo({ left: index * el.clientWidth, behavior });
-  };
 
   // 詳細を開いたら、紐づく場所へ地図をフォーカスする（シートの外の地図を統一APIで操作）。
   const focusProject = useProjectFocus(project);
@@ -325,11 +319,8 @@ export default function Detail() {
         <div className={css({ mt: '20px' })}>
           <div className={css({ position: 'relative' })}>
             <div
-              ref={carouselRef}
-              onScroll={(e) => {
-                const el = e.currentTarget;
-                setImageIndex(Math.round(el.scrollLeft / el.clientWidth));
-              }}
+              ref={carousel.ref}
+              {...carousel.handlers}
               className={css({
                 display: 'flex',
                 overflowX: 'auto',
@@ -345,16 +336,17 @@ export default function Detail() {
                   // biome-ignore lint/suspicious/noArrayIndexKey: 同じ画像が複数登録されることがあり URL は一意でない
                   key={i}
                   type="button"
-                  onClick={() => setViewerIndex(i)}
+                  onClick={() => carousel.goToEdge() || setViewerIndex(i)}
                   aria-label={`${project.name} の画像 ${i + 1} を拡大`}
                   className={css({
                     flex: '0 0 100%',
                     scrollSnapAlign: 'center',
+                    scrollSnapStop: 'always',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     aspectRatio: '4 / 3',
-                    overflow: 'hidden',
-                    borderRadius: 'xl',
-                    bg: 'border.subtle',
-                    cursor: 'zoom-in',
+                    cursor: carousel.edge ? 'pointer' : 'zoom-in',
                   })}
                 >
                   <img
@@ -363,26 +355,29 @@ export default function Detail() {
                     sizes="100vw"
                     alt=""
                     loading={i === 0 ? 'eager' : 'lazy'}
+                    // 枠ではなく画像そのものを角丸にし、縦横比が枠と違っても帯状の余白を作らない。
                     className={css({
-                      w: '100%',
-                      h: '100%',
-                      objectFit: 'contain',
+                      maxW: '100%',
+                      maxH: '100%',
+                      borderRadius: 'xl',
                     })}
                   />
                 </button>
               ))}
             </div>
 
-            {imageIndex > 0 && (
+            {carousel.index > 0 && (
               <CarouselButton
                 direction="left"
-                onClick={() => scrollCarouselTo(imageIndex - 1, 'smooth')}
+                active={carousel.edge === 'prev'}
+                onClick={() => carousel.goTo(carousel.index - 1)}
               />
             )}
-            {imageIndex < project.images.length - 1 && (
+            {carousel.index < project.images.length - 1 && (
               <CarouselButton
                 direction="right"
-                onClick={() => scrollCarouselTo(imageIndex + 1, 'smooth')}
+                active={carousel.edge === 'next'}
+                onClick={() => carousel.goTo(carousel.index + 1)}
               />
             )}
 
@@ -402,7 +397,7 @@ export default function Detail() {
                   pointerEvents: 'none',
                 })}
               >
-                {imageIndex + 1} / {project.images.length}
+                {carousel.index + 1} / {project.images.length}
               </span>
             )}
           </div>
@@ -483,7 +478,7 @@ export default function Detail() {
           title={project.name}
           onClose={(index) => {
             setViewerIndex(null);
-            scrollCarouselTo(index, 'instant');
+            carousel.goTo(index, 'instant');
           }}
         />
       )}
