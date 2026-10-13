@@ -208,8 +208,19 @@
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "筑波大学やつくばにゆかりのある方をお招きし、講演・座談会をしていただく企画です！\n登壇者は以下の3名です！\n\n五十嵐立青 氏\n講演『失敗前提の挑戦が世界を変える：ディプロイシティ(実装都市)つくばの共創戦略』\n座談会『挑戦が連鎖するまちを、どう創る？』\n\n柳沢正史 氏\n講演『睡眠の謎に挑む』\n座談会『睡眠の専門家があなたの睡眠を採点します』\n\n阿部幸大 氏\n講演『世界はナラティヴでできている』",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_ichi",
+        "url": "https://x.com/tsukuba_ichi"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsuku_ichi",
+        "url": "https://www.instagram.com/tsuku_ichi/"
+      }
+    ]
   },
   {
     "number": "010",
@@ -340,8 +351,19 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "「情報科学特別演習」は情報科学類独自のユニークな授業です。実験や卒研とはちがう，あなたの好奇心に応じたオーダーメイドの演習です。学生たちの演習の成果を展示します。体験型の展示では皆さんに触れていただくこともできます。そして、情報学群情報科学類の普段の様子をうかがい知ることができます。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "coins.tsukuba.ac.jp",
+        "url": "https://www.coins.tsukuba.ac.jp/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@PIS_Lab_Univerity_of_Tsukuba",
+        "url": "https://www.youtube.com/@PIS_Lab_Univerity_of_Tsukuba"
+      }
+    ]
   },
   {
     "number": "016",
@@ -370,8 +392,14 @@
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "現役筑波大学生が受験に関する相談や、大学生活に関する質問などにお答えします！ご来場の方には受験に役立つ「受験応援冊子」をご用意しています！ぜひお越しください。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@zyuken__ouen",
+        "url": "https://x.com/zyuken__ouen"
+      }
+    ]
   },
   {
     "number": "018",
@@ -394,7 +422,7 @@
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
-    "description": "",
+    "description": "科学を身近に感じることができる実験をたくさん用意しています！子どもから大人まで楽しめる実験となっています！ぜひお越しください！",
     "links": []
   },
   {
@@ -419,8 +447,19 @@
         "title": "樽酒振る舞い 鏡開き"
       }
     ],
-    "description": "",
-    "links": []
+    "description": "茨城県内の酒造のお酒を20歳以上の来場者に無料で振る舞っています。とっておきの一杯で今年も乾杯しませんか？ご来場の際は顔写真付き身分証明書をお持ちください。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@taruzakehurumai",
+        "url": "https://x.com/taruzakehurumai"
+      },
+      {
+        "kind": "instagram",
+        "label": "@taruzakehurumai",
+        "url": "https://www.instagram.com/taruzakehurumai/"
+      }
+    ]
   },
   {
     "number": "022",
@@ -455,7 +494,7 @@
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
-    "description": "",
+    "description": "雙峰祭オリジナルキャラクター「そぽたん」のモニュメントを設置します。夜にはイルミネーションのライトアップも行います。\n来場の記念として、ぜひ写真撮影にいらしてください！",
     "links": []
   },
   {
@@ -672,8 +711,19 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "SF研究会アルビレオでは、気軽にボードゲームを楽しめるスペースをご用意しています！この秋発行した部誌の販売や、部員制作の自主映画上映も予定。遊ぶもよし、観るもよし、ひと休みするもよし。雙峰祭を巡る途中に、ぜひふらっとお立ち寄りください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@TKB_SF_albireo",
+        "url": "https://x.com/TKB_SF_albireo"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tkb_sf_albireo",
+        "url": "https://www.instagram.com/tkb_sf_albireo/"
+      }
+    ]
   },
   {
     "number": "050",
@@ -4293,8 +4343,24 @@
         "title": "GSKバンドステージ"
       }
     ],
-    "description": "",
-    "links": []
+    "description": "現代視覚文化研究会音楽班によるバンドステージ！\n今年は3つの班から5バンドが出演予定！！\nバンドステージを通じて、アニメソングやボーカロイド楽曲、J-POPの持つ魅力や熱量をお届けし、雙峰祭をより一層盛り上げます！！！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "gsk-tsukuba.net",
+        "url": "https://gsk-tsukuba.net/"
+      },
+      {
+        "kind": "x",
+        "label": "@GSK_music",
+        "url": "https://x.com/GSK_music"
+      },
+      {
+        "kind": "x",
+        "label": "@tsukuba_gsk",
+        "url": "https://x.com/tsukuba_gsk"
+      }
+    ]
   },
   {
     "number": "199",
@@ -4799,8 +4865,14 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "筑波大学アルティメット同好会です！あったかもちもちの水餃子はいかがでしょうか！ストラックアウトに挑戦して、無料で餃子をゲットしよう！！\nポン酢、ゆず胡椒、ラー油で自分好みの味にカスタマイズしよう！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@ultimate_gyoza_itf2026",
+        "url": "https://www.instagram.com/ultimate_gyoza_itf2026/"
+      }
+    ]
   },
   {
     "number": "223",
@@ -5339,7 +5411,23 @@
     ],
     "performances": [],
     "description": "iGEM TSUKUBAが実験教室を開催！ブロッコリーからのDNA抽出などを体験できます。合成生物学について解説したビジュアルブックの展示や、オリジナルキャラクターグッズの販売も実施。合成生物学の面白さをぜひ体感してください！",
-    "links": []
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~igemtsukuba/"
+      },
+      {
+        "kind": "x",
+        "label": "@Igem_Tsukuba",
+        "url": "https://x.com/Igem_Tsukuba"
+      },
+      {
+        "kind": "instagram",
+        "label": "@igem_tsukuba",
+        "url": "https://www.instagram.com/igem_tsukuba/"
+      }
+    ]
   },
   {
     "number": "248",
@@ -6441,8 +6529,14 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "私たち作問サークルつくもんaidが制作したオリジナル問題や、数学的・論理的な思考を駆使するゲームに挑戦してみませんか？必勝法の存在するゲームや、奥深い戦略性を持つゲームなど、知的好奇心を刺激する企画を用意しています。問題の解法を考察し、ゲームの構造や攻略法を探究する面白さを、ぜひ体験してください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukumonaid",
+        "url": "https://x.com/tsukumonaid"
+      }
+    ]
   },
   {
     "number": "316",
@@ -6477,8 +6571,24 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "＼ 医ゴル限定の絶品グルメ！ ／\n【医ゴルのまんまる焼きそば】\n焼きそばをチーズと卵で挟んでギュッとプレス！\nカリカリ＆フワフワの、ここでしか味わえない新食感です。\n小腹がすいたときのおやつや、食べ歩きにぴったり！\nそこのあなた、ぜひ一度ご賞味ください♪",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukuba-medical-golf-team.jimdosite.com",
+        "url": "https://tsukuba-medical-golf-team.jimdosite.com/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@igorunomanmaru_yakisoba_2026",
+        "url": "https://www.instagram.com/igorunomanmaru_yakisoba_2026/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_medicalgolfteam",
+        "url": "https://www.instagram.com/tsukuba_medicalgolfteam/"
+      }
+    ]
   },
   {
     "number": "318",

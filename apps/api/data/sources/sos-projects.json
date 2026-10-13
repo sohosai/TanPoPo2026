@@ -129,10 +129,10 @@
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "筑波大学やつくばにゆかりのある方をお招きし、講演・座談会をしていただく企画です！\n登壇者は以下の3名です！\n\n五十嵐立青 氏\n講演『失敗前提の挑戦が世界を変える：ディプロイシティ(実装都市)つくばの共創戦略』\n座談会『挑戦が連鎖するまちを、どう創る？』\n\n柳沢正史 氏\n講演『睡眠の謎に挑む』\n座談会『睡眠の専門家があなたの睡眠を採点します』\n\n阿部幸大 氏\n講演『世界はナラティヴでできている』",
       "websiteUrls": [],
-      "xIds": [],
-      "instagramIds": [],
+      "xIds": ["tsukuba_ichi"],
+      "instagramIds": ["tsuku_ichi"],
       "youtubeIds": []
     }
   },
@@ -189,11 +189,11 @@
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
+      "description": "「情報科学特別演習」は情報科学類独自のユニークな授業です。実験や卒研とはちがう，あなたの好奇心に応じたオーダーメイドの演習です。学生たちの演習の成果を展示します。体験型の展示では皆さんに触れていただくこともできます。そして、情報学群情報科学類の普段の様子をうかがい知ることができます。",
+      "websiteUrls": ["https://www.coins.tsukuba.ac.jp/"],
       "xIds": [],
       "instagramIds": [],
-      "youtubeIds": []
+      "youtubeIds": ["PIS_Lab_Univerity_of_Tsukuba"]
     }
   },
   {
@@ -219,9 +219,9 @@
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "現役筑波大学生が受験に関する相談や、大学生活に関する質問などにお答えします！ご来場の方には受験に役立つ「受験応援冊子」をご用意しています！ぜひお越しください。",
       "websiteUrls": [],
-      "xIds": [],
+      "xIds": ["zyuken__ouen"],
       "instagramIds": [],
       "youtubeIds": []
     }
@@ -249,7 +249,7 @@
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "科学を身近に感じることができる実験をたくさん用意しています！子どもから大人まで楽しめる実験となっています！ぜひお越しください！",
       "websiteUrls": [],
       "xIds": [],
       "instagramIds": [],
@@ -264,10 +264,10 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "茨城県内の酒造のお酒を20歳以上の来場者に無料で振る舞っています。とっておきの一杯で今年も乾杯しませんか？ご来場の際は顔写真付き身分証明書をお持ちください。",
       "websiteUrls": [],
-      "xIds": [],
-      "instagramIds": [],
+      "xIds": ["taruzakehurumai"],
+      "instagramIds": ["taruzakehurumai"],
       "youtubeIds": []
     }
   },
@@ -294,7 +294,7 @@
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "雙峰祭オリジナルキャラクター「そぽたん」のモニュメントを設置します。夜にはイルミネーションのライトアップも行います。\n来場の記念として、ぜひ写真撮影にいらしてください！",
       "websiteUrls": [],
       "xIds": [],
       "instagramIds": [],
@@ -444,10 +444,10 @@
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "SF研究会アルビレオでは、気軽にボードゲームを楽しめるスペースをご用意しています！この秋発行した部誌の販売や、部員制作の自主映画上映も予定。遊ぶもよし、観るもよし、ひと休みするもよし。雙峰祭を巡る途中に、ぜひふらっとお立ち寄りください！",
       "websiteUrls": [],
-      "xIds": [],
-      "instagramIds": [],
+      "xIds": ["TKB_SF_albireo"],
+      "instagramIds": ["tkb_sf_albireo"],
       "youtubeIds": []
     }
   },
@@ -2437,9 +2437,9 @@
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
-      "xIds": [],
+      "description": "現代視覚文化研究会音楽班によるバンドステージ！\n今年は3つの班から5バンドが出演予定！！\nバンドステージを通じて、アニメソングやボーカロイド楽曲、J-POPの持つ魅力や熱量をお届けし、雙峰祭をより一層盛り上げます！！！",
+      "websiteUrls": ["https://gsk-tsukuba.net/"],
+      "xIds": ["GSK_music", "tsukuba_gsk"],
       "instagramIds": [],
       "youtubeIds": []
     }
@@ -2707,10 +2707,10 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "筑波大学アルティメット同好会です！あったかもちもちの水餃子はいかがでしょうか！ストラックアウトに挑戦して、無料で餃子をゲットしよう！！\nポン酢、ゆず胡椒、ラー油で自分好みの味にカスタマイズしよう！",
       "websiteUrls": [],
       "xIds": [],
-      "instagramIds": [],
+      "instagramIds": ["ultimate_gyoza_itf2026"],
       "youtubeIds": []
     }
   },
@@ -3011,9 +3011,9 @@
     "location": "INDOOR",
     "publicInfo": {
       "description": "iGEM TSUKUBAが実験教室を開催！ブロッコリーからのDNA抽出などを体験できます。合成生物学について解説したビジュアルブックの展示や、オリジナルキャラクターグッズの販売も実施。合成生物学の面白さをぜひ体感してください！",
-      "websiteUrls": [],
-      "xIds": [],
-      "instagramIds": [],
+      "websiteUrls": ["https://www.stb.tsukuba.ac.jp/~igemtsukuba/"],
+      "xIds": ["Igem_Tsukuba"],
+      "instagramIds": ["igem_tsukuba"],
       "youtubeIds": []
     }
   },
@@ -3733,9 +3733,9 @@
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "私たち作問サークルつくもんaidが制作したオリジナル問題や、数学的・論理的な思考を駆使するゲームに挑戦してみませんか？必勝法の存在するゲームや、奥深い戦略性を持つゲームなど、知的好奇心を刺激する企画を用意しています。問題の解法を考察し、ゲームの構造や攻略法を探究する面白さを、ぜひ体験してください！",
       "websiteUrls": [],
-      "xIds": [],
+      "xIds": ["tsukumonaid"],
       "instagramIds": [],
       "youtubeIds": []
     }
@@ -3763,10 +3763,13 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
+      "description": "＼ 医ゴル限定の絶品グルメ！ ／\n【医ゴルのまんまる焼きそば】\n焼きそばをチーズと卵で挟んでギュッとプレス！\nカリカリ＆フワフワの、ここでしか味わえない新食感です。\n小腹がすいたときのおやつや、食べ歩きにぴったり！\nそこのあなた、ぜひ一度ご賞味ください♪",
+      "websiteUrls": ["https://tsukuba-medical-golf-team.jimdosite.com/"],
       "xIds": [],
-      "instagramIds": [],
+      "instagramIds": [
+        "igorunomanmaru_yakisoba_2026",
+        "tsukuba_medicalgolfteam"
+      ],
       "youtubeIds": []
     }
   },
