@@ -29,13 +29,13 @@
 1. `ProjectFilterCriteria`(criteria.ts)に フィールドを追加
 2. `criteriaFromParams` / `criteriaToParams` にパラメータ変換を追加(選択肢が決まっている軸は、不正な値を捨てる)
 3. `filterProjects`(filter.ts)に条件を追加
-4. `ProjectSearchBar.tsx` にUI(チップ等)を追加し、`onChange({ ...criteria, ... })` で即時にURLへ反映する
+4. `FilterSheet.tsx` に選択肢を追加し、`onChange({ ...criteria, ... })` で即時にURLへ反映する。1タップで選ばせたい軸は、`ProjectSearchBar.tsx` のチップの行にも置く
 
 ## 画面ごとの使い方
 
 条件(`ProjectFilterCriteria`)は、どの画面でも同じ部品で扱う。
 
-- `ProjectSearchBar` … 検索欄とチップ。条件と `onChange` を渡す。
+- `ProjectSearchBar` … 検索欄、いいね・日程のチップ、件数の行（`FilterSummary`）、全条件を選ぶ絞り込みシート。条件と `onChange` と件数、件数の行を出すかを渡す。件数の行には件数、選んだカテゴリの名前、「条件をクリア」を1行に並べ、カテゴリの名前を押すと絞り込みシートを開く。
 - `useFilteredProjects(範囲の企画, 条件)` … お気に入りと場所を取得して絞り込み、企画番号順にして返す。
 - `ProjectList` … 企画の行を並べる。
 

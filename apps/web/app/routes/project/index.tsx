@@ -10,7 +10,6 @@ import {
 } from '~/components/features/Detail/useDetailClose';
 import { useListScroll } from '~/components/features/Detail/useListScroll';
 import EventBanner from '~/components/features/EventLinks/EventBanner';
-import InstallBanner from '~/components/features/Pwa/InstallBanner';
 import {
   criteriaFromParams,
   criteriaToParams,
@@ -24,6 +23,7 @@ import {
   StateMessage,
 } from '~/components/features/Project/StateMessage';
 import { useFilteredProjects } from '~/components/features/Project/useFilteredProjects';
+import InstallBanner from '~/components/features/Pwa/InstallBanner';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
@@ -83,7 +83,12 @@ export default function List() {
         entering && listEnterStyles,
       )}
     >
-      <ProjectSearchBar criteria={criteria} onChange={updateCriteria} />
+      <ProjectSearchBar
+        criteria={criteria}
+        onChange={updateCriteria}
+        count={visibleProjects.length}
+        showSummary={!showBanner && projects !== undefined}
+      />
 
       <div
         {...scroll}

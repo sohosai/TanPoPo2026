@@ -18,6 +18,14 @@ const chipClass = css({
   transition: 'background 0.15s, color 0.15s, border-color 0.15s',
 });
 
+// 絞り込みシートの中では、押せる範囲の最小寸法（44px）に合わせて大きくする。
+const chipLargeClass = css({
+  gap: '6px',
+  h: '44px',
+  px: '16px',
+  fontSize: 'md',
+});
+
 const chipInactiveClass = css({
   borderColor: 'border',
   bg: 'surface',
@@ -42,12 +50,14 @@ export function FilterChip({
   active,
   onClick,
   tone = 'accent',
+  size = 'md',
   children,
   ...aria
 }: {
   active: boolean;
   onClick: () => void;
   tone?: 'accent' | 'favorite';
+  size?: 'md' | 'lg';
   children: ReactNode;
   'aria-expanded'?: boolean;
   'aria-controls'?: string;
@@ -61,6 +71,7 @@ export function FilterChip({
       onClick={onClick}
       className={cx(
         chipClass,
+        size === 'lg' && chipLargeClass,
         active ? chipActiveClass[tone] : chipInactiveClass,
       )}
     >
@@ -73,13 +84,20 @@ export function FilterChip({
 export function FavoriteFilterChip({
   active,
   onClick,
+  size,
 }: {
   active: boolean;
   onClick: () => void;
+  size?: 'md' | 'lg';
 }) {
   return (
-    <FilterChip tone="favorite" active={active} onClick={onClick}>
-      {active ? <IconHeartFilled size={14} /> : <IconHeart size={14} />}
+    <FilterChip tone="favorite" active={active} onClick={onClick} size={size}>
+      {/* ハートは企画のいいねボタンと同じ色にする。文字は白地との差が足りないため濃い色のまま */}
+      {active ? (
+        <IconHeartFilled size={14} className={css({ color: 'favorite' })} />
+      ) : (
+        <IconHeart size={14} />
+      )}
       <span className={css({ textBox: 'trim-both cap alphabetic' })}>
         いいね
       </span>
