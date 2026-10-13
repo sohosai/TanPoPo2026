@@ -1,6 +1,6 @@
 import { IconCalendarEvent, IconClock, IconMapPin } from '@tabler/icons-react';
 import type { Project } from 'api';
-import type { CSSProperties } from 'react';
+import { type CSSProperties, memo } from 'react';
 import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
 import CategoryLabel from './CategoryLabel';
@@ -14,6 +14,8 @@ type ProjectListItemProps = {
   locationLabel?: string;
   favorite?: boolean;
   onToggleFavorite?: (id: string) => void;
+  /** 絞り込みで外れた行。作り直さずに隠す */
+  hidden?: boolean;
   /** 入場演出などを外から足すため */
   className?: string;
   style?: CSSProperties;
@@ -183,6 +185,7 @@ const projectCardClass = css({
   contentVisibility: 'auto',
   containIntrinsicSize: 'auto 92px',
   _active: { bg: 'accent.subtle' },
+  '&[hidden]': { display: 'none' },
   _after: {
     content: '""',
     position: 'absolute',
@@ -193,41 +196,66 @@ const projectCardClass = css({
     h: 'token(borderWidths.divider)',
     bg: 'border.subtle',
   },
-  _last: { _after: { display: 'none' } },
+  // 区切り線は、後ろに見えている行が無い行（隠した行を除いた最後の行）には引かない。
+  '&:not(:has(~ :not([hidden])))': { _after: { display: 'none' } },
 });
 
-export default function ProjectListItem({
+const favoriteButtonClass = css({ flexShrink: 0, mr: '-4px', mt: '-2px' });
+
+// 行の中身。絞り込みで行を隠したり出したりしても、ここは描き直さない。
+const ProjectListItemBody = memo(function ProjectListItemBody({
+  project,
+  locationLabel,
+  favorite,
+  onToggleFavorite,
+}: Pick<
+  ProjectListItemProps,
+  'project' | 'locationLabel' | 'favorite' | 'onToggleFavorite'
+>) {
+  return (
+    <ProjectRowContent
+      project={project}
+      locationLabel={locationLabel}
+      action={
+        <FavoriteButton
+          active={favorite ?? false}
+          onToggle={() => onToggleFavorite?.(project.id)}
+          size={22}
+          className={favoriteButtonClass}
+        />
+      }
+    />
+  );
+});
+
+// 一覧は全件で数百行あるため、絞り込みを変えても残る行は描き直さない。
+// 隠す・出すで変わるのは外枠の hidden だけなので、中身は ProjectListItemBody に分けてメモ化する。
+const ProjectListItem = memo(function ProjectListItem({
   project,
   locationLabel,
   favorite = false,
   onToggleFavorite,
+  hidden = false,
   className,
   style,
 }: ProjectListItemProps) {
-  const { id, number, cancelled = false } = project;
+  const { number, cancelled = false } = project;
 
   return (
     <Link
       to={`/project/${number}`}
+      hidden={hidden}
       className={cx(projectCardClass, className)}
       style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
     >
-      <ProjectRowContent
+      <ProjectListItemBody
         project={project}
         locationLabel={locationLabel}
-        action={
-          <FavoriteButton
-            active={favorite}
-            onToggle={() => onToggleFavorite?.(id)}
-            size={22}
-            className={css({
-              flexShrink: 0,
-              mr: '-4px',
-              mt: '-2px',
-            })}
-          />
-        }
+        favorite={favorite}
+        onToggleFavorite={onToggleFavorite}
       />
     </Link>
   );
-}
+});
+
+export default ProjectListItem;
