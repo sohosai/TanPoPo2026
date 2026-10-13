@@ -3,11 +3,14 @@ import { css } from '../../../../styled-system/css';
 
 interface CarouselButtonProps {
   direction: 'left' | 'right';
+  /** マウスがこのボタンの側の端の範囲にあり、クリックでこの向きへ送れる */
+  active?: boolean;
   onClick: (e: React.MouseEvent) => void;
 }
 
 export default function CarouselButton({
   direction,
+  active = false,
   onClick,
 }: CarouselButtonProps) {
   const isLeft = direction === 'left';
@@ -16,6 +19,7 @@ export default function CarouselButton({
     <button
       type="button"
       onClick={onClick}
+      data-active={active || undefined}
       className={css({
         position: 'absolute',
         left: isLeft ? '24px' : 'auto',
@@ -36,7 +40,7 @@ export default function CarouselButton({
         cursor: 'pointer',
         boxShadow: 'carousel',
         transition: 'background-color 0.2s, transform 0.1s',
-        '&:hover': {
+        '&:hover, &[data-active]': {
           bg: 'overlay.frostedHover',
         },
         '&:active': {

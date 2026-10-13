@@ -7,8 +7,8 @@ import {
   CATEGORY_OPTIONS,
   emptyCriteria,
   hasActiveFilter,
-  SCHEDULE_OPTIONS,
   type ProjectFilterCriteria,
+  SCHEDULE_OPTIONS,
   toggleItem,
 } from './criteria';
 import { ChipDivider, FavoriteFilterChip, FilterChip } from './FilterChip';

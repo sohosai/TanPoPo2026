@@ -236,9 +236,6 @@ export default defineConfig({
           logo: { value: '#ff0000' },
           overlay: {
             scrim: { value: '{colors.black/55}' },
-            viewer: { value: 'rgba(10, 10, 12, 0.96)' },
-            glass: { value: '{colors.white/12}' },
-            glassHover: { value: '{colors.white/22}' },
             frosted: { value: '{colors.white/40}' },
             frostedHover: { value: '{colors.white/60}' },
             frostedBorder: { value: '{colors.white/30}' },
