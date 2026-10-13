@@ -130,7 +130,7 @@ export class SosClient {
  * カンマ区切りの企画番号を、3 桁ゼロ埋めの番号の集合にする。空要素は無視する。
  * 環境変数 HIDDEN_PROJECT_NUMBERS / GRANDPRIX_HIDDEN_PROJECT_NUMBERS の値に使う。
  */
-export function parseProjectNumbers(raw: string): ReadonlySet<string> {
+export function parseProjectNumbers(raw = ''): ReadonlySet<string> {
   return new Set(
     raw
       .split(',')
@@ -146,7 +146,7 @@ const clients = new Map<string, SosClient>();
 
 export function getSosClient(
   baseUrl: string,
-  hiddenNumbers: string,
+  hiddenNumbers?: string,
 ): SosClient {
   const key = `${baseUrl} ${hiddenNumbers}`;
   let client = clients.get(key);

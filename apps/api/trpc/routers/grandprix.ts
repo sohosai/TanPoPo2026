@@ -38,7 +38,7 @@ function groupStageProjects(projects: Project[]) {
 }
 
 /** グランプリ投票の対象から、環境変数で非表示にした企画を除く。 */
-function votableProjects(projects: Project[], hiddenNumbers: string) {
+function votableProjects(projects: Project[], hiddenNumbers?: string) {
   const hidden = parseProjectNumbers(hiddenNumbers);
   return projects.filter(({ number }) => !hidden.has(number));
 }
