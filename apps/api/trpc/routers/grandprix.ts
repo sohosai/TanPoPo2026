@@ -38,7 +38,7 @@ function groupStageProjects(projects: Project[]) {
 }
 
 /** グランプリ投票の対象から、環境変数で非表示にした企画を除く。 */
-function votableProjects(projects: Project[], hiddenNumbers: string) {
+function votableProjects(projects: Project[], hiddenNumbers?: string) {
   const hidden = parseProjectNumbers(hiddenNumbers);
   return projects.filter(({ number }) => !hidden.has(number));
 }
@@ -114,13 +114,7 @@ export const grandprixRouter = t.router({
         }
 
         const projects = votableProjects(
-          await ctx.sos.getLiveProjects().catch(() => {
-            throw new TRPCError({
-              code: 'SERVICE_UNAVAILABLE',
-              message:
-                '企画一覧を取得できませんでした。時間をおいて再度お試しください',
-            });
-          }),
+          await ctx.sos.getProjects(),
           ctx.env.GRANDPRIX_HIDDEN_PROJECT_NUMBERS,
         );
         const validProjectIds = new Set(projects.map((project) => project.id));

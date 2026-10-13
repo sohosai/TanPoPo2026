@@ -1,0 +1,6884 @@
+[
+  {
+    "number": "001",
+    "id": "cmo6fjrq8002kqx01h8sfve0t",
+    "name": "jsys25ごはん",
+    "organization": "jsys25",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-g",
+        "room": "G1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "出来立てで美味しい たこ焼き🐙 をご用意しております！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "aka.jsys.sohosai.jp",
+        "url": "https://aka.jsys.sohosai.jp/AZwCwy"
+      },
+      {
+        "kind": "x",
+        "label": "@jsys25",
+        "url": "https://x.com/jsys25"
+      },
+      {
+        "kind": "instagram",
+        "label": "@sohosai_jsys",
+        "url": "https://www.instagram.com/sohosai_jsys/"
+      }
+    ]
+  },
+  {
+    "number": "002",
+    "id": "cmo6fkumx0035qx01xtg86x7u",
+    "name": "コピカツ！~雙峰祭のSTARWAY~",
+    "organization": "現代視覚文化研究会振りコピ班",
+    "category": "パフォーマンス",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "401",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学のオタク系サークル「現代視覚文化研究会」、通称「げんしけん」の「振りコピ班」です！\n主に振りコピするのは、ボカロなどのネット音楽やアイドルの曲。みんなで楽しく踊ってみたに挑戦しています。\n振りコピ班のアツい踊ってみた活動、｢コピ活！｣、はじまります♡",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@gsk_huricopy",
+        "url": "https://x.com/gsk_huricopy"
+      },
+      {
+        "kind": "youtube",
+        "label": "筑波大学振りコピ班げんしけん",
+        "url": "https://www.youtube.com/results?search_query=%E7%AD%91%E6%B3%A2%E5%A4%A7%E5%AD%A6%E6%8C%AF%E3%82%8A%E3%82%B3%E3%83%94%E7%8F%AD%E3%81%92%E3%82%93%E3%81%97%E3%81%91%E3%82%93"
+      }
+    ]
+  },
+  {
+    "number": "003",
+    "id": "cmo6fsl1v003jqx015kkqjjwz",
+    "name": "ＣＲＡＦＴ展",
+    "organization": "筑波大学工芸領域",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "208（デザイン室）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "004",
+    "id": "cmo6fv5jt003xqx01f6876cmo",
+    "name": "アンデスの音楽会",
+    "organization": "筑波大学フォルクローレ愛好会",
+    "category": "音楽",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2c",
+        "room": "404",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "中南米の民俗音楽「フォルクローレ」を一日中演奏しています！\nノリノリで元気な曲からしっとりした曲まで、普段なかなか耳にする機会のない珍しい音楽に触れてみませんか？\nフォルクローレにまつわる可愛い雑貨や簡単な楽器、アンデス地方で親しまれている珍しい飲み物やお菓子も販売しています。\nぜひお気軽にお越しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "folklore-tkb.jimdofree.com",
+        "url": "https://folklore-tkb.jimdofree.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@Folklore_tkb",
+        "url": "https://x.com/Folklore_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@folklore_tkb",
+        "url": "https://www.instagram.com/folklore_tkb/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@folktkb",
+        "url": "https://www.youtube.com/@folktkb"
+      }
+    ]
+  },
+  {
+    "number": "005",
+    "id": "cmo6g3g83004hqx01410wj7f8",
+    "name": "アンプラグド弾き語りライブ",
+    "organization": "弾き語りクラブアンプラグド",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day2",
+        "start": "12:25",
+        "end": "14:05",
+        "title": "アンプラグド弾き語りライブ"
+      }
+    ],
+    "description": "弾き語りクラブアンプラグドです！\nギターの弾き語りやソロギターを中心に演奏しているサークルです。雙峰祭では１Aステージで出演します！\n屋台はスモアの出店もしており、その隣での演奏も行う予定です。ぜひ併せてお越しください！",
+    "links": []
+  },
+  {
+    "number": "006",
+    "id": "cmo6jb3pa00bjqx01w7fxrd3b",
+    "name": "CRAFT店",
+    "organization": "工芸ゼミ",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "階段踊り場(2-3階)",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "007",
+    "id": "cmo6kknut00gbqx01dcefsy1h",
+    "name": "雙峰祭グランプリ2026",
+    "organization": "筑波大学学園祭実行委員会本部企画局",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "19:20",
+        "end": "19:30",
+        "title": "雙峰祭グランプリ2026"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "008",
+    "id": "cmo6lgnco00gzqx01p0zz1zv1",
+    "name": "松美池ライトアップ",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "009",
+    "id": "cmo6liyhx0001nw01gai4xm5o",
+    "name": "つくばイチ受けたい授業",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "010",
+    "id": "cmo6mffkz000lnw01mf2sixlr",
+    "name": "芸術祭 クリエイティブオフィス",
+    "organization": "芸術祭実行委員会クリエイティブ班",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-s",
+        "room": "S8",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "今年の筑波大学芸術祭のテーマは「交点」、公式キャラクターは黒猫の「クロン」です！\n\nグッズの販売や芸術祭の裏側が知れるグラフィックブックの販売、パンフレットの配布などを行っています！\nまた、スタンプラリー企画も実施しています。（ー？？クロンが見当たらない、どこにいるのかな…）\n\n芸術祭の入り口として皆さんをお待ちしております。芸専生の輝きをこの交点でぜひ目に焼き付けてください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tadfes.com",
+        "url": "https://tadfes.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@TADF_tkb",
+        "url": "https://x.com/TADF_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tadf_tkb",
+        "url": "https://www.instagram.com/tadf_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "011",
+    "id": "cmo6mz9mc0010nw01l9zwmyw2",
+    "name": "ぱんかふぇBenchTime",
+    "organization": "Bench Time",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2b",
+        "room": "206",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-2b",
+        "room": "207",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "焼きたてパンを楽しめる「ぱんかふぇ BenchTime」オープンです！！\n\nサクふわ食感のメロンパン、バター香るサクサククロワッサン、ほどよい塩味がクセになる塩パン、ほくほくポテトと明太子が相性抜群の明太ポテトパンの4種類をご用意しています！\n\n屋内に休憩スペースもあります！おいしいパンと一緒に、文化祭のひと休みを楽しみませんか？",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@time_bench",
+        "url": "https://x.com/time_bench"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukubabenchtime",
+        "url": "https://www.instagram.com/tsukubabenchtime/"
+      }
+    ]
+  },
+  {
+    "number": "014",
+    "id": "cmo6oqott003fnw013ujndhgf",
+    "name": "Bombs! 学祭公演vol.6",
+    "organization": "アイドル研究会",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "14:24",
+        "end": "15:14",
+        "title": "Bombs!学祭公演vol.6"
+      }
+    ],
+    "description": "アイドル研究会内のグループ、Bombs!としてアイドルコピーダンスを行っています！様々な国内外のアイドル楽曲を踊っています。活動場所は学内から都内まで様々です！\nアイドルコピーダンスを通して皆さんに笑顔をお届けします！！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@bombs_tkb",
+        "url": "https://x.com/bombs_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@bombs_tkb",
+        "url": "https://www.instagram.com/bombs_tkb/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@bombs6195",
+        "url": "https://www.youtube.com/@bombs6195"
+      }
+    ]
+  },
+  {
+    "number": "015",
+    "id": "cmo6pn5j6005dnw01rxqgdzzp",
+    "name": "情報科学特別演習",
+    "organization": "情報科学類ＰＩＳ研",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "305",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-3a",
+        "room": "306",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "016",
+    "id": "cmo6prdb0005vnw01du70qv4p",
+    "name": "管弦café",
+    "organization": "管弦楽団",
+    "category": "音楽",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2a",
+        "room": "409",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "管弦caféは、筑波大学管弦楽団が運営する、生演奏を聴きながらほっと一息つけるカフェです。団員が少人数でグループを組んで、クラシックの名曲はもちろん、どこかで耳にしたことのある人気曲も演奏します。心地よい音楽とともに、癒しのひとときをお過ごしください。お菓子やお茶、コーヒーなどを提供しており座席数もあるので、ぜひお気軽にお立ち寄りください！",
+    "links": []
+  },
+  {
+    "number": "017",
+    "id": "cmo6pxtun0069nw01iizswiw0",
+    "name": "受験応援",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "018",
+    "id": "cmo6q6qxl006mnw01kpp4hhea",
+    "name": "謎解き脱出ゲーム",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "019",
+    "id": "cmo6q7p9g006wnw017mviw7hl",
+    "name": "実験教室",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "021",
+    "id": "cmo6rxrsc00eznw014pfaw387",
+    "name": "樽酒振る舞い",
+    "organization": "筑波大学学園祭実行委員会本部企画局",
+    "category": "委員会企画",
+    "schedule": ["前夜祭"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["前夜祭"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "前夜祭",
+        "start": "17:00",
+        "end": "17:10",
+        "title": "樽酒振る舞い 鏡開き"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "022",
+    "id": "cmo6st13w00finw01w0ufd1au",
+    "name": "つくばぬいぐるみ病院〜お医者さんごっこ〜",
+    "organization": "つくばぬいぐるみ病院",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2b",
+        "room": "208",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ぬいぐるみの患者さんを相手に、診察や予防接種、インフルエンザ検査を体験できます。\n本物の聴診器などを使って、お医者さんのお仕事を楽しく学んでみませんか？\n参加費は無料です！\nぜひ、お医者さんになりきってみよう！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsunubeeee",
+        "url": "https://www.instagram.com/tsunubeeee/"
+      }
+    ]
+  },
+  {
+    "number": "023",
+    "id": "cmo6uktuu001fjq012hx9p96v",
+    "name": "モニュメント・イルミネーション",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "024",
+    "id": "cmo6v1rln002qjq017zu5sjlg",
+    "name": "夜祭パフォーマンスショー",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "ステージ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "025",
+    "id": "cmo6x2hy4004njq01bz3d9dz4",
+    "name": "めじろ色のギャラリーショップ",
+    "organization": "めじろ色とゆきだるま",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "402",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "かぎ針編み、ビーズ、ワイヤーアート、アクセサリーや小物など、ひとつひとつ心を込めて手作りしています。手作りだからこそ、一つひとつ表情や色合いが少しずつ異なり、同じものは二つとありません。自分用にはもちろん、ちょっとしたプレゼントにもぴったりな、かわいくて手に取りやすいアイテムを揃えています。ぜひお気に入りの一点を見つけに来てください！",
+    "links": []
+  },
+  {
+    "number": "026",
+    "id": "cmo6y4yrb00afjq01q9y8yj96",
+    "name": "つくばお笑いライブ2026",
+    "organization": "筑波大学学園祭実行委員会本部企画局",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "18:40",
+        "end": "19:15",
+        "title": "つくばお笑いライブ2026"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "027",
+    "id": "cmo6zze6d00bnjq010044z42g",
+    "name": "ULISオムそばぁーれい",
+    "organization": "ULISバレーボール部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-t",
+        "room": "T4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "028",
+    "id": "cmo7262np00fnjq01lquee3lw",
+    "name": "パンケーキの森",
+    "organization": "緑地環境研究室",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M9",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "子どもから大人まで！\nアツアツのグリドル、ぜひ食べてみてください！",
+    "links": []
+  },
+  {
+    "number": "030",
+    "id": "cmo73brte00gajq01kia0g4pw",
+    "name": "つくば市コラボ企画",
+    "organization": "筑波大学学園祭実行委員会　本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "031",
+    "id": "cmo74uaou00h8jq01a1iqn5gc",
+    "name": "ミュージカル集団ESSASSA雙峰祭公演",
+    "organization": "筑波大学ミュージカル集団ESSASSA",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "304",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": [
+      {
+        "kind": "website",
+        "label": "essassa.jimdofree.com",
+        "url": "https://essassa.jimdofree.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@essassa_musical",
+        "url": "https://x.com/essassa_musical"
+      },
+      {
+        "kind": "x",
+        "label": "@__ESSASSAdaily",
+        "url": "https://x.com/__ESSASSAdaily"
+      },
+      {
+        "kind": "instagram",
+        "label": "@essassa_musicalcompany",
+        "url": "https://www.instagram.com/essassa_musicalcompany/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@essassa5359",
+        "url": "https://www.youtube.com/@essassa5359"
+      }
+    ]
+  },
+  {
+    "number": "033",
+    "id": "cmo779y7b00j2jq01eyw3n0o1",
+    "name": "つくば地球の博物館",
+    "organization": "ジオネットアース",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "303",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "「地球の秘密」ちょっと覗いてみませんか？\n私達の足元、雲の上、海の下、そしてもっと奥深い場所へ、、\n地球は私達の知らないことで溢れています。\nあなたの知らない地球、私達と感じていってください。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@GeoNetEarth",
+        "url": "https://x.com/GeoNetEarth"
+      },
+      {
+        "kind": "x",
+        "label": "@Tsukubageotenki",
+        "url": "https://x.com/Tsukubageotenki"
+      },
+      {
+        "kind": "instagram",
+        "label": "@geonetearth",
+        "url": "https://www.instagram.com/geonetearth/"
+      }
+    ]
+  },
+  {
+    "number": "046",
+    "id": "cmo79pexn00pkjq01fl1uyban",
+    "name": "一筆どうでしょう",
+    "organization": "書領域",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "階段踊り場(3-4階)",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "047",
+    "id": "cmo7aeusn00s0jq018xkod8in",
+    "name": "空想科学卓上遊戯 劇場版",
+    "organization": "SF研究会アルビレオ",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2d",
+        "room": "407",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "050",
+    "id": "cmo7u2jhc0104jq01b0hjgr1n",
+    "name": "Doo-WopアカペラUNITEDステージ",
+    "organization": "アカペラサークルDoo-Wop",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "12:20",
+        "end": "13:05",
+        "title": "Doo-WopアカペラUNITEDステージ"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "051",
+    "id": "cmo7xxbgz0001oy0178guqwxp",
+    "name": "エイサー",
+    "organization": "筑波大学沖縄県人会",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "16:42",
+        "end": "17:07",
+        "title": "エイサー"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "052",
+    "id": "cmo82iyix003loy015lpjh1wx",
+    "name": "つくばフォーク村UNITEDステージ",
+    "organization": "つくばフォーク村",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "12:50",
+        "end": "13:57",
+        "title": "つくばフォーク村UNITEDステージ"
+      }
+    ],
+    "description": "軽音・弾き語りサークルであるつくばフォーク村の野外バンドステージパフォーマンスです！\n当サークルからは、12時50分頃からMrs. GREEN APPLEのコピー、13時20分頃からBUMP OF CHICKENのコピーバンドが出演します！\n誰しもが知る有名曲から、根強いファンにこそ刺さる名曲まで各バンド5.6曲程度披露します！\n中央図書館付近、石の広場にて、雙峰祭2日目のお昼を明るく彩ります！！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~fmura/wp/"
+      },
+      {
+        "kind": "x",
+        "label": "@tsukuba_fv",
+        "url": "https://x.com/tsukuba_fv"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_fv",
+        "url": "https://www.instagram.com/tsukuba_fv/"
+      },
+      {
+        "kind": "youtube",
+        "label": "つくばフォーク村",
+        "url": "https://www.youtube.com/results?search_query=%E3%81%A4%E3%81%8F%E3%81%B0%E3%83%95%E3%82%A9%E3%83%BC%E3%82%AF%E6%9D%91"
+      }
+    ]
+  },
+  {
+    "number": "053",
+    "id": "cmo83or8z003voy01t1o9up4d",
+    "name": "つくば現代短歌会",
+    "organization": "つくば現代短歌会",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "515",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "054",
+    "id": "cmo84q58m0084oy016s0cyy2k",
+    "name": "Scrambleダンスステージ",
+    "organization": "医学ダンスサークルScramble",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "16:04",
+        "end": "16:35",
+        "title": "Scrambleダンスステージ"
+      }
+    ],
+    "description": "HIPHOP、Lock、GIRLS、K-POPなど、個性あふれるダンスをお届けします！💃🕺\nこの日のために練習してきたメンバーの本気のパフォーマンスを、ぜひ会場でご覧ください👀",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@scramble.tkbmed",
+        "url": "https://www.instagram.com/scramble.tkbmed/"
+      }
+    ]
+  },
+  {
+    "number": "055",
+    "id": "cmo85jvjh0003px01i98cqcnf",
+    "name": "openfab創房",
+    "organization": "openfab創房インストラクタ有志",
+    "category": "学術",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C2",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "3E棟203にある筑波大学の工作室です。\n3Dプリンタ,レーザー加工機,UVプリンタ,電子工作,塗装ブース等があります。\n筑波大学の学生・教職員ならどなたでも使えます。\n創房のユースケースとして実際に創房で制作したモノを展示・販売いたします。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "cojt.or.jp",
+        "url": "https://www.cojt.or.jp/tkb/openfab_sobo/index.html"
+      },
+      {
+        "kind": "x",
+        "label": "@openfab_sobo",
+        "url": "https://x.com/openfab_sobo"
+      },
+      {
+        "kind": "youtube",
+        "label": "@openfab6670",
+        "url": "https://www.youtube.com/@openfab6670"
+      }
+    ]
+  },
+  {
+    "number": "056",
+    "id": "cmo85v3np001ipx01emz8nngx",
+    "name": "雙峰祭書展",
+    "organization": "芸術専門学群美術専攻書領域",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "401（書実習室）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6a",
+        "room": "402（書実習室）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6a",
+        "room": "403（書演習室）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6a",
+        "room": "404（書演習室）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6a",
+        "room": "405（書演習室）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "057",
+    "id": "cmo87086c002fpx01wssg39zl",
+    "name": "SUN基地～1本でととのう焼き鳥～",
+    "organization": "筑波大学の友人の集まり",
+    "category": "食事",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-e",
+        "room": "E4",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "🌞 SUN基地 🌞\n「一口かじれば、ふわっと昇天。」\n\n国産素材＆専門店直仕入れの\n自慢のつくねを焼きたてでご提供します🔥\n\n味は\n秘伝のタレ / 塩 の2種類！\n1本 200円\nSUN本セット（3本）500円\n\n最高の「ととのう」経験をご堪能ください！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@sun_1010no1",
+        "url": "https://www.instagram.com/sun_1010no1/"
+      }
+    ]
+  },
+  {
+    "number": "059",
+    "id": "cmo8b31eq00cvpx01gwkrzuh3",
+    "name": "ふわふわ！メロンパンアイス",
+    "organization": "パワーエレクトロニクス研究室",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-s",
+        "room": "S3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "パワーエレクトロニクス研究室がお届けする「ふわふわ！メロンパンアイス」！ふんわり甘いメロンパンに、ひんやり冷たいアイスをサンドしました。味は定番のバニラ、濃厚チョコ、香り豊かな抹茶、さらにバニラ＆キャラメルソースの4種類！メロンパンと冷たいアイスの組み合わせを、ぜひお楽しみください！",
+    "links": []
+  },
+  {
+    "number": "060",
+    "id": "cmo8br4j200hopx01x7x299y4",
+    "name": "フルーツlab",
+    "organization": "山本研",
+    "category": "ドリンク",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C4",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "苺やマンゴーなどのフルーツがゴロゴロ入った、爽やかな本格フルーツティーを販売します！さらに、食感が楽しい【ナタデココ】もトッピング可能です！歩き疲れた体に染み渡る至福の一杯を片手に、雙峰祭をさらに満喫しませんか？石の広場にて、山本研究室一同ご来店をお待ちしております！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tkb.ymmt",
+        "url": "https://www.instagram.com/tkb.ymmt/"
+      }
+    ]
+  },
+  {
+    "number": "061",
+    "id": "cmo8buqkj00iipx01jdpn4wul",
+    "name": "ねっしーの広場",
+    "organization": "ねっしー・自然教育研究会",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1b",
+        "room": "408",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "子供向けの企画を行います！今年のテーマは「秋の自然」！　\n子供たちが秋を楽しく学び、遊べる4つのコーナーを用意しました。企画を通じて子供の興味が広げるのが目的です！\nお子様連れの方はぜひお越しください！！",
+    "links": []
+  },
+  {
+    "number": "063",
+    "id": "cmo8fqkam00rkpx010u1qqpx3",
+    "name": "高大連携シンポジウム",
+    "organization": "都市計測実験室・数理最適化研究室",
+    "category": "学術",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "204",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "064",
+    "id": "cmo8fqkt200rspx01djabg7hh",
+    "name": "Tsukuba Trends",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "ステージ",
+    "schedule": ["前夜祭", "Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["前夜祭", "Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "前夜祭",
+        "start": "18:20",
+        "end": "19:40",
+        "title": "Tsukuba Trends〜New value, New voice〜"
+      },
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "19:30",
+        "end": "20:10",
+        "title": "Tsukuba Trends〜New value, New voice〜"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "065",
+    "id": "cmo8h599r00w9px01dibzv6zh",
+    "name": "Lonka",
+    "organization": "インドワークキャンプ団体namaste!",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "インド雑貨の販売とヘナタトゥー（2週間ほどで消えるタトゥー）を行っております！ぜひお越しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "namaste-india-workcamp.localinfo.jp",
+        "url": "https://namaste-india-workcamp.localinfo.jp/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZBAxMjE3OTgxNjQ0ODc5NjI4AAGn1R485zuZWUes_XAvgBlkIQ9Ljt2zaMDRWimg1khX-cdR_LsT8I0z2dNdFc4_aem_KJPjggtt4v6hmBjFAVCnoQ"
+      },
+      {
+        "kind": "instagram",
+        "label": "@_namaste_india_workcamp_",
+        "url": "https://www.instagram.com/_namaste_india_workcamp_/"
+      }
+    ]
+  },
+  {
+    "number": "066",
+    "id": "cmo8h5mp000whpx017ctdsjgz",
+    "name": "ViCC 実写・アニメーション　上映会",
+    "organization": "ViCC-映画をつくる会-",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "504",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学唯一の映像制作サークルViCCです！！\n\n突然ですが、あなたはどんな映像が好きですか？\n\n映像といっても、実写ドラマからドキュメンタリー、アニメまで幅広いジャンルがあると思います。今回私たちはそれらすべてのジャンルの作品を上映します！個性豊かなメンバーたちが制作した様々なジャンルの映像から、自分の好きな作品を見つけてみてください！　【開催場所】5C504",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@viccfilms",
+        "url": "https://x.com/viccfilms"
+      },
+      {
+        "kind": "instagram",
+        "label": "@viccfilms",
+        "url": "https://www.instagram.com/viccfilms/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@ViCCfilms",
+        "url": "https://www.youtube.com/@ViCCfilms"
+      }
+    ]
+  },
+  {
+    "number": "067",
+    "id": "cmo8ii4ks011wpx01vqc1qq0g",
+    "name": "筑波音楽協会雙峰祭ステージ",
+    "organization": "筑波音楽協会",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "11:40",
+        "end": "12:40",
+        "title": "筑波音楽協会雙峰祭ステージ"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "068",
+    "id": "cmo8j0yl7016ipx012w6g5w1m",
+    "name": "食べタイ！ラーメン",
+    "organization": "筑波大学タイ学生会",
+    "category": "食事",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "booth-q",
+        "room": "Q4",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学タイ学生会が出店する「食べタイ！ラーメン」です。タイの本格屋台メニュー「クイッティアオガイ（タイ風鶏ラーメン）」を販売します！鶏の旨みが溶け込んだスープとツルツルの麺は相性抜群。タイ人留学生が作る本場タイの味を、ぜひ味わいに来てください！\n\n📍 場所：Q3\n📅 実施日：10月31日（土）",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@thaistudents.tsukuba",
+        "url": "https://www.instagram.com/thaistudents.tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "069",
+    "id": "cmo8p8pil002whm01kodhsyzw",
+    "name": "コピカツ！~振りコピ班踊ってみたSTAGE~",
+    "organization": "現代視覚文化研究会振りコピ班",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day1",
+        "start": "12:05",
+        "end": "12:55",
+        "title": "コピカツ！~振りコピ班 踊ってみたSTAGE~"
+      }
+    ],
+    "description": "現代視覚文化研究会振りコピ班です！私たちはボカロやアニソンなどを中心に、好きな曲を自由に楽しく踊っています！雙峰祭では、普段の活動の集大成として、個性豊かな班員がそれぞれの「好き」を詰め込んだステージをお届けします！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@gsk_huricopy",
+        "url": "https://x.com/gsk_huricopy"
+      },
+      {
+        "kind": "x",
+        "label": "@tsukuba_gsk",
+        "url": "https://x.com/tsukuba_gsk"
+      },
+      {
+        "kind": "youtube",
+        "label": "筑波大学振りコピ班げんしけん",
+        "url": "https://www.youtube.com/results?search_query=%E7%AD%91%E6%B3%A2%E5%A4%A7%E5%AD%A6%E6%8C%AF%E3%82%8A%E3%82%B3%E3%83%94%E7%8F%AD%E3%81%92%E3%82%93%E3%81%97%E3%81%91%E3%82%93"
+      }
+    ]
+  },
+  {
+    "number": "071",
+    "id": "cmo9azg6n004khm01ghqzcxqs",
+    "name": "筑波スポーツフェス（ゴールボール、展示）",
+    "organization": "筑波大学体育スポーツ局",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "209",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "field-sekisho",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "072",
+    "id": "cmo9c0le30081hm01lyp3kwxz",
+    "name": "芸術祭 オープンキャンパス",
+    "organization": "芸術祭実行委員会オープンキャンパス班",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "305（視聴覚室）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "芸専受験に挑む方、興味がある方を応援したい！！こちら芸術祭のオープンキャンパス班です。今年は毎年好評の受験練習作品の展示や芸専受験相談会だけでなく、オーキャン班が丹精込めてデザインしたお守り販売や、芸専在学生の受験過去話やアドバイスが聞けちゃうトークショーも開催！芸専受験に興味ない人も大歓迎。芸専生がのちょっと特殊な受験模様が見れるかも？",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tadfes.com",
+        "url": "https://tadfes.com/official-projects/open-campus"
+      },
+      {
+        "kind": "x",
+        "label": "@TADF_tkb",
+        "url": "https://x.com/TADF_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tadf_tkb",
+        "url": "https://www.instagram.com/tadf_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "073",
+    "id": "cmo9d7e4900ekhm01xancezrk",
+    "name": "ライブペイント",
+    "organization": "浅葱&イソジン",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-s",
+        "room": "S5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "074",
+    "id": "cmo9dztpd00iihm014jpsr207",
+    "name": "LGBTQ+の「時間感覚」展",
+    "organization": "BHEジェンダー支援チーム",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1d",
+        "room": "201",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "人生のあり方は多様で、誰もが同じ速さで／同じ道順を経験するわけではありません。 本展示は、「時間」を過去から未来へ一直線に進むものではなく、重なったり、行き来したりするものとして見つめ直します。 私たちの未来をもっと自由に考えてみませんか。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "diversity.tsukuba.ac.jp",
+        "url": "https://diversity.tsukuba.ac.jp/"
+      },
+      {
+        "kind": "x",
+        "label": "@UTsukuba_gst",
+        "url": "https://x.com/UTsukuba_gst"
+      },
+      {
+        "kind": "x",
+        "label": "@SODA2405282",
+        "url": "https://x.com/SODA2405282"
+      }
+    ]
+  },
+  {
+    "number": "075",
+    "id": "cmo9kp34000xchm016pfhfibz",
+    "name": "芸術祭 ワークショップ",
+    "organization": "芸術祭実行委員会ワークショップ班",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "203（構成室）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "booth-s",
+        "room": "S7",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "芸術祭テーマ「交点」にちなんだ、選べる2種類のアート体験をご用意しています！子供から大人まで、美術が得意な方もそうでない方も、みんなで楽しめます！屋外では芸専生が皆さんの似顔絵を描く「似顔絵屋」も設置しております！ぜひお立ち寄りください♪\n《参加費》［屋内ワークショップ］各体験1回につき200円、［似顔絵屋］1枚500円",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tadfes.com",
+        "url": "https://tadfes.com/official-projects/workshop"
+      },
+      {
+        "kind": "x",
+        "label": "@TADF_tkb",
+        "url": "https://x.com/TADF_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tadf_tkb",
+        "url": "https://www.instagram.com/tadf_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "076",
+    "id": "cmo9maxo1010bhm01m5renry3",
+    "name": "写真部さくら組写真展",
+    "organization": "写真部さくら組",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "302",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "写真の展示、写真集・ポストカードの販売を行っております。\nぜひ、お気軽にお立ち寄りください！\n┈┈┈┈┈┈┈┈┈┈┈┈\n＊写真集 ¥500〜\n＊ポストカード ¥150\n┈┈┈┈┈┈┈┈┈┈┈┈",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@sakura_photo",
+        "url": "https://x.com/sakura_photo"
+      },
+      {
+        "kind": "instagram",
+        "label": "@itf._sakura_gumi",
+        "url": "https://www.instagram.com/itf._sakura_gumi/"
+      }
+    ]
+  },
+  {
+    "number": "077",
+    "id": "cmo9ox191015ghm01653xl1wz",
+    "name": "Study with me! JV-Campus",
+    "organization": "JV-Campus連携室",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "302",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "＼JV-Campusを体験しませんか！／\n今春リニューアルしてさらに使いやすくなった、オンライン教育プラットフォーム「JV-Campus」。国内外の大学や企業が提供するコンテンツが満載！楽しく学び、オリジナルのノベルティをGETしよう♪",
+    "links": [
+      {
+        "kind": "website",
+        "label": "jvc.sec.tsukuba.ac.jp",
+        "url": "https://www.jvc.sec.tsukuba.ac.jp/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@UniversityofTsukubaJV-Campus",
+        "url": "https://www.youtube.com/@UniversityofTsukubaJV-Campus"
+      }
+    ]
+  },
+  {
+    "number": "078",
+    "id": "cmo9suwgb0181hm01ky01jji9",
+    "name": "トルコで潜ってきました？ケバブダイバーズ",
+    "organization": "Diving Partner",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-l",
+        "room": "L1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "079",
+    "id": "cmo9ta5r5019ihm01qdh8wa02",
+    "name": "推進音楽隊による雙峰祭ライブ",
+    "organization": "Unlimited SS",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day1",
+        "start": "14:45",
+        "end": "15:05",
+        "title": "推進音楽隊による雙峰祭ライブ"
+      }
+    ],
+    "description": "邦ロックを中心に演奏します！",
+    "links": []
+  },
+  {
+    "number": "080",
+    "id": "cmo9wgwte01hjhm01irvgt37m",
+    "name": "Irish Café Shamrock",
+    "organization": "筑波大学ケルト音楽愛好会T-Celt",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "406",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "焼きたてのワッフルや紅茶をアイルランドの音楽、風景と共に…🎶\n北欧の風を感じてみませんか？\n\n私たちは日々アイルランドの伝統音楽に基づいた「ケルト音楽」を演奏しています。\nなんとも言えないアコースティックな響きになぜかハマってしまう日本人が続出…！！\nバンジョーやティンホイッスルなど普段滅多にみられない特殊な楽器も目白押し！\n足が疲れたそこのあなた❗️\nぜひお気軽にお越しください✨️",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tkb_celt",
+        "url": "https://x.com/tkb_celt"
+      },
+      {
+        "kind": "instagram",
+        "label": "@t_celt_tsukuba",
+        "url": "https://www.instagram.com/t_celt_tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "082",
+    "id": "cmoapjc3k01sdhm01oc5wlmt0",
+    "name": "ぷくぷくティラミス",
+    "organization": "プクプクの3年生",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "083",
+    "id": "cmoarfa0i01t5hm01nf8vowdi",
+    "name": "広島風お好み焼き",
+    "organization": "広島県人会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "084",
+    "id": "cmoarlsu801tlhm01usmj0mpp",
+    "name": "応援させてください！",
+    "organization": "筑波大学応援部WINS",
+    "category": "パフォーマンス",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "412",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "毎年恒例！応援部WINSによる熱血応援企画「応援させて下さい！」\n授業や部活動、研究、就活…いつも頑張っているあなたへ。心の中で「頑張りたい！」と思っていることがあるあなたへ。\nこの企画では、お菓子を買うと、部員があなたのためだけに全力の応援をお届けします！\n毎年「元気が出た」「感動した」という声をたくさんいただいている、応援部だからこそできる企画です。\n私たちに、応援させてください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~wins/?fbclid=PAVERFWAUnE2lleHRuA2FlbQIxMQBwZG9mAmZkaWQWUPScl_AqcXFcCCE4WxxcCvf9Vl1ki3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp2OkNIsCvU6Eg8eF3Qlyu30xdo4QF9cSRPkRb_mT2m6voipwwdfOPUbQ60El_aem_baneJzKFkhOqI4Q7wOXV3w"
+      },
+      {
+        "kind": "website",
+        "label": "tsukubawins.blogspot.com",
+        "url": "http://tsukubawins.blogspot.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@wins_tsukuba",
+        "url": "https://x.com/wins_tsukuba"
+      },
+      {
+        "kind": "x",
+        "label": "@wins_shinkan_",
+        "url": "https://x.com/wins_shinkan_"
+      },
+      {
+        "kind": "instagram",
+        "label": "@wins.tsukuba",
+        "url": "https://www.instagram.com/wins.tsukuba/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@wins_shinkan",
+        "url": "https://www.instagram.com/wins_shinkan/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@winstsukuba",
+        "url": "https://www.youtube.com/@winstsukuba"
+      }
+    ]
+  },
+  {
+    "number": "086",
+    "id": "cmob68y7x007ejr01xifa0htk",
+    "name": "カカオ、来た！",
+    "organization": "国際総合学類・海外研修Ⅰ",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2c",
+        "room": "407",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "国際総合学類のパプア研修参加者で、フェアトレード（民衆交易）のチョコレートを使用したドリンクを提供します。大人な苦味のカフェモカとまろやかなチョコミルク、あなたはどっち派？さらに、パプアから取り寄せたフェアトレードチョコレートも販売します！\n店内には研修の紹介ビデオや展示がございます。カフェ「カカオ、来た！」でゆっくりしてはいかがですか？",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@kakao_kita_sohosai",
+        "url": "https://www.instagram.com/kakao_kita_sohosai/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@cokelatkita.cis",
+        "url": "https://www.instagram.com/cokelatkita.cis/"
+      }
+    ]
+  },
+  {
+    "number": "087",
+    "id": "cmob7l7gb007vjr01mq0hps6e",
+    "name": "ダブルダッチ",
+    "organization": "purplume",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "day": "Day1",
+        "start": "14:30",
+        "end": "15:20",
+        "title": "ダブルダッチ"
+      }
+    ],
+    "description": "2本の縄を使い、ダンスやジャンプ、ロープトリックなどを魅せるパフォーマンスです。チームごとの団結力が生み出す圧巻のステージをお楽しみください！\n【日時】\n10月31日(土) 1430-1520\n【場所】\n大学会館 講堂\n\n華麗な縄やジャンプで学園祭を熱く盛り上げます。迫力満点のパフォーマンスをぜひご覧ください！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@purplume.dd",
+        "url": "https://www.instagram.com/purplume.dd/"
+      }
+    ]
+  },
+  {
+    "number": "088",
+    "id": "cmob7vbjc009djr01acge8h0b",
+    "name": "版画展",
+    "organization": "筑波大学版画領域",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "105（版画室）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "6A棟エントランスから階段を降りてすぐ！筑波大学版画領域の学生による作品展示と、版画作品の販売を行います！多彩な版画表現をぜひお楽しみください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "geijutsu.tsukuba.ac.jp",
+        "url": "https://www.geijutsu.tsukuba.ac.jp/hanga/"
+      },
+      {
+        "kind": "x",
+        "label": "@tsukubageijutsu",
+        "url": "https://x.com/tsukubageijutsu"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukubageijutsu",
+        "url": "https://www.instagram.com/tsukubageijutsu/"
+      }
+    ]
+  },
+  {
+    "number": "089",
+    "id": "cmob90qg500cejr01b16ktew5",
+    "name": "Open Esys作品展示",
+    "organization": "Open Esys",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "303",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "090",
+    "id": "cmobamzpo00fdjr01dkws9nmh",
+    "name": "的中団子",
+    "organization": "弓道同好会春霞",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-j",
+        "room": "J3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "「的中団子」は雙峰祭でも珍しい団子専門店です。きなこや抹茶など豊富な味の団子をご用意しています!袴姿の弓道同好会春霞のメンバーが心を込めておもてなししますのでぜひ気軽に立ち寄ってみてください。さらに、ちょっとしたお楽しみとしておみくじも引けます。お団子と一緒に運試しもぜひお楽しみください。皆様のご来店を心よりお待ちしています!!",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@kasuga_kyudo",
+        "url": "https://x.com/kasuga_kyudo"
+      },
+      {
+        "kind": "instagram",
+        "label": "@kasuga_kyudo",
+        "url": "https://www.instagram.com/kasuga_kyudo/"
+      }
+    ]
+  },
+  {
+    "number": "091",
+    "id": "cmobd1lyw00pkjr0133qavnxf",
+    "name": "極限量子の最前線",
+    "organization": "物理学域　素核宇宙",
+    "category": "学術",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "401",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "初期宇宙物質、ヒッグス粒子から宇宙進化までの極限量子の最新の研究成果を紹介する。",
+    "links": []
+  },
+  {
+    "number": "092",
+    "id": "cmobdq4lr00svjr01ezg0rkd8",
+    "name": "邦楽部和楽器コンサート",
+    "organization": "筑波大学邦楽部",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day1",
+        "start": "10:00",
+        "end": "11:00",
+        "title": "邦楽部和楽器コンサート"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "093",
+    "id": "cmobf6y2600ufjr01bto8tu2r",
+    "name": "声優班トークショーイベント",
+    "organization": "現代視覚文化研究会声優班",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "day": "Day1",
+        "start": "15:50",
+        "end": "17:20",
+        "title": "声優班トークショーイベント"
+      }
+    ],
+    "description": "筑波大学 現代視覚文化研究会 声優班 主催\n\n声優さんをお招きして開催する、トークショー形式のイベントです。\n今回のイベントでは、現在声優としてご活躍されている関口理咲さんと佐倉薫さんをお招きして、トークやゲーム企画など盛りだくさんの内容でお届けします！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "say-you.gsk-tsukuba.net",
+        "url": "https://say-you.gsk-tsukuba.net/live2026/baraironoaki"
+      },
+      {
+        "kind": "x",
+        "label": "@gsktkb_eventer",
+        "url": "https://x.com/gsktkb_eventer"
+      },
+      {
+        "kind": "x",
+        "label": "@gsk_koehan",
+        "url": "https://x.com/gsk_koehan"
+      }
+    ]
+  },
+  {
+    "number": "094",
+    "id": "cmobgiwa600v2jr01vh52j9yg",
+    "name": "劇団筑波小劇場",
+    "organization": "劇団筑波小劇場",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "312",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "日本某所に位置する田舎町「冥牙町」に引っ越してきた転校生は、その日、偶然帰りが遅れてしまった暗く静かな町の中で、謎の化け物の姿を目撃した。いつの間にか寝てしまった彼女は、クラスメイトに起こされる。あれは夢だったか、それとも…\nせわしないクラスメイトに、獣を狩る狩人、どこか怪しい研究員に囲まれた彼女が描く未来は、誰にも分からない…\n「閉ざされた世界で、君は何を信じる？」",
+    "links": []
+  },
+  {
+    "number": "095",
+    "id": "cmobl9lbs00vljr01kfyh7qkn",
+    "name": "みれい×みんアイドルコピーダンスステージ",
+    "organization": "みれみん",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day2",
+        "start": "11:30",
+        "end": "12:10",
+        "title": "みれい×みん アイドルコピーダンスステージ"
+      }
+    ],
+    "description": "ひらがなつくばを卒業した2人が奇跡の復活！日向坂46などの坂道楽曲以外にも、iLiFE!、=LOVE、≠ME、高嶺のなでしこ等、今をときめく話題のアイドルたちの楽曲を踊ります！\nカッコイイもカワイイも感動も全部を詰め込んだ最高の40分間をお届け！途中参加、途中退場も可能ですのでお気軽にお越しください！\n\n日付：11/1(日) 本祭２日目\n時間：11:30~12:10\n場所：1Aステージ",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@_mire_min",
+        "url": "https://x.com/_mire_min"
+      },
+      {
+        "kind": "instagram",
+        "label": "@_mire_min",
+        "url": "https://www.instagram.com/_mire_min/"
+      }
+    ]
+  },
+  {
+    "number": "096",
+    "id": "cmoc7rsba011ujr01jdu9a7p9",
+    "name": "アンプラグドのスモア屋さん",
+    "organization": "弾き語りクラブ「アンプラグド」",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "弾き語りクラブ「アンプラグド」によるスモアの販売です！スモアは、焼いたマシュマロをチョコとビスケットで挟んだ甘いお菓子です。ホットミルクティーもご用意しています。屋台では構成員による弾き語りも行っています🎶ぜひ、スモアを片手にアコースティックギターのあたたかい音色をお楽しみください。お待ちしております！",
+    "links": []
+  },
+  {
+    "number": "097",
+    "id": "cmocb5obr01b6jr01zuune37f",
+    "name": "つくちり2026",
+    "organization": "筑波大学地理愛好会",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "203",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "098",
+    "id": "cmocg3ivi01j4jr01hfhji6it",
+    "name": "応援部WINSステージパフォーマンス",
+    "organization": "筑波大学応援部WINS",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "day": "Day1",
+        "start": "11:25",
+        "end": "12:45",
+        "title": "応援部WINSステージ パフォーマンスショー"
+      }
+    ],
+    "description": "みなっさま～！こんにちは～！我々筑波大学応援部WINSは、【雙峰祭1日目10/31（土）11:25～大学会館講堂】にて、雙峰祭限定スペシャルステージを披露させていただきます！\nWINSのことを知っている方も知らない方も、ステージを観た後にはなんだか元気になっていること間違いなし！皆様のお越しをお待ちしております🐸",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~wins/"
+      },
+      {
+        "kind": "x",
+        "label": "@wins_tsukuba",
+        "url": "https://x.com/wins_tsukuba"
+      },
+      {
+        "kind": "instagram",
+        "label": "@wins.tsukuba",
+        "url": "https://www.instagram.com/wins.tsukuba/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@winstsukuba",
+        "url": "https://www.youtube.com/@winstsukuba"
+      }
+    ]
+  },
+  {
+    "number": "099",
+    "id": "cmockp4o901ngjr01o8yiezip",
+    "name": "なまずの唐揚げ ",
+    "organization": "筑波マリンダイビングクラブ",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A8",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "皆さんはなまずは食べたことはありますか？\n\n日本では外来種として度々話題に上がるアメリカナマズですが、実はとっても美味しいんです！\nタダ同然のように捨てられてしまうなまずをせっかくなら皆さんに美味しく食べてもらいたいと思い、雙峰祭でなまずの唐揚げを出店しました\n取り扱うなまずはすべて霞ヶ浦産！！\n美味しく食べて、環境問題の解決もできちゃう！そんな屋台となっています\nぜひご賞味ください",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@namazzz._.official",
+        "url": "https://www.instagram.com/namazzz._.official/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_marine_diving_club",
+        "url": "https://www.instagram.com/tsukuba_marine_diving_club/"
+      },
+      {
+        "kind": "youtube",
+        "label": "https.youtube.com.なまずかすみch",
+        "url": "https://www.youtube.com/results?search_query=https.youtube.com.%E3%81%AA%E3%81%BE%E3%81%9A%E3%81%8B%E3%81%99%E3%81%BFch"
+      }
+    ]
+  },
+  {
+    "number": "100",
+    "id": "cmoclrlqo01sfjr01jasb2z5d",
+    "name": "ITF！プロジェクト：ゲームメモリアル展",
+    "organization": "ITF！プロジェクト",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "316",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "Izanai Tokimeki Fantasy！(通称ITF！プロジェクト)は、筑波大学の学群・学類たちを擬人化し、主人公である総合生が擬人化キャラクターたちと共に移行を目指すゲームです。これらの制作活動は全て大学非公認のものであり、非営利目的で運営をしております。雙峰祭2026では、過去のグッズ販売やイラスト展示を行います！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "izanaitokimeki.wixsite.com",
+        "url": "https://izanaitokimeki.wixsite.com/itfproject"
+      },
+      {
+        "kind": "x",
+        "label": "@Izanaitokimeki",
+        "url": "https://x.com/Izanaitokimeki"
+      }
+    ]
+  },
+  {
+    "number": "101",
+    "id": "cmoclyttp01vsjr01rm710c5w",
+    "name": "筑波大学合唱団むくどり雙峰祭ステージ",
+    "organization": "筑波大学合唱団むくどり",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "day": "Day2",
+        "start": "15:50",
+        "end": "16:35",
+        "title": "筑波大学むくどり雙峰祭ステージ"
+      }
+    ],
+    "description": "合唱団むくどりによる合唱ステージです。\n「やさしさに包まれたなら」「青葉の歌」といった聴き馴染みのあるJ-POP、中学合唱曲や、合唱ならではのハーモニーが心地よい名曲「それじゃ」など幅広いレパートリーをご用意しています。\nご予約の必要はございませんのでどなたでもお気軽にご来場ください。\n\n11/01 (日)\n開場：15:30\n開演：15:50\n筑波大学大学会館ホール",
+    "links": []
+  },
+  {
+    "number": "102",
+    "id": "cmocpziod026zjr0141f1kkaq",
+    "name": "筑大寄席２０２６",
+    "organization": "筑波大学落語研究会",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "506",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学落語研究会です。私たちは、「筑大寄席２０２６」という企画名にあるように、雙峰祭本番の10月31日、11月1日の両日寄席を行います。落語研究会の会員たちが落語や漫才などを披露します！木戸銭は無料、自由に出入りしてOKです！どなたでも気軽に立ち寄っていただけると嬉しいです！会員一同皆様のご来場をお待ちしています！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@114139512",
+        "url": "https://x.com/114139512"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsuku__mochi",
+        "url": "https://www.instagram.com/tsuku__mochi/"
+      }
+    ]
+  },
+  {
+    "number": "103",
+    "id": "cmoctr58402wqjr01uju9nwm7",
+    "name": "九州人会・うまかっちゃん焼きラーメン",
+    "organization": "九州人会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-s",
+        "room": "S1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "104",
+    "id": "cmocx141i033ajr01xhjanmpy",
+    "name": "ねおぽてと",
+    "organization": "筑波大学ジャズ楽団Neopolis BIGBAND",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M13",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学 Jazz楽団 NeopolisBIGBANDです！\n私たちがお届けしますのは、ジャズの様に、くるっくるにスウィングしたフライドポテト、通称「ねおぽてと」です！！\nフレーバーは、しお・のりしお・コンソメ・スパイスの4種類で全品300円！第1エリア松美池前に出店しています！！揚げたてホクホクのポテトを是非お召し上がりください✨️",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@NeopolisBIGBAND",
+        "url": "https://x.com/NeopolisBIGBAND"
+      },
+      {
+        "kind": "instagram",
+        "label": "@neopolisbigband",
+        "url": "https://www.instagram.com/neopolisbigband/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@neopolisbigband4007",
+        "url": "https://www.youtube.com/@neopolisbigband4007"
+      }
+    ]
+  },
+  {
+    "number": "105",
+    "id": "cmocxqf770353jr017kipotfe",
+    "name": "ふらっと、さんふじんか",
+    "organization": "筑波大学産婦人科",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R11",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "107",
+    "id": "cmodxlmj603igjr01n5tcleoz",
+    "name": "むらの野菜とご飯",
+    "organization": "のうりんむら",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "地元でとれたお米と野菜たっぷりの炊き込みご飯を出品します！畑でとれた野菜も販売予定です。是非食べに来てください！！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@nourinmura",
+        "url": "https://x.com/nourinmura"
+      },
+      {
+        "kind": "instagram",
+        "label": "@nourinmura",
+        "url": "https://www.instagram.com/nourinmura/"
+      }
+    ]
+  },
+  {
+    "number": "108",
+    "id": "cmoe9dzhm03mxjr017bjck5vo",
+    "name": "斬桐舞スペシャルパフォーマンス",
+    "organization": "斬桐舞",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "10:53",
+        "end": "11:28",
+        "title": "斬桐舞スペシャルパフォーマンス"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "109",
+    "id": "cmoecaoat03q8jr01hykro4aw",
+    "name": "三度の飯より揚げサンド",
+    "organization": "揚げサンド同好会",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-s",
+        "room": "S2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "110",
+    "id": "cmoed42ce03qpjr01jtcv8swn",
+    "name": "夢を編む花園DIY工房",
+    "organization": "ロマンチッククラブ",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-s",
+        "room": "S6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "花園や森をイメージした空間で、自然と手作りの魅力を楽しみませんか？🌸🌿 花や動物をモチーフにしたオリジナル雑貨やアクセサリー、中国の伝統技法「絨花」に着想を得た作品、着物や浴衣にぴったりの和装小物などを販売します。さらに、好きなパーツを自由に選んで、自分だけのアクセサリーを作れるDIY体験も開催！お気に入りの作品を探したり、ものづくりを楽しんだり、ぜひ気軽に遊びに来てください♪",
+    "links": []
+  },
+  {
+    "number": "111",
+    "id": "cmof5wnir0424jr011iply3mr",
+    "name": "揚げパン FOR TWO ",
+    "organization": "STUDY FOR TWO 筑波大学支部",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-e",
+        "room": "E6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "今年で3年目！SFT名物、外サックサク中ふっわふわのアツアツ揚げパンです！\n 今年は定番のシュガーときなこに加え、去年も好評だった甘さとほろ苦さの黄金比が最高な抹茶と、部員イチオシ！まさかのジャンキーさがクセになるコンソメの４フレーバーを提供します！\n たくさん買うほどお得になるので、ぜひ色々な味にチャレンジしてください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "studyfortwo.org",
+        "url": "https://studyfortwo.org/"
+      },
+      {
+        "kind": "x",
+        "label": "@study42_tkb",
+        "url": "https://x.com/study42_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@st42itf_",
+        "url": "https://www.instagram.com/st42itf_/"
+      }
+    ]
+  },
+  {
+    "number": "112",
+    "id": "cmofe77c6047yjr01oktogxrt",
+    "name": "ほかほか点心屋",
+    "organization": "四年有志",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-h",
+        "room": "H2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "アツアツの焼き立て小籠包はいかがですか？\nおいしいひんやりドリンクもご用意しています！\n皆様のご来店お待ちしております♪",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@hokahoka_tenshinya",
+        "url": "https://www.instagram.com/hokahoka_tenshinya/"
+      }
+    ]
+  },
+  {
+    "number": "113",
+    "id": "cmofmw01i04fgjr01ryqxiljt",
+    "name": "Perfecto Olé!",
+    "organization": "パフェ愛好会",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-j",
+        "room": "J1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "雙峰祭のひと休みに、ちょっと甘いものはいかがですか？\nひんやり甘い「パフェ」を主役にした店舗です。歩き回ったあとの休憩にもぴったり。お気に入りの一品を片手に、ちょっと贅沢なおやつ時間をどうぞ！",
+    "links": []
+  },
+  {
+    "number": "114",
+    "id": "cmofmyj6b04g1jr01e7qbdjsi",
+    "name": "珈琲・俺",
+    "organization": "全代会有志",
+    "category": "ドリンク",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2a",
+        "room": "309",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "珈琲・俺は2000年創設の珈琲研究会です。26年受け継いできた「珈琲・俺式ドリップ」で、4年連続となるグランプリを受賞しました。\n今年は、その伝統の一歩先へ。産地も精製方法も異なる個性豊かな豆を、一杯になるまでのストーリーとともにご用意しました。まだ知らないコーヒーの魅力に、きっと出会えるはずです。\n\n「この一杯、新たな美味しさ。」ぜひご堪能ください。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "2026.cafeore.cafe",
+        "url": "https://2026.cafeore.cafe/"
+      },
+      {
+        "kind": "x",
+        "label": "@cafeore_tkb",
+        "url": "https://x.com/cafeore_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@cafeore_tkb",
+        "url": "https://www.instagram.com/cafeore_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "115",
+    "id": "cmofpfeq504vtjr01ozc36vdt",
+    "name": "Neopolis雙峰祭スペシャルライブ",
+    "organization": "筑波大学ジャズ楽団Neopolis BIGBAND",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "10:00",
+        "end": "10:35",
+        "title": "Neopolis雙峰祭スペシャルライブ"
+      }
+    ],
+    "description": "筑波大学唯一のビッグバンドサークルNeopolis BIGBANDが今年もUNITEDステージに登場！\n管楽器とリズムセクション、そして魅力的なボーカルが織りなす大編成ならではの華やかなジャズをお届けします。\n１日目の朝にふさわしいダイナミックで迫力あるサウンドとともに、最高の１日をスタートさせましょう！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~neopolis/"
+      },
+      {
+        "kind": "x",
+        "label": "@NeopolisBIGBAND",
+        "url": "https://x.com/NeopolisBIGBAND"
+      },
+      {
+        "kind": "instagram",
+        "label": "@neopolisbigband",
+        "url": "https://www.instagram.com/neopolisbigband/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@neopolisbigband1475",
+        "url": "https://www.youtube.com/@neopolisbigband1475"
+      }
+    ]
+  },
+  {
+    "number": "116",
+    "id": "cmofszvrh0007ij01o1jfg9nl",
+    "name": "PANDAのお遊戯会",
+    "organization": "筑波大学オセロ同好会PANDA",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "402",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "PANDAメンバーとオセロで勝負！初めての人も自信がある人も歓迎です！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@ITF_Othelloclub",
+        "url": "https://x.com/ITF_Othelloclub"
+      },
+      {
+        "kind": "instagram",
+        "label": "@itf_othelloclub",
+        "url": "https://www.instagram.com/itf_othelloclub/"
+      }
+    ]
+  },
+  {
+    "number": "117",
+    "id": "cmoft2zcm000gij01duqlyjv7",
+    "name": "制作ゲーム展示会",
+    "organization": "AmusementCreators",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "209",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "118",
+    "id": "cmofww9f1001mij0151e65f5t",
+    "name": "台湾焼きそばがスキ〜",
+    "organization": "医学スキー部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-h",
+        "room": "H3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "台湾焼きそば売ってます！味付けにソースを使わず、お酢やニンニクを効かせた独特な味わいを実現しました！40年以上受け継がれてきた秘伝の味をご賞味あれ！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_med_ski_club",
+        "url": "https://www.instagram.com/tsukuba_med_ski_club/"
+      }
+    ]
+  },
+  {
+    "number": "119",
+    "id": "cmogn9xv1003bna01adgptbp4",
+    "name": "池坊華道部",
+    "organization": "池坊華道部",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "201",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "部員が作成した華道作品を展示しています。メインストリートの喧騒から離れた、静かな癒しの空間をお届けいたします。\n華道作品を初めて見る方も大歓迎です！\n「なんか良いな」「おしゃれだな」と思っていただければ幸いです。\n部員一同皆さまのご来訪をお待ちしております！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@IkenoboTsukuba",
+        "url": "https://x.com/IkenoboTsukuba"
+      },
+      {
+        "kind": "instagram",
+        "label": "@ikenobo_tsukuba",
+        "url": "https://www.instagram.com/ikenobo_tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "121",
+    "id": "cmogqdy6w00alna01w6qhawjv",
+    "name": "芸術祭 フリーマーケット",
+    "organization": "芸術祭実行委員会フリーマーケット班",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "213",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-5c",
+        "room": "220",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "芸術祭フリーマーケットは、たくさんの芸術専門学群の学生たちが思い思いに自身の作品を制作する場です！\nみなさんが芸専生の制作した作品たちを手に取ることのできる数少ない機会の一つとなっています。\n衣服、アクセサリー、絵、立体作品、小物類など、色とりどりな作品の中からあなたのお気に入り、探してみましょう！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tadfes.com",
+        "url": "https://tadfes.com/official-projects/flea-market"
+      },
+      {
+        "kind": "x",
+        "label": "@tadfmarket",
+        "url": "https://x.com/tadfmarket"
+      },
+      {
+        "kind": "x",
+        "label": "@TADF_tkb",
+        "url": "https://x.com/TADF_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tadf_tkb",
+        "url": "https://www.instagram.com/tadf_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "122",
+    "id": "cmogz866i011ina01vam6ro3g",
+    "name": "芸術祭メトロ ワッフル快速",
+    "organization": "芸術祭実行委員会飲食班",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "208",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "あなたの笑顔に出発進行！ 芸術祭メトロ ワッフル快速です🚄❣️\n芸術専門学群の学生たちと、ワッフルフェアリーのワフーによるアーティスティックなワッフル専門店です！\n学生会館・CEGLOC棟から体芸エリアに歩いて右手側、ガラス張りの芸バチ（5C208）にて営業。\nぜひぜひご乗車ください🫡🚃\n\n《menu》　All ￥400\n🧀チーズベーコン\n🫐アイスベリー\n🍫チョコバナナチップ",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tadfes.com",
+        "url": "https://tadfes.com/official-projects/food"
+      },
+      {
+        "kind": "x",
+        "label": "@TADF_tkb",
+        "url": "https://x.com/TADF_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tadf_tkb",
+        "url": "https://www.instagram.com/tadf_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "123",
+    "id": "cmoh0cm4d016nna0134zkye1c",
+    "name": "筑波大学お笑い集団DONPAPAお笑いライブ",
+    "organization": "筑波大学お笑い集団DONPAPA",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "day": "Day2",
+        "start": "10:15",
+        "end": "11:45",
+        "title": "筑波大学お笑い集団DONPAPAお笑いライブ"
+      }
+    ],
+    "description": "DONPAPAの精鋭部隊による1回限りの特別ステージ！漫才・コント・ピン全部やります！ここでしか見られないネタもやります！プロで活躍するOBも満を持して参戦！\nお笑い好きな方はもちろん、初めて見る方も、大人も子供も全員来てください！爆笑できます！絶対！\n途中入退場可能！自由席！入場無料です！\n大会場で迫力あるお笑いをたくさん浴びてくださいね…",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@owarai_donpapa",
+        "url": "https://x.com/owarai_donpapa"
+      },
+      {
+        "kind": "instagram",
+        "label": "@owarai_donpapa",
+        "url": "https://www.instagram.com/owarai_donpapa/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@DONPAPA-eh8vp",
+        "url": "https://www.youtube.com/@DONPAPA-eh8vp"
+      }
+    ]
+  },
+  {
+    "number": "124",
+    "id": "cmoh0wj04017vna0162ytutg0",
+    "name": "不揃い野菜のスープ屋さん",
+    "organization": "環境サークルREVELOP",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "JAつくば市谷田部様から傷や規格外により廃棄される野菜をいただき、スープにしました。コンソメ、豆乳、カレーの3種類の味を取り揃えております！美味しく楽しくフードロスを削減する取り組みにあなたも参加しませんか？",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@REVELOP_ITF",
+        "url": "https://x.com/REVELOP_ITF"
+      },
+      {
+        "kind": "instagram",
+        "label": "@revelop_u.tsukuba",
+        "url": "https://www.instagram.com/revelop_u.tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "125",
+    "id": "cmoh7oim901opna01kwmngt81",
+    "name": "STEPくんのビッグバンポップコーン",
+    "organization": "筑波大学宇宙技術プロジェクトSTEP",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ロケット犬のSTEPくんが作るおいしいポップコーンだワン🐶‼️\nぜひ買いに来てほしいワン✨✨✨",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~step/"
+      },
+      {
+        "kind": "x",
+        "label": "@Tsukuba_STEP",
+        "url": "https://x.com/Tsukuba_STEP"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_step",
+        "url": "https://www.instagram.com/tsukuba_step/"
+      }
+    ]
+  },
+  {
+    "number": "126",
+    "id": "cmoh8yo8a01rlna01r9npzdcx",
+    "name": "パペット・バザール",
+    "organization": "人形劇団NEU",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2b",
+        "room": "309",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "人形劇団NEUはおとなも子どもも楽しめる人形劇の世界を、学内外問わず様々な場所へお届けする劇団系サークルです。大学の人形劇サークルとしては珍しい、芸術性を重視した大人向けの作品づくりを得意とすることで、各所で注目を集める劇団です。本企画では「葉桜と魔笛」や「平林」をはじめとする人形劇公演や物販を行います。世にも不思議な人形劇の世界にあなたも足を踏み入れてみませんか？",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tkbneu.net",
+        "url": "https://www.tkbneu.net/"
+      },
+      {
+        "kind": "x",
+        "label": "@tsukuba_neu",
+        "url": "https://x.com/tsukuba_neu"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_neu",
+        "url": "https://www.instagram.com/tsukuba_neu/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@tkbneu",
+        "url": "https://www.youtube.com/@tkbneu"
+      }
+    ]
+  },
+  {
+    "number": "127",
+    "id": "cmohsn5ip005pq4014d32velu",
+    "name": "ひらがなつくば坂道LIVE〜この想い届け〜",
+    "organization": "ひらがなつくば",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "16:29",
+        "end": "17:09",
+        "title": "ひらがなつくば坂道LIVE〜この想い届け〜"
+      }
+    ],
+    "description": "坂道アイドルコピーダンスグループのひらがなつくばです！\n大好きな坂道グループの楽曲を、心を込めてパフォーマンスします。ぜひお楽しみください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@hiraganatsukuku",
+        "url": "https://x.com/hiraganatsukuku"
+      },
+      {
+        "kind": "instagram",
+        "label": "@hiraganatsukuba",
+        "url": "https://www.instagram.com/hiraganatsukuba/"
+      },
+      {
+        "kind": "youtube",
+        "label": "ひらがなつくば-l6r",
+        "url": "https://www.youtube.com/results?search_query=%E3%81%B2%E3%82%89%E3%81%8C%E3%81%AA%E3%81%A4%E3%81%8F%E3%81%B0-l6r"
+      }
+    ]
+  },
+  {
+    "number": "128",
+    "id": "cmohy0qhc00czq401wzhats2y",
+    "name": "焼き鳥人間の会",
+    "organization": "つくば鳥人間の会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "129",
+    "id": "cmohz887k00gfq401w10svegn",
+    "name": "応援部WINS×斬桐舞 合同ステージ",
+    "organization": "応援部WINS×斬桐舞",
+    "category": "ステージ",
+    "schedule": ["前夜祭"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["前夜祭"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "前夜祭",
+        "start": "17:50",
+        "end": "18:10",
+        "title": "夜祭パフォーマンスショー第2部 応援部WINS×斬桐舞 合同ステージ"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "130",
+    "id": "cmoi1fzcw00ktq401d98cqhq3",
+    "name": "XLAIR",
+    "organization": "XLAIR Project",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1b",
+        "room": "402",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "XLAIRは、画面に流れるノーツに合わせ、スライダーやボタンの操作で楽曲を演奏するオリジナルリズムアクションゲームです。2年目となる今年は、収録楽曲がさらに増加！  ゲームシステムもパワーアップしました 実際の筐体で音楽に合わせて 手を動かす楽しさをぜひ体験してください。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "xlair.dev",
+        "url": "https://xlair.dev/"
+      },
+      {
+        "kind": "x",
+        "label": "@XLAIR_Project",
+        "url": "https://x.com/XLAIR_Project"
+      }
+    ]
+  },
+  {
+    "number": "131",
+    "id": "cmoi6kdfb00ywq4019aohbnlp",
+    "name": "医学音楽同好会SoundLoop教室ステージ",
+    "organization": "医学音楽同好会SoundLoop",
+    "category": "音楽",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1c",
+        "room": "403",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "軽音楽を中心に音楽ライブを行います！\nコピバン、弾き語り、ミュージカルなどジャンルレスに色々な音楽を奏で、個性豊かな音楽で雙峰祭を盛り上げます🎶！\nぜひお気軽にお越しください⭐︎！！！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tkb_soundloop",
+        "url": "https://x.com/tkb_soundloop"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tkb_soundloop",
+        "url": "https://www.instagram.com/tkb_soundloop/"
+      }
+    ]
+  },
+  {
+    "number": "132",
+    "id": "cmoi9x3bu01n4q4016nwspmfb",
+    "name": "日本画制作展",
+    "organization": "日本画領域",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "311（デザイン室）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6b",
+        "room": "401（日本画アトリエ）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6b",
+        "room": "402（日本画アトリエ）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6b",
+        "room": "403（日本画アトリエ）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "日本画制作展では、筑波大学の芸術専門学群で日本画を学ぶ学生たちによる多彩な作品を展示いたします。\n岩絵具や水干絵具などの画材や和紙を用いた日本画にしか出せない魅力的な作品を是非見に来ていただければと思います。\n体芸エリア側6A,6B棟にて皆様をお待ちしております。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "geijutsu.tsukuba.ac.jp",
+        "url": "https://www.geijutsu.tsukuba.ac.jp/nihonga/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAUk-EFleHRuA2FlbQIxMQBwZG9mAmZkaWQWUPI2KZ-R_IJwgJm-fCA6zXulJtsJU3NydGMGYXBwX2lkDzEyNDAyNDU3NDI4NzQxNAABp-n4K-I3Z2HY59Mddc94x7IjZfTSeP7w9u7p2klS71ps19VeDtSK3qoH7Kjy_aem_jyj4vNy_irMuQUO0L4Wubw"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_nihonga",
+        "url": "https://www.instagram.com/tsukuba_nihonga/"
+      }
+    ]
+  },
+  {
+    "number": "133",
+    "id": "cmoiczjnf01zjq401hvwtr9y0",
+    "name": "ベトナム屋",
+    "organization": "筑波大学ベトナム人留学生団体",
+    "category": "食事",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A9",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "136",
+    "id": "cmoihqnpu000zly01muieuu6u",
+    "name": "アートギャラリーT＋　ワークショップ",
+    "organization": "筑波大学アートギャラリーT＋",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "212（T＋ギャラリー）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "137",
+    "id": "cmoii5331006nly01yiesfcnk",
+    "name": "クロースアップマジックショー",
+    "organization": "マジシャンズクラブ",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1c",
+        "room": "405",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学マジシャンズクラブです。教室企画では、トランプやコインなど、さまざまな道具を使ったクロースアップマジックショーをお楽しみいただけます。目の前で繰り広げられる不思議なマジックを、ぜひ間近でご体験ください！",
+    "links": []
+  },
+  {
+    "number": "139",
+    "id": "cmoiismnb0001o801o82n3jw7",
+    "name": "でんしゃであそぼう",
+    "organization": "筑波大鉄研「旅と鉄道の会」",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2a",
+        "room": "410",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "旅の記録や写真、鉄道模型や運転シミュレーターなど、旅と鉄道に関する展示を行っています。\n今年は弊サークル設立50周年ということで、関連する展示も行っています。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~tabi/"
+      },
+      {
+        "kind": "x",
+        "label": "@tabitetsu298",
+        "url": "https://x.com/tabitetsu298"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tabitetsu298",
+        "url": "https://www.instagram.com/tabitetsu298/"
+      }
+    ]
+  },
+  {
+    "number": "140",
+    "id": "cmoijl461006do8016r05rwjz",
+    "name": "鳥人間の巣",
+    "organization": "つくば鳥人間の会",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "過去の大会で実際に大空を舞った機体の一部（フェアリングやプロペラ）を特別展示します！ 会場では、迫力満点のテストフライト映像も放映予定です。 また、今年度の「鳥人間コンテスト」出場を記念して製作したオリジナルTシャツやタオルも販売しますので、ぜひお気軽にお立ち寄りください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~tbw/"
+      },
+      {
+        "kind": "x",
+        "label": "@tbwofficialacc",
+        "url": "https://x.com/tbwofficialacc"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tbw_tsukuba",
+        "url": "https://www.instagram.com/tbw_tsukuba/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@tbw1986",
+        "url": "https://www.youtube.com/@tbw1986"
+      }
+    ]
+  },
+  {
+    "number": "141",
+    "id": "cmoikbo280075o801ou7jptv8",
+    "name": "筑波大学桐政会 公開発表会",
+    "organization": "筑波大学桐政会",
+    "category": "学術",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "402",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "私たちは筑波大学公認の政治サークル「桐政会」です。本企画では、政治・文化・思想などについて各会員が発表を行い、参加者の皆様方と議論・質疑応答を行います！\n詳細につきましては各種SNS(X、Instagram等)にて発信しています。\n発表は事前知識不要、質問大歓迎ですので、ぜひお気軽にお越しください！！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukubatouseikai.blogspot.com",
+        "url": "https://tsukubatouseikai.blogspot.com/2026/06/20260601.html"
+      },
+      {
+        "kind": "x",
+        "label": "@touseikai",
+        "url": "https://x.com/touseikai"
+      },
+      {
+        "kind": "instagram",
+        "label": "@touseikai_tkb",
+        "url": "https://www.instagram.com/touseikai_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "142",
+    "id": "cmojd469300f1o801puz713c0",
+    "name": "W能登プレミアム～幻の和牛&極上ポーク～",
+    "organization": "お天気お兄さんズ",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ことの始まりは、学部の卒業旅行で訪れた石川県・能登半島。\nそこで出会った「能登牛」が、あまりにも絶品でした…。\nこの感動を、もっと多くの人に伝えたい！\nその一心で、仲良くなったお肉の卸売店の方に想いを伝えたところ、なんと協力してくださることに。\n本来、石川県と東京でしか購入が難しい希少な能登牛を提供できることになったのです！\n\n昨年、雙峰祭グランプリ準優秀賞の能登牛・豚をご堪能あれ！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@Wnotopremium",
+        "url": "https://x.com/Wnotopremium"
+      },
+      {
+        "kind": "instagram",
+        "label": "@wnotopremium",
+        "url": "https://www.instagram.com/wnotopremium/"
+      }
+    ]
+  },
+  {
+    "number": "143",
+    "id": "cmojifo6l00r3o801m9si8dhz",
+    "name": "Realjam",
+    "organization": "ストリートダンスサークルRealjam",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "18:49",
+        "end": "19:59",
+        "title": "Realjam"
+      }
+    ],
+    "description": "ストリートダンスサークルRealjam。\n9チーム、約150人もの構成員が長期間練り続けたハイレベルなショーケースを披露。\n激アツなダンスでUnited Stageの夜をストリートの色に染める。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@realjam.tkb",
+        "url": "https://www.instagram.com/realjam.tkb/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@REALJAMdance",
+        "url": "https://www.youtube.com/@REALJAMdance"
+      }
+    ]
+  },
+  {
+    "number": "145",
+    "id": "cmojud01t00xho801x74xcrtq",
+    "name": "アイセック活動報告～私だからできること～",
+    "organization": "アイセック筑波大学委員会",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1b",
+        "room": "410",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "アイセックは100以上の国と地域に支部を持つ認定特定非営利活動法人で、「平和で人々の可能性が最大限発揮された社会」の実現を目標として、学生が主体となって事業を運営しています！本展示では、アイセック筑波大学委員会が現在行なっている、海外ボランティア送り出し事業・海外研修生受け入れ事業について紹介しています。渡航経験者の話も直接聞けますので、ぜひお越しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "aiesec.jp",
+        "url": "https://aiesec.jp/lp/recruit2022/?utm_source=ig&utm_medium=social&utm_content=link_in_bio"
+      },
+      {
+        "kind": "instagram",
+        "label": "@aiesec_jp_tkb",
+        "url": "https://www.instagram.com/aiesec_jp_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "146",
+    "id": "cmojwtje800yao801pjqo5lf9",
+    "name": "マジシャンズクラブステージマジックショー",
+    "organization": "マジシャンズクラブ",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "day": "Day1",
+        "start": "17:30",
+        "end": "18:40",
+        "title": "マジシャンズクラブ ステージマジックショー"
+      }
+    ],
+    "description": "10/31(土)17:30より、大学会館講堂にてステージマジックショーを行います。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_magic",
+        "url": "https://x.com/tsukuba_magic"
+      }
+    ]
+  },
+  {
+    "number": "147",
+    "id": "cmojyxtuw00zwo801guj3ju50",
+    "name": "愛のリコーダー",
+    "organization": "ブロックフレーテ同好会",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day1",
+        "start": "11:20",
+        "end": "11:55",
+        "title": "愛のリコーダー"
+      }
+    ],
+    "description": "さまざまな大きさのリコーダーを使って、幅広いジャンルの曲を演奏します！ ぜひお気軽に聞きに来てください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@blockflote_fue",
+        "url": "https://x.com/blockflote_fue"
+      }
+    ]
+  },
+  {
+    "number": "148",
+    "id": "cmok0547l0118o801z9fkvhrs",
+    "name": "そば、焼いてます。",
+    "organization": "Spikers'Inc",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-t",
+        "room": "T2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "バレーボールサークル「SPIKERS'Inc.」による焼きそばです！！ぜひ食べにきてください！！\n\n今年は日清の協賛を受けて、日清焼きそば｢U.F.O.｣風になってます！",
+    "links": []
+  },
+  {
+    "number": "149",
+    "id": "cmok11ysq013zo801cbrltrx0",
+    "name": "農ヘルおいもラボ",
+    "organization": "つくば学生農業ヘルパー",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-k",
+        "room": "K1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "こんにちは、つくば学生農業ヘルパーです！\n\nつくば市で育ったさつまいもを使用したチップスを販売します。\n例年多くのお客様から「シンプルでおいしい」「さつまいもの甘みがしっかり感じられる」と好評をいただいております！\n\n薄切りにして軽やかに揚げ、味付けはシンプルに塩のみ。パリッとした食感と、さつまいも本来のやさしい甘みをお楽しみいただけます。\n\nつくばの恵みが詰まった一品を、ぜひお試しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "line.me",
+        "url": "https://line.me/ti/g2/eWzpMt5x4IjvSglv0W2q6XX1gMrWk27X1f3gfA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
+      },
+      {
+        "kind": "instagram",
+        "label": "@nogyohelper_tkb",
+        "url": "https://www.instagram.com/nogyohelper_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "150",
+    "id": "cmok4h5gz01eko801uv2bboza",
+    "name": "合気五平餅",
+    "organization": "合気道部",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-h",
+        "room": "H4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "合気道部が運営する五平餅店です。一本一本焼き上げ、みそだれで仕上げました。もちもちの食感をお楽しみください！演武も予定しております。そちらもぜひ、ご覧ください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_aikido",
+        "url": "https://x.com/tsukuba_aikido"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_aikido",
+        "url": "https://www.instagram.com/tsukuba_aikido/"
+      }
+    ]
+  },
+  {
+    "number": "151",
+    "id": "cmok6fpy601j3o801gejfapfg",
+    "name": "きりきりサンド工房",
+    "organization": "斬桐舞",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "外はサクッと香ばしく、中には思わず笑顔になる美味しさをぎゅっと詰め込んだホットサンドをご用意しました！お食事にぴったりのしょっぱい味から、ほっとひと息つける甘い味まで、気分に合わせて楽しめるラインナップです。小腹が空いたときのおやつにも、しっかり食べたいときにもおすすめ。斬桐舞らしい元気と笑顔を添えて、メンバー一同お待ちしています。文化祭の思い出に、ぜひお気に入りの一品を見つけてください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@kiri_kiri_mai",
+        "url": "https://x.com/kiri_kiri_mai"
+      },
+      {
+        "kind": "instagram",
+        "label": "@kirikirimaaai",
+        "url": "https://www.instagram.com/kirikirimaaai/"
+      }
+    ]
+  },
+  {
+    "number": "153",
+    "id": "cmokyp0ia0221o801qx11zild",
+    "name": "WorldFood TSUKUBA ",
+    "organization": "WorldFut TSUKUBA OB",
+    "category": "食事",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C3",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "154",
+    "id": "cmol13fzb026qo801vxt3sl8r",
+    "name": "たまご展",
+    "organization": "芸術専門学群洋画２年生",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "413（洋画アトリエ）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "芸術専門学群洋画領域志望の1•2年生による自由制作展。未来の芸術家たちによる新時代の作品をぜひ観に来てください！！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tamagoten2026",
+        "url": "https://www.instagram.com/tamagoten2026/"
+      }
+    ]
+  },
+  {
+    "number": "155",
+    "id": "cmol1ov05028bo801ioac8s3f",
+    "name": "好古研究会",
+    "organization": "古代・中世研究サークル 好古研究会",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "203",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "好古研究会は古代オリエントやキリスト教など、古代・中世を愛する学生が集まったサークルです。「世界史苦手」、「古代って難しそう」と思っている方はぜひウチへお越し下さい！\nワークショップでは、紙にボールペンを走らせる前は人間がどう書いていたのかを体験します。専門の学生と一緒に楔形文字を粘土板に書いたり、ギリシャ文字をパピルスに書いてみましょう！ポスター発表では、学生の本気の古代・中世入門が楽しめます。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@koukoken_",
+        "url": "https://x.com/koukoken_"
+      }
+    ]
+  },
+  {
+    "number": "156",
+    "id": "cmol2k3ub02fuo801enbt3y8s",
+    "name": "ボート部のからあげ",
+    "organization": "漕艇部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-e",
+        "room": "E1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "石の広場でボート部が本気のからあげを揚げます！ 長年のトレーニングで培った集中力と体力で、油の温度から揚げ時間まで極限を追求した究極の一品。さらに、エルゴメーターを使ったミニゲームも同時開催！上位に入れば、からあげ増量のビッグチャンス！\n鍛え抜かれたボート部の本気のからあげをぜひ体感しに来てください。漕いで笑って、お腹いっぱい召し上がれ！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_crew",
+        "url": "https://x.com/tsukuba_crew"
+      },
+      {
+        "kind": "instagram",
+        "label": "@rowing.tsukuba00",
+        "url": "https://www.instagram.com/rowing.tsukuba00/"
+      }
+    ]
+  },
+  {
+    "number": "157",
+    "id": "cmol46xr402klo8010uik6h31",
+    "name": "ミーゴレン食べてミー",
+    "organization": "筑波大学公認ボランティアサークルLUZ",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "158",
+    "id": "cmol4m4w602oao80142pt80hp",
+    "name": "近未来ビブリオ学園",
+    "organization": "宇陀・松村・堤研究室",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-library",
+        "room": "集会室",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "AI同士が本気でおすすめ本を語り合ったら、勝つのはどの一冊？「近未来ビブリオ学園」では、3つのAIが対決するビブリオバトルを開催！さらに、AIのうっかり間違いを見抜く「AIリテラシークイズ」や、AIへの伝え方を学ぶ「プロンプト国語」、みんなの想像で完成する架空の生き物図鑑、折り紙で巨大オブジェを作る工作も。入学試験なし・遅刻OK、子どもも大人も大歓迎！未来の時間割をのぞきに来てください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tumblr.com",
+        "url": "https://www.tumblr.com/biblioschool"
+      },
+      {
+        "kind": "x",
+        "label": "@gama_jumper",
+        "url": "https://x.com/gama_jumper"
+      }
+    ]
+  },
+  {
+    "number": "159",
+    "id": "cmol9d2ez03a0o801yzr7352l",
+    "name": "オンザからあげ",
+    "organization": "ソフトテニスサークルOn the Line",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-h",
+        "room": "H5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ソフトテニスサークルOn the Lineです！ご飯にもおやつにも無敵な唐揚げ……の上に特製トッピング!? \nその名も「オンザからあげ」🐓🎾\n【メニュー】 \n◉ノーマル：やっぱり王道の定番！ \n◉タルタル：全人類に捧ぐ最強タッグ🤝 \n◉チリソース：ちょい辛でクセになる特別感✨\n今年の雙峰祭はこれで決まり！愉快な仲間たちが1A前でお待ちしています😁",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@on_the_karaage",
+        "url": "https://www.instagram.com/on_the_karaage/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@on_the_line.soft_tennis",
+        "url": "https://www.instagram.com/on_the_line.soft_tennis/"
+      }
+    ]
+  },
+  {
+    "number": "160",
+    "id": "cmola10z503cxo8011eodjd7e",
+    "name": "パンケーキはおやつに入りますか？",
+    "organization": "筑波大学広告研究会 アド研",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-k",
+        "room": "K2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "161",
+    "id": "cmolaau4u03dqo801is65ufb9",
+    "name": "ゲレンデのじゃがバター",
+    "organization": "体育会スキー部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "雪山を愛するスキー部が、群馬県にて自分たちで育てたじゃがいもを、ほくほくのじゃがバターにしてお届け！アツアツのじゃがいもに、じゅわっと溶ける濃厚なバター。育てるところから心を込めた、素材のおいしさを味わえる一品です。ゲレンデで食べるような温かさと幸せを、ぜひ会場でお楽しみください。小腹が空いたとき、大容量でコスパ最高！。部員一同、ご来店をお待ちしています！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_skiclub",
+        "url": "https://www.instagram.com/tsukuba_skiclub/"
+      }
+    ]
+  },
+  {
+    "number": "162",
+    "id": "cmolawma003ioo801tzh4qfee",
+    "name": "研究学園戦士ツクバダインショー",
+    "organization": "ヒーローアクション同好会",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "11:53",
+        "end": "12:13",
+        "title": "研究学園戦士ツクバダインショー"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "164",
+    "id": "cmolb1xy603m2o801iko1f2wx",
+    "name": "研究学園戦士ツクバダインショー2026",
+    "organization": "ヒーローアクション同好会",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "508",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "『研究学園戦士ツクバダイン』と『学士基板戦士オウル』が、5C棟にやってくるぞ！大迫力のヒーローショー！雙峰祭でも、俺たちと握手！！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tkbheroaction.web.fc2.com",
+        "url": "https://tkbheroaction.web.fc2.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@Action_298",
+        "url": "https://x.com/Action_298"
+      },
+      {
+        "kind": "instagram",
+        "label": "@action_298",
+        "url": "https://www.instagram.com/action_298/"
+      }
+    ]
+  },
+  {
+    "number": "165",
+    "id": "cmolbbx9z03rpo801qtibrmhm",
+    "name": "タコスはじめました",
+    "organization": "天2居酒屋連盟",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-l",
+        "room": "L2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "166",
+    "id": "cmolcsxxg041mo801xhnukw6u",
+    "name": "JAZZ喫茶FULLHOUCE",
+    "organization": "JAZZ愛好会",
+    "category": "音楽",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "513",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "JAZZ喫茶FULLHOUSEへようこそ！\nここでは、筑波大学JAZZ愛好会によるジャズの生演奏をお届けします。軽食やドリンクを片手に、表現豊かな演奏をお楽しみください♪\n5C513でお待ちしています！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_jazzken",
+        "url": "https://x.com/tsukuba_jazzken"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_jazzken",
+        "url": "https://www.instagram.com/tsukuba_jazzken/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@jazz7831",
+        "url": "https://www.youtube.com/@jazz7831"
+      }
+    ]
+  },
+  {
+    "number": "167",
+    "id": "cmoldvom604d4o801yjbw9v23",
+    "name": "稲妻よ走れ！上昇志向ベイビーズ炎のライブ",
+    "organization": "上昇志向ベイビーズ",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day2",
+        "start": "15:20",
+        "end": "15:45",
+        "title": "稲妻よ走れ！上昇志向ベイビーズ 炎のライブ"
+      }
+    ],
+    "description": "「上昇志向ベイビーズ」は、直訳すると 「上を目指す赤ちゃんたち」 という意味です。\n\nただし、一般的な決まった熟語というより、「向上心が強い人たち」「成長したい・成功したい若者たち」を、ちょっとふざけた感じで表現した言葉として使われることがあります。\n\nもし「上昇志向ベイビーズ」が特定の曲・グループ・SNS用語・作品名のことなら、どこで見た言葉か教えてくれれば、その意味を特定して説明できます。",
+    "links": []
+  },
+  {
+    "number": "168",
+    "id": "cmoldyos104dpo801o6r6kk4s",
+    "name": "帝国雙峰祭ステージ2026",
+    "organization": "The Empire of TSUKUBA",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "18:11",
+        "end": "18:41",
+        "title": "帝国雙峰祭ステージ2026"
+      }
+    ],
+    "description": "今年もやりますヲタ芸ステージ✨\nアニソンやボカロなど我々の「好き」を全力で詰め込んだ魂の光を雙峰祭の夜に届けます。知ってる曲はもちろん、知らない曲でも我々の熱量でぶち上げてみせます🔥🔥🔥\n強い曲で強い光と強い熱を浴びたいオタクは全員、UNITED STAGEに集合願います。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@Empire_2018_11",
+        "url": "https://x.com/Empire_2018_11"
+      },
+      {
+        "kind": "instagram",
+        "label": "@empire_of_tkb",
+        "url": "https://www.instagram.com/empire_of_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "169",
+    "id": "cmoleji1p04jbo80156bps7m6",
+    "name": "Tsukuba DTM Live.",
+    "organization": "Tsukuba DTM Lab.",
+    "category": "音楽",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2c",
+        "room": "310",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "メンバーによるDJや、1時間で曲を作るパフォーマンスなど、普段の作曲活動に関連したイベントをお楽しみいただけます！　ペットボトル飲料と、メンバーが制作したCDの販売も行います！　詳しいスケジュールは公式XをCheck！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukubadtm.bandcamp.com",
+        "url": "https://tsukubadtm.bandcamp.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@tsukubadtm",
+        "url": "https://x.com/tsukubadtm"
+      },
+      {
+        "kind": "youtube",
+        "label": "@tsukubadtmlab",
+        "url": "https://www.youtube.com/@tsukubadtmlab"
+      }
+    ]
+  },
+  {
+    "number": "170",
+    "id": "cmolg7xrr04w8o801q51hvn3o",
+    "name": "書道パフォーマンス2026",
+    "organization": "書道部",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "17:24",
+        "end": "17:54",
+        "title": "書道パフォーマンス2026"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "171",
+    "id": "cmolj0hkd003bp001irt7ukuw",
+    "name": "つくぶい！VTuberグッズ販売&AR体験",
+    "organization": "つくぶい！",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "416",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "つくぶい！ブースではAR技術を用いた本サークル所属ライバーとの交流やライバーのグッズ等を展示、販売しております。過去グッズ等もございますのでぜひお越し下さい!",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukuv.live",
+        "url": "https://www.tsukuv.live/"
+      },
+      {
+        "kind": "x",
+        "label": "@Tsuku_V",
+        "url": "https://x.com/Tsuku_V"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsuku_vtuber",
+        "url": "https://www.instagram.com/tsuku_vtuber/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@Tsuku_V",
+        "url": "https://www.youtube.com/@Tsuku_V"
+      }
+    ]
+  },
+  {
+    "number": "172",
+    "id": "cmoljcark003np001h4xbj1m3",
+    "name": "野生自身",
+    "organization": "野生動物研究会",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1b",
+        "room": "208",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-1b",
+        "room": "210",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "我々野生動物研究会は、日頃フィールドへ赴き多種多様な生物の観察・採集をしています。今回の雙峰祭では、生体・標本・写真を展示し、生き物の魅力と私たち「自身」の活動の成果をお伝えします。ぜひお気軽にお越しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~yadoken/"
+      },
+      {
+        "kind": "x",
+        "label": "@yadoken_ITF_neo",
+        "url": "https://x.com/yadoken_ITF_neo"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_yadoken",
+        "url": "https://www.instagram.com/tsukuba_yadoken/"
+      }
+    ]
+  },
+  {
+    "number": "174",
+    "id": "cmom2i3sa00mbp001bg8dkr1l",
+    "name": "ピアノカフェ",
+    "organization": "筑波大学ピアノ愛好会",
+    "category": "学術",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "308",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "175",
+    "id": "cmom8bchc00wvp001hgtvkm5z",
+    "name": "298プロダクション出張事務所",
+    "organization": "筑波大学アイドルマスター研究会",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2d",
+        "room": "305",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "176",
+    "id": "cmomaqr6o010ep0013lt2641f",
+    "name": "令和八年度鹿島神流武道部雙峰祭演武",
+    "organization": "鹿島神流武道部",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "day": "Day2",
+        "start": "12:45",
+        "end": "13:31",
+        "title": "令和八年度 鹿島神流武道部雙峰祭演武"
+      }
+    ],
+    "description": "剣術や柔術などの古流武術の演武を行います。",
+    "links": []
+  },
+  {
+    "number": "177",
+    "id": "cmombav8o012tp00103711qvo",
+    "name": "陸上処　うま芋ん",
+    "organization": "筑波大学陸上競技同好会",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-q",
+        "room": "Q2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "秋といえばさつまいも！！\n今年の陸上同好会のつくる大学芋です。\n味はプレーン、抹茶、シナモンの3種類です！\n外はカリカリ、中はホクホクな大学芋をぜひおやつにどうぞ！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@umaimon_rikudou",
+        "url": "https://www.instagram.com/umaimon_rikudou/"
+      }
+    ]
+  },
+  {
+    "number": "178",
+    "id": "cmomccl360168p0013luz0bjs",
+    "name": "ホット・ドッグ・ジャンプ！",
+    "organization": "トランポリン同好会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "トランポリン同好会のホットドッグが登場！ジューシーなウインナーを2本使った「Wウインナー」は、お得で食べ応えも満点です！さらに、濃厚なチーズ味とスパイス香るカレー味もご用意しています！ぜひ食べに来てください！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsuku_tra",
+        "url": "https://www.instagram.com/tsuku_tra/"
+      }
+    ]
+  },
+  {
+    "number": "180",
+    "id": "cmomffxvj01nzp001wi7t71nw",
+    "name": "Dance in the moment~今この瞬間~",
+    "organization": "体育会ダンス部",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "11:32",
+        "end": "11:47",
+        "title": "Dance in the moment~今この瞬間~"
+      }
+    ],
+    "description": "今年度のスローガンは「この身体で、踊り拓く」\n多様なバックグラウンドを持つ個性豊かなメンバーたちと日々、作品創作に取り組んでいます。\n8月に行われた全日本高校・大学ダンスフェスティバル(神戸)では2連覇をいたしました。\nUNITEDステージでは普段とは違ったジャンルに挑戦し、観てくださる皆さまの心が明るくなる瞬間をお届けします！\nぜひご覧下さい！",
+    "links": []
+  },
+  {
+    "number": "181",
+    "id": "cmomkohwr029sp00160womrqk",
+    "name": "アーティスト招致企画",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "ステージ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "182",
+    "id": "cmomn4fi102kfp001sncf2f5o",
+    "name": "○○の肉焼いてみました！！2026",
+    "organization": "鹿島神流武道部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R8",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "我々鹿島神流武道部は毎年、滅多に食べられない動物の焼肉を提供しております。\n今年の肉はなんと、カンガルー！ワイルドな味わいのカンガルー肉を、塩・しょうゆ・ポン酢・焼肉のたれの四種類の調味料とともに提供いたします。\n雙峰祭の思い出に、ここでしか味わえないカンガルー肉を堪能してみませんか？",
+    "links": []
+  },
+  {
+    "number": "183",
+    "id": "cmomocq7002q2p001lxutoqlr",
+    "name": "能・狂言研究会特別公演",
+    "organization": "筑波能・狂言研究会",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day2",
+        "start": "10:00",
+        "end": "10:45",
+        "title": "能・狂言研究会特別公演"
+      }
+    ],
+    "description": "私たち筑波能・狂言研究会は、能（観世流）と狂言（和泉流）を稽古を通して研究する団体です。今回の公演では、仕舞「羽衣」、小舞「宇治の晒」「掛川」「柳の下」「花の袖」「よしのは」、狂言「成上り」を披露します。天女が美しく舞う「羽衣」、情景豊かな小舞、めでたい日の事件のドタバタ劇「成上り」。能楽の魅力をぜひ気軽にお楽しみください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tkb_nokyo",
+        "url": "https://x.com/tkb_nokyo"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tkb_nokyo",
+        "url": "https://www.instagram.com/tkb_nokyo/"
+      }
+    ]
+  },
+  {
+    "number": "184",
+    "id": "cmomq373c030ip0017srpf83k",
+    "name": "やきものをつくる会　展示即売会",
+    "organization": "焼き物をつくる会",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "301",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "185",
+    "id": "cmomrytru03a9p00162lqdjit",
+    "name": "ぶらり旅企画",
+    "organization": "筑波大学学園祭実行委員会 本部企画局",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "186",
+    "id": "cmomsffwj03gbp0011o0kp2qj",
+    "name": "ツクバポケモントレーナーズスクール",
+    "organization": "つくばポケモン大好きクラブ",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "317",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "Pokémon Champions・ポケカ・クイズ・イラストで遊べます！\nゲームとカードはレンタルも行っているので、気軽に遊びに来てください！\nポケカ学園祭体験会も開催しています！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@298_poke",
+        "url": "https://x.com/298_poke"
+      }
+    ]
+  },
+  {
+    "number": "187",
+    "id": "cmomunroa03tcp001oy8g31c9",
+    "name": "医学音楽同好会ステージ",
+    "organization": "医学音楽同好会SoundLoop",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "10:00",
+        "end": "10:20",
+        "title": "医学音楽同好会ステージ"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "188",
+    "id": "cmon1mfag043zp001zi7g7d3m",
+    "name": "つくたく亭",
+    "organization": "卓球同好会",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "去年の雙峰祭でも大人気だった、あのつくたく亭のチュロスが今年も帰ってくる！！\n筑波大学卓球同好会のメンバーが日々の練習で鍛えた剛腕でカリッと揚げたチュロスは、一度食べれば虜になってしまうこと間違いなし！！\n甘いチュロスに弾ける心(ハート)はまるで卓球台の上を跳ねるピンポン玉…\nシュガーにココアにシナモン…あなたはどの味を選びますか？？\nさあ！一本集中！！！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@takudo_tsukuba",
+        "url": "https://www.instagram.com/takudo_tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "190",
+    "id": "cmonrh6v6009ioi01qanh203z",
+    "name": "竈炊きごはん",
+    "organization": "竈プロジェクト",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-t",
+        "room": "T6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "竈で炊きたてのご飯を食べませんか？\n私たち竈プロジェクトは、「竈の火を囲み、ご飯を炊いて食べながらコミュニティを作り、防災を学ぶ」ことを目的に活動しています。\n今年度は筑波農場さんの「常総小田米」を竈で炊き上げ、茨城県産のご飯のお供を複数ご用意しております。\n白米のままお米の甘味を味わうも良し、おかずを食べ比べるも良し、ぜひお米のおいしさを味わってみてください。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_kamado",
+        "url": "https://www.instagram.com/tsukuba_kamado/"
+      }
+    ]
+  },
+  {
+    "number": "191",
+    "id": "cmonu2xbj00hmoi01jfm0d4z5",
+    "name": "チャリ部のとこトン汁",
+    "organization": "筑波大学体育会サイクリング部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-s",
+        "room": "S4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "サイクリング部、豚汁を販売します！\n山・湖・農道を走り、野菜を横目に見続けてきた私たちには、野菜への審美眼があります（たぶん）。\n地元の野菜を使った「チャリ部のとこトン汁」\n・豚汁 300円\n・バターコーンオンザ豚汁 400円\n・食べるラー油 オンザ豚汁400円\n定番豚汁から味変豚汁までぜひご賞味ください！\n競技班の熱いもがきと豚汁で温まりましょう",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukubike.com",
+        "url": "https://www.tsukubike.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@tsukubike",
+        "url": "https://x.com/tsukubike"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_cycling2026",
+        "url": "https://www.instagram.com/tsukuba_cycling2026/"
+      }
+    ]
+  },
+  {
+    "number": "193",
+    "id": "cmoo6tj7w01faoi01do5z4jxu",
+    "name": "まーさん屋",
+    "organization": "筑波大学沖縄県人会",
+    "category": "食事",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "308",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "194",
+    "id": "cmooax6bm01kioi01h44pd4jx",
+    "name": "ゆるっと大人の感染症検査",
+    "organization": "Prevent",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R10",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "195",
+    "id": "cmoof3bmy01rjoi01dv90ld7j",
+    "name": "筑波大学お笑い集団DONPAPAライブ",
+    "organization": "筑波大学お笑い集団DONPAPA",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "405",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "【昨年度全国大会優勝！】\n毎年超満員の教室お笑いライブを複数回開催します！\n入場無料！途中入退室自由！\n\nサークル員による漫才、コント、ピンのネタを披露！\n個性が光るDONPAPAの本格的なお笑いをご覧あれ！\n\n開場・開演時刻などの詳細は各種SNSからチェック！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@owarai_donpapa",
+        "url": "https://x.com/owarai_donpapa"
+      },
+      {
+        "kind": "instagram",
+        "label": "@owarai_donpapa",
+        "url": "https://www.instagram.com/owarai_donpapa/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@donpapa-eh8vp",
+        "url": "https://www.youtube.com/@donpapa-eh8vp"
+      }
+    ]
+  },
+  {
+    "number": "196",
+    "id": "cmoofbcj401sxoi01jesb82tc",
+    "name": "鶏塩らーめん愛児園",
+    "organization": "社会福祉研究会 愛児園グループ",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-p",
+        "room": "P2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "昨年大好評の「鶏塩らーめん」が、さらに進化して今年も登場！鶏の旨みを引き出したこだわりのスープに、今年はトッピングを一新。柚子皮を使ったあっさり系と、フライドガーリック＆ブラックペッパーのがっつり系をご用意しました。気分に合わせて、あなた好みの一杯にカスタマイズしてお楽しみいただけます！数量限定販売のため、なくなり次第終了となります。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@torishioramen",
+        "url": "https://www.instagram.com/torishioramen/"
+      }
+    ]
+  },
+  {
+    "number": "197",
+    "id": "cmoogtxm201x9oi010vnwjuk3",
+    "name": "PBCM雙峰祭SPステージ",
+    "organization": "バンドストッククラブPBCM",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day2",
+        "start": "16:15",
+        "end": "17:30",
+        "title": "PBCM雙峰祭SPステージ"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "198",
+    "id": "cmoohjphe01ycoi01jwjr1ent",
+    "name": "GSKバンドステージ",
+    "organization": "現代視覚文化研究会音楽班",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day1",
+        "start": "15:30",
+        "end": "17:45",
+        "title": "GSKバンドステージ"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "199",
+    "id": "cmooxqjxb02ikoi01afxxhexy",
+    "name": "学園祭コンサート",
+    "organization": "ピアノ愛好会",
+    "category": "音楽",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "204",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "入場無料・入退場自由のコンサートです！\nクラシックやポップスなど、ピアノを中心にさまざまな曲を演奏いたします。\n\n開催日：10/31(土)\n開場・開演時間などの詳しい情報は、後日SNSにてお知らせする予定です。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@piano_tsukuba20",
+        "url": "https://x.com/piano_tsukuba20"
+      },
+      {
+        "kind": "instagram",
+        "label": "@piano_tsukuba",
+        "url": "https://www.instagram.com/piano_tsukuba/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@tsukubaplovers",
+        "url": "https://www.youtube.com/@tsukubaplovers"
+      }
+    ]
+  },
+  {
+    "number": "200",
+    "id": "cmopagwl603eaoi019ec6l2pi",
+    "name": "PBCM SOHOSAI LIVE",
+    "organization": "バンドストッククラブPBCM",
+    "category": "音楽",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-2c",
+        "room": "107",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "軽音サークルPBCMによる2年ぶりの雙峰祭ライブハウス企画です！見に来てねーー！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@pbcm_tkbuniv",
+        "url": "https://x.com/pbcm_tkbuniv"
+      },
+      {
+        "kind": "instagram",
+        "label": "@pbcmpbcmpbcm",
+        "url": "https://www.instagram.com/pbcmpbcmpbcm/"
+      }
+    ]
+  },
+  {
+    "number": "201",
+    "id": "cmopdkv3m03sfoi01bdgedpl3",
+    "name": "コグマ KPOP COPY DANCE STAGE",
+    "organization": "Kpopコピーダンスサークル고구마(コグマ)",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "13:09",
+        "end": "14:16",
+        "title": "コグマKPOP COPY DANCE STAGE"
+      }
+    ],
+    "description": "今年もUNITEDステージでKpopのコピーダンスを披露します！かわいい曲からかっこいい曲まで、多彩な雰囲気の曲のコピーダンスをお楽しみいただけます！あなたもこぐまの虜になること間違いなし！！お見逃しなく！！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@koguma_guma_",
+        "url": "https://www.instagram.com/koguma_guma_/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@koguma_guma_guma",
+        "url": "https://www.youtube.com/@koguma_guma_guma"
+      }
+    ]
+  },
+  {
+    "number": "202",
+    "id": "cmopg0pqx03tqoi01h2kiury7",
+    "name": "無絃塾SUPER LIVE",
+    "organization": "津軽三味線倶楽部無絃塾",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day1",
+        "start": "15:34",
+        "end": "16:14",
+        "title": "無絃塾SUPER LIVE"
+      }
+    ],
+    "description": "津軽三味線倶楽部無絃塾です！\n津軽三味線や和太鼓、唄に踊り、キーボードなどなんでもござれ！！\n本祭一日目10/31(土)UNITEDステージにて15:34開演で無絃塾SUPER LIVEを行います！\n毎年大盛り上がりのこの舞台！今年も一緒に盛り上がりましょう！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_mugen",
+        "url": "https://x.com/tsukuba_mugen"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_mugenjuku",
+        "url": "https://www.instagram.com/tsukuba_mugenjuku/"
+      },
+      {
+        "kind": "youtube",
+        "label": "筑波大学無絃塾",
+        "url": "https://www.youtube.com/results?search_query=%E7%AD%91%E6%B3%A2%E5%A4%A7%E5%AD%A6%E7%84%A1%E7%B5%83%E5%A1%BE"
+      }
+    ]
+  },
+  {
+    "number": "204",
+    "id": "cmopjz76w03wtoi01ryx8808e",
+    "name": "宇宙への誘い",
+    "organization": "筑波大学「結」プロジェクト",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "301",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "「大学生が人工衛星を作る」――そんな活動を知っていますか？\n筑波大学「結」プロジェクトでは、学生が主体となり、超小型人工衛星の開発を行っています。\n本企画では、現在開発中の「TSUKUTO」の開発内容をポスターで紹介するとともに、衛星パズルや電子工作体験を実施します。宇宙開発の世界を、ぜひ体験しにきてください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@yui_tsukuba",
+        "url": "https://x.com/yui_tsukuba"
+      }
+    ]
+  },
+  {
+    "number": "205",
+    "id": "cmopkq38h000xjv01mp2x4u1e",
+    "name": "Sheepジャグリングパフォーマンス",
+    "organization": "筑波大学ジャグリングサークルSheep",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-hall",
+        "day": "Day1",
+        "start": "10:25",
+        "end": "11:10",
+        "title": "Sheepジャグリングパフォーマンス"
+      }
+    ],
+    "description": "こんにちは！\n筑波大学ジャグリングサークルSheepです\n当サークルはジャグリングやバルーンアートを中心に日々練習に取り組んでいます\n\n親しみやすい大道芸やバルーンやさんとはまた違ったカッコいい姿をお見せできるよう頑張ります!!\n音楽に合わせて躍動するそれぞれのパフォーマンスをお楽しみください🐑🐑",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~sheep/"
+      },
+      {
+        "kind": "x",
+        "label": "@Sheep_juggling",
+        "url": "https://x.com/Sheep_juggling"
+      },
+      {
+        "kind": "instagram",
+        "label": "@sheep_juggling",
+        "url": "https://www.instagram.com/sheep_juggling/"
+      }
+    ]
+  },
+  {
+    "number": "207",
+    "id": "cmoqj0h3002ecjv01lbf0lq2z",
+    "name": "体操部",
+    "organization": "体操部",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "day": "Day2",
+        "start": "16:00",
+        "end": "16:15",
+        "title": "体操部"
+      }
+    ],
+    "description": "こんにちは！体操部です。\n皆さんは「一般体操」と聞いて何を思い浮かべますか？私たちは、競技性のない一般体操を通して、自分の体と向き合い動くことそのものを楽しみながら活動をしています。学内だけでなく、国内外の体操祭での演技発表、ワークショップ行っています。雙峰祭では、バランスボールとして知られるGボール、組体操、ラートを用いた作品を発表します。ぜひ大学会館へお越しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukubaowls.com",
+        "url": "https://www.tsukubaowls.com/team/gymnastics"
+      },
+      {
+        "kind": "instagram",
+        "label": "@gym_tsukuba",
+        "url": "https://www.instagram.com/gym_tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "208",
+    "id": "cmoqj5k0s02epjv011f5gri87",
+    "name": "2026雙峰祭ステージ「月華」",
+    "organization": "ときめき太鼓塾",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-kaikan-kodo",
+        "day": "Day2",
+        "start": "13:15",
+        "end": "14:25",
+        "title": "2026雙峰祭ステージ「月華」"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "209",
+    "id": "cmoqj6yf002exjv01cr71mplr",
+    "name": "ごめんね弓に、ギョーザ道？",
+    "organization": "医学弓道部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R9",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "211",
+    "id": "cmoqpw97z02rojv01p4x07vu4",
+    "name": "豚キム焼そば",
+    "organization": "医学硬式庭球部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "医学生が本気で作る豚キムチ焼きそば！ちょっと遠いけれど後悔はさせません！是非お越しください！",
+    "links": []
+  },
+  {
+    "number": "212",
+    "id": "cmoqskruf038sjv01p3sqfqjc",
+    "name": "つくろぼ",
+    "organization": "つくばろぼっとサークル",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "311",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ロボット好き、集まれ！\nロボコンに出場した機体を間近で見ることができます！\n\n◎  巨大な競技用ロボットを無料で操作体験できます！\n◎  部員が設計した、ここでしか手に入らない特製グッズを販売！その場で3Dプリンターが動いているところが見られるかも？\n\n現役の学生エンジニアたちが作り上げたロボット達を徹底解説！ロボット技術に触れる体験を、ぜひあなたに！\n3B311でお待ちしています！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukurobo",
+        "url": "https://x.com/tsukurobo"
+      },
+      {
+        "kind": "youtube",
+        "label": "つくばろぼっとサークル",
+        "url": "https://www.youtube.com/results?search_query=%E3%81%A4%E3%81%8F%E3%81%B0%E3%82%8D%E3%81%BC%E3%81%A3%E3%81%A8%E3%82%B5%E3%83%BC%E3%82%AF%E3%83%AB"
+      }
+    ]
+  },
+  {
+    "number": "214",
+    "id": "cmor4co8404kmjv01yj3kcqhz",
+    "name": "森のタピオカ屋さん",
+    "organization": "硬式テニス愛好会Forest",
+    "category": "ドリンク",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-j",
+        "room": "J2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "もちもちのタピオカドリンクを販売します！味は黒糖ミルク、抹茶ラテ、いちごミルクの3種類！ 場所はスチューデントプラザの向かいの1学食堂の前です！数量に限りがありますのでお早めにお越しください。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_forest_2026",
+        "url": "https://www.instagram.com/tsukuba_forest_2026/"
+      }
+    ]
+  },
+  {
+    "number": "215",
+    "id": "cmor57rh204qfjv01f9i8gzz0",
+    "name": "ボードゲーム体験会",
+    "organization": "T.A.S.C.",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2a",
+        "room": "308",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "218",
+    "id": "cmorahzpo05ajjv018zns747u",
+    "name": "防災ボトル作りワークショップ",
+    "organization": "Tsukuba for 3.11",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1b",
+        "room": "403",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "みなさん、災害への備えはしていますか？手軽にできる災害対策の一つに防災ボトルがあります。防災ボトルとはウォーターボトルに災害時必要な品を詰めたもののことです。雙峰祭で美味しいものを食べたりステージを見たりしたら防災についても考えてみませんか？いつどこで起こるか分からない災害に備えましょう。",
+    "links": []
+  },
+  {
+    "number": "219",
+    "id": "cmorc0syp05i0jv01cll7ld2s",
+    "name": "CAMPFIRE",
+    "organization": "野外活動クラブ",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D7",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "野外活動クラブから出店されるCAMPFIREです！\n今年の雙峰祭では、心も体もあたたまる「クラムチャウダー」を販売します！野外活動クラブならではの、ほっとひと息つける一杯をぜひ味わいに来てください！雙峰祭で皆さんにお会いできるのを楽しみにしています！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@yakatsu_souhou",
+        "url": "https://x.com/yakatsu_souhou"
+      },
+      {
+        "kind": "instagram",
+        "label": "@yakatsu_souhousai2026",
+        "url": "https://www.instagram.com/yakatsu_souhousai2026/"
+      }
+    ]
+  },
+  {
+    "number": "220",
+    "id": "cmorc98j705iujv01tdappnpb",
+    "name": "ぼむずかふぇ",
+    "organization": "アイドル研究会",
+    "category": "パフォーマンス",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "203",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学アイドル研究会Bombs!です💣\nぼむずかふぇではお菓子やジュースを満喫しながら、今回限りのステージをお楽しみいただけます！OGメンバーも登場するかも...？ステージ終了後には、メンバーとチェキが撮れる特典会も開催いたします📷✨\nBombs!が大好きな方も初めての方も、ぜひ遊びに来てください！最高の思い出を一緒に作りましょう🙌ぜひお待ちしております♡",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@bombs_tkb",
+        "url": "https://x.com/bombs_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@bombs_tkb",
+        "url": "https://www.instagram.com/bombs_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "221",
+    "id": "cmorg1b0n05xfjv017jbbdba5",
+    "name": "芸術祭 展示企画",
+    "organization": "芸術祭実行委員会展示班",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "エントランスホール",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6a",
+        "room": "308（プレゼンテーションルーム）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "今年の展示企画は題して「交展」。今年もテーマ展示と自由展示の二部門設けました。テーマ展示「A∩D 展」では芸祭テーマ「交点」にちなんで複数点から構成される作品を、自由展示では制限を設けずに作品を募集しました。様々な形式・表現方法の個性豊かな作品が盛りだくさんです。\n芸専生による力作の数々を是非ご覧ください。6A棟308教室にてお待ちしております。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tadfes.com",
+        "url": "https://tadfes.com/official-projects/exhibition"
+      },
+      {
+        "kind": "x",
+        "label": "@TADF_tkb",
+        "url": "https://x.com/TADF_tkb"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tadf_tkb",
+        "url": "https://www.instagram.com/tadf_tkb/"
+      }
+    ]
+  },
+  {
+    "number": "222",
+    "id": "cmorzoo8106jrjv0100db0z2d",
+    "name": "究極の餃子屋",
+    "organization": "アルティメット同好会 INVERHOUSE",
+    "category": "食事",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C1",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "223",
+    "id": "cmos97o4506xfjv010bxins01",
+    "name": "はつこい帝国スペシャルコラボステージ",
+    "organization": "はつこい帝国",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "18:15",
+        "end": "18:35",
+        "title": "夜祭パフォーマンスショー第4部 はつこい帝国スペシャルコラボステージ"
+      }
+    ],
+    "description": "後夜祭ステージ、ヲタ芸サークル「The Empire of TSUKUBA」と筑波大生アイドル団体「はつこい製菓」の夢のコラボでお送りします、「はつこい帝国」です！注目ポイントは、ダンスと光の融合から生まれる見応えのあるステージです！また、普段アイドルとして活動しているメンバーのヲタ芸もご覧ください！光や音、ダンス、何よりとびっきりの笑顔で皆様の心を掴んでいきますので、応援よろしくお願いします！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@Empire_2018_11",
+        "url": "https://x.com/Empire_2018_11"
+      },
+      {
+        "kind": "x",
+        "label": "@hatsukoi_seika",
+        "url": "https://x.com/hatsukoi_seika"
+      },
+      {
+        "kind": "instagram",
+        "label": "@empire_of_tkb",
+        "url": "https://www.instagram.com/empire_of_tkb/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@theempireoftsukuba6830",
+        "url": "https://www.youtube.com/@theempireoftsukuba6830"
+      },
+      {
+        "kind": "youtube",
+        "label": "はつこい製菓",
+        "url": "https://www.youtube.com/results?search_query=%E3%81%AF%E3%81%A4%E3%81%93%E3%81%84%E8%A3%BD%E8%8F%93"
+      }
+    ]
+  },
+  {
+    "number": "224",
+    "id": "cmosbu3ww074qjv01wbigw2bz",
+    "name": "グンマー帝国大使館",
+    "organization": "群馬県人会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-k",
+        "room": "K3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "225",
+    "id": "cmosdm6ah078kjv012jwgkqf9",
+    "name": "つくえれエレクトーン教室ライブ！",
+    "organization": "つくえれ",
+    "category": "音楽",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2c",
+        "room": "101",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "エレクトーンサークル「つくえれ」によるエレクトーン演奏です！最近のJ-Popや有名なあのゲーム曲などをソロ・アンサンブルで演奏します！\n去年とは異なり、今年はそれぞれの曲の演奏時間が決まっています。タイムテーブルについては公式X、Instagramをご参照ください。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@electone_itf",
+        "url": "https://x.com/electone_itf"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuele",
+        "url": "https://www.instagram.com/tsukuele/"
+      }
+    ]
+  },
+  {
+    "number": "227",
+    "id": "cmosjsop507lrjv01ipszi1xu",
+    "name": "トポキ食べませんか　僕が作ったんですけど",
+    "organization": "本格韓国料理KIM HYEONKANG",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D8",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "韓国人留学生がレシピを監修した本場の味。辛さ2種類に加えてトッピングにチーズも選べます！少し肌寒いこの季節に、あったかいトポキ食べませんか？石の広場すぐ近くでお待ちしております！！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@toppoki.souhousai",
+        "url": "https://www.instagram.com/toppoki.souhousai/"
+      }
+    ]
+  },
+  {
+    "number": "228",
+    "id": "cmoskupdz07nnjv01u1kt4nxj",
+    "name": "アドバンチュロス部",
+    "organization": "硬式テニスサークルADVANT",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M12",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "4種類の選べるフレーバー！！ お子さんには特大サービスがあるかも、、、",
+    "links": []
+  },
+  {
+    "number": "229",
+    "id": "cmoslqdfm07vnjv01kjmmwwvb",
+    "name": "学園祭ライブ Produced by TMP",
+    "organization": "TMP（つくばミュージックプロジェクト）",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "15:07",
+        "end": "15:53",
+        "title": "学園祭ライブ Produced by TMP"
+      }
+    ],
+    "description": "筑波大学の学生音楽団体TMP（つくばミュージックプロジェクト）が毎年プロのアーティストを招いて開催する学園祭ライブ。今年の出演はSkaai。ヒップホップに根差しつつ核心をとらえた歌詞で注目を集めるアーティストのステージを、石の広場UNITEDステージでお届けします。11月1日(日)15:00開演。前方エリアは有料チケット制、それ以外は無料でご覧いただけます。最新情報はTMP公式SNSへ。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@TsukubaMusicP",
+        "url": "https://x.com/TsukubaMusicP"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_music_p",
+        "url": "https://www.instagram.com/tsukuba_music_p/"
+      }
+    ]
+  },
+  {
+    "number": "230",
+    "id": "cmoso3wy8086pjv01xcxjcvuk",
+    "name": "漫画研究会",
+    "organization": "漫画研究会",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "502",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "漫研会員制作の漫画を掲載した会誌の頒布・展示を行っています。また、コピックやつけペンなどの画材体験ができるお絵描きコーナーや、その他漫画に関する企画もお楽しみいただけます。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_manken",
+        "url": "https://x.com/tsukuba_manken"
+      }
+    ]
+  },
+  {
+    "number": "232",
+    "id": "cmotaq0oq0988jv01v5539ifk",
+    "name": "ギルティ炭酸DOPE",
+    "organization": "TMP（つくばミュージックプロジェクト）",
+    "category": "ドリンク",
+    "schedule": ["前夜祭", "Day1"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C4",
+        "days": ["前夜祭", "Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "TMPが贈るオリジナルギルティ炭酸「DOPE」。その悪魔的フレーバーが更なるパワーアップを遂げて雙峰祭に登場。1度飲んだらやめられない、DOPEな味わい。覚悟はできてるカ？",
+    "links": []
+  },
+  {
+    "number": "233",
+    "id": "cmotbnhvw09hljv01zey6gy5x",
+    "name": "天文カフェ",
+    "organization": "天文研究会",
+    "category": "ドリンク",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "504",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-1e",
+        "room": "505",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-1e",
+        "room": "506",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "こんにちは！天文研究会です！私たちが企画する「天文カフェ」では、朝焼け、青空、夕焼け、夜空の四種類をモチーフにした「空色ドリンク」の販売と、写真展を開催しております。「空色ドリンク」をお手持ちのスマートフォンのライト機能を使って、カップの底から光を当ててみると、息をのむような姿に...？また、写真展では、会員自らが汗水垂らし、眠い目を擦って撮影した珠玉の一枚を展示しております！ぜひお越しください！",
+    "links": []
+  },
+  {
+    "number": "234",
+    "id": "cmoteh38i000hq801bi92ep5k",
+    "name": "謎解きは秋Aのあとで",
+    "organization": "ミステリー研究会",
+    "category": "ドリンク",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "302",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ミステリー研究会では、お菓子と会誌の販売を行なっています。会誌にはサークルの読書会の様子などが載っています。またミステリー研究会ならではの企画も実施しているので、ぜひお立ち寄りください♪座るスペースも用意しているので、ゆっくりと一息つきたい方大歓迎です！",
+    "links": []
+  },
+  {
+    "number": "235",
+    "id": "cmotfpqk9009bq801bdmtqakz",
+    "name": "茶道同好会秋茶会",
+    "organization": "茶道同好会",
+    "category": "スイーツ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-kaigaku",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学茶道同好会では、雙峰祭1日目の10月31日（土）に、開学記念館にて秋茶会を開催します。\n今年も和室の本席と、椅子に座ってお茶を楽しめる立礼席の二席をご用意しています。\n経験者はもちろん、茶道が初めての方も大歓迎です！\n秋の趣を感じながら、お抹茶とお菓子をゆっくりお楽しみください！\n詳しくは茶道同好会のX・Instagramをご確認ください。\n皆さまのお越しをお待ちしております。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "stb.tsukuba.ac.jp",
+        "url": "https://www.stb.tsukuba.ac.jp/~urasenke/"
+      },
+      {
+        "kind": "x",
+        "label": "@sado_dokokai",
+        "url": "https://x.com/sado_dokokai"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_sadodokokai",
+        "url": "https://www.instagram.com/tsukuba_sadodokokai/"
+      }
+    ]
+  },
+  {
+    "number": "236",
+    "id": "cmotj0w9t00nwq801imbx29i1",
+    "name": "揚げアイス無絃塾",
+    "organization": "津軽三味線倶楽部無絃塾",
+    "category": "スイーツ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A9",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "津軽三味線倶楽部無絃塾です！30年以上続いている元祖揚げアイスを販売しています。毎年長蛇の列が絶え間なくできるほどたくさんの方々にご好評いただいている、外はサクサク中はヒンヤリな新感覚スイーツです！\n味はプレーン・塩・キャラメル・黒蜜きなこの4種類です。気になる味を是非ご賞味あれ！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_mugen",
+        "url": "https://x.com/tsukuba_mugen"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_mugenjuku",
+        "url": "https://www.instagram.com/tsukuba_mugenjuku/"
+      },
+      {
+        "kind": "youtube",
+        "label": "筑波大学無絃塾",
+        "url": "https://www.youtube.com/results?search_query=%E7%AD%91%E6%B3%A2%E5%A4%A7%E5%AD%A6%E7%84%A1%E7%B5%83%E5%A1%BE"
+      }
+    ]
+  },
+  {
+    "number": "237",
+    "id": "cmotj3k7g00ojq801ewpi31a8",
+    "name": "杖球串",
+    "organization": "フィールドホッケー部",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-q",
+        "room": "Q3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "フィールドホッケー部主催の焼き鳥です。\n秋新歓も実施いたします！ぜひお越しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukuba-field-hockey.jimdofree.com",
+        "url": "https://tsukuba-field-hockey.jimdofree.com/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@itf_fieldhockey_shinkan",
+        "url": "https://www.instagram.com/itf_fieldhockey_shinkan/"
+      }
+    ]
+  },
+  {
+    "number": "238",
+    "id": "cmotltn7b01ayq801zbemu3ki",
+    "name": "焼き鳥焼いちゃうぞいっ",
+    "organization": "Fancy",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-q",
+        "room": "Q1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "239",
+    "id": "cmotn9w8s01tyq801z32znvfh",
+    "name": "Spodayまん",
+    "organization": "Sportsday学生委員会",
+    "category": "食事",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C5",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "Sportsday学生委員会が運営している、中華まん屋です！\n当日とても寒いと思います。出来立ての中華まんを是非召し上がりください。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@nikuman_souhousai26",
+        "url": "https://www.instagram.com/nikuman_souhousai26/"
+      }
+    ]
+  },
+  {
+    "number": "240",
+    "id": "cmotnrqsx0241q8015xsolhs8",
+    "name": "洋画制作展",
+    "organization": "芸術専門学群洋画領域",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-6a",
+        "room": "410-1（洋画アトリエ）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6a",
+        "room": "410-2（洋画アトリエ）",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-6a",
+        "room": "410-3（洋画アトリエ）",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "芸術専門学群洋画領域の学生有志による絵画作品の展覧会です。",
+    "links": []
+  },
+  {
+    "number": "241",
+    "id": "cmotqogud03tdq801ip1ywrdq",
+    "name": "謎解き　脱出ゲーム",
+    "organization": "Lilac -謎解き制作委員会-",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2c",
+        "room": "409",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-2c",
+        "room": "410",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "これは、あなたが実際に謎を解き明かす脱出ゲームです。\n\n～あらすじ～\nここは「謎解きサポートセンター」、通称NSC。　\n連日、謎が解けずに困っている依頼者から連絡が届く。\n依頼者の状況はさまざまである。\n刑務所から脱出したい、爆弾を解除したい、魔王を倒して世界を守りたい、などなど。\nあなたの仕事は、依頼者から送られてくる情報を見て、代わりに謎を解くことだ。\n今日は果たしてどんな依頼が来るのだろうか",
+    "links": [
+      {
+        "kind": "website",
+        "label": "lilacmysterytsukub.wixsite.com",
+        "url": "https://lilacmysterytsukub.wixsite.com/lilac--"
+      },
+      {
+        "kind": "x",
+        "label": "@Lilac_tsukuba",
+        "url": "https://x.com/Lilac_tsukuba"
+      }
+    ]
+  },
+  {
+    "number": "243",
+    "id": "cmotsg4yp04pmq801frgeyi9p",
+    "name": "たこ焼き教室",
+    "organization": "教育学類",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R7",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "246",
+    "id": "cmoty6jla065zq801ybot3fnp",
+    "name": "放課後アクアリウム",
+    "organization": "筑波大学海洋研究会",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "501",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "今年の水族館のテーマは「学校」！\n個性豊かな魚たちが暮らす海の学校へ、みなさんをお迎えします。教室をのぞいてみると、そこには色とりどりの魚たちや、ちょっと変わった海の生き物たちがいっぱい！それぞれの水槽をめぐりながら、魚たちの姿を楽しんでみてください。ここでしか出会えない魚たちと一緒に、特別な時間をお楽しみください",
+    "links": [
+      {
+        "kind": "website",
+        "label": "tsukubakaiyoken.wordpress.com",
+        "url": "https://tsukubakaiyoken.wordpress.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@kaiyoken",
+        "url": "https://x.com/kaiyoken"
+      },
+      {
+        "kind": "instagram",
+        "label": "@kaiyoken.skindiving",
+        "url": "https://www.instagram.com/kaiyoken.skindiving/"
+      },
+      {
+        "kind": "youtube",
+        "label": "海洋研究会スキンダイビングサークル",
+        "url": "https://www.youtube.com/results?search_query=%E6%B5%B7%E6%B4%8B%E7%A0%94%E7%A9%B6%E4%BC%9A%E3%82%B9%E3%82%AD%E3%83%B3%E3%83%80%E3%82%A4%E3%83%93%E3%83%B3%E3%82%B0%E3%82%B5%E3%83%BC%E3%82%AF%E3%83%AB"
+      }
+    ]
+  },
+  {
+    "number": "247",
+    "id": "cmotyxjl206a6q801j3jdt9or",
+    "name": "iGEM TSUKUBA実験教室",
+    "organization": "iGEM TSUKUBA",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2d",
+        "room": "307",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "iGEM TSUKUBAが実験教室を開催！ブロッコリーからのDNA抽出などを体験できます。合成生物学について解説したビジュアルブックの展示や、オリジナルキャラクターグッズの販売も実施。合成生物学の面白さをぜひ体感してください！",
+    "links": []
+  },
+  {
+    "number": "248",
+    "id": "cmotz35j606c5q801x8exc569",
+    "name": "海洋研クラムチャウダー",
+    "organization": "筑波大学海洋研究会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-g",
+        "room": "G3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "心も体も温まる！海洋研自慢の本格クラムチャウダー！ぜひご賞味ください！！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@kaiyoken",
+        "url": "https://x.com/kaiyoken"
+      },
+      {
+        "kind": "instagram",
+        "label": "@kaiyoken.skindiving",
+        "url": "https://www.instagram.com/kaiyoken.skindiving/"
+      }
+    ]
+  },
+  {
+    "number": "249",
+    "id": "cmou0yj3l071vq801n4st7dli",
+    "name": "園芸屋さん",
+    "organization": "園芸クラブ",
+    "category": "物品販売",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "booth-j",
+        "room": "J4",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "こんにちは、園芸屋さんです！\n\n小さな観葉植物を販売しています。\nお部屋にちょっと緑を飾ってみませんか？\n\n気軽に育てられる植物を取り揃えています。\nぜひふらっと覗いてみてください！\nご来店、お待ちしています。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tkb_engei_club",
+        "url": "https://x.com/tkb_engei_club"
+      }
+    ]
+  },
+  {
+    "number": "250",
+    "id": "cmou3zt8807wsq80136pg9lyh",
+    "name": "ヤロイには内緒で歌います",
+    "organization": "筑波大学独唱部",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day2",
+        "start": "11:00",
+        "end": "11:27",
+        "title": "ヤロイには内緒で歌います"
+      }
+    ],
+    "description": "韓国人部員、ただ一人。五曲ばかりを携えて、最初で最後かもしれぬ独唱に挑む。\n一人で歌うだけ、と言ってしまえば実に地味である。だが、他人の声に隠れることも、楽器に誤魔化してもらうこともできぬ、そんな無防備な声は、案外、知らぬ誰かにこそ届く。\n騒がしい学園祭で、あえて一人の声に耳を貸す物好き諸君、11月1日（日）11時、1Aステージへ。\n暇なら来たまえ。暇でなくとも来たまえ。ただし、ヤロイには内緒で…",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@yaroi_secret",
+        "url": "https://www.instagram.com/yaroi_secret/"
+      }
+    ]
+  },
+  {
+    "number": "252",
+    "id": "cmou9jors099nq801ineav448",
+    "name": "焼きおに堂",
+    "organization": "焼きおに堂",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "253",
+    "id": "cmoualv5809d9q801ku0vluoh",
+    "name": "ISSプログラム in 雙峰祭",
+    "organization": "ISSプログラム",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-3b",
+        "room": "304",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-3b",
+        "room": "305",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "254",
+    "id": "cmoupqvzk0a8rq8019caw0nkb",
+    "name": "ユーリスからあげ",
+    "organization": "ULISバドミントン部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-e",
+        "room": "E5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "255",
+    "id": "cmouqfcfv0ahzq801se3qygr5",
+    "name": "白玉科学Ⅰ",
+    "organization": "障害科学類1.2年",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M10",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "256",
+    "id": "cmoutu1vj0b0lq8018a1frh9y",
+    "name": "ハニーカフェ",
+    "organization": "つくばち！",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "204",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-1e",
+        "room": "205",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "257",
+    "id": "cmouv8q4v0bhgq801ftcsmvp6",
+    "name": "人文チッキン 苔コッコー",
+    "organization": "人文学類23生有志",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-t",
+        "room": "T1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "チキンひとすじ３年目 卒業早み苔も生う\nもうアゲないよ 台湾唐揚げ ゼッコー頂",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@koke___chicken",
+        "url": "https://x.com/koke___chicken"
+      },
+      {
+        "kind": "instagram",
+        "label": "@koke___chicken",
+        "url": "https://www.instagram.com/koke___chicken/"
+      }
+    ]
+  },
+  {
+    "number": "258",
+    "id": "cmouvquig0bmpq801zwf8tofo",
+    "name": "ジョグロッフル",
+    "organization": "つくばジョギングクラブ",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-g",
+        "room": "G5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "韓国発祥のおしゃれスイーツ〈クロッフル〉が雙峰祭に到来。焼きたてをどうぞ。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@jogroffle_soho",
+        "url": "https://x.com/jogroffle_soho"
+      },
+      {
+        "kind": "instagram",
+        "label": "@jogroffle_soho",
+        "url": "https://www.instagram.com/jogroffle_soho/"
+      }
+    ]
+  },
+  {
+    "number": "261",
+    "id": "cmouyt23z0divq801dzdid4em",
+    "name": "E.L.L.野外ライブステージ2026",
+    "organization": "筑波軽音楽協会E.L.L.",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "Day2",
+        "start": "10:30",
+        "end": "11:30",
+        "title": "E.L.L.野外ライブステージ2026"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "262",
+    "id": "cmouz1bp90dprq80188vq34yv",
+    "name": "蜜蝋工房",
+    "organization": "つくばち!",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "202",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "267",
+    "id": "cmov31ss20ghpq8010jo2befv",
+    "name": "行動神経科学者が語る世界",
+    "organization": "人間系行動神経内分泌学研究室有志",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "501",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "268",
+    "id": "cmov3nav30glxq801y6to9h4c",
+    "name": "アフリカ喫茶－知る、味わう。－",
+    "organization": "日本マラウイ学生団体",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1c",
+        "room": "310",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "「アフリカってどんな場所？」そんな疑問を持ったことはありませんか？広大なアフリカにはたくさんの魅力が溢れています。渡航写真や雑貨をご覧いただけます。実際に現地を訪れた学生の体験談もお楽しみください。アフリカ産のコーヒーや紅茶を味わいながらアフリカを知り、世界を広げてみませんか？",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@JMYO.TSUKUBA",
+        "url": "https://www.instagram.com/JMYO.TSUKUBA/"
+      }
+    ]
+  },
+  {
+    "number": "269",
+    "id": "cmov4tzti0gvgq801zddirpwz",
+    "name": "ふみなな",
+    "organization": "Bombs!×ひらがなつくば4年生",
+    "category": "ステージ",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day1",
+        "start": "13:00",
+        "end": "13:40",
+        "title": "ふみなな"
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "270",
+    "id": "cmov60cul0hl6q801qs3z23ku",
+    "name": "すいしんばんど その２",
+    "organization": "推進局だった人たち",
+    "category": "ステージ",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "stage-1a",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-1a",
+        "day": "Day2",
+        "start": "14:30",
+        "end": "14:55",
+        "title": "すいしんばんど その２ "
+      }
+    ],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "271",
+    "id": "cmov6seno0hvoq801lnho0wyq",
+    "name": "映研のキューバサンド",
+    "organization": "映画研究部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-n",
+        "room": "N2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "今回、私たちが雙峰祭でお届けするのは「キューバサンド」！ ハム、チーズ、ピクルス等をぎゅっと挟んで、こんがり焼き上げた自慢の一品。映画を観るときのお供にも、雙峰祭を楽しむ腹ごしらえにもぴったりです。映画のワンシーンを楽しむように、ぜひ一口ずつ味わってみてください！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsukuba.eiken",
+        "url": "https://www.instagram.com/tsukuba.eiken/"
+      }
+    ]
+  },
+  {
+    "number": "272",
+    "id": "cmov9ht9m0izcq8015m88wu9n",
+    "name": "ひつじのバルーン屋さん",
+    "organization": "筑波大学ジャグリングサークルSheep",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-l",
+        "room": "L3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "273",
+    "id": "cmov9r0gu0j17q801yrn843ho",
+    "name": "クイズ研究会？何かクイズ出してよ！ ",
+    "organization": "筑波大学クイズ研究会",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2b",
+        "room": "507",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "274",
+    "id": "cmovae3tw0jb6q801ekd5rvdz",
+    "name": "図画団展2026",
+    "organization": "図画団",
+    "category": "展示型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "404",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "団員が制作したデジタル・アナログイラスト等、様々な作品を展示しています。展示作品の一部についてはポストカード販売も行っています。また、どなたでも自由にご参加していただける落書きコーナーも設置しておりますので、ぜひお越しください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@ZugaTon",
+        "url": "https://x.com/ZugaTon"
+      },
+      {
+        "kind": "instagram",
+        "label": "@zugadan_u.tsukuba",
+        "url": "https://www.instagram.com/zugadan_u.tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "276",
+    "id": "cmovdhke30kkxq80174mv6mlf",
+    "name": "学際シンポジウム：キリスト教研究の最前線",
+    "organization": "筑波大学聖書部",
+    "category": "学術",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "202",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "キリスト教×他分野研究の学際シンポジウムを本学初開催！\n筑波大学で物理学・AI・美学・近現代哲学を研究する部員達が、自身の研究分野の知見からキリスト教の現代的意義や可能性について発表します。\nキリスト教や各分野についての知識は不要です。発表タイトル等の詳細はSNSをご覧ください。\n最後には、近隣のプロテスタント教会より聖職者の先生をお呼びして特別説教をしていただきます。貴重な機会をお見逃しなく！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@TICA76647043",
+        "url": "https://x.com/TICA76647043"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tcf_univ_tsukuba",
+        "url": "https://www.instagram.com/tcf_univ_tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "277",
+    "id": "cmovggcst0ltlq8011q66uf4w",
+    "name": "キッチンYMCA",
+    "organization": "茨城YMCA",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-h",
+        "room": "H1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "キッチンYMCAでは、茨城YMCAが美味しいフランクフルトを販売します！\n合わせてペットボトル飲料も販売！\n\n普段は子ども達などと、いろんな活動をしています。大学生ボランティアも活躍中！\nしかも、今回の収益の一部は、経済的な理由などでキャンプが難しい子供たちのためのキャンプに充てられます。\n気になった方は、ぜひ第一エリアのキッチンYMCAにお越しください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "ibarakiymca.org",
+        "url": "https://www.ibarakiymca.org/"
+      },
+      {
+        "kind": "website",
+        "label": "note.com",
+        "url": "https://note.com/ibarakiymca"
+      },
+      {
+        "kind": "x",
+        "label": "@YMCAect",
+        "url": "https://x.com/YMCAect"
+      },
+      {
+        "kind": "instagram",
+        "label": "@ibarakiymca_youth",
+        "url": "https://www.instagram.com/ibarakiymca_youth/"
+      }
+    ]
+  },
+  {
+    "number": "278",
+    "id": "cmovh2a020m20q801otsz6xel",
+    "name": "やきいも焼けた",
+    "organization": "国際さつまいも研究所",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-f",
+        "room": "F3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "279",
+    "id": "cmovi12qf0mmnq801h9uj43yg",
+    "name": "驚額の殿堂ファイナル",
+    "organization": "焼きそばマイスター",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-g",
+        "room": "G4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "んぽたそは焼きそばマイスター王国から来たやきそばの妖精んぽ！3年前のそーほーさいではやきそばを、一昨年と去年はフランクフルトを、んぽたそのお小遣い価格で販売していたんぽ！\n\n今年はボリューム満点の肉巻きおにぎりを、んぽたそのお小遣い価格で販売するんぽ！値段と原価はWebサイトで公開中！ぜひ来てんぽ〜",
+    "links": [
+      {
+        "kind": "website",
+        "label": "kyogaku.yokohama.dev",
+        "url": "https://kyogaku.yokohama.dev/"
+      },
+      {
+        "kind": "x",
+        "label": "@kyogaku_dendo",
+        "url": "https://x.com/kyogaku_dendo"
+      },
+      {
+        "kind": "instagram",
+        "label": "@kyogaku_dendo",
+        "url": "https://www.instagram.com/kyogaku_dendo/"
+      }
+    ]
+  },
+  {
+    "number": "280",
+    "id": "cmoviuti10n1aq801rrmqu2ft",
+    "name": "自家製Lemonade",
+    "organization": "レモネード研究会",
+    "category": "ドリンク",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C6",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "レモンの爽やかな酸味と、程よい甘さが絶妙にマッチした絶品“あじさいレモネード”を販売しています。\n混ぜて色の変化も楽しめる、インスタ映え間違い無しのドリンクです！「NO レモネード,NO 雙峰祭！！」",
+    "links": [
+      {
+        "kind": "website",
+        "label": "jade-mermaid-ffd34f.netlify.app",
+        "url": "https://jade-mermaid-ffd34f.netlify.app/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@sohosai26lemon",
+        "url": "https://www.instagram.com/sohosai26lemon/"
+      }
+    ]
+  },
+  {
+    "number": "281",
+    "id": "cmovk736t0nouq801agvj5q4x",
+    "name": "なんやの焼きそば",
+    "organization": "軟式野球部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-f",
+        "room": "F4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "軟式野球部です！ワールドカップよりもアツい焼きそばを販売しています！お肉も入っていて、お手頃価格で素晴らしい一品です！ぜひご来店いただき、ご賞味ください！",
+    "links": []
+  },
+  {
+    "number": "282",
+    "id": "cmovl3c100o8kq801esft5iij",
+    "name": "クレアがプロデュースしました！",
+    "organization": "クレア散歩係",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A7",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "雙峰祭2026にクレアが帰って来ました！！！\n昨年大好評だった、かわいらしい焼き印が目印の「クレア焼き」が今年も登場。\nあんこやカスタードなど、さまざまな味を楽しめます。\nさらに今年は飲み物もご用意したので、美味しいクレア焼きのお供にどうぞ！\n見た目のかわいさはもちろん、写真を撮りたくなるメニューをお届けします。\n雙峰祭にお越しの際は、ぜひクレアブースへ！皆さまのご来店をお待ちしております！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@kurea_cafe",
+        "url": "https://www.instagram.com/kurea_cafe/"
+      }
+    ]
+  },
+  {
+    "number": "283",
+    "id": "cmovldr4e0odyq801ad1i5eta",
+    "name": "しるこでぽてと",
+    "organization": "フットサル同好会",
+    "category": "食事",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C7",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学フットサル同好会CIRCO DE RANAが出店するポテトです！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@_circo_de_rana_",
+        "url": "https://www.instagram.com/_circo_de_rana_/"
+      }
+    ]
+  },
+  {
+    "number": "285",
+    "id": "cmovlu22y0orkq801yhkwckvu",
+    "name": "THE・ンギ",
+    "organization": "北海道を愛する会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "286",
+    "id": "cmovlu3te0os3q80167v2q204",
+    "name": "北の大地のジンギスカン",
+    "organization": "どさんこ会",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-q",
+        "room": "Q5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "287",
+    "id": "cmovlzed50ox4q80140xfxsco",
+    "name": "木のお皿と小さな絵",
+    "organization": "中美コンビ",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "403",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "彫刻と絵画を学ぶ2人がつくる、木のお皿と小さな絵。\n手仕事ならではの一つひとつ異なる表情を楽しめる作品を、展示・販売します。\nぜひお気に入りの一枚を見つけに来てください。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@kinosara_to_chiisanae",
+        "url": "https://www.instagram.com/kinosara_to_chiisanae/"
+      }
+    ]
+  },
+  {
+    "number": "288",
+    "id": "cmovmlpk60p9dq801xs6gcxvq",
+    "name": "走るダーツ場（ダーツ体験会）",
+    "organization": "筑波大学ダーツ同好会",
+    "category": "参加型",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M15",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "世界に一つだけのダーツライブカーがつくばに！野外で本格的なダーツ体験を無料で提供します。10月31日、松見池にてお待ちしています！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@darts_tsukuba",
+        "url": "https://www.instagram.com/darts_tsukuba/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@triton2025_shinkn",
+        "url": "https://www.instagram.com/triton2025_shinkn/"
+      }
+    ]
+  },
+  {
+    "number": "289",
+    "id": "cmovne79t0pngq801y7i3qi7a",
+    "name": "Baby Real.",
+    "organization": "バドミントン同好会４年有志",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M11",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "⚠️BabyRealの時間です⚠️\nあの味がついに帰ってきた！バドミントン同好会4年が手がける『BabyReal』のカステラ（ベビーカステラ）が、今年の雙峰祭でなんと２年ぶりの大復刻を果たします🎉\nお待たせした分、美味しさも愛情もたっぷり！アツアツのベビーカステラを片手に、友達と一緒に最高の思い出を共有しよう！第一エリア 松見池周辺(1G棟前)にてお待ちしております！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@babyreal_badodo",
+        "url": "https://www.instagram.com/babyreal_badodo/"
+      }
+    ]
+  },
+  {
+    "number": "290",
+    "id": "cmovoetjv0qbkq801joksz0x3",
+    "name": "BULLっとドーナツ！",
+    "organization": "筑波大学ダーツ同好会",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M14",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@Dartsdoukoukai",
+        "url": "https://x.com/Dartsdoukoukai"
+      },
+      {
+        "kind": "instagram",
+        "label": "@darts_tsukuba",
+        "url": "https://www.instagram.com/darts_tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "291",
+    "id": "cmovohr620qdgq801bwmjmd2p",
+    "name": "社福のクレープ屋さん",
+    "organization": "社会福祉研究会",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "293",
+    "id": "cmovv3lah0rucq801rhmvkndj",
+    "name": "研究室発！玄米シチューカレー",
+    "organization": "農産食品加工研究室",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "298",
+    "id": "cmowaiiy90v8cq801xv2chzm6",
+    "name": "桐葉書店",
+    "organization": "文芸部",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2c",
+        "room": "403",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学文芸部です！我々は『肩肘張らずに文芸を』をモットーに、毎週木曜日に春日エリアで読書会を行っています。桐葉書店では部誌や個人誌、古本を販売します。ぜひご来店ください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukuba_sakuhin",
+        "url": "https://x.com/tsukuba_sakuhin"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_bungei",
+        "url": "https://www.instagram.com/tsukuba_bungei/"
+      }
+    ]
+  },
+  {
+    "number": "299",
+    "id": "cmowbex6m0vnzq801i4lv1ynu",
+    "name": "焼き全音符",
+    "organization": "わっぱー有志",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-t",
+        "room": "T3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "301",
+    "id": "cmowezwrv0x2vq801sji79xpq",
+    "name": "青春、はさんじゃいました。",
+    "organization": "総合学域群第１類４クラス＆第２類５クラス",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-p",
+        "room": "P3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "たませんはえびせんべいに目玉焼きやソース、マヨネーズなどを挟んで食べる名古屋発のソウルフードです。パリッと香ばしいえびせんべいとふんわりとした卵の絶妙な組み合わせが魅力で、お祭りや屋台の定番として親しまれています。定番のノーマルに加え、明太子、チーズ、ゆずポン酢おろしの全4種類をご用意。それぞれ異なる味わいが楽しめるため、お好みに合わせて選べます。手軽に食べられる名古屋ならではのご当地グルメです。",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tamasen_1425",
+        "url": "https://x.com/tamasen_1425"
+      },
+      {
+        "kind": "instagram",
+        "label": "@sogo14.25_tamasen",
+        "url": "https://www.instagram.com/sogo14.25_tamasen/"
+      }
+    ]
+  },
+  {
+    "number": "304",
+    "id": "cmowiom9t0yt3q801dvhnhswi",
+    "name": "Калинка",
+    "organization": "ロシア語サークル Калинина ",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-f",
+        "room": "F1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "こんにちは！ロシア語サークルカリンカです！僕たちは普段ロシア語圏の留学生たちと交流してお互いの文化にまつわるイベントをしたり、国内旅行に行ったりしています！そんな僕たちが作った野菜たっぷりの美味しいボルシチを是非食べに来てください！",
+    "links": []
+  },
+  {
+    "number": "305",
+    "id": "cmowj6i6x0z2dq801rw275tru",
+    "name": "チンチロぽてっと",
+    "organization": "ぽてっと42",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-g",
+        "room": "G2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "306",
+    "id": "cmowj7i730z32q801n6wq8x1k",
+    "name": "迫屋家の食卓Ver.3.0",
+    "organization": "大牧66単位",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "307",
+    "id": "cmowjo6560zd1q801w3yqmip7",
+    "name": "リサイクルしまくり",
+    "organization": "MOLT",
+    "category": "物品販売",
+    "schedule": ["Day1"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "411",
+        "days": ["Day1"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "308",
+    "id": "cmowjo71q0zdeq801i4m0qtxo",
+    "name": "れきたん芋工房",
+    "organization": "歴史探訪会",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-k",
+        "room": "K4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "できたての大学芋はいかがですか？サツマイモから手作りで仕上げました！外はカリッと中はホクホク♪あま～い蜜がたっぷり絡んでます！小腹が空いたらぜひ！",
+    "links": []
+  },
+  {
+    "number": "309",
+    "id": "cmowkk6zx10nrq801kw51l1pr",
+    "name": "モルックおでん",
+    "organization": "METs",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-n",
+        "room": "N1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "なんか心温まるものが欲しいな…　ちょっと小腹がすいたな…　甘いものばかりで飽きたな…\nそんなあなたに　地理学専攻の大学院生が、ちょっと特徴のあるあったか～いおでんを提供します！\n\nモルックをプレイして、お得におでんを手に入れよう！",
+    "links": []
+  },
+  {
+    "number": "311",
+    "id": "cmowl6tuo11egq801rxqg90ma",
+    "name": "苔と蘭と水辺の生き物",
+    "organization": "つくリウム",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1e",
+        "room": "503",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学 つくリウムです。テラリウム・アクアリウム・ビバリウム等を幅広く扱うサークルです！\n\n部員が普段育てている魚、コケ、水草などの展示を行っています🌱\nぜひ遊びにきてください！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@ITF_aqua_terra",
+        "url": "https://x.com/ITF_aqua_terra"
+      }
+    ]
+  },
+  {
+    "number": "312",
+    "id": "cmowmjh6t12xeq8018q48afqk",
+    "name": "浅瀬川ちゃんこクレープ店",
+    "organization": "筑波大学医学バドミントン部",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-f",
+        "room": "F2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "315",
+    "id": "cmowmpg5i132eq80170suwnge",
+    "name": "なんかちっと Brain Use したいよね ☆",
+    "organization": "筑波大学作問サークルつくもんaid",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-2b",
+        "room": "508",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "316",
+    "id": "cmowmz13b13gtq801bhfda2l6",
+    "name": "雙峰の細工屋",
+    "organization": "S＆T",
+    "category": "物品販売",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "401",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "「体芸4階」までたどり着いたあなただけにお届けする、売り切れ御免の小さなお店(^^)♪店主たちの気まぐれハンドメイドショップ。心を込めて、気まぐれに作った手作り小物をお手頃価格で大放出！お気に入りの1点ものをぜひ見つけに来てください。つまみ細工のブローチ、フェルトのマスコット、ストラップ、スマホ用ラミネートカード、クリスマスに向けた小さな飾りなどなど",
+    "links": []
+  },
+  {
+    "number": "317",
+    "id": "cmownb2b313uvq8010hm8hnw4",
+    "name": "医ゴルのまんまる焼きそば",
+    "organization": "医学ゴルフ部",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-t",
+        "room": "T5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "318",
+    "id": "cmowntewg14e2q801f08j5gqn",
+    "name": "フィルダースチュロス",
+    "organization": "医学準硬式野球部",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-d",
+        "room": "D1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "医学準硬式野球部が主催するチュロスのお店です！\nぜひお越しください！",
+    "links": []
+  },
+  {
+    "number": "319",
+    "id": "cmownu80114erq801fq5y1lnt",
+    "name": "ミャンマードーナツデビュー",
+    "organization": "MSAT",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-b",
+        "room": "B1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ミャンマーの伝統的なお菓子「モンレッカウンジョー」を通して、ミャンマーの食文化を紹介します。もち米粉などを使用した生地を揚げ、外はカリッと中はもちもちに仕上げ、黒砂糖シロップをかけて提供します。日本ではまだあまり知られていないミャンマーの味を楽しみながら、食を通した異文化交流を体験していただけます。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@myanmar.donut",
+        "url": "https://www.instagram.com/myanmar.donut/"
+      }
+    ]
+  },
+  {
+    "number": "320",
+    "id": "cmowo1xfk14o1q801zsnmk67u",
+    "name": "極上~味に拘り抜いた究極の豚ラーメン~",
+    "organization": "ラーメンパソコン部",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-r",
+        "room": "R3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "321",
+    "id": "cmowodq7n1563q801qdn8b6n4",
+    "name": "あげパン・パラダイス！",
+    "organization": "小学校の先生になろう！",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-p",
+        "room": "P4",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "322",
+    "id": "cmowptzvm165xq801gpdmfbch",
+    "name": "ありたや",
+    "organization": "土地利用研究室有田研",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-b",
+        "room": "B2",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "今年も「ありたや」のおしるこが帰ってきました！\n\nもちもちの白玉と、ほっと温まる甘いおしるこ。\n定番の白玉入り 「おしるこ」 と、気軽に楽しめる白玉なし の「おしる」 の2種類をご用意しています。\n\n寒い朝や夕方のあったか補給に。\nお昼の「ちょっと小腹を満たしたいな」というときにもぜひどうぞ。\n\n今年も、あったかい一杯をご用意して皆様をお待ちしています！",
+    "links": []
+  },
+  {
+    "number": "323",
+    "id": "cmowqo6qj17bhq801fsbyiwf3",
+    "name": "将棋Café",
+    "organization": "将棋部",
+    "category": "参加型",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-1b",
+        "room": "404",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ちょっと一局指していきませんか？お菓子とお茶で一息つける、本格的な盤も用意した将棋カフェスペース。初心者も大歓迎です！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@tsukubashogi",
+        "url": "https://x.com/tsukubashogi"
+      }
+    ]
+  },
+  {
+    "number": "324",
+    "id": "cmowr14fb17s1q80127i0j278",
+    "name": "パン揚げすぎて滅",
+    "organization": "Sコンピューティング基礎研究グループ",
+    "category": "スイーツ",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-c",
+        "room": "C8",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "研究活動への愛が筑波大屈指であると自負する我が研究室が、研究と同じ愛と熱量で揚げパンを制作しました！\n普段研究しているデータ解析手法の知見を活かして、揚げパンに最適なトッピングを厳選し、美味しさを保証します！ぜひご賞味あれ!!!!",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@sclab_panagesugitemetu",
+        "url": "https://www.instagram.com/sclab_panagesugitemetu/"
+      }
+    ]
+  },
+  {
+    "number": "326",
+    "id": "cmowr97fg17z7q801qi4t2j81",
+    "name": "MY碁の子猫ちゃん",
+    "organization": "筑波大学囲碁部",
+    "category": "スイーツ",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-q",
+        "room": "Q6",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ふわふわなマシュマロをミルクチョコレートとホワイトチョコレートでコーティング。さらにソースやチップをトッピングした、甘くてかわいいスイーツを販売します。\nフレーバーは、チョコ・抹茶・いちご・キャラメルの4種類！\nフレーバーををイメージした、かわいい黒白の子猫たちもお店を彩ります。\n囲碁部ならではの「碁石」をイメージした見た目も楽しみながら、おいしいチョコマシュマロをぜひ味わってみてください🐱",
+    "links": []
+  },
+  {
+    "number": "327",
+    "id": "cmowroba918ivq801jtc1z4fr",
+    "name": "ブロー・ド・チュロス",
+    "organization": "医学ヨット部",
+    "category": "スイーツ",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-e",
+        "room": "E2",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "328",
+    "id": "cmows72zm1939q8017ega8u9m",
+    "name": "もっと知りたい！オフィスLOVOTの世界",
+    "organization": "体育芸術エリア支援室",
+    "category": "展示型",
+    "schedule": ["Day2"],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "108",
+        "days": ["Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "筑波大学のとあるオフィスでは、スタッフの一員として、ペット型AIロボットのLOVOT（らぼっと）が働いています。名前は「ひいと」。この企画は、オフィスLOVOTってなに？、なぜ筑波大学で働くことになったの？、いつもどんなお仕事をしているの？、など、「ひいと」にまつわる疑問にお答えするとともに、LOVOTの可愛らしさや温かさを実際に体験できるまたとない機会です。皆さまのお越しをお待ちしております！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@UT_Ningen_Area",
+        "url": "https://x.com/UT_Ningen_Area"
+      }
+    ]
+  },
+  {
+    "number": "330",
+    "id": "cmowunlqf1aviq80158fyhfib",
+    "name": "手話カフェ",
+    "organization": "手話サークル",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-p",
+        "room": "P1",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "あなたも手話でおしゃべりしませんか？\n手話サークルは筑波大生と筑波技術大生が一緒に手話を楽しく学んでいます。手話カフェでは、お菓子と飲み物を販売中。\nサークルメンバーとおしゃべりしつつ勉強もできちゃいます！経験者も初学者も、大歓迎！",
+    "links": [
+      {
+        "kind": "x",
+        "label": "@ITF_shuwa25",
+        "url": "https://x.com/ITF_shuwa25"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba.syuwa_souhousai",
+        "url": "https://www.instagram.com/tsukuba.syuwa_souhousai/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_syuwa_2026",
+        "url": "https://www.instagram.com/tsukuba_syuwa_2026/"
+      }
+    ]
+  },
+  {
+    "number": "332",
+    "id": "cmowv3g8h1b37q801l5n4p2oi",
+    "name": "スモア so sweet",
+    "organization": "バドミントン同好会",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-k",
+        "room": "K5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "こんにちは、私たちバドミントン同好会2年は、とろ〜り焼きマシュマロとチョコレートを組み合わせた、甘くて香ばしいスモアを販売します！味は「ノーマルチョコ」「抹茶チョコ」「いちごチョコ」の3種類をご用意しています。3種類を一度に楽しめるお得な3個セットもあります！さらに、セット商品として缶コーヒーも販売します。ぜひお好みの味を見つけて、出来たてのスモアを楽しんでください！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@sumoa_badminton_tsukuba",
+        "url": "https://www.instagram.com/sumoa_badminton_tsukuba/"
+      }
+    ]
+  },
+  {
+    "number": "333",
+    "id": "cmoww5uh41blnq801q38dzawa",
+    "name": "つくば農場2",
+    "organization": "とあるつくばの飲食店",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-a",
+        "room": "A3",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "あの味が、帰ってきた。\n前回ご好評いただいた「つくば農場」が、「つくば農場2」としてパワーアップして再出店！\n今回ももちろんチキン南蛮。\nプロ仕込みの作り方で揚げたサクッとジューシーな鶏に、南蛮酢をたっぷり絡めてタルタルをどーんとのせました。\n前回食べた方も、はじめての方も、ぜひお立ち寄りください！",
+    "links": []
+  },
+  {
+    "number": "337",
+    "id": "cmowyqle51derq801m6ovast7",
+    "name": "キッチンさかる〜カンボジアに恋する私〜",
+    "organization": "WorldFut TSUKUBA",
+    "category": "食事",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M7",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "339",
+    "id": "cmox0fbhr1epzq801uwyk8b2z",
+    "name": "無邪気にすすれ",
+    "organization": "むじゃきな仲間たち",
+    "category": "学術",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-m",
+        "room": "M8",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "つけめんまぜそばむじゃきのアルバイトメンバーによる、実際に店舗で使用している細麵を使用した、超本格和え玉を提供します！和え玉とは？→味付き替え玉、汁なしラーメンのようなものをイメージすると良いかと！ここでしか食べられない、限定「豚骨和え玉」を、雙峰祭のために作成しました。がっつり1玉に加え、さくっと0.5玉での販売もします。みなさまぜひお立ち寄りください！！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@muzyakisusuru.sohosai",
+        "url": "https://www.instagram.com/muzyakisusuru.sohosai/"
+      }
+    ]
+  },
+  {
+    "number": "340",
+    "id": "cmox0warn1f07q801sz3bkcer",
+    "name": "たませんや",
+    "organization": "筑波大学鶏卵愛好会",
+    "category": "食事",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-e",
+        "room": "E3",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "",
+    "links": []
+  },
+  {
+    "number": "342",
+    "id": "cmpnxl4dp002bo101zkgjujcn",
+    "name": "吹奏楽団夜祭ステージ",
+    "organization": "筑波大学吹奏楽団",
+    "category": "ステージ",
+    "schedule": ["前夜祭"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["前夜祭"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "前夜祭",
+        "start": "17:15",
+        "end": "17:35",
+        "title": "夜祭パフォーマンスショー第1部 吹奏楽団夜祭ステージ"
+      }
+    ],
+    "description": "10月30日の17時30分から、石の広場「UNITEDステージ」にて演奏させていただきます！\n皆さんが一度は耳にしたことがあるあの曲を披露します。前夜祭に花を添えられるよう演奏しますので、ぜひ聞きに来てくださいね！",
+    "links": []
+  },
+  {
+    "number": "343",
+    "id": "cmpnyjcah006yo1018nrypl6l",
+    "name": "Realjam Special Stage",
+    "organization": "ストリートダンスサークルRealjam",
+    "category": "ステージ",
+    "schedule": ["前夜祭"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["前夜祭"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "前夜祭",
+        "start": "19:50",
+        "end": "20:20",
+        "title": "夜祭パフォーマンスショー第3部 Realjam Special Stage"
+      }
+    ],
+    "description": "ストリートダンスサークルRealjam。\n1年生から上級生まで、様々なジャンルの構成員が自身のスタイルで踊り狂う。\n激熱なダンスバトルでUnited Stageの夜をストリートの色に染める。",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@realjam.tkb",
+        "url": "https://www.instagram.com/realjam.tkb/"
+      },
+      {
+        "kind": "youtube",
+        "label": "@REALJAMdance",
+        "url": "https://www.youtube.com/@REALJAMdance"
+      }
+    ]
+  }
+]

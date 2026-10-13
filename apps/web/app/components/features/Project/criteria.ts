@@ -11,8 +11,6 @@ export type ProjectFilterCriteria = {
   categories: ProjectCategory[];
   /** 開催日（OR：いずれかに一致） */
   days: ScheduleDay[];
-  /** タグ（AND：すべて含む） */
-  tags: string[];
   /** お気に入り（いいね）済みだけに絞り込む */
   favorite: boolean;
 };
@@ -21,17 +19,22 @@ export const emptyCriteria: ProjectFilterCriteria = {
   q: '',
   categories: [],
   days: [],
-  tags: [],
   favorite: false,
 };
 
+// 「その他」は分類表に無い企画の受け皿で、該当する企画を探す用途が無いため選択肢に出さない。
 export const CATEGORY_OPTIONS: readonly ProjectCategory[] = [
-  '食品',
-  '物販',
-  '展示',
+  '食事',
+  'スイーツ',
+  'ドリンク',
+  '物品販売',
+  '展示型',
+  '参加型',
   '学術',
+  'パフォーマンス',
+  '音楽',
   'ステージ',
-  'その他',
+  '委員会企画',
 ];
 
 export const SCHEDULE_OPTIONS: readonly ScheduleDay[] = [
@@ -52,7 +55,6 @@ export function hasActiveFilter(criteria: ProjectFilterCriteria): boolean {
   return (
     criteria.categories.length > 0 ||
     criteria.days.length > 0 ||
-    criteria.tags.length > 0 ||
     criteria.favorite
   );
 }
@@ -80,7 +82,6 @@ export function criteriaFromParams(
     q: params.get('q') ?? '',
     categories: readOptions('category', CATEGORY_OPTIONS),
     days: readOptions('day', SCHEDULE_OPTIONS),
-    tags: readList('tag'),
     favorite: params.get('fav') === '1',
   };
 }
@@ -97,7 +98,6 @@ export function criteriaToParams(
   if (criteria.categories.length > 0)
     params.set('category', criteria.categories.join(SEP));
   if (criteria.days.length > 0) params.set('day', criteria.days.join(SEP));
-  if (criteria.tags.length > 0) params.set('tag', criteria.tags.join(SEP));
   if (criteria.favorite) params.set('fav', '1');
   return params;
 }

@@ -2,17 +2,23 @@
 
 export type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
 
-/**
- * 企画の主分類。フィルタの主軸として使う。
- * TODO: 正式な分類体系に合わせて増やす。
- */
-export type ProjectCategory =
-  | '食品'
-  | '物販'
-  | '展示'
-  | '学術'
-  | 'ステージ'
-  | 'その他';
+/** 企画の主分類。フィルタの主軸として使い、この順で選択肢に並べる。 */
+export const PROJECT_CATEGORIES = [
+  '食事',
+  'スイーツ',
+  'ドリンク',
+  '物品販売',
+  '展示型',
+  '参加型',
+  '学術',
+  'パフォーマンス',
+  '音楽',
+  'ステージ',
+  '委員会企画',
+  'その他',
+] as const;
+
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
 /**
  * 店舗が紐づく場所。`placeId` は Place（建物・ステージ・屋外のテント列等）を指す。
@@ -55,8 +61,6 @@ export type Project = {
   performances: Performance[];
   /** 主分類（単一） */
   category: ProjectCategory;
-  /** 自由拡張のタグ（複数）。今後増えるフィルタ軸を柔軟に吸収する */
-  tags: string[];
   thumbnail?: ProjectImage;
   cancelled?: boolean;
 };
@@ -85,3 +89,17 @@ export type ProjectDetail = Project & {
   images: ProjectImage[];
   links: ProjectLink[];
 };
+
+/**
+ * 企画のマスターデータ（apps/api/data/projects.json）の1件。
+ * 実行時に SOS から取り直す画像・公開状態を除いた企画詳細。
+ */
+export type ProjectMaster = Omit<
+  ProjectDetail,
+  'thumbnail' | 'images' | 'cancelled'
+>;
+
+/** URL に使うため、桁数をそろえて辞書順と番号順を一致させる。 */
+export function formatProjectNumber(number: number): string {
+  return String(number).padStart(3, '0');
+}

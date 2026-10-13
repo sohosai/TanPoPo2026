@@ -21,18 +21,13 @@ const NO_PLACES: ReadonlyMap<string, Place> = new Map();
 export const compareProjects = (a: Project, b: Project) =>
   a.number.localeCompare(b.number);
 
-/** タグは自由文字列で固定の選択肢を持たないため、企画が持つタグから選択肢を作る。 */
-export function tagOptionsOf(projects: Project[]): string[] {
-  return [...new Set(projects.flatMap((project) => project.tags))].sort();
-}
-
 /** 全角/半角・大文字小文字を吸収して比較しやすい形に正規化する */
 function normalize(text: string): string {
   return text.normalize('NFKC').toLowerCase().trim();
 }
 
 /**
- * あいまい検索の対象文字列（名称・団体・場所・タグ）に一致するか。
+ * あいまい検索の対象文字列（名称・団体・場所）に一致するか。
  * 場所は場所名・よみがなに加え、"1B208" のような表示ラベルでも引ける。
  */
 function matchesQuery(
@@ -48,9 +43,7 @@ function matchesQuery(
       : [];
   });
   const haystack = normalize(
-    [project.name, project.organization, ...placeTerms, ...project.tags].join(
-      ' ',
-    ),
+    [project.name, project.organization, ...placeTerms].join(' '),
   );
   return haystack.includes(normalizedQuery);
 }
@@ -72,8 +65,6 @@ export function filterProjects(
         criteria.categories.includes(project.category)) &&
       (criteria.days.length === 0 ||
         criteria.days.some((day) => project.schedule.includes(day))) &&
-      (criteria.tags.length === 0 ||
-        criteria.tags.every((tag) => project.tags.includes(tag))) &&
       (!criteria.favorite || favorites.has(project.id)),
   );
 }

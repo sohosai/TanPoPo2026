@@ -1,16 +1,19 @@
 /**
  * 雙峰祭実行委員会から受け取った「企画実施場所一覧」(屋内・屋外の xlsx) を読み、
- * 企画番号ごとの実施場所 JSON（apps/api/data/project-locations.json）を生成する。
+ * 企画番号ごとの実施場所 JSON（apps/api/data/sources/project-locations.json）を生成する。
  *
  * - 表はエリアごとの列ブロックが横に並んだ形式で、各ブロックの見出し行に「場所」「企画番号」…が並ぶ。
  * - 企画番号の無い行（委員会企画）は対象外。
  * - 想定外の場所・実施日があれば、黙って捨てずにエラーで止める。
  *
  * 実行: bun run scripts/import-project-locations.ts <屋内.xlsx> <屋外.xlsx>
+ *
+ * 書き出した後、企画のマスターデータ（apps/api/data/projects.json）を作り直す。
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import * as XLSX from 'xlsx';
+import { buildProjects } from './build-projects';
 
 type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
 type Location = { placeId: string; room?: string; days: ScheduleDay[] };
@@ -19,7 +22,7 @@ const SHEET_NAME = '企画実施場所一覧';
 const OUT_FILE = join(
   import.meta.dir,
   '..',
-  'apps/api/data/project-locations.json',
+  'apps/api/data/sources/project-locations.json',
 );
 
 // 建物名だけで書かれた場所。号棟（1B 等）は `bldg-1b` の規則で引く。
@@ -129,3 +132,5 @@ Bun.spawnSync(['bunx', 'biome', 'format', '--write', OUT_FILE], {
   stdio: ['ignore', 'ignore', 'inherit'],
 });
 console.log(`${byNumber.size} 企画の実施場所を ${OUT_FILE} に書き出しました。`);
+
+buildProjects();

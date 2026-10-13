@@ -1,5 +1,5 @@
-import { IconChevronDown, IconX } from '@tabler/icons-react';
-import { useEffect, useId, useRef, useState } from 'react';
+import { IconX } from '@tabler/icons-react';
+import { useEffect, useRef, useState } from 'react';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { peekFadeStyles } from '~/components/layouts/MapPanel/peekMorph';
 import { css, cx } from '../../../../styled-system/css';
@@ -17,13 +17,11 @@ import { DAY_LABELS } from './labels';
 type ProjectSearchBarProps = {
   criteria: ProjectFilterCriteria;
   onChange: (next: ProjectFilterCriteria) => void;
-  tagOptions: string[];
 };
 
 export default function ProjectSearchBar({
   criteria,
   onChange,
-  tagOptions,
 }: ProjectSearchBarProps) {
   const panel = useMapPanel();
 
@@ -44,8 +42,6 @@ export default function ProjectSearchBar({
     if (!composingRef.current) setQDraft(criteria.q);
   }, [criteria.q]);
 
-  const [tagsOpen, setTagsOpen] = useState(false);
-  const tagPanelId = useId();
   const canClear = hasActiveFilter(criteria) || criteria.q !== '';
 
   return (
@@ -215,49 +211,7 @@ export default function ProjectSearchBar({
             </span>
           </FilterChip>
         ))}
-        {tagOptions.length > 0 && (
-          <>
-            <ChipDivider />
-            <FilterChip
-              active={criteria.tags.length > 0}
-              aria-expanded={tagsOpen}
-              aria-controls={tagPanelId}
-              onClick={() => setTagsOpen((open) => !open)}
-            >
-              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
-                タグ
-                {criteria.tags.length > 0 && ` ${criteria.tags.length}`}
-              </span>
-              <IconChevronDown
-                size={14}
-                className={css({ transition: 'transform 0.2s' })}
-                style={{ transform: tagsOpen ? 'rotate(180deg)' : undefined }}
-              />
-            </FilterChip>
-          </>
-        )}
       </div>
-
-      {tagsOpen && (
-        <div
-          id={tagPanelId}
-          className={css({ display: 'flex', flexWrap: 'wrap', gap: '8px' })}
-        >
-          {tagOptions.map((tag) => (
-            <FilterChip
-              key={tag}
-              active={criteria.tags.includes(tag)}
-              onClick={() =>
-                onChange({ ...criteria, tags: toggleItem(criteria.tags, tag) })
-              }
-            >
-              <span className={css({ textBox: 'trim-both cap alphabetic' })}>
-                #{tag}
-              </span>
-            </FilterChip>
-          ))}
-        </div>
-      )}
 
       {canClear && (
         <button

@@ -1,21 +1,24 @@
 /**
  * SOS の公開 API からステージ企画の実施ステージを取得し、企画番号ごとのステージ JSON
- * （apps/api/data/stage-projects.json）を生成する。
+ * （apps/api/data/sources/stage-projects.json）を生成する。
  *
  * - 実施ステージは SOS のカスタム項目「ステージ実施場所 確定」に略称で入っている。
  * - ステージ企画なのに実施ステージが無い・想定外の略称があれば、黙って捨てずにエラーで止める。
  *
  * 実行: bun run import:stage-projects
  *   SOS_API_URL を指定すると取得先を変えられる（既定は本番の SOS）。
+ *
+ * 書き出した後、企画のマスターデータ（apps/api/data/projects.json）を作り直す。
  */
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { buildProjects } from './build-projects';
 
 const SOS_API_URL = process.env.SOS_API_URL ?? 'https://sos26-api.sohosai.com';
 const OUT_FILE = join(
   import.meta.dir,
   '..',
-  'apps/api/data/stage-projects.json',
+  'apps/api/data/sources/stage-projects.json',
 );
 
 const STAGE_FIELD = 'ステージ実施場所 確定';
@@ -64,3 +67,5 @@ if (errors.length > 0) {
 // 数値の文字列キーは JSON 上で番号順に並ぶ。
 writeFileSync(OUT_FILE, `${JSON.stringify(stages, null, 2)}\n`);
 console.log(`${Object.keys(stages).length} 件を出力: ${OUT_FILE}`);
+
+buildProjects();

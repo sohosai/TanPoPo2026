@@ -5,9 +5,9 @@
  *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
- *  - 企画実施場所（apps/api/data/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
+ *  - 企画実施場所（apps/api/data/sources/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
  *  - 地図の吹き出し（callouts.json） … 建物・ステージの placeId の存在と種類・配信 URL・サムネイル画像の有無
- *  - 店舗の場所参照（apps/api: project.list） … 全店舗が場所を持ち、locations[].placeId が存在するか
+ *  - 店舗の場所参照（apps/api: project.list） … locations[].placeId が存在するか（場所が未定の店舗は警告）
  *  - 座標が [経度, 緯度] の順かどうか（緯度経度の取り違え検出）
  *
  * 実行: bun run scripts/validate-map-data.ts
@@ -258,9 +258,10 @@ async function main() {
 
   // ---- 4. 店舗の場所参照 ----
   for (const project of projects) {
+    // 実施場所が決まっていない企画は画面で「未定」と出すため、エラーにはしない。
     if (!project.locations || project.locations.length === 0) {
-      err(
-        `project ${project.id} (${project.name}): locations が空（実施場所が未登録）`,
+      warn(
+        `project ${project.id} (${project.name}): locations が空（実施場所が未定）`,
       );
       continue;
     }
@@ -349,7 +350,7 @@ function checkCallouts(placeById: ReadonlyMap<string, { kind: string }>) {
 
 function checkProjectLocations(placeById: ReadonlyMap<string, unknown>) {
   const data = readData<Record<string, LocationRecord[]>>(
-    'apps/api/data/project-locations.json',
+    'apps/api/data/sources/project-locations.json',
   );
   const booths = readData<{
     features: {

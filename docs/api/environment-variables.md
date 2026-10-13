@@ -5,7 +5,7 @@ Worker の環境変数は、本番では `apps/api/wrangler.jsonc` の `vars`（
 | 名前 | 種別 | 説明 |
 | --- | --- | --- |
 | `DB` | D1 binding | アプリのデータベース。詳細は [database.md](./database.md) |
-| `SOS_API_URL` | var | SOS公開APIのベースURL。空の場合はダミーの企画データを返す |
+| `SOS_API_URL` | var | SOS公開APIのベースURL。企画の画像と公開状態（中止）を実行時に取得する。空・取得失敗時は画像と公開状態なしで企画を返す |
 | `GRANDPRIX_WIN_RATE` | var | 雙峰祭グランプリ抽選の当選率（0〜1の小数） |
 | `HIDDEN_PROJECT_NUMBERS` | var | 全体から非表示にする企画番号のカンマ区切り（例: `001,002`）。一覧・詳細・地図・グランプリのすべてから消える。空なら何も隠さない |
 | `GRANDPRIX_HIDDEN_PROJECT_NUMBERS` | var | グランプリ投票だけから非表示にする企画番号のカンマ区切り。投票画面に出ず、投票も受け付けない。一覧・詳細には残る |

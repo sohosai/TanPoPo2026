@@ -173,17 +173,32 @@ export default defineConfig({
           // 企画の分類。分類の識別にだけ使い、`accent`とは混ぜない。
           // DEFAULT は地図のテントやピンの塗り。bg は分類タグと画像のない企画のアイコンの面で、上の文字は分類によらず fg にする。
           category: {
-            food: { DEFAULT: { value: '#f9c310' }, bg: { value: '#fdeebc' } },
+            meal: { DEFAULT: { value: '#f9c310' }, bg: { value: '#fdeebc' } },
+            sweets: { DEFAULT: { value: '#f28c4b' }, bg: { value: '#fcdcc8' } },
+            drink: { DEFAULT: { value: '#a47551' }, bg: { value: '#eaded3' } },
             goods: { DEFAULT: { value: '#ec659f' }, bg: { value: '#fad4e4' } },
             exhibit: {
               DEFAULT: { value: '#39c684' },
               bg: { value: '#c8efdd' },
             },
+            handsOn: {
+              DEFAULT: { value: '#8fb339' },
+              bg: { value: '#e4eecb' },
+            },
             academic: {
               DEFAULT: { value: '#9679ec' },
               bg: { value: '#e2d9fa' },
             },
+            performance: {
+              DEFAULT: { value: '#2bb3a6' },
+              bg: { value: '#c4ece8' },
+            },
+            music: { DEFAULT: { value: '#5a6ee0' }, bg: { value: '#d9defa' } },
             stage: { DEFAULT: { value: '#3aaddf' }, bg: { value: '#c8e8f6' } },
+            committee: {
+              DEFAULT: { value: '#3f5a8a' },
+              bg: { value: '#d3dcec' },
+            },
             other: { DEFAULT: { value: '#8d9bb0' }, bg: { value: '#dfe3e9' } },
           },
           // 文字・アイコンの色。濃いほど主要な情報に使う。

@@ -30,10 +30,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
 
   const [criteria, setCriteria] =
     useState<ProjectFilterCriteria>(emptyCriteria);
-  const { projects: visibleProjects, tagOptions } = useFilteredProjects(
-    generalProjects,
-    criteria,
-  );
+  const visibleProjects = useFilteredProjects(generalProjects, criteria);
 
   const [generalIds, setGeneralIds] = useState<string[]>([]);
   // ステージごとに1企画まで。
@@ -179,11 +176,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
           description={`気に入った企画に最大${MAX_GENERAL_VOTES}票まで投票できます（${generalIds.length}/${MAX_GENERAL_VOTES}）。`}
           done={hasGeneralVote}
         >
-          <ProjectSearchBar
-            criteria={criteria}
-            onChange={setCriteria}
-            tagOptions={tagOptions}
-          />
+          <ProjectSearchBar criteria={criteria} onChange={setCriteria} />
           <p
             className={css({
               px: '16px',

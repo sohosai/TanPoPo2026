@@ -54,10 +54,7 @@ export default function List() {
     setSearchParams(criteriaToParams(next), { replace: true });
   };
 
-  const { projects: visibleProjects, tagOptions } = useFilteredProjects(
-    projects,
-    criteria,
-  );
+  const visibleProjects = useFilteredProjects(projects, criteria);
 
   // 詳細を × で閉じて戻ってきたときだけ、企画を上から順にふわっと出す。
   // 戻った直後だけに限定し、その後の絞り込みで現れた行には演出をかけない。
@@ -86,11 +83,7 @@ export default function List() {
         entering && listEnterStyles,
       )}
     >
-      <ProjectSearchBar
-        criteria={criteria}
-        onChange={updateCriteria}
-        tagOptions={tagOptions}
-      />
+      <ProjectSearchBar criteria={criteria} onChange={updateCriteria} />
 
       <div
         {...scroll}
