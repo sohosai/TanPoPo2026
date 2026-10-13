@@ -190,11 +190,10 @@ export default defineConfig({
               bg: { value: '#e2d9fa' },
             },
             performance: {
-              DEFAULT: { value: '#2bb3a6' },
-              bg: { value: '#c4ece8' },
+              DEFAULT: { value: '#3aaddf' },
+              bg: { value: '#c8e8f6' },
             },
             music: { DEFAULT: { value: '#5a6ee0' }, bg: { value: '#d9defa' } },
-            stage: { DEFAULT: { value: '#3aaddf' }, bg: { value: '#c8e8f6' } },
             committee: {
               DEFAULT: { value: '#3f5a8a' },
               bg: { value: '#d3dcec' },

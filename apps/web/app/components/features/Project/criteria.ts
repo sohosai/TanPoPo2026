@@ -33,7 +33,6 @@ export const CATEGORY_OPTIONS: readonly ProjectCategory[] = [
   '学術',
   'パフォーマンス',
   '音楽',
-  'ステージ',
   '委員会企画',
 ];
 

@@ -20,9 +20,8 @@ export const CATEGORY_COLORS: Record<ProjectCategory, string> = {
   展示型: '#39c684', // token('colors.category.exhibit')
   参加型: '#8fb339', // token('colors.category.handsOn')
   学術: '#9679ec', // token('colors.category.academic')
-  パフォーマンス: '#2bb3a6', // token('colors.category.performance')
+  パフォーマンス: '#3aaddf', // token('colors.category.performance')
   音楽: '#5a6ee0', // token('colors.category.music')
-  ステージ: '#3aaddf', // token('colors.category.stage')
   委員会企画: '#3f5a8a', // token('colors.category.committee')
   その他: '#8d9bb0', // token('colors.category.other')
 };
@@ -370,7 +369,7 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
     filter: kindIs('stage'),
     minzoom: 15.4,
     paint: {
-      'circle-color': CATEGORY_COLORS.ステージ,
+      'circle-color': CATEGORY_COLORS.パフォーマンス,
       'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.4, 5, 18, 9],
       'circle-stroke-color': WHITE,
       'circle-stroke-width': 2,
