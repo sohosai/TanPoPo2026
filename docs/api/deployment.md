@@ -45,4 +45,5 @@ CI から実行する場合は、環境変数 `CLOUDFLARE_API_TOKEN`（Workers S
 ## 注意点
 
 - Windows では `wrangler dev` の実行中に `apps/web` をビルドすると、`build/client` がロックされて削除に失敗する。ビルド前に `wrangler dev` を止める。
-- SOS の企画一覧は Worker の isolate 内で 30 秒キャッシュする。isolate をまたいだ共有はしない。
+- 掲載する企画とその名前・団体・説明文・リンクは、コミット済みの企画のマスターデータ（[projects.md](../data/projects.md)）で決まる。SOS に企画が増えた・登録内容が変わったときは、`bun run sync:projects` で取り込んでコミットし、デプロイし直すまで反映されない。
+- 実行時に SOS から取るのは画像と公開状態（中止）だけで、Worker の isolate 内で 30 秒キャッシュする。isolate をまたいだ共有はしない。

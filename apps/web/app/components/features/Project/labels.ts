@@ -34,20 +34,32 @@ export const badgeClass = css({
 
 // Panda は css() の引数を静的解析するため、分類ごとのクラスは動的に組み立てず列挙しておく。
 export const CATEGORY_TAG_CLASS: Record<ProjectCategory, string> = {
-  食品: css({ bg: 'category.food.bg' }),
-  物販: css({ bg: 'category.goods.bg' }),
-  展示: css({ bg: 'category.exhibit.bg' }),
+  食事: css({ bg: 'category.meal.bg' }),
+  スイーツ: css({ bg: 'category.sweets.bg' }),
+  ドリンク: css({ bg: 'category.drink.bg' }),
+  物品販売: css({ bg: 'category.goods.bg' }),
+  展示型: css({ bg: 'category.exhibit.bg' }),
+  参加型: css({ bg: 'category.handsOn.bg' }),
   学術: css({ bg: 'category.academic.bg' }),
+  パフォーマンス: css({ bg: 'category.performance.bg' }),
+  音楽: css({ bg: 'category.music.bg' }),
   ステージ: css({ bg: 'category.stage.bg' }),
+  委員会企画: css({ bg: 'category.committee.bg' }),
   その他: css({ bg: 'category.other.bg' }),
 };
 
 /** 画像のない企画のアイコンの面。 */
 export const CATEGORY_COLOR_CLASS: Record<ProjectCategory, string> = {
-  食品: css({ color: 'fg', bg: 'category.food.bg' }),
-  物販: css({ color: 'fg', bg: 'category.goods.bg' }),
-  展示: css({ color: 'fg', bg: 'category.exhibit.bg' }),
+  食事: css({ color: 'fg', bg: 'category.meal.bg' }),
+  スイーツ: css({ color: 'fg', bg: 'category.sweets.bg' }),
+  ドリンク: css({ color: 'fg', bg: 'category.drink.bg' }),
+  物品販売: css({ color: 'fg', bg: 'category.goods.bg' }),
+  展示型: css({ color: 'fg', bg: 'category.exhibit.bg' }),
+  参加型: css({ color: 'fg', bg: 'category.handsOn.bg' }),
   学術: css({ color: 'fg', bg: 'category.academic.bg' }),
+  パフォーマンス: css({ color: 'fg', bg: 'category.performance.bg' }),
+  音楽: css({ color: 'fg', bg: 'category.music.bg' }),
   ステージ: css({ color: 'fg', bg: 'category.stage.bg' }),
+  委員会企画: css({ color: 'fg', bg: 'category.committee.bg' }),
   その他: css({ color: 'fg', bg: 'category.other.bg' }),
 };

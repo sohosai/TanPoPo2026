@@ -114,13 +114,7 @@ export const grandprixRouter = t.router({
         }
 
         const projects = votableProjects(
-          await ctx.sos.getLiveProjects().catch(() => {
-            throw new TRPCError({
-              code: 'SERVICE_UNAVAILABLE',
-              message:
-                '企画一覧を取得できませんでした。時間をおいて再度お試しください',
-            });
-          }),
+          await ctx.sos.getProjects(),
           ctx.env.GRANDPRIX_HIDDEN_PROJECT_NUMBERS,
         );
         const validProjectIds = new Set(projects.map((project) => project.id));

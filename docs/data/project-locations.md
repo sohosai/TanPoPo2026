@@ -4,10 +4,10 @@
 
 | 対象 | 情報源 | 反映先 |
 | --- | --- | --- |
-| 屋内・屋外の企画 | 雙峰祭実行委員会の「企画実施場所一覧」（屋内・屋外の xlsx） | `apps/api/data/project-locations.json` |
-| ステージ企画 | SOS 公開 API のカスタム項目 `ステージ実施場所 確定` | `apps/api/data/stage-projects.json` |
+| 屋内・屋外の企画 | 雙峰祭実行委員会の「企画実施場所一覧」（屋内・屋外の xlsx） | `apps/api/data/sources/project-locations.json` |
+| ステージ企画 | SOS 公開 API のカスタム項目 `ステージ実施場所 確定` | `apps/api/data/sources/stage-projects.json` |
 
-どちらにも無い企画は場所が空になり、画面では「未定」と表示される。`bun run check:map-data` は、SOS の企画に場所が空のものがあるとエラーにする。
+どちらにも無い企画は場所が空になり、画面では「未定」と表示される。`bun run check:map-data` は、場所が空の企画を警告として一覧に出す（エラーにはしない）。
 
 ## project-locations.json
 

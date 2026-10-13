@@ -1,6 +1,6 @@
 /**
  * 雙峰祭公式サイトの各ステージのタイムテーブルを取得し、企画番号ごとの出演枠 JSON
- * （apps/api/data/stage-timetable.json）を生成する。公開後も内容が変わりうるため、
+ * （apps/api/data/sources/stage-timetable.json）を生成する。公開後も内容が変わりうるため、
  * apps/api の build（= デプロイ前）で毎回取り直す。
  *
  * - 企画番号の無い枠（転換・休憩など）は企画に紐づかないため捨てる。
@@ -8,16 +8,19 @@
  *
  * 実行: bun run import:stage-timetable
  *   TIMETABLE_URL を指定すると取得先を変えられる（既定は公式サイト）。
+ *
+ * 書き出した後、企画のマスターデータ（apps/api/data/projects.json）を作り直す。
  */
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { buildProjects } from './build-projects';
 
 const TIMETABLE_URL =
   process.env.TIMETABLE_URL ?? 'https://sohosai.com/timetable';
 const OUT_FILE = join(
   import.meta.dir,
   '..',
-  'apps/api/data/stage-timetable.json',
+  'apps/api/data/sources/stage-timetable.json',
 );
 
 // ファイル名 → place.ts のステージの placeId。
@@ -102,3 +105,5 @@ for (const performances of Object.values(timetable)) {
 // 数値の文字列キーは JSON 上で番号順に並ぶ。
 writeFileSync(OUT_FILE, `${JSON.stringify(timetable, null, 2)}\n`);
 console.log(`${Object.keys(timetable).length} 企画分を出力: ${OUT_FILE}`);
+
+buildProjects();
