@@ -19,6 +19,7 @@ import LocationPermissionDialog, {
   type LocationDialogKind,
 } from './LocationPermissionDialog';
 import { useMap } from './MapController';
+import ViewHint from './ViewHint';
 
 type LocateState = 'off' | 'waiting' | 'active' | 'background';
 
@@ -46,6 +47,12 @@ const roundButton = css({
 
 const PITCH_3D = 60;
 
+// 3D ボタンは傾けるだけで、向きを変える Ctrl+ドラッグ・右ドラッグは画面上のどこにも書かれていない。
+// タッチ端末は2本指で回せるため、マウスで操作する端末にだけ案内する。
+function usesMouse(): boolean {
+  return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+}
+
 /**
  * 地図右下の操作ボタン（初期表示へ戻る、現在地の表示・追従、3D/2D の切り替え）。
  * 現在地の点・精度の円・追従は MapLibre の GeolocateControl に任せ、標準のボタンは隠して
@@ -62,6 +69,7 @@ export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
   const [state, setStateValue] = useState<LocateState>('off');
   const [message, setMessage] = useState<string | null>(null);
   const [is3d, setIs3d] = useState(false);
+  const [viewHint, setViewHint] = useState(false);
   const [dialog, setDialog] = useState<LocationDialogKind | null>(null);
   const permission = useGeolocationPermission();
 
@@ -138,11 +146,23 @@ export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
   useEffect(() => {
     const map = getMap();
     if (!isReady || !map) return;
-    const sync = () => setIs3d(map.getPitch() > 0);
+    const sync = () => {
+      const tilted = map.getPitch() > 0;
+      setIs3d(tilted);
+      if (!tilted) setViewHint(false);
+    };
+    // 案内した操作を試したら役目を終えたので閉じる。3D ボタンの easeTo は originalEvent を持たない。
+    const closeOnUserMove = (e: { originalEvent?: Event }) => {
+      if (e.originalEvent) setViewHint(false);
+    };
     sync();
     map.on('pitchend', sync);
+    map.on('rotatestart', closeOnUserMove);
+    map.on('pitchstart', closeOnUserMove);
     return () => {
       map.off('pitchend', sync);
+      map.off('rotatestart', closeOnUserMove);
+      map.off('pitchstart', closeOnUserMove);
     };
   }, [isReady, getMap]);
 
@@ -154,6 +174,7 @@ export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
         ? { pitch: 0, bearing: 0, duration: 500 }
         : { pitch: PITCH_3D, duration: 500 },
     );
+    if (!is3d && usesMouse()) setViewHint(true);
   };
 
   const goHome = () => {
@@ -302,17 +323,20 @@ export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
           />
         </button>
       )}
-      <button
-        type="button"
-        onClick={toggle3d}
-        aria-label={is3d ? '2D表示に切り替える' : '3D表示に切り替える'}
-        className={cx(
-          roundButton,
-          css({ fontSize: 'md', fontWeight: 700, letterSpacing: '0.02em' }),
-        )}
-      >
-        {is3d ? '2D' : '3D'}
-      </button>
+      <div className={css({ position: 'relative' })}>
+        {viewHint && <ViewHint onClose={() => setViewHint(false)} />}
+        <button
+          type="button"
+          onClick={toggle3d}
+          aria-label={is3d ? '2D表示に切り替える' : '3D表示に切り替える'}
+          className={cx(
+            roundButton,
+            css({ fontSize: 'md', fontWeight: 700, letterSpacing: '0.02em' }),
+          )}
+        >
+          {is3d ? '2D' : '3D'}
+        </button>
+      </div>
     </div>
   );
 }
