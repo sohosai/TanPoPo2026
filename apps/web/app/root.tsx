@@ -12,7 +12,6 @@ import UpdateToast from './components/features/Pwa/UpdateToast';
 import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 
-// og:image と og:url は絶対 URL でないと SNS のクローラーが読まない。
 const SITE_ORIGIN = 'https://search.sohosai.com';
 
 const TITLE = '雙峰祭 企画検索システム';
