@@ -12,8 +12,27 @@ import UpdateToast from './components/features/Pwa/UpdateToast';
 import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 
+// og:image と og:url は絶対 URL でないと SNS のクローラーが読まない。
+const SITE_ORIGIN = 'https://search.sohosai.com';
+
+const TITLE = '雙峰祭 企画検索システム';
+const DESCRIPTION = '雙峰祭の企画と会場マップ';
+
 export const meta: Route.MetaFunction = () => {
-  return [{ title: '雙峰祭 企画検索システム' }];
+  return [
+    { title: TITLE },
+    { name: 'description', content: DESCRIPTION },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: TITLE },
+    { property: 'og:title', content: TITLE },
+    { property: 'og:description', content: DESCRIPTION },
+    { property: 'og:url', content: `${SITE_ORIGIN}/` },
+    { property: 'og:image', content: `${SITE_ORIGIN}/ogp/default.png` },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+    { property: 'og:locale', content: 'ja_JP' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+  ];
 };
 
 export const links: Route.LinksFunction = () => [
