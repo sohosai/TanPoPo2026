@@ -14,7 +14,6 @@ type ProjectListItemProps = {
   locationLabel?: string;
   favorite?: boolean;
   onToggleFavorite?: (id: string) => void;
-  /** 絞り込みで外れた行。作り直さずに隠す */
   hidden?: boolean;
   /** 入場演出などを外から足すため */
   className?: string;
@@ -202,7 +201,6 @@ const projectCardClass = css({
 
 const favoriteButtonClass = css({ flexShrink: 0, mr: '-4px', mt: '-2px' });
 
-// 行の中身。絞り込みで行を隠したり出したりしても、ここは描き直さない。
 const ProjectListItemBody = memo(function ProjectListItemBody({
   project,
   locationLabel,
@@ -228,8 +226,7 @@ const ProjectListItemBody = memo(function ProjectListItemBody({
   );
 });
 
-// 一覧は全件で数百行あるため、絞り込みを変えても残る行は描き直さない。
-// 隠す・出すで変わるのは外枠の hidden だけなので、中身は ProjectListItemBody に分けてメモ化する。
+// 絞り込みで変わるのは外枠の hidden だけなので、中身を分けてメモ化し、数百行を描き直さない。
 const ProjectListItem = memo(function ProjectListItem({
   project,
   locationLabel,

@@ -47,7 +47,7 @@ export const CATEGORY_TAG_CLASS: Record<ProjectCategory, string> = {
   その他: css({ bg: 'category.other.bg' }),
 };
 
-/** 絞り込みの選択肢に添える、分類の色の点。地図のテントやピンと同じ色にする。 */
+/** 絞り込みの選択肢に添える分類の色の点。地図のテントやピンと同じ色にする。 */
 export const CATEGORY_DOT_CLASS: Record<ProjectCategory, string> = {
   食事: css({ bg: 'category.meal' }),
   スイーツ: css({ bg: 'category.sweets' }),

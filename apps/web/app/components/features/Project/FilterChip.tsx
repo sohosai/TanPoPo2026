@@ -92,7 +92,7 @@ export function FavoriteFilterChip({
 }) {
   return (
     <FilterChip tone="favorite" active={active} onClick={onClick} size={size}>
-      {/* ハートは企画のいいねボタンと同じ色にする。文字は白地との差が足りないため濃い色のまま */}
+      {/* ハートは企画のいいねボタンと同じ色にする */}
       {active ? (
         <IconHeartFilled size={14} className={css({ color: 'favorite' })} />
       ) : (

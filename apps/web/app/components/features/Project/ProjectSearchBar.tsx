@@ -16,9 +16,7 @@ import { DAY_LABELS } from './labels';
 type ProjectSearchBarProps = {
   criteria: ProjectFilterCriteria;
   onChange: (next: ProjectFilterCriteria) => void;
-  /** 今の条件で表示される件数。件数の行と、絞り込みシートの閉じるボタンに出す。 */
   count: number;
-  /** チップの行の下に件数の行（FilterSummary）を出すか。 */
   showSummary: boolean;
 };
 
@@ -210,7 +208,7 @@ export default function ProjectSearchBar({
           })}
         >
           <IconAdjustmentsHorizontal size={20} />
-          {/* 円の右上にはみ出すため、最小段ではカードの角丸に切られる。チップの行と同じく最小段へ寄るにつれて消す */}
+          {/* 最小段ではカードの角丸に切られるため、チップの行と同じく消す */}
           {filterCount > 0 && (
             <span
               data-sheet-morph
@@ -282,7 +280,6 @@ export default function ProjectSearchBar({
         ))}
       </div>
 
-      {/* 一覧のスクロール領域の外に固定し、条件をいつでも外せるようにする。最小段へ寄るにつれてチップの行と同じく消す */}
       {showSummary && (
         <div
           data-sheet-morph

@@ -18,7 +18,6 @@ type Props = {
   open: boolean;
   criteria: ProjectFilterCriteria;
   onChange: (next: ProjectFilterCriteria) => void;
-  /** 今の条件で表示される件数。閉じるボタンに出す。 */
   count: number;
   onClose: () => void;
 };
@@ -45,10 +44,7 @@ const footerButtonClass = css({
   _disabled: { opacity: 0.45, cursor: 'default' },
 });
 
-/**
- * 絞り込みの条件をまとめて選ぶシート。選んだ時点で一覧に反映する。
- * スマホでは画面の下からせり上がり、下へスワイプすると閉じる。PC では画面の中央に出す。
- */
+/** 絞り込みの条件をまとめて選ぶシート。選んだ時点で一覧に反映する。 */
 export default function FilterSheet({
   open,
   criteria,
@@ -66,7 +62,6 @@ export default function FilterSheet({
     if (open) ref.current?.showModal();
   }, [open]);
 
-  // スマホでは下へ滑らせてから閉じる。閉じる動きの起点は、指で引いた位置でも元の位置でもよい。
   const requestClose = useCallback(() => {
     const dialog = ref.current;
     const reduced = window.matchMedia(

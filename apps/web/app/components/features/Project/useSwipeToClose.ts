@@ -81,7 +81,6 @@ function onMove(s: Swipe, e: TouchEvent) {
   g.mode = mode;
 
   e.preventDefault();
-  // 上へは引き出さない。
   g.offset = Math.max(0, y - g.base);
   s.sheet.style.transition = 'none';
   s.sheet.style.transform = `translateY(${g.offset}px)`;

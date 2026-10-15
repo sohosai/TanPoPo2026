@@ -11,7 +11,7 @@ export default function ProjectList({
   rowProps,
 }: {
   projects: Project[];
-  /** 渡すと、projects の行をすべて出したまま、ここに無い企画の行を隠す。絞り込みで行を作り直さないため。 */
+  /** 渡すと、ここに無い企画の行を作り直さずに隠す。 */
   visibleIds?: ReadonlySet<string>;
   /** 入場演出などを行ごとに足すため。index は見えている行の中での順番 */
   rowProps?: (index: number) => { className?: string; style?: CSSProperties };
