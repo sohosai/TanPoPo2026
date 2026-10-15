@@ -4,6 +4,11 @@ import GrandprixResult from '~/components/features/Grandprix/GrandprixResult';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
 import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
+import type { Route } from './+types/index';
+
+export const meta: Route.MetaFunction = () => [
+  { title: '雙峰祭グランプリ | 雙峰祭 企画検索システム' },
+];
 
 function GrandprixContent() {
   const { data: status, status: queryStatus } =

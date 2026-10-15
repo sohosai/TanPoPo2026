@@ -4,6 +4,8 @@ import type { Route } from './+types/not-found';
 
 export const meta: Route.MetaFunction = () => [
   { title: 'ページが見つかりません | 雙峰祭 企画検索システム' },
+  // SPA のため存在しない URL もステータス 200 で返る。検索結果に出さないよう伝える。
+  { name: 'robots', content: 'noindex' },
 ];
 
 export const links: Route.LinksFunction = () => [

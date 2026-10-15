@@ -105,6 +105,15 @@ export default function PlaceDetail() {
     rememberListPath(pathname);
   }, [pathname]);
 
+  useEffect(() => {
+    if (place) {
+      document.title = `${place.name} | 雙峰祭 企画検索システム`;
+      return () => {
+        document.title = '雙峰祭 企画検索システム';
+      };
+    }
+  }, [place]);
+
   // 地図から開いたときに、場所と一覧の両方が見えるようにする。
   // biome-ignore lint/correctness/useExhaustiveDependencies: 場所が変わったときだけ開く
   useEffect(() => {

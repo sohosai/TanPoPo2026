@@ -53,6 +53,15 @@ export default function AreaDetail() {
     rememberListPath(pathname);
   }, [pathname]);
 
+  useEffect(() => {
+    if (area) {
+      document.title = `${area.name} | 雙峰祭 企画検索システム`;
+      return () => {
+        document.title = '雙峰祭 企画検索システム';
+      };
+    }
+  }, [area]);
+
   // 地図から開いたときに、エリアと一覧の両方が見えるようにする。
   // biome-ignore lint/correctness/useExhaustiveDependencies: エリアが変わったときだけ開く
   useEffect(() => {

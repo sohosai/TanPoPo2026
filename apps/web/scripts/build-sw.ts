@@ -7,6 +7,8 @@ const DAY = 60 * 60 * 24;
 const { count, size, warnings } = await generateSW({
   globDirectory: 'build/client',
   globPatterns: ['**/*.{html,js,css,svg,webp,png,ico,webmanifest}'],
+  // OGP 画像は SNS のクローラーが読むもので、アプリの画面では使わない。
+  globIgnores: ['ogp/**'],
   swDest: 'build/client/sw.js',
   navigateFallback: '/index.html',
   // LINE ログインのリダイレクト等は Worker に届かせる。
