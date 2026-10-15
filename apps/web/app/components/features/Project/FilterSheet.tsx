@@ -160,7 +160,8 @@ export default function FilterSheet({
       <div
         ref={contentRef}
         className={css({
-          flex: 1,
+          // 高さの決まっていない dialog の中なので、基準を中身の高さにする。0% にすると Safari では潰れる。
+          flex: '1 1 auto',
           minH: 0,
           overflowY: 'auto',
           overscrollBehavior: 'contain',
