@@ -16,7 +16,8 @@ import './global.css';
 const SITE_ORIGIN = 'https://search.sohosai.com';
 
 const TITLE = '雙峰祭 企画検索システム';
-const DESCRIPTION = '雙峰祭の企画と会場マップ';
+const DESCRIPTION =
+  '筑波大学の学園祭「雙峰祭」の企画を探せるサイトです。食事やステージ、展示などの企画をキーワードやカテゴリ、開催日で絞り込み、会場マップで場所を確かめられます。';
 
 export const meta: Route.MetaFunction = () => {
   return [
