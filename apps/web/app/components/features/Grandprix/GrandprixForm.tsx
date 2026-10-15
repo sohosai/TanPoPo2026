@@ -12,8 +12,8 @@ import { css, cx } from '../../../../styled-system/css';
 import ProjectVoteRow from './ProjectVoteRow';
 import StageTabs from './StageTabs';
 import StepCard, { ChoiceButton } from './StepCard';
-import { contentWidth, emptyMessageClass } from './styles';
 import SubmitBar from './SubmitBar';
+import { contentWidth, emptyMessageClass } from './styles';
 
 const MAX_GENERAL_VOTES: MaxGeneralVotes = 4;
 
@@ -176,18 +176,12 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
           description={`気に入った企画に最大${MAX_GENERAL_VOTES}票まで投票できます（${generalIds.length}/${MAX_GENERAL_VOTES}）。`}
           done={hasGeneralVote}
         >
-          <ProjectSearchBar criteria={criteria} onChange={setCriteria} />
-          <p
-            className={css({
-              px: '16px',
-              py: '8px',
-              textAlign: 'right',
-              fontSize: 'xs',
-              color: 'fg.subtle',
-            })}
-          >
-            {visibleProjects.length}件
-          </p>
+          <ProjectSearchBar
+            criteria={criteria}
+            onChange={setCriteria}
+            count={visibleProjects.length}
+            showSummary
+          />
 
           {projectsStatus === 'pending' && (
             <p className={emptyMessageClass}>読み込み中...</p>

@@ -10,13 +10,13 @@ import {
 } from '~/components/features/Detail/useDetailClose';
 import { useListScroll } from '~/components/features/Detail/useListScroll';
 import EventBanner from '~/components/features/EventLinks/EventBanner';
-import InstallBanner from '~/components/features/Pwa/InstallBanner';
 import {
   criteriaFromParams,
   criteriaToParams,
   hasActiveFilter,
   type ProjectFilterCriteria,
 } from '~/components/features/Project/criteria';
+import { compareProjects } from '~/components/features/Project/filter';
 import ProjectList from '~/components/features/Project/ProjectList';
 import ProjectSearchBar from '~/components/features/Project/ProjectSearchBar';
 import {
@@ -24,6 +24,7 @@ import {
   StateMessage,
 } from '~/components/features/Project/StateMessage';
 import { useFilteredProjects } from '~/components/features/Project/useFilteredProjects';
+import InstallBanner from '~/components/features/Pwa/InstallBanner';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
@@ -55,6 +56,16 @@ export default function List() {
   };
 
   const visibleProjects = useFilteredProjects(projects, criteria);
+  // 一覧は全件の行を出したまま、条件に合わない行を隠す。絞り込みやクリアのたびに数百行を作り直すと、
+  // その間チップの切り替えや件数の反映まで止まるため。
+  const allProjects = useMemo(
+    () => (projects ? [...projects].sort(compareProjects) : []),
+    [projects],
+  );
+  const visibleIds = useMemo(
+    () => new Set(visibleProjects.map((project) => project.id)),
+    [visibleProjects],
+  );
 
   // 詳細を × で閉じて戻ってきたときだけ、企画を上から順にふわっと出す。
   // 戻った直後だけに限定し、その後の絞り込みで現れた行には演出をかけない。
@@ -83,7 +94,12 @@ export default function List() {
         entering && listEnterStyles,
       )}
     >
-      <ProjectSearchBar criteria={criteria} onChange={updateCriteria} />
+      <ProjectSearchBar
+        criteria={criteria}
+        onChange={updateCriteria}
+        count={visibleProjects.length}
+        showSummary={!showBanner && projects !== undefined}
+      />
 
       <div
         {...scroll}
@@ -119,7 +135,8 @@ export default function List() {
         )}
 
         <ProjectList
-          projects={visibleProjects}
+          projects={allProjects}
+          visibleIds={visibleIds}
           rowProps={(i) => enterProps(i + (showBanner ? 1 : 0))}
         />
       </div>

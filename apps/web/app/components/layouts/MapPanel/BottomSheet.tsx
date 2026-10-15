@@ -22,11 +22,11 @@ export const SHEET_PEEK = 56;
 const fullRatio = 0.95;
 const halfRatio = 0.5;
 // 指を離した位置に「速度(px/ms) × この時間」を足した位置を、止まる位置の予測とする。
-const projectionMs = 200;
+export const projectionMs = 200;
 // 指を止めてから離すまでにこれ以上間が空いたら、勢いはないものとする。
-const releaseIdleMs = 100;
+export const releaseIdleMs = 100;
 // 指がこれ以上動くまではタップとみなし、シートを動かさない。
-const dragSlop = 8;
+export const dragSlop = 8;
 const rubberDim = 200;
 // 地図をこれ以上動かしたら（画面上の移動量 px、ズームの段数）、シートを最小段に下げる。
 const mapPanThreshold = 60;

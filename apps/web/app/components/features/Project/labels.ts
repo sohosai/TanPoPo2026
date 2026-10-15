@@ -47,6 +47,21 @@ export const CATEGORY_TAG_CLASS: Record<ProjectCategory, string> = {
   その他: css({ bg: 'category.other.bg' }),
 };
 
+/** 絞り込みの選択肢に添える分類の色の点。地図のテントやピンと同じ色にする。 */
+export const CATEGORY_DOT_CLASS: Record<ProjectCategory, string> = {
+  食事: css({ bg: 'category.meal' }),
+  スイーツ: css({ bg: 'category.sweets' }),
+  ドリンク: css({ bg: 'category.drink' }),
+  物品販売: css({ bg: 'category.goods' }),
+  展示型: css({ bg: 'category.exhibit' }),
+  参加型: css({ bg: 'category.handsOn' }),
+  学術: css({ bg: 'category.academic' }),
+  パフォーマンス: css({ bg: 'category.performance' }),
+  音楽: css({ bg: 'category.music' }),
+  委員会企画: css({ bg: 'category.committee' }),
+  その他: css({ bg: 'category.other' }),
+};
+
 /** 画像のない企画のアイコンの面。 */
 export const CATEGORY_COLOR_CLASS: Record<ProjectCategory, string> = {
   食事: css({ color: 'fg', bg: 'category.meal.bg' }),

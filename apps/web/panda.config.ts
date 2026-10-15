@@ -107,6 +107,15 @@ export default defineConfig({
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
+        // 絞り込みシートが画面の下からせり上がる動きと、その背景の出方。
+        sheetRise: {
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
         viewerZoom: {
           '0%': { opacity: '0', transform: 'scale(0.94)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
