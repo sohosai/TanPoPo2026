@@ -5,6 +5,11 @@ import TicketList from '~/components/features/Questionnaire/TicketList';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
 import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
+import type { Route } from './+types/index';
+
+export const meta: Route.MetaFunction = () => [
+  { title: '来場者アンケート | 雙峰祭 企画検索システム' },
+];
 
 function QuestionnaireContent() {
   const {
