@@ -10,3 +10,7 @@
 /embed/*
   ! Content-Security-Policy
   Content-Security-Policy: frame-ancestors 'self' https://sohosai.com https://*.sohosai.com http://localhost:* http://127.0.0.1:*
+
+# 検証用の zoo 環境は本番と同じ内容を配信するため、検索結果に出さない。
+https://zoo.search.sohosai.com/*
+  X-Robots-Tag: noindex

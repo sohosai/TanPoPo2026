@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /trpc/
+Disallow: /auth/
