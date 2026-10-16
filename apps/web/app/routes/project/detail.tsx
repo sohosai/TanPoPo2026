@@ -15,10 +15,10 @@ import {
 } from '~/components/features/Detail/useDetailClose';
 import { useProjectFocus } from '~/components/features/Map/useProjectFocus';
 import CarouselButton from '~/components/features/Project/CarouselButton';
-import CategoryLabel from '~/components/features/Project/CategoryLabel';
 import FavoriteButton from '~/components/features/Project/FavoriteButton';
 import ImageViewer from '~/components/features/Project/ImageViewer';
 import {
+  CATEGORY_DOT_CLASS,
   formatPerformance,
   formatSchedule,
 } from '~/components/features/Project/labels';
@@ -242,19 +242,37 @@ export default function Detail() {
             className={cx(
               css({
                 mt: '2px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
                 fontSize: 'sm',
                 color: 'fg.subtle',
               }),
               peekFadeStyles,
             )}
           >
-            <CategoryLabel category={project.category} />
-            <span className={css({ truncate: true })}>
-              {project.organization}
+            {/* 分類はアイコンの地の色でも示すので、タグにせず団体名の前に色の点と名前で添える */}
+            <span
+              className={css({
+                color: 'fg.muted',
+                fontWeight: 500,
+                whiteSpace: 'nowrap',
+              })}
+            >
+              <span
+                className={cx(
+                  css({
+                    display: 'inline-block',
+                    w: '8px',
+                    h: '8px',
+                    mr: '5px',
+                    borderRadius: 'full',
+                    verticalAlign: '1px',
+                  }),
+                  CATEGORY_DOT_CLASS[project.category],
+                )}
+              />
+              {project.category}
+              <span className={css({ mx: '6px', color: 'fg.subtle' })}>·</span>
             </span>
+            {project.organization}
           </p>
         </div>
 
