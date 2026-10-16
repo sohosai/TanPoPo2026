@@ -33,7 +33,12 @@ function useSelection(
   return useMemo(() => {
     const place = matchPath('/place/:placeId', pathname);
     if (place?.params.placeId) {
-      return { placeIds: [place.params.placeId], booths: [] };
+      const { placeId } = place.params;
+      // 建物のページでは、中のステージも強調する。
+      const stageIds = [...placesById.values()].flatMap(({ id, buildingId }) =>
+        buildingId === placeId ? [id] : [],
+      );
+      return { placeIds: [placeId, ...stageIds], booths: [] };
     }
     const project = matchPath('/project/:number', pathname);
     const found = projects?.find((s) => s.number === project?.params.number);
@@ -80,7 +85,10 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
   if (typeof props?.projectNumber === 'string' && props.projectNumber !== '') {
     return `/project/${props.projectNumber}`;
   }
-  if (typeof props?.placeId === 'string' && Number(props.count) > 0) {
+  if (
+    typeof props?.placeId === 'string' &&
+    (Number(props.count) > 0 || props.hasStage === true)
+  ) {
     return `/place/${props.placeId}`;
   }
   if (typeof props?.areaId === 'string') return `/area/${props.areaId}`;

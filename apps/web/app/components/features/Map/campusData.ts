@@ -187,11 +187,14 @@ export function buildCampusData(projects: Project[], places: Place[]) {
       properties: { placeId: properties.placeId, color: INFORMATION_COLOR },
       geometry,
     }));
+  // 企画が建物ではなく中のステージに紐づく建物（1A棟・大学会館）も、押せば建物の企画一覧を開けるようにする。
+  const stageBuildingIds = new Set(places.map(({ buildingId }) => buildingId));
   const buildingFeatures = buildings.features.map((feature) => ({
     ...feature,
     properties: {
       ...feature.properties,
       count: countProjects(byPlace.get(feature.properties.placeId) ?? []),
+      hasStage: stageBuildingIds.has(feature.properties.placeId),
     },
   }));
 
@@ -208,6 +211,7 @@ export function buildCampusData(projects: Project[], places: Place[]) {
         count,
         countLabel: count > 0 ? `${count}企画` : '',
         preview: place.kind === 'building' ? projectPreview(entries) : '',
+        hasStage: stageBuildingIds.has(place.id),
       });
     });
 

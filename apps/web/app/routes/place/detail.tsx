@@ -1,12 +1,13 @@
 import {
   IconBuilding,
+  IconChevronRight,
   IconMicrophone,
   IconTent,
   type TablerIcon,
 } from '@tabler/icons-react';
 import type { Place, PlaceKind, Project } from 'api';
 import { useEffect, useMemo } from 'react';
-import { useLocation, useParams } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
@@ -90,9 +91,69 @@ function toSections(place: Place, entries: PlaceEntry[]): Section[] {
     .map(([title, floorEntries]) => ({ title, rows: toRows(floorEntries) }));
 }
 
+const stageRowClass = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  px: '16px',
+  py: '12px',
+  color: 'inherit',
+  textDecoration: 'none',
+  borderBottom: 'token(borderWidths.divider) solid token(colors.border.subtle)',
+  transition: 'background 0.15s',
+  _active: { bg: 'accent.subtle' },
+});
+
+/** 建物の中のステージ。押すとそのステージの企画一覧（タイムテーブル）を開く。 */
+function StageLinks({ stages }: { stages: { place: Place; count: number }[] }) {
+  return (
+    <section>
+      <h2 className={sectionTitleClass}>ステージ</h2>
+      {stages.map(({ place, count }) => (
+        <Link
+          key={place.id}
+          to={`/place/${place.id}`}
+          className={stageRowClass}
+        >
+          <span
+            className={css({
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              w: '40px',
+              h: '40px',
+              borderRadius: 'md',
+              bg: 'accent.subtle',
+              color: 'accent.text',
+            })}
+          >
+            <IconMicrophone size={22} />
+          </span>
+          <span className={css({ flex: 1, minWidth: 0 })}>
+            <span
+              className={css({
+                display: 'block',
+                fontWeight: 700,
+                color: 'fg.strong',
+              })}
+            >
+              {place.name}
+            </span>
+            <span className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
+              {count}企画
+            </span>
+          </span>
+          <IconChevronRight size={20} className={css({ color: 'fg.subtle' })} />
+        </Link>
+      ))}
+    </section>
+  );
+}
+
 export default function PlaceDetail() {
   const { placeId } = useParams();
-  const { byId } = usePlaces();
+  const { places, byId } = usePlaces();
   const place = placeId ? byId.get(placeId) : undefined;
   const { data: projects, status } = trpc.project.list.useQuery();
   const { isFavorite, toggle } = useFavorites();
@@ -131,18 +192,33 @@ export default function PlaceDetail() {
     });
   }, [place, flyTo]);
 
+  const byPlace = useMemo(
+    () => (projects ? groupProjectsByPlace(projects) : undefined),
+    [projects],
+  );
   const entries = useMemo(
+    () => (placeId ? (byPlace?.get(placeId) ?? []) : []),
+    [byPlace, placeId],
+  );
+  // 1A棟・大学会館のように、企画が建物ではなく中のステージに紐づく建物がある。
+  const stages = useMemo(
     () =>
-      projects && placeId
-        ? (groupProjectsByPlace(projects).get(placeId) ?? [])
-        : [],
-    [projects, placeId],
+      places
+        .filter(({ buildingId }) => buildingId === placeId)
+        .map((stage) => ({
+          place: stage,
+          entries: byPlace?.get(stage.id) ?? [],
+        })),
+    [places, placeId, byPlace],
   );
   const sections = useMemo(
     () => (place ? toSections(place, entries) : []),
     [place, entries],
   );
-  const count = countProjects(entries);
+  const count = countProjects([
+    ...entries,
+    ...stages.flatMap((stage) => stage.entries),
+  ]);
   const scroll = useListScroll(status === 'success' && place !== undefined);
 
   if (!place) {
@@ -245,6 +321,14 @@ export default function PlaceDetail() {
           <p className={css({ p: '16px', color: 'fg.subtle' })}>
             読み込み中...
           </p>
+        )}
+        {stages.length > 0 && (
+          <StageLinks
+            stages={stages.map((stage) => ({
+              place: stage.place,
+              count: countProjects(stage.entries),
+            }))}
+          />
         )}
         {status === 'success' && count === 0 && (
           <p className={css({ p: '16px', color: 'fg.subtle' })}>

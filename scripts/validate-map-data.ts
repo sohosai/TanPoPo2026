@@ -2,7 +2,7 @@
  * Map 関連データの整合性検証スクリプト。
  *
  * 検証対象:
- *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性
+ *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性・buildingId が建物を指すか
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
  *  - 企画実施場所（apps/api/data/sources/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
@@ -81,6 +81,11 @@ async function main() {
       err(
         `place ${p.id}: point が範囲外（経度緯度の取り違え?）: ${JSON.stringify(p.point)}`,
       );
+    }
+  }
+  for (const { id, buildingId } of places) {
+    if (buildingId && placeById.get(buildingId)?.kind !== 'building') {
+      err(`place ${id}: buildingId が建物を指していない: ${buildingId}`);
     }
   }
 

@@ -301,7 +301,7 @@ export function addCampusLayers(map: MlMap) {
     id: 'campus-building-fill',
     type: 'fill',
     source: SOURCES.buildings,
-    filter: ['>', ['get', 'count'], 0],
+    filter: ['any', ['>', ['get', 'count'], 0], ['get', 'hasStage']],
     // タップ判定用。見た目は地図スタイル側の建物の塗りに任せる。
     paint: { 'fill-color': ACCENT, 'fill-opacity': 0 },
   });
