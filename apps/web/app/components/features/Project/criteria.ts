@@ -22,7 +22,6 @@ export const emptyCriteria: ProjectFilterCriteria = {
   favorite: false,
 };
 
-// 「その他」は分類表に無い企画の受け皿で、該当する企画を探す用途が無いため選択肢に出さない。
 export const CATEGORY_OPTIONS: readonly ProjectCategory[] = [
   '食事',
   'スイーツ',
@@ -34,6 +33,7 @@ export const CATEGORY_OPTIONS: readonly ProjectCategory[] = [
   'パフォーマンス',
   '音楽',
   '委員会企画',
+  'その他',
 ];
 
 export const SCHEDULE_OPTIONS: readonly ScheduleDay[] = [
