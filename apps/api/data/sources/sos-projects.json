@@ -725,10 +725,10 @@
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
-      "description": null,
+      "description": "Tsukuba Trends2026 ～New value, New voice～では、昨年から生まれ変わり、InstagramやXといったSNS、当日のパフォーマンスに注力しています。外見や性別といった固定観念に囚われない、一人一人が実力や個性・魅力を表現できるコンテストです。前夜祭のパフォーマンスも、後夜祭の表彰式もぜひ見に来てください！！",
       "websiteUrls": [],
-      "xIds": [],
-      "instagramIds": [],
+      "xIds": ["tsukutre2026"],
+      "instagramIds": ["tsukutre2026"],
       "youtubeIds": []
     }
   },
