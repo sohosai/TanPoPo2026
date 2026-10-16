@@ -14,6 +14,9 @@ import './global.css';
 
 const SITE_ORIGIN = 'https://search.sohosai.com';
 
+/** 本番のビルドでだけ設定し、zoo やローカルでは計測しない。 */
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+
 const TITLE = '雙峰祭 企画検索システム';
 const DESCRIPTION =
   '筑波大学の学園祭「雙峰祭」の企画を探せるサイトです。食事やステージ、展示などの企画をキーワードやカテゴリ、開催日で絞り込み、会場マップで場所を確かめられます。';
@@ -68,6 +71,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="apple-mobile-web-app-title" content="雙峰祭" />
         <Meta />
         <Links />
+        {GA_MEASUREMENT_ID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            />
+            <script
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: gtag の初期化スニペット
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}');`,
+              }}
+            />
+          </>
+        )}
       </head>
       <body>
         {children}
