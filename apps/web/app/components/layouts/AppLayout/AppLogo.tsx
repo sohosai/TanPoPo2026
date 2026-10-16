@@ -8,6 +8,9 @@ const LOGO_ASPECT = 624 / 190;
 const linkStyles = css({
   display: 'block',
   lineHeight: 0,
+  position: 'fixed',
+  top: 'calc(env(safe-area-inset-top, 0px) + 8px)',
+  zIndex: 5,
   // 白い縁取りだけでは明るい地図の上で浮き上がりにくいため、ごく薄い影を足す。
   filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18))',
   transition: 'transform 0.1s',
@@ -15,35 +18,20 @@ const linkStyles = css({
 });
 
 /**
- * 地図の左上に載せるロゴ。押すとトップ（企画一覧）を開く。
- * スマホは画面の左上、PC はサイドパネルの右隣（`placement`）に置く。
+ * 地図の上に載せるロゴ。押すとトップ（企画一覧）を開く。
+ * スマホは画面の左上（`left`）、PC は左にサイドパネルがあるため画面の右上（`right`）に置く。
  */
-export default function AppLogo({
-  placement,
-}: {
-  placement: 'screen' | 'beside-panel';
-}) {
-  const width = placement === 'screen' ? 148 : 200;
+export default function AppLogo({ corner }: { corner: 'left' | 'right' }) {
+  const width = corner === 'left' ? 148 : 200;
   return (
     <Link
       to="/"
       aria-label="TanPoPo 筑波大学雙峰祭 企画検索システム トップへ"
       className={cx(
         linkStyles,
-        placement === 'screen'
-          ? css({
-              position: 'fixed',
-              top: 'calc(env(safe-area-inset-top, 0px) + 8px)',
-              left: 'calc(env(safe-area-inset-left, 0px) + 6px)',
-              zIndex: 5,
-            })
-          : css({
-              position: 'absolute',
-              top: '10px',
-              left: 'calc(100% + 10px)',
-              // パネルの外に置くと使える幅が負になり、画像の max-width: 100% で幅が 0 に潰れる。
-              w: 'max-content',
-            }),
+        corner === 'left'
+          ? css({ left: 'calc(env(safe-area-inset-left, 0px) + 6px)' })
+          : css({ right: 'calc(env(safe-area-inset-right, 0px) + 10px)' }),
       )}
     >
       <img
