@@ -28,7 +28,7 @@ const OUTDOOR_ROWS: [letter: string, name: string, point: [number, number]][] =
 
 // TODO: 現状は地図 JSON の座標から起こした暫定データ。将来データ側提供に差し替える。
 const places: Place[] = [
-  // ---- 建物（店舗が紐づく。検索は建物名） ----
+  // ---- 建物（企画が紐づく。検索は建物名） ----
   {
     id: 'bldg-3a',
     name: '3A棟',
@@ -241,7 +241,7 @@ const places: Place[] = [
     point: [140.1088, 36.10292],
   },
 
-  // ---- ステージ（複数店舗が共有しうる） ----
+  // ---- ステージ（複数の企画が共有しうる） ----
   {
     id: 'stage-united',
     name: 'UNITEDステージ',

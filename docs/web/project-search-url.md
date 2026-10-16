@@ -1,6 +1,6 @@
-# 店舗一覧の検索・絞り込みURL仕様
+# 企画一覧の検索・絞り込みURL仕様
 
-`/` (店舗一覧) の検索・絞り込み条件は URLクエリパラメータで表現され、状態源は URL のみ(`useSearchParams`)。共有リンク・ブラウザの戻る/進むに対応する。
+`/` (企画一覧) の検索・絞り込み条件は URLクエリパラメータで表現され、状態源は URL のみ(`useSearchParams`)。共有リンク・ブラウザの戻る/進むに対応する。
 
 実装: [`apps/web/app/components/features/Project/criteria.ts`](../../apps/web/app/components/features/Project/criteria.ts)(条件の型とURL変換)、[`filter.ts`](../../apps/web/app/components/features/Project/filter.ts)(絞り込み)、[`apps/web/app/routes/project/index.tsx`](../../apps/web/app/routes/project/index.tsx)(URL⇔状態の接続)
 
@@ -13,7 +13,7 @@
 | `day` | カンマ区切り(例 `Day1,Day2`) | 開催日(`ScheduleDay`) | OR |
 | `fav` | `1` のみ | いいね済みのみ表示 | — |
 
-- 各パラメータは互いに AND 結合(すべての条件を満たす店舗のみ表示)。
+- 各パラメータは互いに AND 結合(すべての条件を満たす企画のみ表示)。
 - 値が空の軸はURLから省略される(`criteriaToParams` が空パラメータを付与しない)。
 - 未知のカテゴリ値がURLに含まれていても壊れない(選択肢にない値は捨てる)。
 
@@ -31,7 +31,7 @@
 ```
 /?q=カフェ&category=食事&day=Day1,Day2&fav=1
 ```
-→ キーワード「カフェ」に部分一致し、分類が「食事」、開催日がDay1またはDay2、いいね済みの店舗のみ表示。
+→ キーワード「カフェ」に部分一致し、分類が「食事」、開催日がDay1またはDay2、いいね済みの企画のみ表示。
 
 ## 新しい絞り込み軸を追加する場合
 

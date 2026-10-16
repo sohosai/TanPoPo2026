@@ -11,7 +11,7 @@ export const projectRouter = t.router({
       } catch {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
-          message: '店舗一覧の取得に失敗しました',
+          message: '企画一覧の取得に失敗しました',
         });
       }
     }),

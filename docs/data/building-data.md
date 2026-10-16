@@ -11,7 +11,7 @@
 | 属性 | `apps/api/trpc/routers/place.ts` | id / 名前 / 種別 / 代表点。`place.list` で配信 | `Place.id` |
 | 建物ジオメトリ | `apps/web/app/components/features/Map/data/buildings.geojson` | 建物ポリゴン | `properties.placeId` |
 | 入口/接続路 | `apps/web/app/components/features/Map/data/path-network.geojson` | 通路網。`kind:"entrance"` の feature が建物への接続路 | `properties.placeId` |
-| 店舗の紐付け | `apps/api/data/sources/project-locations.json` | 企画番号ごとの `placeId` ＋ `room` ＋ 実施日。詳細は [project-locations.md](./project-locations.md) | `placeId` |
+| 企画の紐付け | `apps/api/data/sources/project-locations.json` | 企画番号ごとの `placeId` ＋ `room` ＋ 実施日。詳細は [project-locations.md](./project-locations.md) | `placeId` |
 
 
 ## 各データの構造

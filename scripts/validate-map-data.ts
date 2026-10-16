@@ -8,7 +8,7 @@
  *  - 企画実施場所（apps/api/data/sources/project-locations.json・manual-projects.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
  *  - 案内所のテント（information.geojson） … placeId の存在と種類・全案内所のテントの有無
  *  - 地図の吹き出し（callouts.json） … 建物・ステージの placeId の存在と種類・配信 URL・サムネイル画像の有無
- *  - 店舗の場所参照（apps/api: project.list） … locations[].placeId が存在するか（場所が未定の店舗は警告）
+ *  - 企画の場所参照（apps/api: project.list） … locations[].placeId が存在するか（場所が未定の企画は警告）
  *  - 座標が [経度, 緯度] の順かどうか（緯度経度の取り違え検出）
  *
  * 実行: bun run scripts/validate-map-data.ts
@@ -263,7 +263,7 @@ async function main() {
   checkCallouts(placeById);
   checkTents(places);
 
-  // ---- 4. 店舗の場所参照 ----
+  // ---- 4. 企画の場所参照 ----
   for (const project of projects) {
     // 実施場所が決まっていない企画は画面で「未定」と出すため、エラーにはしない。
     if (!project.locations || project.locations.length === 0) {
