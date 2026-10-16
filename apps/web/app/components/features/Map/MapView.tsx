@@ -4,6 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useIsEmbed } from '~/lib/embed';
 import { css } from '../../../../styled-system/css';
 import { BUILDING_FLAT_SOURCE } from './campusStyle';
+import hiddenBaseBuildingsRaw from './data/hidden-base-buildings.geojson?raw';
 import { addDebugLayers } from './debugLayers';
 import { INITIAL_VIEW, useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
@@ -26,6 +27,28 @@ function withMapTilerKey(url: string) {
   return { url: withKey.toString() };
 }
 
+const HIDDEN_BASE_BUILDINGS = 'hidden-base-buildings';
+
+// 背景タイルの建物は近くの建物とまとめて1つの地物になっており id で除けないため、
+// 建物でない構造物は背景の建物の直上に会場エリアの色を塗って隠す。
+const baseLayers = sohosaiMap.layers.flatMap((layer) =>
+  layer.id === 'building'
+    ? [
+        layer,
+        {
+          id: HIDDEN_BASE_BUILDINGS,
+          type: 'fill',
+          source: HIDDEN_BASE_BUILDINGS,
+          paint: {
+            'fill-color': sohosaiMap.layers.find(
+              ({ id }) => id === 'area-taigei',
+            )?.paint?.['fill-color'],
+          },
+        },
+      ]
+    : [layer],
+);
+
 // 平面の建物の塗りも、強調・タップ判定・3D と同じ輪郭で描く。スタイル JSON に別の輪郭を
 // 持つと、建物を選んだときの強調と形がずれるため。企画のある建物だけを描くので、中身は
 // 企画データが届いてから CampusLayers が流す。
@@ -37,7 +60,12 @@ const style = {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
     },
+    [HIDDEN_BASE_BUILDINGS]: {
+      type: 'geojson',
+      data: JSON.parse(hiddenBaseBuildingsRaw),
+    },
   },
+  layers: baseLayers,
 } as unknown as StyleSpecification;
 
 export default function MapView() {

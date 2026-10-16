@@ -1091,8 +1091,8 @@
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
-        "placeId": "booth-s",
-        "room": "S3",
+        "placeId": "booth-t",
+        "room": "T2",
         "days": ["Day1", "Day2"]
       }
     ],
@@ -3508,8 +3508,8 @@
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
-        "placeId": "booth-t",
-        "room": "T2",
+        "placeId": "booth-s",
+        "room": "S3",
         "days": ["Day1", "Day2"]
       }
     ],
@@ -5979,8 +5979,8 @@
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
-        "placeId": "booth-r",
-        "room": "R5",
+        "placeId": "booth-t",
+        "room": "T5",
         "days": ["Day1", "Day2"]
       }
     ],
@@ -7108,8 +7108,8 @@
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
-        "placeId": "booth-t",
-        "room": "T5",
+        "placeId": "booth-r",
+        "room": "R5",
         "days": ["Day1", "Day2"]
       }
     ],
