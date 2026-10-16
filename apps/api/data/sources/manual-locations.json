@@ -1,0 +1,78 @@
+{
+  "8": [
+    {
+      "placeId": "outdoor-matsumi-ike",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-1a",
+      "room": "スチューデント・コモンズ",
+      "days": ["Day1"]
+    }
+  ],
+  "9": [
+    {
+      "placeId": "bldg-5c",
+      "room": "216",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "17": [
+    {
+      "placeId": "bldg-3a",
+      "room": "402",
+      "days": ["Day1", "Day2"]
+    },
+    {
+      "placeId": "bldg-3a",
+      "room": "403",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "18": [
+    {
+      "placeId": "bldg-1h",
+      "room": "201",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "19": [
+    {
+      "placeId": "bldg-1c",
+      "room": "406",
+      "days": ["Day1", "Day2"]
+    }
+  ],
+  "21": [
+    {
+      "placeId": "booth-taruzake",
+      "room": "樽酒振る舞い（西）",
+      "days": ["前夜祭", "Day1", "Day2"]
+    },
+    {
+      "placeId": "booth-taruzake",
+      "room": "樽酒振る舞い（東）",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "23": [
+    {
+      "placeId": "booth-monument",
+      "room": "モニュメント・イルミネーション",
+      "days": ["前夜祭", "Day1", "Day2"]
+    }
+  ],
+  "24": [
+    {
+      "placeId": "stage-united",
+      "days": ["前夜祭", "Day2"]
+    }
+  ],
+  "30": [
+    {
+      "placeId": "booth-tsukuba-collab",
+      "room": "つくば市コラボ",
+      "days": ["Day1", "Day2"]
+    }
+  ]
+}

@@ -291,7 +291,18 @@ const FACILITY_ICONS = {
 };
 
 /** 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。 */
+// 下地の地図タイルの建物のうち、会場の区画に重なって紛らわしいもの（モニュメント・イルミネーションの区画の下）。
+// タイルの地物 ID で指定しているため、地図タイルが更新されて ID が変わると再び描かれる。
+const HIDDEN_BASE_BUILDING_IDS = [14931146];
+
 export function addCampusLayers(map: MlMap) {
+  for (const id of ['building', 'building-top']) {
+    if (!map.getLayer(id)) continue;
+    map.setFilter(id, [
+      '!',
+      ['in', ['id'], ['literal', HIDDEN_BASE_BUILDING_IDS]],
+    ]);
+  }
   for (const id of Object.values(SOURCES)) {
     map.addSource(id, {
       type: 'geojson',

@@ -215,7 +215,11 @@ export function buildProjects() {
   const sources: Sources = {
     categories: readSource('project-categories.json'),
     committee: new Set(readSource<number[]>('committee-projects.json')),
-    locations: readSource('project-locations.json'),
+    // 配置図の企画一覧に載らない企画（実行委員会の企画など）の場所は、手で書いた元データで足す。
+    locations: {
+      ...readSource<Sources['locations']>('project-locations.json'),
+      ...readSource<Sources['locations']>('manual-locations.json'),
+    },
     stages: readSource('stage-projects.json'),
     timetable: readSource('stage-timetable.json'),
   };
