@@ -570,6 +570,9 @@ export function addCampusLayers(map: MlMap) {
       'text-anchor': 'left',
       'text-offset': [0.8, 0],
       'text-max-width': 12,
+      // 複数の企画が並ぶラベルは行が多く、隣のテントと重なると間引かれやすい。
+      // どの企画もあることを伝えたいため、企画の多いテントから先に置く。
+      'symbol-sort-key': ['-', ['get', 'count']],
     },
     paint: textPaint,
   });

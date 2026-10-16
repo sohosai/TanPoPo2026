@@ -11,6 +11,12 @@ export function formatSchedule(days: ScheduleDay[]): string {
   return days.map((day) => DAY_LABELS[day]).join('・');
 }
 
+const DAY_ORDER = Object.keys(DAY_LABELS) as ScheduleDay[];
+
+/** 実施日の早い順（最初の実施日で比べる）。日替わりで同じ場所を使う企画を時系列に並べる。 */
+export const compareSchedule = (a: ScheduleDay[], b: ScheduleDay[]) =>
+  DAY_ORDER.indexOf(a[0]) - DAY_ORDER.indexOf(b[0]);
+
 /** 出演枠の時間（例 "1日目 10:00〜10:35"）。 */
 export const formatPerformance = ({ day, start, end }: Performance) =>
   `${DAY_LABELS[day]} ${start}〜${end}`;
