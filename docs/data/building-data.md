@@ -67,13 +67,14 @@ type Place = {
 ```
 
 - 「その建物に接続する道」は `placeId` で明示される（座標の近さに依存しない）。
-- web では `apps/web/app/components/features/Map/paths.ts` の `pathNetwork` として読み込む（現状は `?debug` の表示だけが使う）。
+- web では読み込んでいない（`bun run check:map-data` の検証と、OSM からの取り込みスクリプトが使う）。
 
 ## 参照・表示の流れ
 
 - 取得: `apps/web/app/lib/places.ts` の `usePlaces()` が `place.list` を購読し `id → Place` の Map を作る。
 - 表示ラベル: `formatProjectLocation(project)` が建物名＋部屋番号（例 "5C305"）に整形する。
-- 地図デバッグ表示: URL に `?debug` を付けると、建物ポリゴン・通路・入口（緑）・ノードが地図に重なる（`apps/web/app/components/features/Map/debugLayers.ts`）。
+- 地図デバッグ表示: URL に `?debug` を付けると、建物ポリゴンと建物コードが地図に重なる（`apps/web/app/components/features/Map/debugLayers.ts`）。
+  あわせて地図右下に航空写真の切り替えボタンが出る。航空写真は国土地理院のシームレス空中写真（地理院タイル）で、背景の地図を覆い、会場の図形（建物・テント・通路）の下に敷くため、図形の位置を写真と見比べられる。
 
 ```
 place.ts ──place.list──> usePlaces() ──> 一覧/詳細/検索/地図フォーカス
@@ -126,7 +127,7 @@ project-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
 6. **確認**
    - データ整合性: `bun run check:map-data`（id 重複・placeId 参照切れ・座標の取り違え・osmId と階数・通路の連結性などを検査）
    - 型チェック: `bun run check`
-   - 目視: `bun run dev` → `http://localhost:5173/?debug` で建物・入口が表示されるか
+   - 目視: `bun run dev` → `http://localhost:5173/?debug` で建物が表示されるか
    - 検索: 建物名（"7A"）や表示ラベル（"7A101"）でヒットするか。
 
 ## 注意点

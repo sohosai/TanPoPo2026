@@ -5,7 +5,7 @@ import { useIsEmbed } from '~/lib/embed';
 import { css } from '../../../../styled-system/css';
 import { BUILDING_FLAT_SOURCE } from './campusStyle';
 import hiddenBaseBuildingsRaw from './data/hidden-base-buildings.geojson?raw';
-import { addDebugLayers } from './debugLayers';
+import { addDebugLayers, isMapDebug } from './debugLayers';
 import { INITIAL_VIEW, useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
 
@@ -105,10 +105,7 @@ export default function MapView() {
     resetView(0);
 
     // デバッグ用：URL に ?debug があるときだけ建物・通路データを重ねる。
-    const debugEnabled = new URLSearchParams(window.location.search).has(
-      'debug',
-    );
-    if (debugEnabled) {
+    if (isMapDebug()) {
       const showDebug = () => addDebugLayers(instance);
       if (instance.isStyleLoaded()) {
         showDebug();

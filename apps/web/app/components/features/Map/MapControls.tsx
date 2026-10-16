@@ -3,6 +3,8 @@ import {
   IconCurrentLocationFilled,
   IconHome,
   IconLoader2,
+  IconMap,
+  IconSatellite,
 } from '@tabler/icons-react';
 import maplibregl from 'maplibre-gl';
 import { type Ref, useEffect, useRef, useState } from 'react';
@@ -15,6 +17,7 @@ import {
 } from '~/lib/geolocation';
 import { useIsDesktop } from '~/lib/viewport';
 import { css, cx } from '../../../../styled-system/css';
+import { isMapDebug, setAerialVisible } from './debugLayers';
 import LocationPermissionDialog, {
   type LocationDialogKind,
 } from './LocationPermissionDialog';
@@ -291,6 +294,7 @@ export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
           {message}
         </p>
       )}
+      {isMapDebug() && !isEmbed && <AerialToggle />}
       <button
         type="button"
         onClick={goHome}
@@ -338,5 +342,33 @@ export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
         </button>
       </div>
     </div>
+  );
+}
+
+/** デバッグ表示（`?debug`）でだけ出す、航空写真と地図の切り替えボタン。 */
+function AerialToggle() {
+  const { getMap } = useMap();
+  const [aerial, setAerial] = useState(false);
+
+  const toggle = () => {
+    const map = getMap();
+    if (!map) return;
+    setAerialVisible(map, !aerial);
+    setAerial(!aerial);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={aerial ? '地図に切り替える' : '航空写真に切り替える'}
+      aria-pressed={aerial}
+      className={cx(
+        roundButton,
+        css({ '&[aria-pressed=true]': { color: 'accent.text' } }),
+      )}
+    >
+      {aerial ? <IconMap size={22} /> : <IconSatellite size={22} />}
+    </button>
   );
 }
