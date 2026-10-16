@@ -25,6 +25,7 @@ import {
 } from '~/components/features/Project/StateMessage';
 import { useFilteredProjects } from '~/components/features/Project/useFilteredProjects';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
+import { LINE_LOGIN_ENABLED } from '~/lib/auth';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
@@ -87,7 +88,9 @@ export default function List() {
 
   const scroll = useListScroll(projects !== undefined);
 
-  const showBanner = !hasActiveFilter(criteria) && criteria.q === '';
+  const unfiltered = !hasActiveFilter(criteria) && criteria.q === '';
+  // グランプリ投票・来場者アンケートの導線。どちらも LINE ログインを使う。
+  const showBanner = LINE_LOGIN_ENABLED && unfiltered;
   const enterProps = (index: number) =>
     entering
       ? { className: itemEnterStyles, style: itemEnterStyle(index) }
@@ -105,7 +108,7 @@ export default function List() {
         criteria={criteria}
         onChange={updateCriteria}
         count={visibleProjects.length}
-        showSummary={!showBanner && projects !== undefined}
+        showSummary={!unfiltered && projects !== undefined}
       />
 
       <div
