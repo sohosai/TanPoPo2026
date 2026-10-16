@@ -1,18 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { isEmbedPath } from './embed';
-import { detectInAppBrowser, isIos } from './geolocation';
 
-/**
- * ホーム画面への追加の方法。
- * `prompt`: ブラウザの確認を出せる（Chromium 系）。`ios`: 共有メニューから手で追加する。
- * `in-app`: アプリ内ブラウザのため、標準のブラウザで開き直す必要がある。
- */
-export type InstallMethod = 'prompt' | 'ios' | 'in-app';
-
-type BeforeInstallPromptEvent = Event & { prompt(): Promise<void> };
-
-let installPrompt: BeforeInstallPromptEvent | null = null;
-let installed = false;
 let waitingWorker: ServiceWorker | null = null;
 const listeners = new Set<() => void>();
 
@@ -25,22 +13,6 @@ function subscribe(listener: () => void): () => void {
   return () => {
     listeners.delete(listener);
   };
-}
-
-function isStandalone(): boolean {
-  return (
-    matchMedia('(display-mode: standalone)').matches ||
-    // iOS の Safari は display-mode を返さず、独自のプロパティで示す。
-    (navigator as { standalone?: boolean }).standalone === true
-  );
-}
-
-function installMethod(): InstallMethod | null {
-  if (installed || isStandalone()) return null;
-  if (installPrompt) return 'prompt';
-  if (detectInAppBrowser()) return 'in-app';
-  if (isIos(navigator.userAgent)) return 'ios';
-  return null;
 }
 
 async function registerServiceWorker() {
@@ -74,15 +46,6 @@ async function registerServiceWorker() {
 }
 
 if (typeof window !== 'undefined') {
-  window.addEventListener('beforeinstallprompt', (event) => {
-    installPrompt = event as BeforeInstallPromptEvent;
-    emit();
-  });
-  window.addEventListener('appinstalled', () => {
-    installed = true;
-    installPrompt = null;
-    emit();
-  });
   window.addEventListener('online', emit);
   window.addEventListener('offline', emit);
 
@@ -96,26 +59,6 @@ if (typeof window !== 'undefined') {
       console.warn('Service Worker を登録できませんでした。', error);
     });
   }
-}
-
-export function useInstallMethod(): InstallMethod | null {
-  return useSyncExternalStore(subscribe, installMethod, () => null);
-}
-
-/** ブラウザのインストール確認を出す。ユーザー操作の中で呼ぶ。 */
-export async function promptInstall(): Promise<boolean> {
-  const prompt = installPrompt;
-  if (!prompt) return false;
-  try {
-    await prompt.prompt();
-  } catch {
-    // 確認を出せなかったときは、ボタンを残してメニューからの手順を案内する。
-    return false;
-  }
-  // 一度出した確認は使い回せない。断られても、ブラウザが次に発火するまで出せない。
-  installPrompt = null;
-  emit();
-  return true;
 }
 
 /** 新しい版がダウンロード済みで、切り替えを待っているか。 */
