@@ -8,7 +8,9 @@ export const SosStaticProjectSchema = z.object({
   id: z.string(),
   number: z.number().int(),
   name: z.string(),
+  namePhonetic: z.string().optional(),
   organizationName: z.string(),
+  organizationNamePhonetic: z.string().optional(),
   type: z.enum(['STAGE', 'FOOD', 'NORMAL']),
   location: z.enum(['INDOOR', 'OUTDOOR', 'STAGE']),
   publicInfo: z.object({

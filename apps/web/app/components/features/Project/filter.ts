@@ -7,7 +7,7 @@ export type SearchableProject = Project & { description?: string };
 
 /** 検索語との比較用に正規化した、企画ごとの文字列。 */
 type SearchText = {
-  /** 企画名・団体名・場所 */
+  /** 企画名・団体名（それぞれのよみがなを含む）・場所 */
   primary: string;
   description: string;
 };
@@ -43,6 +43,13 @@ function normalize(text: string): string {
     .replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60));
 }
 
+// SOS のよみがなは語の間に空白が入る（「こぴかつ そうほうさいの…」）。続けて打っても引けるよう、
+// 空白を除いたものも並べる。
+const readingTerms = (reading: string) => [
+  reading,
+  reading.replace(/\s+/g, ''),
+];
+
 /**
  * 企画ごとの検索用の文字列を作る。
  * 場所は場所名・よみがなに加え、"1B208" のような表示ラベルでも引ける。
@@ -63,7 +70,13 @@ export function buildSearchIndex(
         project,
         {
           primary: normalize(
-            [project.name, project.organization, ...placeTerms].join(' '),
+            [
+              project.name,
+              project.organization,
+              ...readingTerms(project.nameReading),
+              ...readingTerms(project.organizationReading),
+              ...placeTerms,
+            ].join(' '),
           ),
           description: normalize(project.description ?? ''),
         },

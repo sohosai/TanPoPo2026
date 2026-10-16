@@ -3,7 +3,9 @@
     "id": "cmo6fjrq8002kqx01h8sfve0t",
     "number": 1,
     "name": "jsys25ごはん",
+    "namePhonetic": "じぇーしすにーごーごはん",
     "organizationName": "jsys25",
+    "organizationNamePhonetic": "じぇーしすにーごー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -18,7 +20,9 @@
     "id": "cmo6fkumx0035qx01xtg86x7u",
     "number": 2,
     "name": "コピカツ！~雙峰祭のSTARWAY~",
+    "namePhonetic": "こぴかつ そうほうさいのすたーうぇい",
     "organizationName": "現代視覚文化研究会振りコピ班",
+    "organizationNamePhonetic": "げんだいしかくぶんかけんきゅうかいふりこぴはん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -35,7 +39,9 @@
     "id": "cmo6fsl1v003jqx015kkqjjwz",
     "number": 3,
     "name": "ＣＲＡＦＴ展",
+    "namePhonetic": "くらふとてん",
     "organizationName": "筑波大学工芸領域",
+    "organizationNamePhonetic": "つくばだいがくこうげいりょういき",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -50,7 +56,9 @@
     "id": "cmo6fv5jt003xqx01f6876cmo",
     "number": 4,
     "name": "アンデスの音楽会",
+    "namePhonetic": "あんですのおんがくかい",
     "organizationName": "筑波大学フォルクローレ愛好会",
+    "organizationNamePhonetic": "つくばだいがくふぉるくろーれあいこうかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -65,7 +73,9 @@
     "id": "cmo6g3g83004hqx01410wj7f8",
     "number": 5,
     "name": "アンプラグド弾き語りライブ",
+    "namePhonetic": "あんぷらぐどひきがたりらいぶ",
     "organizationName": "弾き語りクラブアンプラグド",
+    "organizationNamePhonetic": "ひきがたりくらぶあんぷらぐど",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -80,7 +90,9 @@
     "id": "cmo6jb3pa00bjqx01w7fxrd3b",
     "number": 6,
     "name": "CRAFT店",
+    "namePhonetic": "くらふとみせ",
     "organizationName": "工芸ゼミ",
+    "organizationNamePhonetic": "こうげいぜみ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -95,7 +107,9 @@
     "id": "cmo6kknut00gbqx01dcefsy1h",
     "number": 7,
     "name": "雙峰祭グランプリ2026",
+    "namePhonetic": "そうほうさいぐらんぷり",
     "organizationName": "筑波大学学園祭実行委員会本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかいほんぶきかくきょく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -110,7 +124,9 @@
     "id": "cmo6lgnco00gzqx01p0zz1zv1",
     "number": 8,
     "name": "松美池ライトアップ",
+    "namePhonetic": "まつみいけらいとあっぷ",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -125,7 +141,9 @@
     "id": "cmo6liyhx0001nw01gai4xm5o",
     "number": 9,
     "name": "つくばイチ受けたい授業",
+    "namePhonetic": "つくばいちうけたいじゅぎょう",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -140,7 +158,9 @@
     "id": "cmo6mffkz000lnw01mf2sixlr",
     "number": 10,
     "name": "芸術祭 クリエイティブオフィス",
+    "namePhonetic": "げいじゅつさい くりえいてぃぶおふぃす",
     "organizationName": "芸術祭実行委員会クリエイティブ班",
+    "organizationNamePhonetic": "げいじゅつさいじっこういいんかいくりえいてぃぶはん",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -155,7 +175,9 @@
     "id": "cmo6mz9mc0010nw01l9zwmyw2",
     "number": 11,
     "name": "ぱんかふぇBenchTime",
+    "namePhonetic": "ぱんかふぇべんちたいむ",
     "organizationName": "Bench Time",
+    "organizationNamePhonetic": "べんち たいむ",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -170,7 +192,9 @@
     "id": "cmo6oqott003fnw013ujndhgf",
     "number": 14,
     "name": "Bombs! 学祭公演vol.6",
+    "namePhonetic": "ぼむずがくさいこうえんぼりゅーむしっくす",
     "organizationName": "アイドル研究会",
+    "organizationNamePhonetic": "あいどるけんきゅうかい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -185,7 +209,9 @@
     "id": "cmo6pn5j6005dnw01rxqgdzzp",
     "number": 15,
     "name": "情報科学特別演習",
+    "namePhonetic": "じょうほうかがくとくべつえんしゅう",
     "organizationName": "情報科学類ＰＩＳ研",
+    "organizationNamePhonetic": "じょうほうかがくるいぴーあいえすけん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -200,7 +226,9 @@
     "id": "cmo6prdb0005vnw01du70qv4p",
     "number": 16,
     "name": "管弦café",
+    "namePhonetic": "かんげんかふぇ",
     "organizationName": "管弦楽団",
+    "organizationNamePhonetic": "かんげんがくだん",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -215,7 +243,9 @@
     "id": "cmo6pxtun0069nw01iizswiw0",
     "number": 17,
     "name": "受験応援",
+    "namePhonetic": "じゅけんおうえん",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -230,7 +260,9 @@
     "id": "cmo6q6qxl006mnw01kpp4hhea",
     "number": 18,
     "name": "謎解き脱出ゲーム",
+    "namePhonetic": "なぞときだっしゅつげーむ",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -245,7 +277,9 @@
     "id": "cmo6q7p9g006wnw017mviw7hl",
     "number": 19,
     "name": "実験教室",
+    "namePhonetic": "じっけんきょうしつ",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -260,7 +294,9 @@
     "id": "cmo6rxrsc00eznw014pfaw387",
     "number": 21,
     "name": "樽酒振る舞い",
+    "namePhonetic": "たるざけふるまい",
     "organizationName": "筑波大学学園祭実行委員会本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかいほんぶきかくきょく",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -275,7 +311,9 @@
     "id": "cmo6st13w00finw01w0ufd1au",
     "number": 22,
     "name": "つくばぬいぐるみ病院〜お医者さんごっこ〜",
+    "namePhonetic": "つくばぬいぐるみびょういん　おいしゃさんごっこ",
     "organizationName": "つくばぬいぐるみ病院",
+    "organizationNamePhonetic": "つくばぬいぐるみびょういん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -290,7 +328,9 @@
     "id": "cmo6uktuu001fjq012hx9p96v",
     "number": 23,
     "name": "モニュメント・イルミネーション",
+    "namePhonetic": "もにゅめんと・いるみねーしょん",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -305,7 +345,9 @@
     "id": "cmo6v1rln002qjq017zu5sjlg",
     "number": 24,
     "name": "夜祭パフォーマンスショー",
+    "namePhonetic": "やさいぱふぉーまんすしょー",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじこういいんかい　ほんぶきかくきょく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -320,7 +362,9 @@
     "id": "cmo6x2hy4004njq01bz3d9dz4",
     "number": 25,
     "name": "めじろ色のギャラリーショップ",
+    "namePhonetic": "めじろいろのぎゃらりーしょっぷ",
     "organizationName": "めじろ色とゆきだるま",
+    "organizationNamePhonetic": "めじろいろとゆきだるま",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -335,7 +379,9 @@
     "id": "cmo6y4yrb00afjq01q9y8yj96",
     "number": 26,
     "name": "つくばお笑いライブ2026",
+    "namePhonetic": "つくばおわらいらいぶにせんにじゅうろく",
     "organizationName": "筑波大学学園祭実行委員会本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかいほんぶきかくきょく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -350,7 +396,9 @@
     "id": "cmo6zze6d00bnjq010044z42g",
     "number": 27,
     "name": "ULISオムそばぁーれい",
+    "namePhonetic": "ゆーりすおむそばぁーれい",
     "organizationName": "ULISバレーボール部",
+    "organizationNamePhonetic": "ゆーりすばれーぼーるぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -365,7 +413,9 @@
     "id": "cmo7262np00fnjq01lquee3lw",
     "number": 28,
     "name": "パンケーキの森",
+    "namePhonetic": "ぱんけーきのもり",
     "organizationName": "緑地環境研究室",
+    "organizationNamePhonetic": "りょくちかんきょうけんきゅうしつ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -380,7 +430,9 @@
     "id": "cmo73brte00gajq01kia0g4pw",
     "number": 30,
     "name": "つくば市コラボ企画",
+    "namePhonetic": "つくばしこらぼきかく",
     "organizationName": "筑波大学学園祭実行委員会　本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -395,7 +447,9 @@
     "id": "cmo74uaou00h8jq01a1iqn5gc",
     "number": 31,
     "name": "ミュージカル集団ESSASSA雙峰祭公演",
+    "namePhonetic": "みゅーじかるしゅうだんえっさっさそうほうさいこうえん",
     "organizationName": "筑波大学ミュージカル集団ESSASSA",
+    "organizationNamePhonetic": "つくばだいがくみゅーじかるしゅうだんえっさっさ",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -410,7 +464,9 @@
     "id": "cmo779y7b00j2jq01eyw3n0o1",
     "number": 33,
     "name": "つくば地球の博物館",
+    "namePhonetic": "つくばちきゅうのはくぶつかん",
     "organizationName": "ジオネットアース",
+    "organizationNamePhonetic": "じおねっとあーす",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -425,7 +481,9 @@
     "id": "cmo79pexn00pkjq01fl1uyban",
     "number": 46,
     "name": "一筆どうでしょう",
+    "namePhonetic": "いっぴつどうでしょう",
     "organizationName": "書領域",
+    "organizationNamePhonetic": "しょりょういき",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -440,7 +498,9 @@
     "id": "cmo7aeusn00s0jq018xkod8in",
     "number": 47,
     "name": "空想科学卓上遊戯 劇場版",
+    "namePhonetic": "こずみっくちぇっくめいと げきじょうばん",
     "organizationName": "SF研究会アルビレオ",
+    "organizationNamePhonetic": "えすえふけんきゅうかいあるびれお",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -455,7 +515,9 @@
     "id": "cmo7u2jhc0104jq01b0hjgr1n",
     "number": 50,
     "name": "Doo-WopアカペラUNITEDステージ",
+    "namePhonetic": "どぅーわっぷあかぺらゆないてっどすてーじ",
     "organizationName": "アカペラサークルDoo-Wop",
+    "organizationNamePhonetic": "あかぺらさーくるどぅーわっぷ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -470,7 +532,9 @@
     "id": "cmo7xxbgz0001oy0178guqwxp",
     "number": 51,
     "name": "エイサー",
+    "namePhonetic": "えいさー",
     "organizationName": "筑波大学沖縄県人会",
+    "organizationNamePhonetic": "つくばだいがくおきなわけんじんかい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -485,7 +549,9 @@
     "id": "cmo82iyix003loy015lpjh1wx",
     "number": 52,
     "name": "つくばフォーク村UNITEDステージ",
+    "namePhonetic": "つくばふぉーくむらゆないてっどすてーじ",
     "organizationName": "つくばフォーク村",
+    "organizationNamePhonetic": "つくばふぉーくむら",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -500,7 +566,9 @@
     "id": "cmo83or8z003voy01t1o9up4d",
     "number": 53,
     "name": "つくば現代短歌会",
+    "namePhonetic": "つくばげんだいたんかかい",
     "organizationName": "つくば現代短歌会",
+    "organizationNamePhonetic": "つくばげんだいたんかかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -515,7 +583,9 @@
     "id": "cmo84q58m0084oy016s0cyy2k",
     "number": 54,
     "name": "Scrambleダンスステージ",
+    "namePhonetic": "すくらんぶるだんすすてーじ",
     "organizationName": "医学ダンスサークルScramble",
+    "organizationNamePhonetic": "いがくだんすさーくるすくらんぶる",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -530,7 +600,9 @@
     "id": "cmo85jvjh0003px01i98cqcnf",
     "number": 55,
     "name": "openfab創房",
+    "namePhonetic": "おーぷんふぁぶそうぼう",
     "organizationName": "openfab創房インストラクタ有志",
+    "organizationNamePhonetic": "おーぷんふぁぶそうぼういんすとらくたゆうし",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -545,7 +617,9 @@
     "id": "cmo85v3np001ipx01emz8nngx",
     "number": 56,
     "name": "雙峰祭書展",
+    "namePhonetic": "そうほうさいしょてん",
     "organizationName": "芸術専門学群美術専攻書領域",
+    "organizationNamePhonetic": "げいじゅつせんもんがくぐんびじゅつせんこうしょりょういき",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -560,7 +634,9 @@
     "id": "cmo87086c002fpx01wssg39zl",
     "number": 57,
     "name": "SUN基地～1本でととのう焼き鳥～",
+    "namePhonetic": "さんきちいっぽんでととのうやきとり",
     "organizationName": "筑波大学の友人の集まり",
+    "organizationNamePhonetic": "つくばだいがくのゆうじんのあつまり",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -575,7 +651,9 @@
     "id": "cmo8b31eq00cvpx01gwkrzuh3",
     "number": 59,
     "name": "ふわふわ！メロンパンアイス",
+    "namePhonetic": "ふわふわめろんぱんあいす",
     "organizationName": "パワーエレクトロニクス研究室",
+    "organizationNamePhonetic": "ぱわーえれくとろにくすけんきゅうしつ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -590,7 +668,9 @@
     "id": "cmo8br4j200hopx01x7x299y4",
     "number": 60,
     "name": "フルーツlab",
+    "namePhonetic": "ふるーつらぼ",
     "organizationName": "山本研",
+    "organizationNamePhonetic": "やまもとけん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -605,7 +685,9 @@
     "id": "cmo8buqkj00iipx01jdpn4wul",
     "number": 61,
     "name": "ねっしーの広場",
+    "namePhonetic": "ねっしーのひろば",
     "organizationName": "ねっしー・自然教育研究会",
+    "organizationNamePhonetic": "ねっしー・しぜんきょういくけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -620,7 +702,9 @@
     "id": "cmo8fqkam00rkpx010u1qqpx3",
     "number": 63,
     "name": "高大連携シンポジウム",
+    "namePhonetic": "こうだいれんけいしんぽじうむ",
     "organizationName": "都市計測実験室・数理最適化研究室",
+    "organizationNamePhonetic": "としけいそくじっけんしつ・すうりさいてきかじっけんしつ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -635,7 +719,9 @@
     "id": "cmo8fqkt200rspx01djabg7hh",
     "number": 64,
     "name": "Tsukuba Trends",
+    "namePhonetic": "つくばとれんず",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -650,7 +736,9 @@
     "id": "cmo8h599r00w9px01dibzv6zh",
     "number": 65,
     "name": "Lonka",
+    "namePhonetic": "ろんか",
     "organizationName": "インドワークキャンプ団体namaste!",
+    "organizationNamePhonetic": "いんどわーくきゃんぷだんたいなますて",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -667,7 +755,9 @@
     "id": "cmo8h5mp000whpx017ctdsjgz",
     "number": 66,
     "name": "ViCC 実写・アニメーション　上映会",
+    "namePhonetic": "ゔぃっく じっしゃ・あにめーしょん　じょうえいかい",
     "organizationName": "ViCC-映画をつくる会-",
+    "organizationNamePhonetic": "ゔぃっくえいがをつくるかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -682,7 +772,9 @@
     "id": "cmo8ii4ks011wpx01vqc1qq0g",
     "number": 67,
     "name": "筑波音楽協会雙峰祭ステージ",
+    "namePhonetic": "つくばおんがくきょうかいそうほうさいすてーじ",
     "organizationName": "筑波音楽協会",
+    "organizationNamePhonetic": "つくばおんがくきょうかい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -697,7 +789,9 @@
     "id": "cmo8j0yl7016ipx012w6g5w1m",
     "number": 68,
     "name": "食べタイ！ラーメン",
+    "namePhonetic": "たべたいらーめん",
     "organizationName": "筑波大学タイ学生会",
+    "organizationNamePhonetic": "つくばだいがくたいがくせいかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -712,7 +806,9 @@
     "id": "cmo8p8pil002whm01kodhsyzw",
     "number": 69,
     "name": "コピカツ！~振りコピ班踊ってみたSTAGE~",
+    "namePhonetic": "こぴかつ ふりこぴはんおどってみたすてーじ",
     "organizationName": "現代視覚文化研究会振りコピ班",
+    "organizationNamePhonetic": "げんだいしかくぶんかけんきゅうかいふりこぴはん",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -727,7 +823,9 @@
     "id": "cmo9azg6n004khm01ghqzcxqs",
     "number": 71,
     "name": "筑波スポーツフェス（ゴールボール、展示）",
+    "namePhonetic": "つくばすぽーつふぇすごーるぼーるてんじ",
     "organizationName": "筑波大学体育スポーツ局",
+    "organizationNamePhonetic": "つくばだいがくたいいくすぽーつきょく",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -742,7 +840,9 @@
     "id": "cmo9c0le30081hm01lyp3kwxz",
     "number": 72,
     "name": "芸術祭 オープンキャンパス",
+    "namePhonetic": "げいじゅつさい おーぷんきゃんぱす",
     "organizationName": "芸術祭実行委員会オープンキャンパス班",
+    "organizationNamePhonetic": "げいじゅつさいじっこういいんかいおーぷんきゃんぱすはん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -757,7 +857,9 @@
     "id": "cmo9d7e4900ekhm01xancezrk",
     "number": 73,
     "name": "ライブペイント",
+    "namePhonetic": "らいぶぺいんと",
     "organizationName": "浅葱&イソジン",
+    "organizationNamePhonetic": "あさぎ あんど いそじん",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -772,7 +874,9 @@
     "id": "cmo9dztpd00iihm014jpsr207",
     "number": 74,
     "name": "LGBTQ+の「時間感覚」展",
+    "namePhonetic": "えるじーびーてぃーきゅーぷらすのじかんかんかくてん",
     "organizationName": "BHEジェンダー支援チーム",
+    "organizationNamePhonetic": "びーえいちいーじぇんだーしえんちーむ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -787,7 +891,9 @@
     "id": "cmo9kp34000xchm016pfhfibz",
     "number": 75,
     "name": "芸術祭 ワークショップ",
+    "namePhonetic": "げいじゅつさい わーくしょっぷ",
     "organizationName": "芸術祭実行委員会ワークショップ班",
+    "organizationNamePhonetic": "げいじゅつさいじっこういいんかいわーくしょっぷはん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -802,7 +908,9 @@
     "id": "cmo9maxo1010bhm01m5renry3",
     "number": 76,
     "name": "写真部さくら組写真展",
+    "namePhonetic": "しゃしんぶさくらぐみしゃしんてん",
     "organizationName": "写真部さくら組",
+    "organizationNamePhonetic": "しゃしんぶさくらぐみ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -817,7 +925,9 @@
     "id": "cmo9ox191015ghm01653xl1wz",
     "number": 77,
     "name": "Study with me! JV-Campus",
+    "namePhonetic": "すたでぃうぃずみー　じぇーぶいきゃんぱす",
     "organizationName": "JV-Campus連携室",
+    "organizationNamePhonetic": "じぇーぶいきゃんぱすれんけいしつ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -832,7 +942,9 @@
     "id": "cmo9suwgb0181hm01ky01jji9",
     "number": 78,
     "name": "トルコで潜ってきました？ケバブダイバーズ",
+    "namePhonetic": "とるこでもぐってきましたけばぶだいばーず",
     "organizationName": "Diving Partner",
+    "organizationNamePhonetic": "だいびんぐぱーとなー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -847,7 +959,9 @@
     "id": "cmo9ta5r5019ihm01qdh8wa02",
     "number": 79,
     "name": "推進音楽隊による雙峰祭ライブ",
+    "namePhonetic": "すいしんおんがくたいによるそうほうさいらいぶ",
     "organizationName": "Unlimited SS",
+    "organizationNamePhonetic": "あんりみてっどえすえす",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -862,7 +976,9 @@
     "id": "cmo9wgwte01hjhm01irvgt37m",
     "number": 80,
     "name": "Irish Café Shamrock",
+    "namePhonetic": "あいりっしゅかふぇしゃむろっく",
     "organizationName": "筑波大学ケルト音楽愛好会T-Celt",
+    "organizationNamePhonetic": "つくばだいがくけるとおんがくあいこうかいてぃーけると",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -877,7 +993,9 @@
     "id": "cmoapjc3k01sdhm01oc5wlmt0",
     "number": 82,
     "name": "ぷくぷくティラミス",
+    "namePhonetic": "ぷくぷくてぃらみす",
     "organizationName": "プクプクの3年生",
+    "organizationNamePhonetic": "ぷくぷくのさんねんせい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -892,7 +1010,9 @@
     "id": "cmoarfa0i01t5hm01nf8vowdi",
     "number": 83,
     "name": "広島風お好み焼き",
+    "namePhonetic": "ひろしまふうおこのみやき",
     "organizationName": "広島県人会",
+    "organizationNamePhonetic": "ひろしまけんじんかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -907,7 +1027,9 @@
     "id": "cmoarlsu801tlhm01usmj0mpp",
     "number": 84,
     "name": "応援させてください！",
+    "namePhonetic": "おうえんさせてください",
     "organizationName": "筑波大学応援部WINS",
+    "organizationNamePhonetic": "つくばだいがくおうえんぶうぃんず",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -925,7 +1047,9 @@
     "id": "cmob68y7x007ejr01xifa0htk",
     "number": 86,
     "name": "カカオ、来た！",
+    "namePhonetic": "かかおきた",
     "organizationName": "国際総合学類・海外研修Ⅰ",
+    "organizationNamePhonetic": "こくさいそうごうがくるいかいがいけんしゅういち",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -940,7 +1064,9 @@
     "id": "cmob7l7gb007vjr01mq0hps6e",
     "number": 87,
     "name": "ダブルダッチ",
+    "namePhonetic": "だぶるだっち",
     "organizationName": "purplume",
+    "organizationNamePhonetic": "ぱーぷるーむ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -955,7 +1081,9 @@
     "id": "cmob7vbjc009djr01acge8h0b",
     "number": 88,
     "name": "版画展",
+    "namePhonetic": "はんがてん",
     "organizationName": "筑波大学版画領域",
+    "organizationNamePhonetic": "つくばだいがくはんがりょういき",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -970,7 +1098,9 @@
     "id": "cmob90qg500cejr01b16ktew5",
     "number": 89,
     "name": "Open Esys作品展示",
+    "namePhonetic": "おーぷんいーしすさくひんてんじ",
     "organizationName": "Open Esys",
+    "organizationNamePhonetic": "おーぷんいーしす",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -985,7 +1115,9 @@
     "id": "cmobamzpo00fdjr01dkws9nmh",
     "number": 90,
     "name": "的中団子",
+    "namePhonetic": "てきちゅうだんご",
     "organizationName": "弓道同好会春霞",
+    "organizationNamePhonetic": "きゅうどうどうこうかいかすが",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1000,7 +1132,9 @@
     "id": "cmobd1lyw00pkjr0133qavnxf",
     "number": 91,
     "name": "極限量子の最前線",
+    "namePhonetic": "きょくげんりょうしのさいぜんせん",
     "organizationName": "物理学域　素核宇宙",
+    "organizationNamePhonetic": "ぶつりがくいき　そかくうちゅう",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1015,7 +1149,9 @@
     "id": "cmobdq4lr00svjr01ezg0rkd8",
     "number": 92,
     "name": "邦楽部和楽器コンサート",
+    "namePhonetic": "ほうがくぶわがっきこんさーと",
     "organizationName": "筑波大学邦楽部",
+    "organizationNamePhonetic": "つくばだいがくほうがくぶ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1030,7 +1166,9 @@
     "id": "cmobf6y2600ufjr01bto8tu2r",
     "number": 93,
     "name": "声優班トークショーイベント",
+    "namePhonetic": "せいゆうはんとーくしょーいべんと",
     "organizationName": "現代視覚文化研究会声優班",
+    "organizationNamePhonetic": "げんだいしかくぶんかけんきゅうかいせいゆうはん",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1045,7 +1183,9 @@
     "id": "cmobgiwa600v2jr01vh52j9yg",
     "number": 94,
     "name": "劇団筑波小劇場",
+    "namePhonetic": "げきだんつくばしょうげきじょう",
     "organizationName": "劇団筑波小劇場",
+    "organizationNamePhonetic": "げきだんつくばしょうげきじょう",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1060,7 +1200,9 @@
     "id": "cmobl9lbs00vljr01kfyh7qkn",
     "number": 95,
     "name": "みれい×みんアイドルコピーダンスステージ",
+    "namePhonetic": "みれいかけるみん あいどるこぴーだんすすてーじ",
     "organizationName": "みれみん",
+    "organizationNamePhonetic": "みれみん",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1075,7 +1217,9 @@
     "id": "cmoc7rsba011ujr01jdu9a7p9",
     "number": 96,
     "name": "アンプラグドのスモア屋さん",
+    "namePhonetic": "あんぷらぐどのすもあやさん",
     "organizationName": "弾き語りクラブ「アンプラグド」",
+    "organizationNamePhonetic": "ひきがたりくらぶあんぷらぐど",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1090,7 +1234,9 @@
     "id": "cmocb5obr01b6jr01zuune37f",
     "number": 97,
     "name": "つくちり2026",
+    "namePhonetic": "つくちりにせんにじゅうろく",
     "organizationName": "筑波大学地理愛好会",
+    "organizationNamePhonetic": "つくばだいがくちりあいこうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1105,7 +1251,9 @@
     "id": "cmocg3ivi01j4jr01hfhji6it",
     "number": 98,
     "name": "応援部WINSステージパフォーマンス",
+    "namePhonetic": "おうえんぶうぃんずすてーじぱふぉーまんす",
     "organizationName": "筑波大学応援部WINS",
+    "organizationNamePhonetic": "つくばだいがくおうえんぶうぃんず",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1120,7 +1268,9 @@
     "id": "cmockp4o901ngjr01o8yiezip",
     "number": 99,
     "name": "なまずの唐揚げ ",
+    "namePhonetic": "なまずのからあげ",
     "organizationName": "筑波マリンダイビングクラブ",
+    "organizationNamePhonetic": "つくばまりんだいびんぐくらぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1135,7 +1285,9 @@
     "id": "cmoclrlqo01sfjr01jasb2z5d",
     "number": 100,
     "name": "ITF！プロジェクト：ゲームメモリアル展",
+    "namePhonetic": "あいてぃーえふぷろじぇくとげーむめもりあるてん",
     "organizationName": "ITF！プロジェクト",
+    "organizationNamePhonetic": "あいてぃーえふぷろじぇくと",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1150,7 +1302,9 @@
     "id": "cmoclyttp01vsjr01rm710c5w",
     "number": 101,
     "name": "筑波大学合唱団むくどり雙峰祭ステージ",
+    "namePhonetic": "つくばだいがくがっしょうだんむくどりそうほうさいすてーじ",
     "organizationName": "筑波大学合唱団むくどり",
+    "organizationNamePhonetic": "つくばだいがくがっしょうだんむくどり",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1165,7 +1319,9 @@
     "id": "cmocpziod026zjr0141f1kkaq",
     "number": 102,
     "name": "筑大寄席２０２６",
+    "namePhonetic": "つくだいよせにせんにじゅうろく",
     "organizationName": "筑波大学落語研究会",
+    "organizationNamePhonetic": "つくばだいがくらくごけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1180,7 +1336,9 @@
     "id": "cmoctr58402wqjr01uju9nwm7",
     "number": 103,
     "name": "九州人会・うまかっちゃん焼きラーメン",
+    "namePhonetic": "きゅうしゅうじんかい・うまかっちゃんやきらーめん",
     "organizationName": "九州人会",
+    "organizationNamePhonetic": "きゅうしゅうじんかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1195,7 +1353,9 @@
     "id": "cmocx141i033ajr01xhjanmpy",
     "number": 104,
     "name": "ねおぽてと",
+    "namePhonetic": "ねおぽてと",
     "organizationName": "筑波大学ジャズ楽団Neopolis BIGBAND",
+    "organizationNamePhonetic": "つくばだいがくじゃずがくだんねおぽりすびっぐばんど",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1210,7 +1370,9 @@
     "id": "cmocxqf770353jr017kipotfe",
     "number": 105,
     "name": "ふらっと、さんふじんか",
+    "namePhonetic": "ふらっとさんふじんか",
     "organizationName": "筑波大学産婦人科",
+    "organizationNamePhonetic": "つくばだいがくさんふじんか",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1225,7 +1387,9 @@
     "id": "cmodxlmj603igjr01n5tcleoz",
     "number": 107,
     "name": "むらの野菜とご飯",
+    "namePhonetic": "むらのやさいとごはん",
     "organizationName": "のうりんむら",
+    "organizationNamePhonetic": "のうりんむら",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1240,7 +1404,9 @@
     "id": "cmoe9dzhm03mxjr017bjck5vo",
     "number": 108,
     "name": "斬桐舞スペシャルパフォーマンス",
+    "namePhonetic": "きりきりまいすぺしゃるぱふぉーまんす",
     "organizationName": "斬桐舞",
+    "organizationNamePhonetic": "きりきりまい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1255,7 +1421,9 @@
     "id": "cmoecaoat03q8jr01hykro4aw",
     "number": 109,
     "name": "三度の飯より揚げサンド",
+    "namePhonetic": "さんどのめしよりあげさんど",
     "organizationName": "揚げサンド同好会",
+    "organizationNamePhonetic": "あげさんどどうこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1270,7 +1438,9 @@
     "id": "cmoed42ce03qpjr01jtcv8swn",
     "number": 110,
     "name": "夢を編む花園DIY工房",
+    "namePhonetic": "ゆめをあむはなぞのでぃーあいわいこうぼう",
     "organizationName": "ロマンチッククラブ",
+    "organizationNamePhonetic": "ろまんちっくくらぶ",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1285,7 +1455,9 @@
     "id": "cmof5wnir0424jr011iply3mr",
     "number": 111,
     "name": "揚げパン FOR TWO ",
+    "namePhonetic": "あげぱんふぉーとぅー",
     "organizationName": "STUDY FOR TWO 筑波大学支部",
+    "organizationNamePhonetic": "すたでぃーふぉーとぅーつくばだいがくしぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1300,7 +1472,9 @@
     "id": "cmofe77c6047yjr01oktogxrt",
     "number": 112,
     "name": "ほかほか点心屋",
+    "namePhonetic": "ほかほかてんしんや",
     "organizationName": "四年有志",
+    "organizationNamePhonetic": "よねんゆうし",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1315,7 +1489,9 @@
     "id": "cmofmw01i04fgjr01ryqxiljt",
     "number": 113,
     "name": "Perfecto Olé!",
+    "namePhonetic": "ぺるふぇくとーれ",
     "organizationName": "パフェ愛好会",
+    "organizationNamePhonetic": "ぱふぇあいこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1330,7 +1506,9 @@
     "id": "cmofmyj6b04g1jr01e7qbdjsi",
     "number": 114,
     "name": "珈琲・俺",
+    "namePhonetic": "かふぇおれ",
     "organizationName": "全代会有志",
+    "organizationNamePhonetic": "ぜんだいかいゆうし",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -1345,7 +1523,9 @@
     "id": "cmofpfeq504vtjr01ozc36vdt",
     "number": 115,
     "name": "Neopolis雙峰祭スペシャルライブ",
+    "namePhonetic": "ねおぽりすそうほうさいすぺしゃるらいぶ",
     "organizationName": "筑波大学ジャズ楽団Neopolis BIGBAND",
+    "organizationNamePhonetic": "つくばだいがくじゃずがくだんねおぽりすびっぐばんど",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1360,7 +1540,9 @@
     "id": "cmofszvrh0007ij01o1jfg9nl",
     "number": 116,
     "name": "PANDAのお遊戯会",
+    "namePhonetic": "ぱんだのおゆうぎかい",
     "organizationName": "筑波大学オセロ同好会PANDA",
+    "organizationNamePhonetic": "つくばだいがくおせろどうこうかいぱんだ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1375,7 +1557,9 @@
     "id": "cmoft2zcm000gij01duqlyjv7",
     "number": 117,
     "name": "制作ゲーム展示会",
+    "namePhonetic": "せいさくげーむてんじかい",
     "organizationName": "AmusementCreators",
+    "organizationNamePhonetic": "あみゅーずめんとくりえいたーず",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1390,7 +1574,9 @@
     "id": "cmofww9f1001mij0151e65f5t",
     "number": 118,
     "name": "台湾焼きそばがスキ〜",
+    "namePhonetic": "たいわんやきそばがすきー",
     "organizationName": "医学スキー部",
+    "organizationNamePhonetic": "いがくすきーぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1405,7 +1591,9 @@
     "id": "cmogn9xv1003bna01adgptbp4",
     "number": 119,
     "name": "池坊華道部",
+    "namePhonetic": "いけのぼうかどうぶ",
     "organizationName": "池坊華道部",
+    "organizationNamePhonetic": "いけのぼうかどうぶ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1420,7 +1608,9 @@
     "id": "cmogqdy6w00alna01w6qhawjv",
     "number": 121,
     "name": "芸術祭 フリーマーケット",
+    "namePhonetic": "げいじゅつさい ふりーまーけっと",
     "organizationName": "芸術祭実行委員会フリーマーケット班",
+    "organizationNamePhonetic": "げいじゅつさいじっこういいんかいふりーまーけっとはん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1435,7 +1625,9 @@
     "id": "cmogz866i011ina01vam6ro3g",
     "number": 122,
     "name": "芸術祭メトロ ワッフル快速",
+    "namePhonetic": "げいじゅつさいめとろ　わっふるかいそく",
     "organizationName": "芸術祭実行委員会飲食班",
+    "organizationNamePhonetic": "げいじゅつさいじっこういいんかいいんしょくはん",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -1450,7 +1642,9 @@
     "id": "cmoh0cm4d016nna0134zkye1c",
     "number": 123,
     "name": "筑波大学お笑い集団DONPAPAお笑いライブ",
+    "namePhonetic": "つくばだいがくおわらいしゅうだんどんぱっぱおわらいらいぶ",
     "organizationName": "筑波大学お笑い集団DONPAPA",
+    "organizationNamePhonetic": "つくばだいがくおわらいしゅうだんどんぱっぱ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1465,7 +1659,9 @@
     "id": "cmoh0wj04017vna0162ytutg0",
     "number": 124,
     "name": "不揃い野菜のスープ屋さん",
+    "namePhonetic": "ふぞろいやさいのすーぷやさん",
     "organizationName": "環境サークルREVELOP",
+    "organizationNamePhonetic": "かんきょうさーくるりべろっぷ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1480,7 +1676,9 @@
     "id": "cmoh7oim901opna01kwmngt81",
     "number": 125,
     "name": "STEPくんのビッグバンポップコーン",
+    "namePhonetic": "すてっぷくんのびっぐばんぽっぷこーん",
     "organizationName": "筑波大学宇宙技術プロジェクトSTEP",
+    "organizationNamePhonetic": "つくばだいがくうちゅうぎじゅつぷろじぇくとすてっぷ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1495,7 +1693,9 @@
     "id": "cmoh8yo8a01rlna01r9npzdcx",
     "number": 126,
     "name": "パペット・バザール",
+    "namePhonetic": "ぱぺっと・ばざーる",
     "organizationName": "人形劇団NEU",
+    "organizationNamePhonetic": "にんぎょうげきだんのい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1510,7 +1710,9 @@
     "id": "cmohsn5ip005pq4014d32velu",
     "number": 127,
     "name": "ひらがなつくば坂道LIVE〜この想い届け〜",
+    "namePhonetic": "ひらがなつくばさかみちらいぶ　このおもいとどけ",
     "organizationName": "ひらがなつくば",
+    "organizationNamePhonetic": "ひらがなつくば",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1525,7 +1727,9 @@
     "id": "cmohy0qhc00czq401wzhats2y",
     "number": 128,
     "name": "焼き鳥人間の会",
+    "namePhonetic": "やきとりにんげんのかい",
     "organizationName": "つくば鳥人間の会",
+    "organizationNamePhonetic": "つくばとりにんげんのかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1540,7 +1744,9 @@
     "id": "cmohz887k00gfq401w10svegn",
     "number": 129,
     "name": "応援部WINS×斬桐舞 合同ステージ",
+    "namePhonetic": "おうえんぶうぃんず きりきりまい　ごうどうすてーじ",
     "organizationName": "応援部WINS×斬桐舞",
+    "organizationNamePhonetic": "おうえんぶうぃんず きりきりまい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1555,7 +1761,9 @@
     "id": "cmoi1fzcw00ktq401d98cqhq3",
     "number": 130,
     "name": "XLAIR",
+    "namePhonetic": "えくれあ",
     "organizationName": "XLAIR Project",
+    "organizationNamePhonetic": "えくれあぷろじぇくと",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1570,7 +1778,9 @@
     "id": "cmoi6kdfb00ywq4019aohbnlp",
     "number": 131,
     "name": "医学音楽同好会SoundLoop教室ステージ",
+    "namePhonetic": "いがくおんがくどうこうかいさうんどるーぷきょうしつすてーじ",
     "organizationName": "医学音楽同好会SoundLoop",
+    "organizationNamePhonetic": "いがくおんがくどうこうかいさうんどるーぷ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1585,7 +1795,9 @@
     "id": "cmoi9x3bu01n4q4016nwspmfb",
     "number": 132,
     "name": "日本画制作展",
+    "namePhonetic": "にほんがせいさくてん",
     "organizationName": "日本画領域",
+    "organizationNamePhonetic": "にほんがりょういき",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1602,7 +1814,9 @@
     "id": "cmoiczjnf01zjq401hvwtr9y0",
     "number": 133,
     "name": "ベトナム屋",
+    "namePhonetic": "べとなむや",
     "organizationName": "筑波大学ベトナム人留学生団体",
+    "organizationNamePhonetic": "つくばだいがくべとなむじんりゅうがくせいだんたい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1617,7 +1831,9 @@
     "id": "cmoihqnpu000zly01muieuu6u",
     "number": 136,
     "name": "アートギャラリーT＋　ワークショップ",
+    "namePhonetic": "あーとぎゃらりーてぃーたす　わーくしょっぷ",
     "organizationName": "筑波大学アートギャラリーT＋",
+    "organizationNamePhonetic": "つくばだいがくあーとぎゃらりーてぃたす",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1632,7 +1848,9 @@
     "id": "cmoii5331006nly01yiesfcnk",
     "number": 137,
     "name": "クロースアップマジックショー",
+    "namePhonetic": "くろーすあっぷまじっくょー",
     "organizationName": "マジシャンズクラブ",
+    "organizationNamePhonetic": "まじしゃんずくらぶ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1647,7 +1865,9 @@
     "id": "cmoiismnb0001o801o82n3jw7",
     "number": 139,
     "name": "でんしゃであそぼう",
+    "namePhonetic": "でんしゃであそぼう",
     "organizationName": "筑波大鉄研「旅と鉄道の会」",
+    "organizationNamePhonetic": "つくばだいてっけんたびとてつどうのかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1662,7 +1882,9 @@
     "id": "cmoijl461006do8016r05rwjz",
     "number": 140,
     "name": "鳥人間の巣",
+    "namePhonetic": "とりにんげんのす",
     "organizationName": "つくば鳥人間の会",
+    "organizationNamePhonetic": "つくばとりにんげんのかい",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1677,7 +1899,9 @@
     "id": "cmoikbo280075o801ou7jptv8",
     "number": 141,
     "name": "筑波大学桐政会 公開発表会",
+    "namePhonetic": "つくばだいがくとうせいかい こうかいはっぴょうかい",
     "organizationName": "筑波大学桐政会",
+    "organizationNamePhonetic": "つくばだいがくとうせいかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1694,7 +1918,9 @@
     "id": "cmojd469300f1o801puz713c0",
     "number": 142,
     "name": "W能登プレミアム～幻の和牛&極上ポーク～",
+    "namePhonetic": "だぶるのとぷれみあむまぼろしのわぎゅうあんどごくじょうぽーく",
     "organizationName": "お天気お兄さんズ",
+    "organizationNamePhonetic": "おてんきおにいさんず",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1709,7 +1935,9 @@
     "id": "cmojifo6l00r3o801m9si8dhz",
     "number": 143,
     "name": "Realjam",
+    "namePhonetic": "りあるじゃむ",
     "organizationName": "ストリートダンスサークルRealjam",
+    "organizationNamePhonetic": "すとりーとだんすさーくるりあるじゃむ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1724,7 +1952,9 @@
     "id": "cmojud01t00xho801x74xcrtq",
     "number": 145,
     "name": "アイセック活動報告～私だからできること～",
+    "namePhonetic": "あいせっくかつどうほうこく　わたしだからできること　",
     "organizationName": "アイセック筑波大学委員会",
+    "organizationNamePhonetic": "あいせっくつくばだいがくいいんかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1741,7 +1971,9 @@
     "id": "cmojwtje800yao801pjqo5lf9",
     "number": 146,
     "name": "マジシャンズクラブステージマジックショー",
+    "namePhonetic": "まじしゃんずくらぶすてーじまじっくしょー",
     "organizationName": "マジシャンズクラブ",
+    "organizationNamePhonetic": "まじしゃんずくらぶ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1756,7 +1988,9 @@
     "id": "cmojyxtuw00zwo801guj3ju50",
     "number": 147,
     "name": "愛のリコーダー",
+    "namePhonetic": "あいのりこーだー",
     "organizationName": "ブロックフレーテ同好会",
+    "organizationNamePhonetic": "ぶろっくふれーてどうこうかい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1771,7 +2005,9 @@
     "id": "cmok0547l0118o801z9fkvhrs",
     "number": 148,
     "name": "そば、焼いてます。",
+    "namePhonetic": "そばやいてます",
     "organizationName": "Spikers'Inc",
+    "organizationNamePhonetic": "すぱいかーずいんく",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1786,7 +2022,9 @@
     "id": "cmok11ysq013zo801cbrltrx0",
     "number": 149,
     "name": "農ヘルおいもラボ",
+    "namePhonetic": "のうへるおいもらぼ",
     "organizationName": "つくば学生農業ヘルパー",
+    "organizationNamePhonetic": "つくばがくせいのうぎょうへるぱー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1803,7 +2041,9 @@
     "id": "cmok4h5gz01eko801uv2bboza",
     "number": 150,
     "name": "合気五平餅",
+    "namePhonetic": "あいきごへいもち",
     "organizationName": "合気道部",
+    "organizationNamePhonetic": "あいきどうぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1818,7 +2058,9 @@
     "id": "cmok6fpy601j3o801gejfapfg",
     "number": 151,
     "name": "きりきりサンド工房",
+    "namePhonetic": "きりきりさんどこうぼう",
     "organizationName": "斬桐舞",
+    "organizationNamePhonetic": "きりきりまい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1833,7 +2075,9 @@
     "id": "cmokyp0ia0221o801qx11zild",
     "number": 153,
     "name": "WorldFood TSUKUBA ",
+    "namePhonetic": "わーるどふーどつくば",
     "organizationName": "WorldFut TSUKUBA OB",
+    "organizationNamePhonetic": "わーるどふっとつくば　おーびー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1848,7 +2092,9 @@
     "id": "cmol13fzb026qo801vxt3sl8r",
     "number": 154,
     "name": "たまご展",
+    "namePhonetic": "たまごてん",
     "organizationName": "芸術専門学群洋画２年生",
+    "organizationNamePhonetic": "げいじゅつせんもんがくぐんようがにねんせい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1863,7 +2109,9 @@
     "id": "cmol1ov05028bo801ioac8s3f",
     "number": 155,
     "name": "好古研究会",
+    "namePhonetic": "こうこけんきゅうかい",
     "organizationName": "古代・中世研究サークル 好古研究会",
+    "organizationNamePhonetic": "こだい・ちゅうせいけんきゅうさーくる こうこけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1878,7 +2126,9 @@
     "id": "cmol2k3ub02fuo801enbt3y8s",
     "number": 156,
     "name": "ボート部のからあげ",
+    "namePhonetic": "ぼーとぶのからあげ",
     "organizationName": "漕艇部",
+    "organizationNamePhonetic": "そうていぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1893,7 +2143,9 @@
     "id": "cmol46xr402klo8010uik6h31",
     "number": 157,
     "name": "ミーゴレン食べてミー",
+    "namePhonetic": "みーごれんたべてみー",
     "organizationName": "筑波大学公認ボランティアサークルLUZ",
+    "organizationNamePhonetic": "つくばだいがくこうにんぼらんてぃあさーくるるす",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1908,7 +2160,9 @@
     "id": "cmol4m4w602oao80142pt80hp",
     "number": 158,
     "name": "近未来ビブリオ学園",
+    "namePhonetic": "きんみらいびぶりおがくえん",
     "organizationName": "宇陀・松村・堤研究室",
+    "organizationNamePhonetic": "うだ・まつむら・つつみけんきゅうしつ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1923,7 +2177,9 @@
     "id": "cmol9d2ez03a0o801yzr7352l",
     "number": 159,
     "name": "オンザからあげ",
+    "namePhonetic": "おんざからあげ",
     "organizationName": "ソフトテニスサークルOn the Line",
+    "organizationNamePhonetic": "そふとてにすさーくるおんざらいん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1938,7 +2194,9 @@
     "id": "cmola10z503cxo8011eodjd7e",
     "number": 160,
     "name": "パンケーキはおやつに入りますか？",
+    "namePhonetic": "ぱんけーきはおやつにはいりますか",
     "organizationName": "筑波大学広告研究会 アド研",
+    "organizationNamePhonetic": "つくばだいがくこうこくけんきゅうかい あどけん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1953,7 +2211,9 @@
     "id": "cmolaau4u03dqo801is65ufb9",
     "number": 161,
     "name": "ゲレンデのじゃがバター",
+    "namePhonetic": "げれんでのじゃがばたー",
     "organizationName": "体育会スキー部",
+    "organizationNamePhonetic": "たいいくかいすきーぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -1968,7 +2228,9 @@
     "id": "cmolawma003ioo801tzh4qfee",
     "number": 162,
     "name": "研究学園戦士ツクバダインショー",
+    "namePhonetic": "けんきゅうがくえんせんしつくばだいんしょー",
     "organizationName": "ヒーローアクション同好会",
+    "organizationNamePhonetic": "ひーろーあくしょんどうこうかい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -1983,7 +2245,9 @@
     "id": "cmolb1xy603m2o801iko1f2wx",
     "number": 164,
     "name": "研究学園戦士ツクバダインショー2026",
+    "namePhonetic": "けんきゅうがくえんせんしつくばだいんしょーにまるにろく",
     "organizationName": "ヒーローアクション同好会",
+    "organizationNamePhonetic": "ひーろーあくしょんどうこうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -1998,7 +2262,9 @@
     "id": "cmolbbx9z03rpo801qtibrmhm",
     "number": 165,
     "name": "タコスはじめました",
+    "namePhonetic": "たこすはじめました",
     "organizationName": "天2居酒屋連盟",
+    "organizationNamePhonetic": "あまにいざかやれんめい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2013,7 +2279,9 @@
     "id": "cmolcsxxg041mo801xhnukw6u",
     "number": 166,
     "name": "JAZZ喫茶FULLHOUCE",
+    "namePhonetic": "じゃずきっさふるはうす",
     "organizationName": "JAZZ愛好会",
+    "organizationNamePhonetic": "じゃずあいこうかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2028,7 +2296,9 @@
     "id": "cmoldvom604d4o801yjbw9v23",
     "number": 167,
     "name": "稲妻よ走れ！上昇志向ベイビーズ炎のライブ",
+    "namePhonetic": "いなずまよはしれじょうしょうしこうべいびーずほのおのほのおのらいぶ",
     "organizationName": "上昇志向ベイビーズ",
+    "organizationNamePhonetic": "じょうしょうしこうべいびーず",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2043,7 +2313,9 @@
     "id": "cmoldyos104dpo801o6r6kk4s",
     "number": 168,
     "name": "帝国雙峰祭ステージ2026",
+    "namePhonetic": "ていこくそうほうさいすてーじにぜろにろく",
     "organizationName": "The Empire of TSUKUBA",
+    "organizationNamePhonetic": "じえんぱいあおぶつくば",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2058,7 +2330,9 @@
     "id": "cmoleji1p04jbo80156bps7m6",
     "number": 169,
     "name": "Tsukuba DTM Live.",
+    "namePhonetic": "つくばでぃーてぃーえむらいぶ",
     "organizationName": "Tsukuba DTM Lab.",
+    "organizationNamePhonetic": "つくばでぃーてぃーえむらぼ",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2073,7 +2347,9 @@
     "id": "cmolg7xrr04w8o801q51hvn3o",
     "number": 170,
     "name": "書道パフォーマンス2026",
+    "namePhonetic": "しょどうぱふぉーまんすにまるにろく",
     "organizationName": "書道部",
+    "organizationNamePhonetic": "しょどうぶ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2088,7 +2364,9 @@
     "id": "cmolj0hkd003bp001irt7ukuw",
     "number": 171,
     "name": "つくぶい！VTuberグッズ販売&AR体験",
+    "namePhonetic": "つくぶいぶいちゅーばーぐっずはんばいあんどえーあーるたいけん",
     "organizationName": "つくぶい！",
+    "organizationNamePhonetic": "つくぶい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2103,7 +2381,9 @@
     "id": "cmoljcark003np001h4xbj1m3",
     "number": 172,
     "name": "野生自身",
+    "namePhonetic": "やせいじしん",
     "organizationName": "野生動物研究会",
+    "organizationNamePhonetic": "やせいどうぶつけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2118,7 +2398,9 @@
     "id": "cmom2i3sa00mbp001bg8dkr1l",
     "number": 174,
     "name": "ピアノカフェ",
+    "namePhonetic": "ぴあのかふぇ",
     "organizationName": "筑波大学ピアノ愛好会",
+    "organizationNamePhonetic": "つくばだいがくぴあのあいこうかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2133,7 +2415,9 @@
     "id": "cmom8bchc00wvp001hgtvkm5z",
     "number": 175,
     "name": "298プロダクション出張事務所",
+    "namePhonetic": "つくばぷろだくしょんしゅっちょうじむしょ",
     "organizationName": "筑波大学アイドルマスター研究会",
+    "organizationNamePhonetic": "つくばだいがくあいどるますたーけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2148,7 +2432,9 @@
     "id": "cmomaqr6o010ep0013lt2641f",
     "number": 176,
     "name": "令和八年度鹿島神流武道部雙峰祭演武",
+    "namePhonetic": "れいわはちねんどかしましんりゅうぶどうぶそうほうさいえんぶ",
     "organizationName": "鹿島神流武道部",
+    "organizationNamePhonetic": "かしましんりゅうぶどうぶ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2163,7 +2449,9 @@
     "id": "cmombav8o012tp00103711qvo",
     "number": 177,
     "name": "陸上処　うま芋ん",
+    "namePhonetic": "りくじょうどころ　うまいもん",
     "organizationName": "筑波大学陸上競技同好会",
+    "organizationNamePhonetic": "つくばだいがくりくじょうきょうぎどうこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2178,7 +2466,9 @@
     "id": "cmomccl360168p0013luz0bjs",
     "number": 178,
     "name": "ホット・ドッグ・ジャンプ！",
+    "namePhonetic": "ほっとどっぐじゃんぷ",
     "organizationName": "トランポリン同好会",
+    "organizationNamePhonetic": "とらんぽりんどうこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2193,7 +2483,9 @@
     "id": "cmomffxvj01nzp001wi7t71nw",
     "number": 180,
     "name": "Dance in the moment~今この瞬間~",
+    "namePhonetic": "だんすいんざもーめんといまこのしゅんかん",
     "organizationName": "体育会ダンス部",
+    "organizationNamePhonetic": "たいいくかいだんすぶ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2208,7 +2500,9 @@
     "id": "cmomkohwr029sp00160womrqk",
     "number": 181,
     "name": "アーティスト招致企画",
+    "namePhonetic": "あーてぃすとしょうちきかく",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい　ほんぶきかくきょく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2223,7 +2517,9 @@
     "id": "cmomn4fi102kfp001sncf2f5o",
     "number": 182,
     "name": "○○の肉焼いてみました！！2026",
+    "namePhonetic": "まるまるのにくやいてみましたにせんにじゅうろく",
     "organizationName": "鹿島神流武道部",
+    "organizationNamePhonetic": "かしましんりゅうぶどうぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2238,7 +2534,9 @@
     "id": "cmomocq7002q2p001lxutoqlr",
     "number": 183,
     "name": "能・狂言研究会特別公演",
+    "namePhonetic": "のう・きょうげんけんきゅうかいとくべつこうえん",
     "organizationName": "筑波能・狂言研究会",
+    "organizationNamePhonetic": "つくばのう・きょうげんけんきゅうかい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2253,7 +2551,9 @@
     "id": "cmomq373c030ip0017srpf83k",
     "number": 184,
     "name": "やきものをつくる会　展示即売会",
+    "namePhonetic": "やきものをつくるかい　てんじそくばいかい",
     "organizationName": "焼き物をつくる会",
+    "organizationNamePhonetic": "やきものをつくるかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2268,7 +2568,9 @@
     "id": "cmomrytru03a9p00162lqdjit",
     "number": 185,
     "name": "ぶらり旅企画",
+    "namePhonetic": "ぶらりたびきかく",
     "organizationName": "筑波大学学園祭実行委員会 本部企画局",
+    "organizationNamePhonetic": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2283,7 +2585,9 @@
     "id": "cmomsffwj03gbp0011o0kp2qj",
     "number": 186,
     "name": "ツクバポケモントレーナーズスクール",
+    "namePhonetic": "つくばぽけもんとれーなーずすくーる",
     "organizationName": "つくばポケモン大好きクラブ",
+    "organizationNamePhonetic": "つくばぽけもんだいすきくらぶ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2298,7 +2602,9 @@
     "id": "cmomunroa03tcp001oy8g31c9",
     "number": 187,
     "name": "医学音楽同好会ステージ",
+    "namePhonetic": "いがくおんがくどうこうかいすてーじ",
     "organizationName": "医学音楽同好会SoundLoop",
+    "organizationNamePhonetic": "いがくおんがくどうこうかいさうんどるーぷ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2313,7 +2619,9 @@
     "id": "cmon1mfag043zp001zi7g7d3m",
     "number": 188,
     "name": "つくたく亭",
+    "namePhonetic": "つくたくてい",
     "organizationName": "卓球同好会",
+    "organizationNamePhonetic": "たっきゅうどうこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2328,7 +2636,9 @@
     "id": "cmonrh6v6009ioi01qanh203z",
     "number": 190,
     "name": "竈炊きごはん",
+    "namePhonetic": "かまどたきごはん",
     "organizationName": "竈プロジェクト",
+    "organizationNamePhonetic": "かまどぷろじぇくと",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2343,7 +2653,9 @@
     "id": "cmonu2xbj00hmoi01jfm0d4z5",
     "number": 191,
     "name": "チャリ部のとこトン汁",
+    "namePhonetic": "ちゃりぶのとことんじる",
     "organizationName": "筑波大学体育会サイクリング部",
+    "organizationNamePhonetic": "つくばだいがくたいいくかいさいくりんぐぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2358,7 +2670,9 @@
     "id": "cmoo6tj7w01faoi01do5z4jxu",
     "number": 193,
     "name": "まーさん屋",
+    "namePhonetic": "まーさんや",
     "organizationName": "筑波大学沖縄県人会",
+    "organizationNamePhonetic": "つくばだいがくおきなわけんじんかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2373,7 +2687,9 @@
     "id": "cmooax6bm01kioi01h44pd4jx",
     "number": 194,
     "name": "ゆるっと大人の感染症検査",
+    "namePhonetic": "ゆるっとおとなのかんせんしょうけんさ",
     "organizationName": "Prevent",
+    "organizationNamePhonetic": "ぷりべんと",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2388,7 +2704,9 @@
     "id": "cmoof3bmy01rjoi01dv90ld7j",
     "number": 195,
     "name": "筑波大学お笑い集団DONPAPAライブ",
+    "namePhonetic": "つくばだいがくおわらいしゅうだんどんぱっぱらいぶ",
     "organizationName": "筑波大学お笑い集団DONPAPA",
+    "organizationNamePhonetic": "つくばだいがくおわらいしゅうだんどんぱっぱ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2403,7 +2721,9 @@
     "id": "cmoofbcj401sxoi01jesb82tc",
     "number": 196,
     "name": "鶏塩らーめん愛児園",
+    "namePhonetic": "とりしおらーめんあいじえん",
     "organizationName": "社会福祉研究会 愛児園グループ",
+    "organizationNamePhonetic": "しゃかいふくしけんきゅうかい あいじえんぐるーぷ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2418,7 +2738,9 @@
     "id": "cmoogtxm201x9oi010vnwjuk3",
     "number": 197,
     "name": "PBCM雙峰祭SPステージ",
+    "namePhonetic": "ぴーびーしーえむそうほうさいすぺしゃるすてーじ",
     "organizationName": "バンドストッククラブPBCM",
+    "organizationNamePhonetic": "ばんどすとっくくらぶぴーびーしーえむ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2433,7 +2755,9 @@
     "id": "cmoohjphe01ycoi01jwjr1ent",
     "number": 198,
     "name": "GSKバンドステージ",
+    "namePhonetic": "げんしけんばんどすてーじ",
     "organizationName": "現代視覚文化研究会音楽班",
+    "organizationNamePhonetic": "げんだいしかくぶんかけんきゅうかいおんがくはん",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2448,7 +2772,9 @@
     "id": "cmooxqjxb02ikoi01afxxhexy",
     "number": 199,
     "name": "学園祭コンサート",
+    "namePhonetic": "がくえんさいこんさーと",
     "organizationName": "ピアノ愛好会",
+    "organizationNamePhonetic": "ぴあのあいこうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2463,7 +2789,9 @@
     "id": "cmopagwl603eaoi019ec6l2pi",
     "number": 200,
     "name": "PBCM SOHOSAI LIVE",
+    "namePhonetic": "ぴーびーしーえむそうほうさいらいぶ",
     "organizationName": "バンドストッククラブPBCM",
+    "organizationNamePhonetic": "ばんどすとっくくらぶぴーびーしーえむ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2478,7 +2806,9 @@
     "id": "cmopdkv3m03sfoi01bdgedpl3",
     "number": 201,
     "name": "コグマ KPOP COPY DANCE STAGE",
+    "namePhonetic": "こぐまけーぽっぷこぴーだんすすてーじ",
     "organizationName": "Kpopコピーダンスサークル고구마(コグマ)",
+    "organizationNamePhonetic": "けーぽっぷこぴーだんすさーくるこぐま",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2493,7 +2823,9 @@
     "id": "cmopg0pqx03tqoi01h2kiury7",
     "number": 202,
     "name": "無絃塾SUPER LIVE",
+    "namePhonetic": "むげんじゅくすーぱーらいぶ",
     "organizationName": "津軽三味線倶楽部無絃塾",
+    "organizationNamePhonetic": "つがるじゃみせんくらぶむげんじゅく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2508,7 +2840,9 @@
     "id": "cmopjz76w03wtoi01ryx8808e",
     "number": 204,
     "name": "宇宙への誘い",
+    "namePhonetic": "そらへのいざない",
     "organizationName": "筑波大学「結」プロジェクト",
+    "organizationNamePhonetic": "つくばだいがくゆいぷろじぇくと",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2523,7 +2857,9 @@
     "id": "cmopkq38h000xjv01mp2x4u1e",
     "number": 205,
     "name": "Sheepジャグリングパフォーマンス",
+    "namePhonetic": "しーぷじゃぐりんぐぱふぉーまんす",
     "organizationName": "筑波大学ジャグリングサークルSheep",
+    "organizationNamePhonetic": "つくばだいがくじゃぐりんぐさーくるしーぷ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2538,7 +2874,9 @@
     "id": "cmoqj0h3002ecjv01lbf0lq2z",
     "number": 207,
     "name": "体操部",
+    "namePhonetic": "たいそうぶ",
     "organizationName": "体操部",
+    "organizationNamePhonetic": "たいそうぶ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2553,7 +2891,9 @@
     "id": "cmoqj5k0s02epjv011f5gri87",
     "number": 208,
     "name": "2026雙峰祭ステージ「月華」",
+    "namePhonetic": "そうほうさいすてーじげっか",
     "organizationName": "ときめき太鼓塾",
+    "organizationNamePhonetic": "ときめきたいこじゅく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2568,7 +2908,9 @@
     "id": "cmoqj6yf002exjv01cr71mplr",
     "number": 209,
     "name": "ごめんね弓に、ギョーザ道？",
+    "namePhonetic": "ごめんねきゅうにぎょーざどう",
     "organizationName": "医学弓道部",
+    "organizationNamePhonetic": "いがくきゅうどうぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2583,7 +2925,9 @@
     "id": "cmoqpw97z02rojv01p4x07vu4",
     "number": 211,
     "name": "豚キム焼そば",
+    "namePhonetic": "ぶたきむやきそば",
     "organizationName": "医学硬式庭球部",
+    "organizationNamePhonetic": "いがくこうしきていきゅうぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2598,7 +2942,9 @@
     "id": "cmoqskruf038sjv01p3sqfqjc",
     "number": 212,
     "name": "つくろぼ",
+    "namePhonetic": "つくろぼ",
     "organizationName": "つくばろぼっとサークル",
+    "organizationNamePhonetic": "つくばろぼっとさーくる",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2613,7 +2959,9 @@
     "id": "cmor4co8404kmjv01yj3kcqhz",
     "number": 214,
     "name": "森のタピオカ屋さん",
+    "namePhonetic": "もりのたぴおかやさん",
     "organizationName": "硬式テニス愛好会Forest",
+    "organizationNamePhonetic": "こうしきてにすあいこうかいふぉれすと",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2628,7 +2976,9 @@
     "id": "cmor57rh204qfjv01f9i8gzz0",
     "number": 215,
     "name": "ボードゲーム体験会",
+    "namePhonetic": "ぼーどげーむたいけんかい",
     "organizationName": "T.A.S.C.",
+    "organizationNamePhonetic": "たすく",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2643,7 +2993,9 @@
     "id": "cmorahzpo05ajjv018zns747u",
     "number": 218,
     "name": "防災ボトル作りワークショップ",
+    "namePhonetic": "ぼうさいぼとるづくりわーくしょっぷ",
     "organizationName": "Tsukuba for 3.11",
+    "organizationNamePhonetic": "つくばふぉーさんてんいちいち",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2658,7 +3010,9 @@
     "id": "cmorc0syp05i0jv01cll7ld2s",
     "number": 219,
     "name": "CAMPFIRE",
+    "namePhonetic": "きゃんぷふぁいやー",
     "organizationName": "野外活動クラブ",
+    "organizationNamePhonetic": "やがいかつどうくらぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2673,7 +3027,9 @@
     "id": "cmorc98j705iujv01tdappnpb",
     "number": 220,
     "name": "ぼむずかふぇ",
+    "namePhonetic": "ぼむずかふぇ",
     "organizationName": "アイドル研究会",
+    "organizationNamePhonetic": "あいどるけんきゅうかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2688,7 +3044,9 @@
     "id": "cmorg1b0n05xfjv017jbbdba5",
     "number": 221,
     "name": "芸術祭 展示企画",
+    "namePhonetic": "げいじゅつさいてんじきかく",
     "organizationName": "芸術祭実行委員会展示班",
+    "organizationNamePhonetic": "げいじゅつさいじっこういいんかいてんじはん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2703,7 +3061,9 @@
     "id": "cmorzoo8106jrjv0100db0z2d",
     "number": 222,
     "name": "究極の餃子屋",
+    "namePhonetic": "きゅうきょくのぎょうざや",
     "organizationName": "アルティメット同好会 INVERHOUSE",
+    "organizationNamePhonetic": "あるてぃめっとどうこうかい　いんばーはうす",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2718,7 +3078,9 @@
     "id": "cmos97o4506xfjv010bxins01",
     "number": 223,
     "name": "はつこい帝国スペシャルコラボステージ",
+    "namePhonetic": "はつこいていこくすぺしゃるこらぼすてーじ",
     "organizationName": "はつこい帝国",
+    "organizationNamePhonetic": "はつこいていこく",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2733,7 +3095,9 @@
     "id": "cmosbu3ww074qjv01wbigw2bz",
     "number": 224,
     "name": "グンマー帝国大使館",
+    "namePhonetic": "ぐんまーていこくたいしかん",
     "organizationName": "群馬県人会",
+    "organizationNamePhonetic": "ぐんまけんじんかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2748,7 +3112,9 @@
     "id": "cmosdm6ah078kjv012jwgkqf9",
     "number": 225,
     "name": "つくえれエレクトーン教室ライブ！",
+    "namePhonetic": "つくえれえれくとーんきょうしつらいぶ",
     "organizationName": "つくえれ",
+    "organizationNamePhonetic": "つくえれ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2763,7 +3129,9 @@
     "id": "cmosjsop507lrjv01ipszi1xu",
     "number": 227,
     "name": "トポキ食べませんか　僕が作ったんですけど",
+    "namePhonetic": "とぽきたべませんか　ぼくがつくったんですけど",
     "organizationName": "本格韓国料理KIM HYEONKANG",
+    "organizationNamePhonetic": "ほんかくかんこくりょうりきむひょんかん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2778,7 +3146,9 @@
     "id": "cmoskupdz07nnjv01u1kt4nxj",
     "number": 228,
     "name": "アドバンチュロス部",
+    "namePhonetic": "あどばんちゅろすぶ",
     "organizationName": "硬式テニスサークルADVANT",
+    "organizationNamePhonetic": "こうしきてにすさーくるあどばん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2793,7 +3163,9 @@
     "id": "cmoslqdfm07vnjv01kjmmwwvb",
     "number": 229,
     "name": "学園祭ライブ Produced by TMP",
+    "namePhonetic": "がくえんさいらいぶ　ぷろでゅーすど　ばい　てぃーえむぴー",
     "organizationName": "TMP（つくばミュージックプロジェクト）",
+    "organizationNamePhonetic": "てぃーえむぴー　つくばみゅーじっくぷろじぇくと",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -2808,7 +3180,9 @@
     "id": "cmoso3wy8086pjv01xcxjcvuk",
     "number": 230,
     "name": "漫画研究会",
+    "namePhonetic": "まんがけんきゅうかい",
     "organizationName": "漫画研究会",
+    "organizationNamePhonetic": "まんがけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2823,7 +3197,9 @@
     "id": "cmotaq0oq0988jv01v5539ifk",
     "number": 232,
     "name": "ギルティ炭酸DOPE",
+    "namePhonetic": "ぎるてぃたんさんどーぷ",
     "organizationName": "TMP（つくばミュージックプロジェクト）",
+    "organizationNamePhonetic": "てぃーえむぴーつくばみゅーじっくぷろじぇくと",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2838,7 +3214,9 @@
     "id": "cmotbnhvw09hljv01zey6gy5x",
     "number": 233,
     "name": "天文カフェ",
+    "namePhonetic": "てんもんかふぇ",
     "organizationName": "天文研究会",
+    "organizationNamePhonetic": "てんもんけんきゅうかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2853,7 +3231,9 @@
     "id": "cmoteh38i000hq801bi92ep5k",
     "number": 234,
     "name": "謎解きは秋Aのあとで",
+    "namePhonetic": "なぞときはあきえーのあとで",
     "organizationName": "ミステリー研究会",
+    "organizationNamePhonetic": "みすてりーけんきゅうかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2868,7 +3248,9 @@
     "id": "cmotfpqk9009bq801bdmtqakz",
     "number": 235,
     "name": "茶道同好会秋茶会",
+    "namePhonetic": "さどうどうこうかいあきちゃかい",
     "organizationName": "茶道同好会",
+    "organizationNamePhonetic": "さどうどうこうかい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -2883,7 +3265,9 @@
     "id": "cmotj0w9t00nwq801imbx29i1",
     "number": 236,
     "name": "揚げアイス無絃塾",
+    "namePhonetic": "あげあいすむげんじゅく",
     "organizationName": "津軽三味線倶楽部無絃塾",
+    "organizationNamePhonetic": "つがるじゃみせんくらぶむげんじゅく",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2898,7 +3282,9 @@
     "id": "cmotj3k7g00ojq801ewpi31a8",
     "number": 237,
     "name": "杖球串",
+    "namePhonetic": "じょうきゅうぐし",
     "organizationName": "フィールドホッケー部",
+    "organizationNamePhonetic": "ふぃーるどほっけーぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2916,7 +3302,9 @@
     "id": "cmotltn7b01ayq801zbemu3ki",
     "number": 238,
     "name": "焼き鳥焼いちゃうぞいっ",
+    "namePhonetic": "やきとりやいちゃうぞいっ",
     "organizationName": "Fancy",
+    "organizationNamePhonetic": "ふぁんしー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2931,7 +3319,9 @@
     "id": "cmotn9w8s01tyq801z32znvfh",
     "number": 239,
     "name": "Spodayまん",
+    "namePhonetic": "すぽでーまん",
     "organizationName": "Sportsday学生委員会",
+    "organizationNamePhonetic": "すぽーつでいがくせいいいんかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2946,7 +3336,9 @@
     "id": "cmotnrqsx0241q8015xsolhs8",
     "number": 240,
     "name": "洋画制作展",
+    "namePhonetic": "ようがせいさくてん",
     "organizationName": "芸術専門学群洋画領域",
+    "organizationNamePhonetic": "げいじゅつせんもんがくぐんようがりょういき",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2961,7 +3353,9 @@
     "id": "cmotqogud03tdq801ip1ywrdq",
     "number": 241,
     "name": "謎解き　脱出ゲーム",
+    "namePhonetic": "なぞとき　だっしゅつげーむ",
     "organizationName": "Lilac -謎解き制作委員会-",
+    "organizationNamePhonetic": "らいらっく　なぞときせいさくいいんかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -2976,7 +3370,9 @@
     "id": "cmotsg4yp04pmq801frgeyi9p",
     "number": 243,
     "name": "たこ焼き教室",
+    "namePhonetic": "たこやききょうしつ",
     "organizationName": "教育学類",
+    "organizationNamePhonetic": "きょういくがくるい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -2991,7 +3387,9 @@
     "id": "cmoty6jla065zq801ybot3fnp",
     "number": 246,
     "name": "放課後アクアリウム",
+    "namePhonetic": "ほうかごあくありうむ",
     "organizationName": "筑波大学海洋研究会",
+    "organizationNamePhonetic": "つくばだいがくかいようけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3006,7 +3404,9 @@
     "id": "cmotyxjl206a6q801j3jdt9or",
     "number": 247,
     "name": "iGEM TSUKUBA実験教室",
+    "namePhonetic": "あいじぇむつくばじっけんきょうしつ",
     "organizationName": "iGEM TSUKUBA",
+    "organizationNamePhonetic": "あいじぇむつくば",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3021,7 +3421,9 @@
     "id": "cmotz35j606c5q801x8exc569",
     "number": 248,
     "name": "海洋研クラムチャウダー",
+    "namePhonetic": "かいようけんくらむちゃうだー",
     "organizationName": "筑波大学海洋研究会",
+    "organizationNamePhonetic": "つくばだいがくかいようけんきゅうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3036,7 +3438,9 @@
     "id": "cmou0yj3l071vq801n4st7dli",
     "number": 249,
     "name": "園芸屋さん",
+    "namePhonetic": "えんげいやさん",
     "organizationName": "園芸クラブ",
+    "organizationNamePhonetic": "えんげいくらぶ",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3051,7 +3455,9 @@
     "id": "cmou3zt8807wsq80136pg9lyh",
     "number": 250,
     "name": "ヤロイには内緒で歌います",
+    "namePhonetic": "やろいにはないしょでうたいます",
     "organizationName": "筑波大学独唱部",
+    "organizationNamePhonetic": "つくばだいがくどくしょうぶ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -3066,7 +3472,9 @@
     "id": "cmou9jors099nq801ineav448",
     "number": 252,
     "name": "焼きおに堂",
+    "namePhonetic": "やきおにどう",
     "organizationName": "焼きおに堂",
+    "organizationNamePhonetic": "やきおにどう",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3081,7 +3489,9 @@
     "id": "cmoualv5809d9q801ku0vluoh",
     "number": 253,
     "name": "ISSプログラム in 雙峰祭",
+    "namePhonetic": "あいえすえすぷろぐらむいんそうほうさい",
     "organizationName": "ISSプログラム",
+    "organizationNamePhonetic": "あいえすえすぷろぐらむ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3096,7 +3506,9 @@
     "id": "cmoupqvzk0a8rq8019caw0nkb",
     "number": 254,
     "name": "ユーリスからあげ",
+    "namePhonetic": "ゆーりすからあげ",
     "organizationName": "ULISバドミントン部",
+    "organizationNamePhonetic": "ゆーりすばどみんとんぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3111,7 +3523,9 @@
     "id": "cmouqfcfv0ahzq801se3qygr5",
     "number": 255,
     "name": "白玉科学Ⅰ",
+    "namePhonetic": "しらたまかがくいち",
     "organizationName": "障害科学類1.2年",
+    "organizationNamePhonetic": "しょうがいかがくるいいちにねん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3126,7 +3540,9 @@
     "id": "cmoutu1vj0b0lq8018a1frh9y",
     "number": 256,
     "name": "ハニーカフェ",
+    "namePhonetic": "はにーかふぇ",
     "organizationName": "つくばち！",
+    "organizationNamePhonetic": "つくばち",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -3141,7 +3557,9 @@
     "id": "cmouv8q4v0bhgq801ftcsmvp6",
     "number": 257,
     "name": "人文チッキン 苔コッコー",
+    "namePhonetic": "じんぶんちっきん こけこっこー",
     "organizationName": "人文学類23生有志",
+    "organizationNamePhonetic": "じんぶんがくるいにじゅうさんせいゆうし",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3156,7 +3574,9 @@
     "id": "cmouvquig0bmpq801zwf8tofo",
     "number": 258,
     "name": "ジョグロッフル",
+    "namePhonetic": "じょぐろっふる",
     "organizationName": "つくばジョギングクラブ",
+    "organizationNamePhonetic": "つくばじょぎんぐくらぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3171,7 +3591,9 @@
     "id": "cmouyt23z0divq801dzdid4em",
     "number": 261,
     "name": "E.L.L.野外ライブステージ2026",
+    "namePhonetic": "いーえるえるやがいらいぶすてーじにぜろにろく",
     "organizationName": "筑波軽音楽協会E.L.L.",
+    "organizationNamePhonetic": "つくばけいおんがくきょうかいいーえるえる",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -3186,7 +3608,9 @@
     "id": "cmouz1bp90dprq80188vq34yv",
     "number": 262,
     "name": "蜜蝋工房",
+    "namePhonetic": "みつろうこうぼう",
     "organizationName": "つくばち!",
+    "organizationNamePhonetic": "つくばち",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3201,7 +3625,9 @@
     "id": "cmov31ss20ghpq8010jo2befv",
     "number": 267,
     "name": "行動神経科学者が語る世界",
+    "namePhonetic": "こうどうしんけいかがくしゃがかたるせかい",
     "organizationName": "人間系行動神経内分泌学研究室有志",
+    "organizationNamePhonetic": "にんげんけいこうどうしんけいないぶんぴがくけんきゅうしつゆうし",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3216,7 +3642,9 @@
     "id": "cmov3nav30glxq801y6to9h4c",
     "number": 268,
     "name": "アフリカ喫茶－知る、味わう。－",
+    "namePhonetic": "あふりかきっさ　しる あじわう",
     "organizationName": "日本マラウイ学生団体",
+    "organizationNamePhonetic": "にほんまらういがくせいだんたい",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -3231,7 +3659,9 @@
     "id": "cmov4tzti0gvgq801zddirpwz",
     "number": 269,
     "name": "ふみなな",
+    "namePhonetic": "ふみなな",
     "organizationName": "Bombs!×ひらがなつくば4年生",
+    "organizationNamePhonetic": "ぼむずかけるひらがなつくばよねんせい",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -3246,7 +3676,9 @@
     "id": "cmov60cul0hl6q801qs3z23ku",
     "number": 270,
     "name": "すいしんばんど その２",
+    "namePhonetic": "すいしんばんど そのに",
     "organizationName": "推進局だった人たち",
+    "organizationNamePhonetic": "すいしんきょくだったひとたち",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -3261,7 +3693,9 @@
     "id": "cmov6seno0hvoq801lnho0wyq",
     "number": 271,
     "name": "映研のキューバサンド",
+    "namePhonetic": "えいけんのきゅーばさんど",
     "organizationName": "映画研究部",
+    "organizationNamePhonetic": "えいがけんきゅうぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3276,7 +3710,9 @@
     "id": "cmov9ht9m0izcq8015m88wu9n",
     "number": 272,
     "name": "ひつじのバルーン屋さん",
+    "namePhonetic": "ひつじのばるーんやさん",
     "organizationName": "筑波大学ジャグリングサークルSheep",
+    "organizationNamePhonetic": "つくばだいがくじゃぐりんぐさーくるしーぷ",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3291,7 +3727,9 @@
     "id": "cmov9r0gu0j17q801yrn843ho",
     "number": 273,
     "name": "クイズ研究会？何かクイズ出してよ！ ",
+    "namePhonetic": "くいずけんきゅうかいなんかくいずだしてよ",
     "organizationName": "筑波大学クイズ研究会",
+    "organizationNamePhonetic": "つくばだいがくくいずけんきゅうかい",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3306,7 +3744,9 @@
     "id": "cmovae3tw0jb6q801ekd5rvdz",
     "number": 274,
     "name": "図画団展2026",
+    "namePhonetic": "ずがだんてん",
     "organizationName": "図画団",
+    "organizationNamePhonetic": "ずがだん",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3321,7 +3761,9 @@
     "id": "cmovdhke30kkxq80174mv6mlf",
     "number": 276,
     "name": "学際シンポジウム：キリスト教研究の最前線",
+    "namePhonetic": "がくさいしんぽじうむきりすときょうけんきゅうのさいぜんせん",
     "organizationName": "筑波大学聖書部",
+    "organizationNamePhonetic": "つくばだいがくせいしょぶ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3336,7 +3778,9 @@
     "id": "cmovggcst0ltlq8011q66uf4w",
     "number": 277,
     "name": "キッチンYMCA",
+    "namePhonetic": "きっちんわいえむしーえー",
     "organizationName": "茨城YMCA",
+    "organizationNamePhonetic": "いばらきわいえむしーえー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3354,7 +3798,9 @@
     "id": "cmovh2a020m20q801otsz6xel",
     "number": 278,
     "name": "やきいも焼けた",
+    "namePhonetic": "やきいもやけた",
     "organizationName": "国際さつまいも研究所",
+    "organizationNamePhonetic": "こくさいさつまいもけんきゅうじょ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3369,7 +3815,9 @@
     "id": "cmovi12qf0mmnq801h9uj43yg",
     "number": 279,
     "name": "驚額の殿堂ファイナル",
+    "namePhonetic": "きょうがくのでんどうふぁいなる",
     "organizationName": "焼きそばマイスター",
+    "organizationNamePhonetic": "やきそばまいすたー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3384,7 +3832,9 @@
     "id": "cmoviuti10n1aq801rrmqu2ft",
     "number": 280,
     "name": "自家製Lemonade",
+    "namePhonetic": "じかせいれもねーど",
     "organizationName": "レモネード研究会",
+    "organizationNamePhonetic": "れもねーどけんきゅうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3399,7 +3849,9 @@
     "id": "cmovk736t0nouq801agvj5q4x",
     "number": 281,
     "name": "なんやの焼きそば",
+    "namePhonetic": "なんやのやきそば",
     "organizationName": "軟式野球部",
+    "organizationNamePhonetic": "なんしきやきゅうぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3414,7 +3866,9 @@
     "id": "cmovl3c100o8kq801esft5iij",
     "number": 282,
     "name": "クレアがプロデュースしました！",
+    "namePhonetic": "くれあがぷろでゅーすしました",
     "organizationName": "クレア散歩係",
+    "organizationNamePhonetic": "くれあさんぽがかり",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3429,7 +3883,9 @@
     "id": "cmovldr4e0odyq801ad1i5eta",
     "number": 283,
     "name": "しるこでぽてと",
+    "namePhonetic": "しるこでぽてと",
     "organizationName": "フットサル同好会",
+    "organizationNamePhonetic": "ふっとさるどうこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3444,7 +3900,9 @@
     "id": "cmovlu22y0orkq801yhkwckvu",
     "number": 285,
     "name": "THE・ンギ",
+    "namePhonetic": "ざ・んぎ",
     "organizationName": "北海道を愛する会",
+    "organizationNamePhonetic": "ほっかいどうをあいするかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3459,7 +3917,9 @@
     "id": "cmovlu3te0os3q80167v2q204",
     "number": 286,
     "name": "北の大地のジンギスカン",
+    "namePhonetic": "きたのだいちのじんぎすかん",
     "organizationName": "どさんこ会",
+    "organizationNamePhonetic": "どさんこかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3474,7 +3934,9 @@
     "id": "cmovlzed50ox4q80140xfxsco",
     "number": 287,
     "name": "木のお皿と小さな絵",
+    "namePhonetic": "きのおさらとちいさなえ",
     "organizationName": "中美コンビ",
+    "organizationNamePhonetic": "ちゅうびこんび",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3489,7 +3951,9 @@
     "id": "cmovmlpk60p9dq801xs6gcxvq",
     "number": 288,
     "name": "走るダーツ場（ダーツ体験会）",
+    "namePhonetic": "はしるだーつじょうだーつたいけんかい",
     "organizationName": "筑波大学ダーツ同好会",
+    "organizationNamePhonetic": "つくばだいがくだーつどうこうかい",
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3504,7 +3968,9 @@
     "id": "cmovne79t0pngq801y7i3qi7a",
     "number": 289,
     "name": "Baby Real.",
+    "namePhonetic": "べびーりある",
     "organizationName": "バドミントン同好会４年有志",
+    "organizationNamePhonetic": "ばどみんとんどうこうかいよねんゆうし",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3519,7 +3985,9 @@
     "id": "cmovoetjv0qbkq801joksz0x3",
     "number": 290,
     "name": "BULLっとドーナツ！",
+    "namePhonetic": "ぶるっとどーなつ",
     "organizationName": "筑波大学ダーツ同好会",
+    "organizationNamePhonetic": "つくばだいがくだーつどうこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3534,7 +4002,9 @@
     "id": "cmovohr620qdgq801bwmjmd2p",
     "number": 291,
     "name": "社福のクレープ屋さん",
+    "namePhonetic": "しゃふくのくれーぷやさん",
     "organizationName": "社会福祉研究会",
+    "organizationNamePhonetic": "しゃかいふくしけんきゅうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3549,7 +4019,9 @@
     "id": "cmovv3lah0rucq801rhmvkndj",
     "number": 293,
     "name": "研究室発！玄米シチューカレー",
+    "namePhonetic": "けんきゅうしつはつげんまいしちゅーかれー",
     "organizationName": "農産食品加工研究室",
+    "organizationNamePhonetic": "のうさんしょくひんかこうけんきゅうしつ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3564,7 +4036,9 @@
     "id": "cmowaiiy90v8cq801xv2chzm6",
     "number": 298,
     "name": "桐葉書店",
+    "namePhonetic": "きりのはしょてん",
     "organizationName": "文芸部",
+    "organizationNamePhonetic": "ぶんげいぶ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3579,7 +4053,9 @@
     "id": "cmowbex6m0vnzq801i4lv1ynu",
     "number": 299,
     "name": "焼き全音符",
+    "namePhonetic": "やきぜんおんぷ",
     "organizationName": "わっぱー有志",
+    "organizationNamePhonetic": "わっぱーゆうし",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3594,7 +4070,9 @@
     "id": "cmowezwrv0x2vq801sji79xpq",
     "number": 301,
     "name": "青春、はさんじゃいました。",
+    "namePhonetic": "せいしゅん はさんじゃいました",
     "organizationName": "総合学域群第１類４クラス＆第２類５クラス",
+    "organizationNamePhonetic": "そうごうがくいきぐんだいいちるいよんくらすあんどだいにるいごくらす",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3609,7 +4087,9 @@
     "id": "cmowiom9t0yt3q801dvhnhswi",
     "number": 304,
     "name": "Калинка",
+    "namePhonetic": "かりんか",
     "organizationName": "ロシア語サークル Калинина ",
+    "organizationNamePhonetic": "ろしあごさーくる かりんか",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3624,7 +4104,9 @@
     "id": "cmowj6i6x0z2dq801rw275tru",
     "number": 305,
     "name": "チンチロぽてっと",
+    "namePhonetic": "ちんちろぽてっと",
     "organizationName": "ぽてっと42",
+    "organizationNamePhonetic": "ぽてっとふぉーてぃーとぅー",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3639,7 +4121,9 @@
     "id": "cmowj7i730z32q801n6wq8x1k",
     "number": 306,
     "name": "迫屋家の食卓Ver.3.0",
+    "namePhonetic": "さこやけのしょくたくばーじょんすりー",
     "organizationName": "大牧66単位",
+    "organizationNamePhonetic": "おおまきろくじゅうろくたんい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3654,7 +4138,9 @@
     "id": "cmowjo6560zd1q801w3yqmip7",
     "number": 307,
     "name": "リサイクルしまくり",
+    "namePhonetic": "りさいくるしまくり",
     "organizationName": "MOLT",
+    "organizationNamePhonetic": "もると",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3669,7 +4155,9 @@
     "id": "cmowjo71q0zdeq801i4m0qtxo",
     "number": 308,
     "name": "れきたん芋工房",
+    "namePhonetic": "れきたんいもこうぼう",
     "organizationName": "歴史探訪会",
+    "organizationNamePhonetic": "れきしたんほうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3684,7 +4172,9 @@
     "id": "cmowkk6zx10nrq801kw51l1pr",
     "number": 309,
     "name": "モルックおでん",
+    "namePhonetic": "もるっくおでん",
     "organizationName": "METs",
+    "organizationNamePhonetic": "めっつ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3699,7 +4189,9 @@
     "id": "cmowl6tuo11egq801rxqg90ma",
     "number": 311,
     "name": "苔と蘭と水辺の生き物",
+    "namePhonetic": "こけとらんとみずべのいきもの",
     "organizationName": "つくリウム",
+    "organizationNamePhonetic": "つくりうむ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3714,7 +4206,9 @@
     "id": "cmowmjh6t12xeq8018q48afqk",
     "number": 312,
     "name": "浅瀬川ちゃんこクレープ店",
+    "namePhonetic": "あさせがわちゃんこくれーぷてん",
     "organizationName": "筑波大学医学バドミントン部",
+    "organizationNamePhonetic": "つくばだいがくいがくばどみんとんぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3729,7 +4223,9 @@
     "id": "cmowmpg5i132eq80170suwnge",
     "number": 315,
     "name": "なんかちっと Brain Use したいよね ☆",
+    "namePhonetic": "なんかちっとぶれいんゆーずしたいよね",
     "organizationName": "筑波大学作問サークルつくもんaid",
+    "organizationNamePhonetic": "つくばだいがくさくもんさーくるつくもんえいど",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3744,7 +4240,9 @@
     "id": "cmowmz13b13gtq801bhfda2l6",
     "number": 316,
     "name": "雙峰の細工屋",
+    "namePhonetic": "そうほうのさいくや",
     "organizationName": "S＆T",
+    "organizationNamePhonetic": "えすあんどてぃ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3759,7 +4257,9 @@
     "id": "cmownb2b313uvq8010hm8hnw4",
     "number": 317,
     "name": "医ゴルのまんまる焼きそば",
+    "namePhonetic": "いごるのまんまるやきそば",
     "organizationName": "医学ゴルフ部",
+    "organizationNamePhonetic": "いがくごるふぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3777,7 +4277,9 @@
     "id": "cmowntewg14e2q801f08j5gqn",
     "number": 318,
     "name": "フィルダースチュロス",
+    "namePhonetic": "ふぃるだーすちゅろす",
     "organizationName": "医学準硬式野球部",
+    "organizationNamePhonetic": "いがくじゅんこうしきやきゅうぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3792,7 +4294,9 @@
     "id": "cmownu80114erq801fq5y1lnt",
     "number": 319,
     "name": "ミャンマードーナツデビュー",
+    "namePhonetic": "みゃんまーどーなつでびゅー",
     "organizationName": "MSAT",
+    "organizationNamePhonetic": "えむさと",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3807,7 +4311,9 @@
     "id": "cmowo1xfk14o1q801zsnmk67u",
     "number": 320,
     "name": "極上~味に拘り抜いた究極の豚ラーメン~",
+    "namePhonetic": "ごくじょう　あじにこだわりぬいたきゅうきょくのぶたらーめん",
     "organizationName": "ラーメンパソコン部",
+    "organizationNamePhonetic": "らーめんぱそこんぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3822,7 +4328,9 @@
     "id": "cmowodq7n1563q801qdn8b6n4",
     "number": 321,
     "name": "あげパン・パラダイス！",
+    "namePhonetic": "あげぱんぱらだいす",
     "organizationName": "小学校の先生になろう！",
+    "organizationNamePhonetic": "しょうがっこうのせんせいになろう",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3837,7 +4345,9 @@
     "id": "cmowptzvm165xq801gpdmfbch",
     "number": 322,
     "name": "ありたや",
+    "namePhonetic": "ありたや",
     "organizationName": "土地利用研究室有田研",
+    "organizationNamePhonetic": "とちりようけんきゅうしつありたけん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3852,7 +4362,9 @@
     "id": "cmowqo6qj17bhq801fsbyiwf3",
     "number": 323,
     "name": "将棋Café",
+    "namePhonetic": "しようぎかふぇ",
     "organizationName": "将棋部",
+    "organizationNamePhonetic": "しょうぎぶ",
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
@@ -3867,7 +4379,9 @@
     "id": "cmowr14fb17s1q80127i0j278",
     "number": 324,
     "name": "パン揚げすぎて滅",
+    "namePhonetic": "ぱんあげすぎてめつ",
     "organizationName": "Sコンピューティング基礎研究グループ",
+    "organizationNamePhonetic": "えすこんぴゅうてぃんぐけんきゅうぐるーぷ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3882,7 +4396,9 @@
     "id": "cmowr97fg17z7q801qi4t2j81",
     "number": 326,
     "name": "MY碁の子猫ちゃん",
+    "namePhonetic": "まいごのこねこちゃん",
     "organizationName": "筑波大学囲碁部",
+    "organizationNamePhonetic": "つくばだいがくいごぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3897,7 +4413,9 @@
     "id": "cmowroba918ivq801jtc1z4fr",
     "number": 327,
     "name": "ブロー・ド・チュロス",
+    "namePhonetic": "ぶろーどちゅろす",
     "organizationName": "医学ヨット部",
+    "organizationNamePhonetic": "いがくよっとぶ",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3912,7 +4430,9 @@
     "id": "cmows72zm1939q8017ega8u9m",
     "number": 328,
     "name": "もっと知りたい！オフィスLOVOTの世界",
+    "namePhonetic": "もっとしりたいおふぃすらぼっとのせかい",
     "organizationName": "体育芸術エリア支援室",
+    "organizationNamePhonetic": "たいいくげいじゅつえりあしえんしつ",
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
@@ -3927,7 +4447,9 @@
     "id": "cmowunlqf1aviq80158fyhfib",
     "number": 330,
     "name": "手話カフェ",
+    "namePhonetic": "しゅわかふぇ",
     "organizationName": "手話サークル",
+    "organizationNamePhonetic": "しゅわさーくる",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3942,7 +4464,9 @@
     "id": "cmowv3g8h1b37q801l5n4p2oi",
     "number": 332,
     "name": "スモア so sweet",
+    "namePhonetic": "すもあそーすいーと",
     "organizationName": "バドミントン同好会",
+    "organizationNamePhonetic": "ばどみんとんどうこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3957,7 +4481,9 @@
     "id": "cmoww5uh41blnq801q38dzawa",
     "number": 333,
     "name": "つくば農場2",
+    "namePhonetic": "つくばのうじょうつー",
     "organizationName": "とあるつくばの飲食店",
+    "organizationNamePhonetic": "とあるつくばのいんしょくてん",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3972,7 +4498,9 @@
     "id": "cmowyqle51derq801m6ovast7",
     "number": 337,
     "name": "キッチンさかる〜カンボジアに恋する私〜",
+    "namePhonetic": "きっちんさかる　かんぼじあにこいするわたし",
     "organizationName": "WorldFut TSUKUBA",
+    "organizationNamePhonetic": "わーるどふっとつくば",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -3987,7 +4515,9 @@
     "id": "cmox0fbhr1epzq801uwyk8b2z",
     "number": 339,
     "name": "無邪気にすすれ",
+    "namePhonetic": "むじゃきにすすれ",
     "organizationName": "むじゃきな仲間たち",
+    "organizationNamePhonetic": "むじゃきななかまたち",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -4002,7 +4532,9 @@
     "id": "cmox0warn1f07q801sz3bkcer",
     "number": 340,
     "name": "たませんや",
+    "namePhonetic": "たませんや",
     "organizationName": "筑波大学鶏卵愛好会",
+    "organizationNamePhonetic": "つくばだいがくけいらんあいこうかい",
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
@@ -4017,7 +4549,9 @@
     "id": "cmpnxl4dp002bo101zkgjujcn",
     "number": 342,
     "name": "吹奏楽団夜祭ステージ",
+    "namePhonetic": "すいそうがくだんやさいすてーじ",
     "organizationName": "筑波大学吹奏楽団",
+    "organizationNamePhonetic": "つくばだいがくすいそうがくだん",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
@@ -4032,7 +4566,9 @@
     "id": "cmpnyjcah006yo1018nrypl6l",
     "number": 343,
     "name": "Realjam Special Stage",
+    "namePhonetic": "りあるじゃむすぺしゃるすてーじ",
     "organizationName": "ストリートダンスサークルRealjam",
+    "organizationNamePhonetic": "すとりーとだんすさーくるりあるじゃむ",
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {

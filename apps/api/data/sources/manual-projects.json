@@ -3,7 +3,9 @@
     "number": "900",
     "id": "manual-fukubiki",
     "name": "福引所",
+    "nameReading": "ふくびきじょ",
     "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
     "locations": [
@@ -37,7 +39,9 @@
     "number": "901",
     "id": "manual-linemo",
     "name": "LINEMOオリジナルブース",
+    "nameReading": "らいんもおりじなるぶーす",
     "organization": "ソフトバンク株式会社",
+    "organizationReading": "そふとばんくかぶしきがいしゃ",
     "category": "その他",
     "schedule": ["Day1", "Day2"],
     "locations": [
@@ -86,7 +90,9 @@
     "number": "902",
     "id": "manual-goods",
     "name": "グッズ販売所",
+    "nameReading": "ぐっずはんばいじょ",
     "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
     "locations": [
