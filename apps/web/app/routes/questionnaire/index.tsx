@@ -3,13 +3,24 @@ import HeadcountStep from '~/components/features/Questionnaire/HeadcountStep';
 import SurveyForm from '~/components/features/Questionnaire/SurveyForm';
 import TicketList from '~/components/features/Questionnaire/TicketList';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
+import {
+  ComingSoonPage,
+  statusPageLinks,
+  statusPageMeta,
+} from '~/components/layouts/StatusPage/StatusPage';
+import { LINE_LOGIN_ENABLED } from '~/lib/auth';
 import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
 import type { Route } from './+types/index';
 
-export const meta: Route.MetaFunction = () => [
-  { title: '来場者アンケート | 雙峰祭 企画検索システム' },
-];
+// LINE ログインを無効にしたビルド（雙峰祭の当日まで）では、準備中の案内を出す。
+export const meta: Route.MetaFunction = () =>
+  LINE_LOGIN_ENABLED
+    ? [{ title: '来場者アンケート | 雙峰祭 企画検索システム' }]
+    : statusPageMeta('来場者アンケートは準備中です');
+
+export const links: Route.LinksFunction = () =>
+  LINE_LOGIN_ENABLED ? [] : statusPageLinks;
 
 function QuestionnaireContent() {
   const {
@@ -63,7 +74,15 @@ function QuestionnaireContent() {
   );
 }
 
-export default function QuestionnairePage() {
+export default function QuestionnaireRoute() {
+  return LINE_LOGIN_ENABLED ? (
+    <QuestionnairePage />
+  ) : (
+    <ComingSoonPage title="来場者アンケート" />
+  );
+}
+
+function QuestionnairePage() {
   return (
     <EventPageShell title="来場者アンケート" redirectPath="/questionnaire">
       <QuestionnaireContent />

@@ -13,7 +13,7 @@ import {
 } from '../../db/schema';
 import type { Project } from '../../domain/project';
 import { parseProjectNumbers } from '../../services/sos';
-import { protectedProcedure, t } from '../trpc';
+import { lineProcedure, protectedProcedure, t } from '../trpc';
 
 const MAX_GENERAL_VOTES = 4;
 export type MaxGeneralVotes = typeof MAX_GENERAL_VOTES;
@@ -62,7 +62,7 @@ const submitInputSchema = z.object({
 
 export const grandprixRouter = t.router({
   grandprix: t.router({
-    stageProjects: t.procedure.query(async ({ ctx }) =>
+    stageProjects: lineProcedure.query(async ({ ctx }) =>
       groupStageProjects(
         votableProjects(
           await ctx.sos.getProjects(),
@@ -72,7 +72,7 @@ export const grandprixRouter = t.router({
     ),
 
     // ステージ企画はステージ部門でだけ投票できるため、一般部門の一覧から除く。
-    generalProjects: t.procedure.query(async ({ ctx }) => {
+    generalProjects: lineProcedure.query(async ({ ctx }) => {
       const projects = votableProjects(
         await ctx.sos.getProjects(),
         ctx.env.GRANDPRIX_HIDDEN_PROJECT_NUMBERS,

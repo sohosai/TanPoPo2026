@@ -2,13 +2,24 @@ import { useState } from 'react';
 import GrandprixForm from '~/components/features/Grandprix/GrandprixForm';
 import GrandprixResult from '~/components/features/Grandprix/GrandprixResult';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
+import {
+  ComingSoonPage,
+  statusPageLinks,
+  statusPageMeta,
+} from '~/components/layouts/StatusPage/StatusPage';
+import { LINE_LOGIN_ENABLED } from '~/lib/auth';
 import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
 import type { Route } from './+types/index';
 
-export const meta: Route.MetaFunction = () => [
-  { title: '雙峰祭グランプリ | 雙峰祭 企画検索システム' },
-];
+// LINE ログインを無効にしたビルド（雙峰祭の当日まで）では、準備中の案内を出す。
+export const meta: Route.MetaFunction = () =>
+  LINE_LOGIN_ENABLED
+    ? [{ title: '雙峰祭グランプリ | 雙峰祭 企画検索システム' }]
+    : statusPageMeta('雙峰祭グランプリ投票は準備中です');
+
+export const links: Route.LinksFunction = () =>
+  LINE_LOGIN_ENABLED ? [] : statusPageLinks;
 
 function GrandprixContent() {
   const { data: status, status: queryStatus } =
@@ -37,7 +48,15 @@ function GrandprixContent() {
   return <GrandprixForm onSubmitted={(r) => setLocalResult(r)} />;
 }
 
-export default function GrandprixPage() {
+export default function GrandprixRoute() {
+  return LINE_LOGIN_ENABLED ? (
+    <GrandprixPage />
+  ) : (
+    <ComingSoonPage title="グランプリ投票" />
+  );
+}
+
+function GrandprixPage() {
   return (
     <EventPageShell title="雙峰祭グランプリ投票" redirectPath="/grandprix">
       <GrandprixContent />
