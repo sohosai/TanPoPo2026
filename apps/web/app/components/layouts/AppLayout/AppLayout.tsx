@@ -23,17 +23,16 @@ export default function AppLayout() {
         <MapCallouts />
         <MapControls ref={controlsRef} />
 
+        {/* PC は左にサイドパネルがあるため右上、スマホは左上に置く。 */}
+        <AppLogo corner={isDesktop ? 'right' : 'left'} />
         {isDesktop ? (
-          <SidePanel beside={<AppLogo placement="beside-panel" />}>
+          <SidePanel>
             <Outlet />
           </SidePanel>
         ) : (
-          <>
-            <AppLogo placement="screen" />
-            <BottomSheet controlsRef={controlsRef}>
-              <Outlet />
-            </BottomSheet>
-          </>
+          <BottomSheet controlsRef={controlsRef}>
+            <Outlet />
+          </BottomSheet>
         )}
       </div>
     </MapProvider>
