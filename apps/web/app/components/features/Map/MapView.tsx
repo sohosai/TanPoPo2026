@@ -102,7 +102,10 @@ export default function MapView() {
         top: 0,
         left: 0,
         w: '100vw',
-        h: '100dvh',
+        // 100dvh は Safari の上下のツールバーの間だけの高さで、半透明のツールバーの裏まで地図が届かず、
+        // そこにページの背景（白）が見えてしまう。画面全体の高さ（lvh）で敷く。lvh の無いブラウザは vh。
+        h: '100vh',
+        '@supports (height: 100lvh)': { h: '100lvh' },
         bg: 'gray.100',
       })}
     >
