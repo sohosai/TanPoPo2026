@@ -1376,13 +1376,6 @@
       "days": ["Day1", "Day2"]
     }
   ],
-  "305": [
-    {
-      "placeId": "booth-g",
-      "room": "G2",
-      "days": ["Day1", "Day2"]
-    }
-  ],
   "306": [
     {
       "placeId": "booth-d",
