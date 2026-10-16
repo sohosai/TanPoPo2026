@@ -203,6 +203,7 @@ const places: Place[] = [
     reading: 'いちえーすてーじ',
     kind: 'stage',
     point: [140.1028046, 36.1082805],
+    buildingId: 'bldg-1a',
   },
   {
     id: 'stage-kaikan-kodo',
@@ -210,6 +211,7 @@ const places: Place[] = [
     reading: 'だいがくかいかんすてーじこうどう',
     kind: 'stage',
     point: [140.101763, 36.1055891],
+    buildingId: 'bldg-kaikan',
   },
   {
     id: 'stage-kaikan-hall',
@@ -217,6 +219,7 @@ const places: Place[] = [
     reading: 'だいがくかいかんすてーじほーる',
     kind: 'stage',
     point: [140.1018528, 36.1052771],
+    buildingId: 'bldg-kaikan',
   },
 
   // ---- バス停 ----

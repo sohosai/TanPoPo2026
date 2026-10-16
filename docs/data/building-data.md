@@ -29,6 +29,7 @@ type Place = {
   reading?: string;        // よみがな（任意・かな検索の補助）
   kind: PlaceKind;
   point: [number, number]; // 代表点 [経度, 緯度]。地図フォーカス/ルート終点に使う
+  buildingId?: string;     // 建物の中にある場所（ステージ等）が属する建物の id。例 'bldg-1a'
 };
 ```
 

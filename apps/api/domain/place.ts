@@ -24,4 +24,6 @@ export type Place = {
   kind: PlaceKind;
   /** 代表点 [経度, 緯度]。地図フォーカスとルート終点に使う */
   point: [number, number];
+  /** 建物の中にある場所（ステージ等）が属する建物の id */
+  buildingId?: string;
 };
