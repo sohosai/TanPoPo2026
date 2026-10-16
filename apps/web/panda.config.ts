@@ -269,7 +269,8 @@ export default defineConfig({
           // MapLibre は CSS 変数を解釈できないため、地図で使う色は16進の値で持つ。
           map: {
             campusBuilding: { value: '#97bbdc' },
-            basemapBuilding: { value: '#d9d9d2' },
+            information: { value: '#e8642c' },
+            trash: { value: '#5f9a3c' },
           },
           debug: {
             path: { value: '#ff5a36' },

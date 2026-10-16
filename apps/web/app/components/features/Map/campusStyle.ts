@@ -1,6 +1,7 @@
 import type { ProjectCategory } from 'api';
 import type {
   ExpressionSpecification,
+  FillExtrusionLayerSpecification,
   FilterSpecification,
   Map as MlMap,
   SymbolLayerSpecification,
@@ -45,15 +46,25 @@ const FLOOR_HEIGHT = 4;
 const BOOTH_HEIGHT = 2;
 // 地図スタイルの sohosai-buildings（平面の建物の塗り）と揃える。
 const CAMPUS_BUILDING_COLOR = '#97bbdc'; // token('colors.map.campusBuilding')
-const BASEMAP_BUILDING_COLOR = '#d9d9d2'; // token('colors.map.basemapBuilding')
-const BASEMAP_3D_OPACITY = 0.6;
+// テントが見えるところまで寄ったら、軒下や建物の奥のテントが隠れないよう、どの建物も同じだけ透かす。
+const TENT_VIEW_BUILDING_OPACITY = 0.45;
+export const INFORMATION_COLOR = '#e8642c'; // token('colors.map.information')
+const TRASH_COLOR = '#5f9a3c'; // token('colors.map.trash')
 
-/** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤ。 */
-const EXTRUSION_LAYERS = {
-  'basemap-building-3d': BASEMAP_3D_OPACITY,
-  'campus-building-3d': 1,
+/** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤと、その不透明度。 */
+const EXTRUSION_LAYERS: Record<string, number | ExpressionSpecification> = {
   'campus-booth-3d': 1,
-} as const;
+  // テントの点が形に入れ替わる間に透かしていく。
+  'campus-building-3d': [
+    'interpolate',
+    ['linear'],
+    ['zoom'],
+    BOOTH_FADE_ZOOM,
+    1,
+    BOOTH_ZOOM,
+    TENT_VIEW_BUILDING_OPACITY,
+  ],
+};
 /** 3D 表示では立体の色で強調・タップ判定するため隠す平面のレイヤ。 */
 const FLAT_LAYERS = [
   'campus-building-fill',
@@ -68,7 +79,6 @@ const FLAT_LAYERS = [
 export const SOURCES = {
   areas: 'campus-areas',
   buildings: 'campus-buildings',
-  buildingShells: 'campus-building-shells',
   places: 'campus-places',
   booths: 'campus-booths',
   boothShapes: 'campus-booth-shapes',
@@ -184,58 +194,40 @@ const buildingColor = (placeIds: string[]): ExpressionSpecification => [
  * 建物とテントの立体を追加する（はじめは非表示）。
  * 道路などの平面のレイヤより後に描かないと立体の上に道路が重なるため、地図スタイルの最初の文字レイヤの前に差し込む。
  */
-function addExtrusionLayers(map: MlMap, basemapBuildingIds: number[]) {
+function addExtrusionLayers(map: MlMap) {
   const beforeId = map.getStyle().layers.find((l) => l.type === 'symbol')?.id;
-  const hidden = { visibility: 'none' } as const;
+  const add = (
+    layer: Omit<FillExtrusionLayerSpecification, 'type' | 'layout'>,
+  ) =>
+    map.addLayer(
+      {
+        ...layer,
+        type: 'fill-extrusion',
+        layout: { visibility: 'none' },
+        paint: { ...layer.paint, 'fill-extrusion-opacity': 0 },
+      },
+      beforeId,
+    );
 
-  map.addLayer(
-    {
-      id: 'basemap-building-3d',
-      type: 'fill-extrusion',
-      source: 'openmaptiles',
-      'source-layer': 'building',
-      minzoom: 15,
-      // タイルの建物の id は OSM の way id。
-      filter: ['in', ['id'], ['literal', basemapBuildingIds]],
-      layout: hidden,
-      paint: {
-        'fill-extrusion-color': BASEMAP_BUILDING_COLOR,
-        'fill-extrusion-height': ['get', 'render_height'],
-        'fill-extrusion-base': ['get', 'render_min_height'],
-        'fill-extrusion-opacity': 0,
-      },
+  // 半透明の立体は奥行きを書き込んでから色を塗るため、後から描いた立体はその内側に隠れる。
+  // 建物の下や奥のテントを透かして見せるには、テントを建物より先に描く。
+  add({
+    id: 'campus-booth-3d',
+    source: SOURCES.boothShapes,
+    minzoom: BOOTH_FADE_ZOOM,
+    paint: {
+      'fill-extrusion-color': ['get', 'color'],
+      'fill-extrusion-height': BOOTH_HEIGHT,
     },
-    beforeId,
-  );
-  map.addLayer(
-    {
-      id: 'campus-building-3d',
-      type: 'fill-extrusion',
-      source: SOURCES.buildingShells,
-      layout: hidden,
-      paint: {
-        'fill-extrusion-color': buildingColor([]),
-        'fill-extrusion-height': ['*', ['get', 'levels'], FLOOR_HEIGHT],
-        'fill-extrusion-opacity': 0,
-      },
+  });
+  add({
+    id: 'campus-building-3d',
+    source: SOURCES.buildings,
+    paint: {
+      'fill-extrusion-color': buildingColor([]),
+      'fill-extrusion-height': ['*', ['get', 'levels'], FLOOR_HEIGHT],
     },
-    beforeId,
-  );
-  map.addLayer(
-    {
-      id: 'campus-booth-3d',
-      type: 'fill-extrusion',
-      source: SOURCES.boothShapes,
-      minzoom: BOOTH_FADE_ZOOM,
-      layout: hidden,
-      paint: {
-        'fill-extrusion-color': ['get', 'color'],
-        'fill-extrusion-height': BOOTH_HEIGHT,
-        'fill-extrusion-opacity': 0,
-      },
-    },
-    beforeId,
-  );
+  });
 }
 
 /** 立体の表示/非表示を切り替え、平面の建物・テントはその逆にする。 */
@@ -250,18 +242,60 @@ export function setExtrusionVisible(map: MlMap, visible: boolean) {
   }
 }
 
-/**
- * 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。
- * basemapBuildingIds は地図タイルの建物のうち 3D 表示で立体にするものの id。
- */
-export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
+const ICON_SIZE = 20;
+const ICON_PIXEL_RATIO = 2;
+
+/** 色の丸に白い記号（`symbol` が 20px 四方に描く）を載せた、案内所・ゴミ箱のアイコン。 */
+function facilityIcon(
+  color: string,
+  symbol: (ctx: CanvasRenderingContext2D) => void,
+) {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = ICON_SIZE * ICON_PIXEL_RATIO;
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+  ctx.scale(ICON_PIXEL_RATIO, ICON_PIXEL_RATIO);
+  ctx.beginPath();
+  ctx.arc(10, 10, 8.5, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = WHITE;
+  ctx.stroke();
+  ctx.fillStyle = WHITE;
+  symbol(ctx);
+  return ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+const FACILITY_ICONS = {
+  information: () =>
+    facilityIcon(INFORMATION_COLOR, (ctx) => {
+      ctx.beginPath();
+      ctx.arc(10, 5.9, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillRect(8.6, 8.4, 2.8, 6.8);
+    }),
+  trash: () =>
+    facilityIcon(TRASH_COLOR, (ctx) => {
+      ctx.fillRect(8.5, 4.6, 3, 1.4);
+      ctx.fillRect(5.4, 5.8, 9.2, 1.5);
+      ctx.beginPath();
+      ctx.moveTo(6.3, 8);
+      ctx.lineTo(13.7, 8);
+      ctx.lineTo(13, 15.4);
+      ctx.lineTo(7, 15.4);
+      ctx.fill();
+    }),
+};
+
+/** 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。 */
+export function addCampusLayers(map: MlMap) {
   for (const id of Object.values(SOURCES)) {
     map.addSource(id, {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
     });
   }
-  addExtrusionLayers(map, basemapBuildingIds);
+  addExtrusionLayers(map);
 
   map.addLayer({
     id: 'campus-building-fill',
@@ -483,6 +517,44 @@ export function addCampusLayers(map: MlMap, basemapBuildingIds: number[]) {
       'line-opacity': fadeIn(1),
     },
   });
+  // 案内所はエリア全体から目印になるよう引いた段階から、ゴミ箱は数が多いため寄ってから出す。
+  // 案内所はテントの形が見えるところまで寄ったら、アイコンを消してテントと名前だけにする。
+  for (const [kind, minzoom] of [
+    ['information', AREA_MAX_ZOOM],
+    ['trash', DETAIL_ZOOM],
+  ] as const) {
+    const icon = `campus-${kind}`;
+    if (!map.hasImage(icon)) {
+      map.addImage(icon, FACILITY_ICONS[kind](), {
+        pixelRatio: ICON_PIXEL_RATIO,
+      });
+    }
+    map.addLayer({
+      id: icon,
+      type: 'symbol',
+      source: SOURCES.places,
+      filter: kindIs(kind),
+      minzoom,
+      layout: {
+        'icon-image': icon,
+        // アイコンは常に出し、重なったときは名前だけを省く。
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'text-optional': true,
+        'text-field': ['get', 'name'],
+        'text-font': FONT,
+        'text-size': 11,
+        'text-anchor': 'top',
+        'text-offset': [0, 1],
+        'text-max-width': 10,
+      },
+      paint: {
+        ...textPaint,
+        ...(kind === 'information' && { 'icon-opacity': fadeOut }),
+      },
+    });
+  }
+
   map.addLayer({
     id: 'campus-booth-label',
     type: 'symbol',
