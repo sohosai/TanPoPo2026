@@ -178,8 +178,8 @@
   ],
   "59": [
     {
-      "placeId": "booth-s",
-      "room": "S3",
+      "placeId": "booth-t",
+      "room": "T2",
       "days": ["Day1", "Day2"]
     }
   ],
@@ -634,8 +634,8 @@
   ],
   "148": [
     {
-      "placeId": "booth-t",
-      "room": "T2",
+      "placeId": "booth-s",
+      "room": "S3",
       "days": ["Day1", "Day2"]
     }
   ],
@@ -1130,8 +1130,8 @@
   ],
   "252": [
     {
-      "placeId": "booth-r",
-      "room": "R5",
+      "placeId": "booth-t",
+      "room": "T5",
       "days": ["Day1", "Day2"]
     }
   ],
@@ -1434,8 +1434,8 @@
   ],
   "317": [
     {
-      "placeId": "booth-t",
-      "room": "T5",
+      "placeId": "booth-r",
+      "room": "R5",
       "days": ["Day1", "Day2"]
     }
   ],
