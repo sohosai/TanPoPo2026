@@ -75,6 +75,9 @@ const FLAT_LAYERS = [
   'campus-booth-selected',
 ];
 
+/** 地図スタイル側の平面の建物の塗り（道路より下に描くためスタイル JSON に置いている）のソース。 */
+export const BUILDING_FLAT_SOURCE = 'sohosai-buildings-fill';
+
 /** データの種類ごとの地図ソース id。 */
 export const SOURCES = {
   areas: 'campus-areas',
@@ -301,7 +304,6 @@ export function addCampusLayers(map: MlMap) {
     id: 'campus-building-fill',
     type: 'fill',
     source: SOURCES.buildings,
-    filter: ['any', ['>', ['get', 'count'], 0], ['get', 'hasStage']],
     // タップ判定用。見た目は地図スタイル側の建物の塗りに任せる。
     paint: { 'fill-color': ACCENT, 'fill-opacity': 0 },
   });

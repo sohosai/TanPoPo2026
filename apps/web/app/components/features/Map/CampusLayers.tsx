@@ -15,6 +15,7 @@ import { buildCampusData } from './campusData';
 import {
   addCampusLayers,
   applySelection,
+  BUILDING_FLAT_SOURCE,
   highlightPlaceKind,
   INTERACTIVE_LAYERS,
   type Selection,
@@ -176,6 +177,9 @@ export default function CampusLayers({
     for (const key of Object.keys(SOURCES) as (keyof typeof SOURCES)[]) {
       (map.getSource(SOURCES[key]) as GeoJSONSource).setData(data[key]);
     }
+    (map.getSource(BUILDING_FLAT_SOURCE) as GeoJSONSource).setData(
+      data.buildings,
+    );
   }, [loaded, getMap, projects, places]);
 
   useEffect(() => {

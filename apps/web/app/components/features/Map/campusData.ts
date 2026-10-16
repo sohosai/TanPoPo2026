@@ -12,13 +12,15 @@ import informationRaw from './data/information.geojson?raw';
 import { type LngLat, ringBounds, ringCenter, ringContains } from './geo';
 import sohosaiMap from './sohosai-map.json';
 
-// 地図スタイルに塗り分けとして入っている会場エリア。
-const AREAS = [
+// 地図スタイルに塗り分けとして入っている会場エリア。名前は既定でエリアの中心に出し、
+// 中心が企画の集まる場所から外れるエリアだけ label で位置を指定する。
+const AREAS: { source: string; name: string; label?: LngLat }[] = [
   { source: 'area-1', name: '第一エリア' },
   { source: 'area-2-3', name: '第二・第三エリア' },
   { source: 'area-kaikan', name: '大学会館エリア' },
-  { source: 'area-taigei', name: '体芸エリア' },
-] as const;
+  // 頂点の平均だと東側の体育施設に寄って見えるため、北西へずらす。
+  { source: 'area-taigei', name: '体芸エリア', label: [140.1031, 36.1029] },
+];
 
 const PREVIEW_COUNT = 3;
 
@@ -29,7 +31,7 @@ const VISIBLE_PLACE_KINDS = new Set<Place['kind']>([
   'trash',
 ]);
 
-const areaPolygons = AREAS.map(({ source, name }) => {
+const areaPolygons = AREAS.map(({ source, name, label }) => {
   const data = (
     sohosaiMap.sources as unknown as Record<
       string,
@@ -37,7 +39,13 @@ const areaPolygons = AREAS.map(({ source, name }) => {
     >
   )[source].data;
   const ring = data.features[0].geometry.coordinates[0];
-  return { id: source, name, ring, bounds: ringBounds(ring) };
+  return {
+    id: source,
+    name,
+    ring,
+    label: label ?? ringCenter(ring),
+    bounds: ringBounds(ring),
+  };
 });
 
 /** 会場エリアがすべて収まる範囲。地図の初期表示に使う。 */
@@ -172,8 +180,8 @@ export function buildCampusData(projects: Project[], places: Place[]) {
     }
   }
 
-  const areaFeatures = areaPolygons.map(({ id, name, ring }) =>
-    point(ringCenter(ring), {
+  const areaFeatures = areaPolygons.map(({ id, name, label }) =>
+    point(label, {
       areaId: id,
       name,
       countLabel: `${areaCounts.get(name) ?? 0}企画`,
@@ -189,18 +197,28 @@ export function buildCampusData(projects: Project[], places: Place[]) {
     }));
   // 企画が建物ではなく中のステージに紐づく建物（1A棟・大学会館）も、押せば建物の企画一覧を開けるようにする。
   const stageBuildingIds = new Set(places.map(({ buildingId }) => buildingId));
-  const buildingFeatures = buildings.features.map((feature) => ({
-    ...feature,
-    properties: {
-      ...feature.properties,
-      count: countProjects(byPlace.get(feature.properties.placeId) ?? []),
-      hasStage: stageBuildingIds.has(feature.properties.placeId),
-    },
-  }));
+  // 企画の無い建物は押しても開くページが無く紛らわしいため、地図に描かない。
+  const hasProjects = (placeId: string) =>
+    countProjects(byPlace.get(placeId) ?? []) > 0 ||
+    stageBuildingIds.has(placeId);
+  const buildingFeatures = buildings.features
+    .filter(({ properties }) => hasProjects(properties.placeId))
+    .map((feature) => ({
+      ...feature,
+      properties: {
+        ...feature.properties,
+        count: countProjects(byPlace.get(feature.properties.placeId) ?? []),
+        hasStage: stageBuildingIds.has(feature.properties.placeId),
+      },
+    }));
 
   const placeFeatures = places
     // 屋外のテントは引いているときにまとめて出さず、寄ったところでテントそのものを出す。
-    .filter(({ kind }) => VISIBLE_PLACE_KINDS.has(kind))
+    .filter(
+      ({ id, kind }) =>
+        VISIBLE_PLACE_KINDS.has(kind) &&
+        (kind !== 'building' || hasProjects(id)),
+    )
     .map((place) => {
       const entries = byPlace.get(place.id) ?? [];
       const count = countProjects(entries);
