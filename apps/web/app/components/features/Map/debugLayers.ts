@@ -1,10 +1,9 @@
 import maplibregl, { type Map as MlMap } from 'maplibre-gl';
 import buildingsRaw from './data/buildings.geojson?raw';
 import { type LngLat, ringCenter } from './geo';
-import { pathNetwork } from './paths';
 
 /**
- * 現在判明している建物（buildings.geojson）と通路ネットワーク（path-network.geojson）を地図に重ねて可視化する。
+ * 現在判明している建物（buildings.geojson）を地図に重ねて可視化する。
  */
 type BuildingFeature = {
   properties: { placeId: string; name?: string };
@@ -13,19 +12,38 @@ type BuildingFeature = {
 
 const buildingsData = JSON.parse(buildingsRaw);
 const ACCENT = '#4a93d7'; // token('colors.brand.500')
-const PATH_COLOR = '#ff5a36'; // token('colors.debug.path')
-const ENTRANCE_COLOR = '#2e9e5b'; // token('colors.debug.entrance')
 
-/** 通路の全頂点を点として可視化するためのソースを作る（ノード接続の確認用）。 */
-function buildNodeCollection() {
-  const features = pathNetwork.features
-    .flatMap((f) => f.geometry.coordinates)
-    .map((c) => ({
-      type: 'Feature' as const,
-      properties: {},
-      geometry: { type: 'Point' as const, coordinates: c },
-    }));
-  return { type: 'FeatureCollection' as const, features };
+/** 地図のデバッグ表示（URL に `?debug`）が有効か。 */
+export function isMapDebug(): boolean {
+  return new URLSearchParams(window.location.search).has('debug');
+}
+
+const AERIAL = 'debug-aerial';
+
+/**
+ * 航空写真（国土地理院のシームレス空中写真）の表示を切り替える。
+ * テントや建物の位置を写真と見比べるためのものなので、背景の地図は覆い、会場の図形の下に敷く。
+ */
+export function setAerialVisible(map: MlMap, visible: boolean): void {
+  if (!map.getSource(AERIAL)) {
+    map.addSource(AERIAL, {
+      type: 'raster',
+      tiles: [
+        'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
+      ],
+      tileSize: 256,
+      maxzoom: 18,
+      attribution:
+        '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">地理院タイル</a>',
+    });
+    const firstOverlay = map
+      .getStyle()
+      .layers.find(
+        ({ id }) => id.startsWith('campus-') || id.startsWith('debug-'),
+      )?.id;
+    map.addLayer({ id: AERIAL, type: 'raster', source: AERIAL }, firstOverlay);
+  }
+  map.setLayoutProperty(AERIAL, 'visibility', visible ? 'visible' : 'none');
 }
 
 /** デバッグレイヤを地図に追加する（多重追加はスキップ）。 */
@@ -42,42 +60,6 @@ export function addDebugLayers(map: MlMap): void {
       'fill-color': ACCENT,
       'fill-opacity': 0.18,
       'fill-outline-color': ACCENT,
-    },
-  });
-
-  // 通路（線）。入口/接続路（kind='entrance'）は別色・太線で区別する。
-  map.addSource('debug-path', { type: 'geojson', data: pathNetwork });
-  map.addLayer({
-    id: 'debug-path-line',
-    type: 'line',
-    source: 'debug-path',
-    layout: { 'line-cap': 'round', 'line-join': 'round' },
-    paint: {
-      'line-color': [
-        'match',
-        ['get', 'kind'],
-        'entrance',
-        ENTRANCE_COLOR,
-        PATH_COLOR,
-      ],
-      'line-width': ['match', ['get', 'kind'], 'entrance', 5, 3],
-    },
-  });
-
-  // 通路の頂点（ノード）
-  map.addSource('debug-path-nodes', {
-    type: 'geojson',
-    data: buildNodeCollection(),
-  });
-  map.addLayer({
-    id: 'debug-path-nodes-circle',
-    type: 'circle',
-    source: 'debug-path-nodes',
-    paint: {
-      'circle-radius': 4,
-      'circle-color': PATH_COLOR,
-      'circle-stroke-color': '#ffffff', // token('colors.white')
-      'circle-stroke-width': 1.5,
     },
   });
 

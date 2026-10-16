@@ -273,8 +273,6 @@ export default defineConfig({
             trash: { value: '#5f9a3c' },
           },
           debug: {
-            path: { value: '#ff5a36' },
-            entrance: { value: '#2e9e5b' },
             label: { value: '#0a6b6b' },
             labelBg: { value: '{colors.white/82}' },
           },
