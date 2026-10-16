@@ -177,9 +177,6 @@ const sheetStyles = css({
   bottom: 0,
   zIndex: 10,
   h: `${fullRatio * 100}dvh`,
-  // ホーム画面から開いたアプリでは dvh が画面より短くなることがあるため、画面の高さ（lvh）で決める。
-  // ツールバーが無いため、正しく求まっていれば dvh と lvh は同じ値になる。
-  '@media (display-mode: standalone)': { h: `${fullRatio * 100}lvh` },
   // 操作を受け付けるのはカードの内側だけにし、カードの外の余白では地図を操作できるようにする。
   pointerEvents: 'none',
   willChange: 'transform',
@@ -217,7 +214,6 @@ const innerStyles = css({
   top: 0,
   w: '100vw',
   h: `${fullRatio * 100}dvh`,
-  '@media (display-mode: standalone)': { h: `${fullRatio * 100}lvh` },
   display: 'flex',
   flexDirection: 'column',
   touchAction: 'none',
