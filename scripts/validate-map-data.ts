@@ -356,9 +356,14 @@ function checkCallouts(placeById: ReadonlyMap<string, { kind: string }>) {
 }
 
 function checkProjectLocations(placeById: ReadonlyMap<string, unknown>) {
-  const data = readData<Record<string, LocationRecord[]>>(
-    'apps/api/data/sources/project-locations.json',
-  );
+  const data = {
+    ...readData<Record<string, LocationRecord[]>>(
+      'apps/api/data/sources/project-locations.json',
+    ),
+    ...readData<Record<string, LocationRecord[]>>(
+      'apps/api/data/sources/manual-locations.json',
+    ),
+  };
   const booths = readData<{
     features: { properties: { booth: string } }[];
   }>('apps/web/app/components/features/Map/data/booths.geojson').features;

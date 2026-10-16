@@ -210,7 +210,17 @@
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "locations": [
+      {
+        "placeId": "outdoor-matsumi-ike",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-1a",
+        "room": "スチューデント・コモンズ",
+        "days": ["Day1"]
+      }
+    ],
     "performances": [],
     "description": "竹灯籠と水面灯籠の2種類の灯籠で松美池をライトアップします。\n水面灯籠は来場者の皆さんがデザインを施すことが出来ます。あなたの手で松美池を彩ってみませんか？",
     "links": []
@@ -224,7 +234,13 @@
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "locations": [
+      {
+        "placeId": "bldg-5c",
+        "room": "216",
+        "days": ["Day1", "Day2"]
+      }
+    ],
     "performances": [],
     "description": "筑波大学やつくばにゆかりのある方をお招きし、講演・座談会をしていただく企画です！\n登壇者は以下の3名です！\n\n五十嵐立青 氏\n講演『失敗前提の挑戦が世界を変える：ディプロイシティ(実装都市)つくばの共創戦略』\n座談会『挑戦が連鎖するまちを、どう創る？』\n\n柳沢正史 氏\n講演『睡眠の謎に挑む』\n座談会『睡眠の専門家があなたの睡眠を採点します』\n\n阿部幸大 氏\n講演『世界はナラティヴでできている』",
     "links": [
@@ -425,7 +441,18 @@
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "402",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-3a",
+        "room": "403",
+        "days": ["Day1", "Day2"]
+      }
+    ],
     "performances": [],
     "description": "現役筑波大学生が受験に関する相談や、大学生活に関する質問などにお答えします！ご来場の方には受験に役立つ「受験応援冊子」をご用意しています！ぜひお越しください。",
     "links": [
@@ -445,7 +472,13 @@
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "locations": [
+      {
+        "placeId": "bldg-1h",
+        "room": "201",
+        "days": ["Day1", "Day2"]
+      }
+    ],
     "performances": [],
     "description": "あなたの元に届いた招待状。それは、行方不明者が出たという噂のある不思議なパーティーへの招待だった。パーティーであなたたちを待っていたのは、何か企んでいそうなお化けの姿で、、！？謎を解き、おかしなパーティーから脱出せよ！！\n\nハロウィンパーティーを舞台にした脱出ゲームです。いくつかの謎を解き、最終的なゲームクリアを目指します！※当日予約必須",
     "links": [
@@ -475,7 +508,13 @@
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "locations": [
+      {
+        "placeId": "bldg-1c",
+        "room": "406",
+        "days": ["Day1", "Day2"]
+      }
+    ],
     "performances": [],
     "description": "科学を身近に感じることができる実験をたくさん用意しています！子どもから大人まで楽しめる実験となっています！ぜひお越しください！",
     "links": []
@@ -488,8 +527,18 @@
     "organization": "筑波大学学園祭実行委員会本部企画局",
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかいほんぶきかくきょく",
     "category": "委員会企画",
-    "schedule": ["前夜祭"],
+    "schedule": ["前夜祭", "Day1", "Day2"],
     "locations": [
+      {
+        "placeId": "booth-taruzake",
+        "room": "樽酒振る舞い（西）",
+        "days": ["前夜祭", "Day1", "Day2"]
+      },
+      {
+        "placeId": "booth-taruzake",
+        "room": "樽酒振る舞い（東）",
+        "days": ["前夜祭", "Day1", "Day2"]
+      },
       {
         "placeId": "stage-united",
         "days": ["前夜祭"]
@@ -557,8 +606,14 @@
     "organization": "筑波大学学園祭実行委員会 本部企画局",
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかい ほんぶきかくきょく",
     "category": "委員会企画",
-    "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-monument",
+        "room": "モニュメント・イルミネーション",
+        "days": ["前夜祭", "Day1", "Day2"]
+      }
+    ],
     "performances": [],
     "description": "雙峰祭オリジナルキャラクター「そぽたん」のモニュメントを設置します。夜にはイルミネーションのライトアップも行います。\n来場の記念として、ぜひ写真撮影にいらしてください！",
     "links": []
@@ -571,8 +626,13 @@
     "organization": "筑波大学学園祭実行委員会 本部企画局",
     "organizationReading": "つくばだいがくがくえんさいじこういいんかい　ほんぶきかくきょく",
     "category": "パフォーマンス",
-    "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "schedule": ["前夜祭", "Day2"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["前夜祭", "Day2"]
+      }
+    ],
     "performances": [],
     "description": "前夜祭と後夜祭を有志団体によるパフォーマンスで彩ります。ここでしか見られない特別なステージをお見逃しなく！雙峰祭の最初と最後は、ぜひUNITEDステージまでお越しください！",
     "links": [
@@ -685,7 +745,13 @@
     "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
     "category": "委員会企画",
     "schedule": ["Day1", "Day2"],
-    "locations": [],
+    "locations": [
+      {
+        "placeId": "booth-tsukuba-collab",
+        "room": "つくば市コラボ",
+        "days": ["Day1", "Day2"]
+      }
+    ],
     "performances": [],
     "description": "",
     "links": []

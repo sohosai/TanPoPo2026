@@ -39,6 +39,7 @@ bun run sync:projects
 | --- | --- | --- | --- |
 | `sos-projects.json` | 掲載する企画と、名前・団体（それぞれのよみがなを含む）・区分・説明文・リンク | SOS 公開 API | `bun run sync:projects` |
 | `project-categories.json` | 分類 | 実行委員会の CSV。[project-categories.md](./project-categories.md) | `bun run import:project-categories <企画一覧.csv> <学術企画.csv>` |
+| `manual-locations.json` | 配置図の企画一覧に載らない企画（実行委員会の企画など）の実施場所。`project-locations.json` と同じ形で、同じ企画番号があればこちらを使う | 手で管理 | 直接編集して `bun run build:projects` |
 | `committee-projects.json` | 委員会企画の企画番号 | 手で管理 | 直接編集して `bun run build:projects` |
 | `manual-projects.json` | SOS に無い企画（マスターと同じ形の配列） | 手で管理 | 直接編集して `bun run build:projects` |
 | `project-locations.json` | 屋内・屋外の実施場所と実施日 | 実行委員会の xlsx。[project-locations.md](./project-locations.md) | `bun run import:project-locations <屋内.xlsx> <屋外.xlsx>` |
