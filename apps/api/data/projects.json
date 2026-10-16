@@ -6920,13 +6920,7 @@
     "organizationReading": "ぽてっとふぉーてぃーとぅー",
     "category": "食事",
     "schedule": ["Day1", "Day2"],
-    "locations": [
-      {
-        "placeId": "booth-g",
-        "room": "G2",
-        "days": ["Day1", "Day2"]
-      }
-    ],
+    "locations": [],
     "performances": [],
     "description": "",
     "links": []
