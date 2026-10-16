@@ -123,7 +123,7 @@ function ProjectFacts({
 function ProjectDescription({ text }: { text: string }) {
   if (!text) return null;
   return (
-    <section className={css({ px: '16px', mt: '24px', pb: '24px' })}>
+    <section className={css({ px: '16px', mt: '24px' })}>
       <h2
         className={css({
           fontSize: 'lg',
@@ -423,6 +423,20 @@ export default function Detail() {
       )}
 
       <ProjectDescription text={project.description} />
+
+      {/* 実行委員会の問い合わせ対応で企画を特定するためのもので、来場者向けの情報ではないため目立たせない。 */}
+      <p
+        className={css({
+          px: '16px',
+          mt: '24px',
+          pb: '24px',
+          fontSize: '2xs',
+          color: 'fg.subtle',
+          fontVariantNumeric: 'tabular-nums',
+        })}
+      >
+        企画番号 {project.number}
+      </p>
 
       {/* 下部の操作バー。シートが動いているあいだは画面の下端に留める（BottomSheet が扱う） */}
       <div
