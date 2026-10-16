@@ -39,8 +39,8 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export const links: Route.LinksFunction = () => [
-  { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
-  { rel: 'icon', type: 'image/svg+xml', href: '/logo/square.svg' },
+  { rel: 'icon', type: 'image/png', href: '/icons/favicon-96x96.png', sizes: '96x96' },
+  { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
   { rel: 'manifest', href: '/manifest.webmanifest' },
   { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon.png' },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
