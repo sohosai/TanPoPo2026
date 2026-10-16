@@ -9,7 +9,9 @@
 | `CampusLayers.tsx` | 地図へのレイヤ追加、データの流し込み、タップでのページ遷移、表示中のページに応じた強調 |
 | `booths.ts` | 屋外ブースのテントの形（`data/booths.geojson`）と中心 |
 
-データは `project.list` と `place.list` から作るので、企画や場所が変われば地図も追従する。企画と場所の対応は [企画の実施場所データ](../data/project-locations.md) を参照。
+データは `project.list` と `place.list` から作るので、企画や場所が変われば地図も追従する。
+
+建物の輪郭は `data/buildings.geojson` だけに持つ。地図スタイルの平面の建物の塗り（`sohosai-buildings` レイヤ）も、`MapView.tsx` が地図を作るときにソース `sohosai-buildings-fill` をこの GeoJSON に差し替えて描く。スタイル側に別の輪郭を持つと、選択中の強調・タップ判定・3D と形がずれるため、スタイル JSON のこのソースは空にしてある。企画と場所の対応は [企画の実施場所データ](../data/project-locations.md) を参照。
 
 ## ズームごとの表示
 

@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useIsEmbed } from '~/lib/embed';
 import { css } from '../../../../styled-system/css';
+import buildingsRaw from './data/buildings.geojson?raw';
 import { addDebugLayers } from './debugLayers';
 import { INITIAL_VIEW, useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
@@ -25,6 +26,19 @@ function withMapTilerKey(url: string) {
   return { url: withKey.toString() };
 }
 
+// 平面の建物の塗りも、強調・タップ判定・3D と同じ buildings.geojson の輪郭で描く。
+// スタイル JSON に別の輪郭を持つと、建物を選んだときの強調と形がずれるため。
+const style = {
+  ...sohosaiMap,
+  sources: {
+    ...sohosaiMap.sources,
+    'sohosai-buildings-fill': {
+      type: 'geojson',
+      data: JSON.parse(buildingsRaw),
+    },
+  },
+} as unknown as StyleSpecification;
+
 export default function MapView() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -35,7 +49,7 @@ export default function MapView() {
     if (map.current || !mapContainer.current) return;
     const instance = new maplibregl.Map({
       container: mapContainer.current,
-      style: sohosaiMap as unknown as StyleSpecification,
+      style,
       transformRequest: withMapTilerKey,
       // maxBounds を渡すと既定の中心 [0, 0] が範囲の端に寄せられ、スタイルの中心が使われなくなるため明示する。
       ...INITIAL_VIEW,
