@@ -3,6 +3,8 @@ interface ImportMetaEnv {
   readonly VITE_MAPTILER_KEY?: string;
   /** LINE Front-end Framework (LIFF) の ID。設定すると自動でLINEアプリへのログインを行う。 */
   readonly VITE_LIFF_ID?: string;
+  /** Google Analytics の測定 ID。本番のビルドでだけ設定し、未設定なら計測タグを出さない。 */
+  readonly VITE_GA_MEASUREMENT_ID?: string;
 }
 
 /** ビルドごとに変わる識別子。vite.config.ts の define で埋め込む。 */
