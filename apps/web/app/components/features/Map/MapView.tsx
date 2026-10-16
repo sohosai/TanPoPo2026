@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useIsEmbed } from '~/lib/embed';
 import { css } from '../../../../styled-system/css';
-import buildingsRaw from './data/buildings.geojson?raw';
+import { BUILDING_FLAT_SOURCE } from './campusStyle';
 import { addDebugLayers } from './debugLayers';
 import { INITIAL_VIEW, useMap } from './MapController';
 import sohosaiMap from './sohosai-map.json';
@@ -26,15 +26,16 @@ function withMapTilerKey(url: string) {
   return { url: withKey.toString() };
 }
 
-// 平面の建物の塗りも、強調・タップ判定・3D と同じ buildings.geojson の輪郭で描く。
-// スタイル JSON に別の輪郭を持つと、建物を選んだときの強調と形がずれるため。
+// 平面の建物の塗りも、強調・タップ判定・3D と同じ輪郭で描く。スタイル JSON に別の輪郭を
+// 持つと、建物を選んだときの強調と形がずれるため。企画のある建物だけを描くので、中身は
+// 企画データが届いてから CampusLayers が流す。
 const style = {
   ...sohosaiMap,
   sources: {
     ...sohosaiMap.sources,
-    'sohosai-buildings-fill': {
+    [BUILDING_FLAT_SOURCE]: {
       type: 'geojson',
-      data: JSON.parse(buildingsRaw),
+      data: { type: 'FeatureCollection', features: [] },
     },
   },
 } as unknown as StyleSpecification;
