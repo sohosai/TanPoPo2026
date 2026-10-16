@@ -395,12 +395,6 @@ const places: Place[] = [
     point: [140.1014062, 36.1103633],
   },
   {
-    id: 'trash-2-3-rainy',
-    name: 'ゴミ箱',
-    kind: 'trash',
-    point: [140.1009607, 36.1101241],
-  },
-  {
     id: 'trash-ishi',
     name: 'ゴミ箱',
     kind: 'trash',
