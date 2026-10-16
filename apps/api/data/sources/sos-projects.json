@@ -114,7 +114,7 @@
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "竹灯籠と水面灯籠の2種類の灯籠で松美池をライトアップします。\n水面灯籠は来場者の皆さんがデザインを施すことが出来ます。あなたの手で松美池を彩ってみませんか？",
       "websiteUrls": [],
       "xIds": [],
       "instagramIds": [],
@@ -130,7 +130,7 @@
     "location": "INDOOR",
     "publicInfo": {
       "description": "筑波大学やつくばにゆかりのある方をお招きし、講演・座談会をしていただく企画です！\n登壇者は以下の3名です！\n\n五十嵐立青 氏\n講演『失敗前提の挑戦が世界を変える：ディプロイシティ(実装都市)つくばの共創戦略』\n座談会『挑戦が連鎖するまちを、どう創る？』\n\n柳沢正史 氏\n講演『睡眠の謎に挑む』\n座談会『睡眠の専門家があなたの睡眠を採点します』\n\n阿部幸大 氏\n講演『世界はナラティヴでできている』",
-      "websiteUrls": [],
+      "websiteUrls": ["https://sohosai.com/committee/tsukuichi"],
       "xIds": ["tsukuba_ichi"],
       "instagramIds": ["tsuku_ichi"],
       "youtubeIds": []
@@ -234,10 +234,10 @@
     "type": "NORMAL",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
-      "xIds": [],
-      "instagramIds": [],
+      "description": "あなたの元に届いた招待状。それは、行方不明者が出たという噂のある不思議なパーティーへの招待だった。パーティーであなたたちを待っていたのは、何か企んでいそうなお化けの姿で、、！？謎を解き、おかしなパーティーから脱出せよ！！\n\nハロウィンパーティーを舞台にした脱出ゲームです。いくつかの謎を解き、最終的なゲームクリアを目指します！※当日予約必須",
+      "websiteUrls": ["https://sohosai.com/committee/escape/"],
+      "xIds": ["sohosai_escape"],
+      "instagramIds": ["sohosai_escape"],
       "youtubeIds": []
     }
   },
@@ -265,7 +265,7 @@
     "location": "OUTDOOR",
     "publicInfo": {
       "description": "茨城県内の酒造のお酒を20歳以上の来場者に無料で振る舞っています。とっておきの一杯で今年も乾杯しませんか？ご来場の際は顔写真付き身分証明書をお持ちください。",
-      "websiteUrls": [],
+      "websiteUrls": ["https://sohosai.com/committee/taruzake"],
       "xIds": ["taruzakehurumai"],
       "instagramIds": ["taruzakehurumai"],
       "youtubeIds": []
@@ -309,8 +309,8 @@
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
+      "description": "前夜祭と後夜祭を有志団体によるパフォーマンスで彩ります。ここでしか見られない特別なステージをお見逃しなく！雙峰祭の最初と最後は、ぜひUNITEDステージまでお越しください！",
+      "websiteUrls": ["https://sohosai.com/committee/yasai/"],
       "xIds": [],
       "instagramIds": [],
       "youtubeIds": []
@@ -339,8 +339,8 @@
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
+      "description": "毎年大好評のつくばお笑いライブを今年も開催！テレビや劇場で活躍する芸人さんたちが、雙峰祭の夜を笑いの渦に巻き込みます。一夜限りの特別なステージをお見逃しなく！",
+      "websiteUrls": ["https://sohosai.com/committee/owarai"],
       "xIds": [],
       "instagramIds": [],
       "youtubeIds": []
