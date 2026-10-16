@@ -20,7 +20,7 @@ export const PROJECT_CATEGORIES = [
 export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
 /**
- * 店舗が紐づく場所。`placeId` は Place（建物・ステージ・屋外のテント列等）を指す。
+ * 企画が紐づく場所。`placeId` は Place（建物・ステージ・屋外のテント列等）を指す。
  */
 export type ProjectLocation = {
   placeId: string;
@@ -43,7 +43,7 @@ export type Performance = {
   title: string;
 };
 
-/** 詳細を要らない画面（グランプリ投票等）に渡す店舗情報（軽量。画像/長文説明は含めない） */
+/** 詳細を要らない画面（グランプリ投票等）に渡す企画情報（軽量。画像/長文説明は含めない） */
 export type Project = {
   id: string;
   /** 3桁ゼロ埋めの企画番号（例: "001"）。URL に使う */
@@ -55,8 +55,8 @@ export type Project = {
   /** 団体名のよみがな（ひらがな）。分からなければ空文字 */
   organizationReading: string;
   /**
-   * 紐づく場所（1つ以上）。複数店舗が同じ placeId を共有でき（ステージ等）、
-   * 1店舗が複数の場所にまたがることも表現できる（M:N）。
+   * 紐づく場所（1つ以上）。複数の企画が同じ placeId を共有でき（ステージ等）、
+   * 1つの企画が複数の場所にまたがることも表現できる（M:N）。
    */
   locations: ProjectLocation[];
   schedule: ScheduleDay[];
@@ -84,7 +84,7 @@ export type ProjectLink = {
   url: string;
 };
 
-/** 企画の一覧・詳細ページに使う店舗情報（Project + 詳細フィールド） */
+/** 企画の一覧・詳細ページに使う企画情報（Project + 詳細フィールド） */
 export type ProjectDetail = Project & {
   /** 詳細説明文。未登録なら空文字 */
   description: string;

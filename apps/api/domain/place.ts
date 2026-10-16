@@ -3,8 +3,8 @@
  * TODO: 正式なデータが入ったら必要に応じて増やす。
  */
 export type PlaceKind =
-  | 'building' // 建物（店舗が紐づく。検索は建物名で行う）
-  | 'stage' // ステージ（複数店舗が共有しうる）
+  | 'building' // 建物（企画が紐づく。検索は建物名で行う）
+  | 'stage' // ステージ（複数の企画が共有しうる）
   | 'outdoor' // 屋外の企画実施場所（出店テントの列・グラウンド）
   | 'bus_stop' // バス停
   | 'information' // インフォメーション
@@ -15,7 +15,7 @@ export type PlaceKind =
  * 場所の情報。
  */
 export type Place = {
-  /** 安定ID。ジオメトリや店舗からの参照キー */
+  /** 安定ID。ジオメトリや企画からの参照キー */
   id: string;
   /** 表示・検索対象の名称（建物名や場所名） */
   name: string;

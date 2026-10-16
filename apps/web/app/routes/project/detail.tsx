@@ -187,8 +187,8 @@ export default function Detail() {
     return (
       <p className={css({ p: '16px' })}>
         {status === 'error'
-          ? '店舗情報を取得できませんでした。'
-          : '店舗が見つかりませんでした。'}
+          ? '企画情報を取得できませんでした。'
+          : '企画が見つかりませんでした。'}
       </p>
     );
   }

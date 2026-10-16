@@ -135,7 +135,7 @@ export default function List() {
         {isError && !projects && (
           <StateMessage
             icon={IconAlertTriangle}
-            title="店舗一覧を取得できませんでした"
+            title="企画一覧を取得できませんでした"
             description={'通信環境を確認して\nもう一度お試しください。'}
           />
         )}

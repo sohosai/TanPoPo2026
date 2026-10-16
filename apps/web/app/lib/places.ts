@@ -4,7 +4,7 @@ import { trpc } from '~/lib/trpc';
 
 /**
  * 場所（Place）の参照ユーティリティ。
- * place.list を取得して id 引きの Map を作り、店舗の場所ラベル整形などを提供する。
+ * place.list を取得して id 引きの Map を作り、企画の場所ラベル整形などを提供する。
  */
 export function usePlaces() {
   const { data: places, status } = trpc.place.list.useQuery();
@@ -22,7 +22,7 @@ export function usePlaces() {
     places: places ?? [],
     /** id から Place を引く Map */
     byId,
-    /** 店舗の代表的な場所ラベル（例 "5C305"、複数あれば "1B208 ほか1か所"） */
+    /** 企画の代表的な場所ラベル（例 "5C305"、複数あれば "1B208 ほか1か所"） */
     formatProjectLocation: (project: Project) =>
       formatProjectLocation(project, byId),
   };
@@ -45,7 +45,7 @@ export function formatLocation(
     : `${place.name} ${room}`;
 }
 
-/** 店舗の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */
+/** 企画の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */
 function formatProjectLocation(
   project: Project,
   byId: ReadonlyMap<string, Place>,
