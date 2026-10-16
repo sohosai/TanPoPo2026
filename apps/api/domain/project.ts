@@ -92,11 +92,13 @@ export type ProjectDetail = Project & {
 /**
  * 企画のマスターデータ（apps/api/data/projects.json）の1件。
  * 実行時に SOS から取り直す画像・公開状態を除いた企画詳細。
+ * SOS に無い企画（手で追加した企画）だけは、画像（`thumbnail`・`images`）をマスターに持つ。
  */
 export type ProjectMaster = Omit<
   ProjectDetail,
   'thumbnail' | 'images' | 'cancelled'
->;
+> &
+  Partial<Pick<ProjectDetail, 'thumbnail' | 'images'>>;
 
 /** URL に使うため、桁数をそろえて辞書順と番号順を一致させる。 */
 export function formatProjectNumber(number: number): string {

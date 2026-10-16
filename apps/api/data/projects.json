@@ -7028,5 +7028,147 @@
         "url": "https://www.youtube.com/@REALJAMdance"
       }
     ]
+  },
+  {
+    "number": "900",
+    "id": "manual-fukubiki",
+    "name": "福引所",
+    "organization": "筑波大学学園祭実行委員会",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-fukubiki",
+        "room": "福引所",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "来場者アンケートにお答えいただくと無料ではずれなしの福引を回せます！\n本サイトのトップページの来場者アンケートをクリック！\n景品は割引券やお菓子などをご用意しております！\n\nその他、個人協賛の受け付け、雙峰祭グランプリ抽選の景品受け渡しも行っております！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "search.sohosai.com",
+        "url": "https://search.sohosai.com/questionnaire"
+      }
+    ],
+    "thumbnail": {
+      "src": "/projects/fukubiki/icon-640.webp",
+      "srcSet": "/projects/fukubiki/icon-160.webp 160w, /projects/fukubiki/icon-320.webp 320w, /projects/fukubiki/icon-640.webp 640w"
+    },
+    "images": [
+      {
+        "src": "/projects/fukubiki/image-1280.webp",
+        "srcSet": "/projects/fukubiki/image-640.webp 640w, /projects/fukubiki/image-1280.webp 1280w"
+      }
+    ]
+  },
+  {
+    "number": "901",
+    "id": "manual-linemo",
+    "name": "LINEMOオリジナルブース",
+    "organization": "ソフトバンク株式会社",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-kyosan",
+        "room": "ブース協賛",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "ソフトバンクのオンライン専用ブランド「LINEMO」が学園祭に登場！\nスマホ代をおトクにしたい方必見！手頃な料金で気軽に使える「LINEMOベストプラン」や、データをたっぷり使いたい方におすすめの「LINEMOベストプランV」など、自分の使い方に合わせて選べる、おトクな料金プラン！\nさらに、LINEMOオリジナルブースではPayPayポイントや景品が当たるイベントも開催！ぜひお立ち寄りください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "linemo.jp",
+        "url": "https://www.linemo.jp/"
+      },
+      {
+        "kind": "website",
+        "label": "linemo.jp",
+        "url": "https://www.linemo.jp/campaign/syukakusai/"
+      },
+      {
+        "kind": "x",
+        "label": "@LINEMO_official",
+        "url": "https://x.com/LINEMO_official"
+      },
+      {
+        "kind": "instagram",
+        "label": "@linemo__official",
+        "url": "https://www.instagram.com/linemo__official/"
+      },
+      {
+        "kind": "youtube",
+        "label": "YouTube",
+        "url": "https://www.youtube.com/channel/UClYr7VVI42jYfNqOCUdThCA"
+      }
+    ],
+    "thumbnail": {
+      "src": "/projects/linemo/icon-512.webp",
+      "srcSet": "/projects/linemo/icon-160.webp 160w, /projects/linemo/icon-320.webp 320w, /projects/linemo/icon-512.webp 512w"
+    },
+    "images": []
+  },
+  {
+    "number": "902",
+    "id": "manual-goods",
+    "name": "グッズ販売所",
+    "organization": "筑波大学学園祭実行委員会",
+    "category": "委員会企画",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "booth-goods",
+        "room": "グッズ販売所",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "雙峰祭公式キャラクター「そぽたん」に関するグッズの販売を行います！ここでしか手に入らないグッズが盛り沢山！雙峰祭の思い出に、かわいいそぽたんをぜひお迎えください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "sohosai.com",
+        "url": "https://sohosai.com/goods/"
+      },
+      {
+        "kind": "website",
+        "label": "sopotan.com",
+        "url": "https://sopotan.com/"
+      },
+      {
+        "kind": "x",
+        "label": "@sohosai",
+        "url": "https://x.com/sohosai"
+      },
+      {
+        "kind": "x",
+        "label": "@spspsptn",
+        "url": "https://x.com/spspsptn"
+      },
+      {
+        "kind": "instagram",
+        "label": "@sohosai",
+        "url": "https://www.instagram.com/sohosai/"
+      },
+      {
+        "kind": "instagram",
+        "label": "@spspsptn",
+        "url": "https://www.instagram.com/spspsptn/"
+      }
+    ],
+    "thumbnail": {
+      "src": "/projects/goods/icon-640.webp",
+      "srcSet": "/projects/goods/icon-160.webp 160w, /projects/goods/icon-320.webp 320w, /projects/goods/icon-640.webp 640w"
+    },
+    "images": [
+      {
+        "src": "/projects/goods/image-1280.webp",
+        "srcSet": "/projects/goods/image-640.webp 640w, /projects/goods/image-1280.webp 1280w"
+      }
+    ]
   }
 ]

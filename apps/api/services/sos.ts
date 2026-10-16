@@ -33,8 +33,8 @@ function withDynamicInfo(
   const toImage = (fileId: string) => toProjectImage(baseUrl, fileId);
   return {
     ...master,
-    thumbnail: info?.iconFileId ? toImage(info.iconFileId) : undefined,
-    images: (info?.mapImageFileIds ?? []).map(toImage),
+    thumbnail: info?.iconFileId ? toImage(info.iconFileId) : master.thumbnail,
+    images: info?.mapImageFileIds?.map(toImage) ?? master.images ?? [],
     cancelled: info?.openStatus === 'CLOSED',
   };
 }
