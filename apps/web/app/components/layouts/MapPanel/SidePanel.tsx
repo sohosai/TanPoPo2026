@@ -52,7 +52,14 @@ const toggleStyles = css({
  * PC 向けの左サイドパネル。地図は画面全体に敷いたまま、パネルで隠れる分だけ
  * 地図の padding を空け、フォーカスや初期表示が見えている範囲の中央に来るようにする。
  */
-export default function SidePanel({ children }: { children?: ReactNode }) {
+export default function SidePanel({
+  children,
+  beside,
+}: {
+  children?: ReactNode;
+  /** パネルの右隣（地図の上）に置く要素。パネルの開閉に合わせて動く */
+  beside?: ReactNode;
+}) {
   const [open, setOpen] = useState(true);
   const { isReady, getMap } = useMap();
 
@@ -93,6 +100,7 @@ export default function SidePanel({ children }: { children?: ReactNode }) {
           {children}
         </div>
       </MapPanelContext.Provider>
+      {beside}
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
