@@ -24,7 +24,6 @@ import {
   StateMessage,
 } from '~/components/features/Project/StateMessage';
 import { useFilteredProjects } from '~/components/features/Project/useFilteredProjects';
-import InstallBanner from '~/components/features/Pwa/InstallBanner';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
@@ -124,7 +123,6 @@ export default function List() {
         {showBanner && (
           <div {...enterProps(0)}>
             <EventBanner />
-            <InstallBanner />
           </div>
         )}
 
