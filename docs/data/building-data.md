@@ -142,5 +142,6 @@ project-locations.json: { 企画番号: [{ placeId, room, days }] } ─┘
   cy = sum(p[1] for p in ring) / len(ring)
   ```
 
+- 平面の建物の塗りも `buildings.geojson` で描く（`MapView.tsx` が地図スタイルのソース `sohosai-buildings-fill` を差し替える）。建物の輪郭を `sohosai-map.json` に書き足さない。
 - 現状、場所の点データは旧 `sohosai-map.json` 内にも埋め込みが残っている（移行元）。**正は `place.ts`** であり、地図スタイル側の旧データは将来撤去予定。建物の追加・更新は本ドキュメントの3ファイル（`place.ts` / `buildings.geojson` / `path-network.geojson`）で行う。
 - データは現状すべて**モック**。将来データ側提供の正データに差し替える前提。
