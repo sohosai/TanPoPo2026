@@ -361,46 +361,46 @@ const places: Place[] = [
     point: [140.1058889, 36.1000008],
   },
 
-  // ---- ゴミ箱（屋外配置図の位置。天候で使う場所が変わるものは名前に添える） ----
+  // ---- ゴミ箱（屋外配置図の位置） ----
   {
     id: 'trash-2-3-sunny',
-    name: 'ゴミ箱（晴天時）',
+    name: 'ゴミ箱',
     kind: 'trash',
     point: [140.1014062, 36.1103633],
   },
   {
     id: 'trash-2-3-rainy',
-    name: 'ゴミ箱（雨天時）',
+    name: 'ゴミ箱',
     kind: 'trash',
     point: [140.1009607, 36.1101241],
   },
   {
     id: 'trash-ishi',
-    name: '臨時ゴミ箱',
+    name: 'ゴミ箱',
     kind: 'trash',
     point: [140.1020905, 36.1097069],
   },
   {
     id: 'trash-library',
-    name: '臨時ゴミ箱（晴天時）',
+    name: 'ゴミ箱',
     kind: 'trash',
     point: [140.1018991, 36.1090672],
   },
   {
     id: 'trash-1-sunny',
-    name: 'ゴミ箱（晴天時）',
+    name: 'ゴミ箱',
     kind: 'trash',
     point: [140.1021697, 36.1083743],
   },
   {
     id: 'trash-1-rainy',
-    name: 'ゴミ箱（雨天時）',
+    name: 'ゴミ箱',
     kind: 'trash',
     point: [140.1026599, 36.1082421],
   },
   {
     id: 'trash-matsumi',
-    name: 'ゴミ箱（晴天時）',
+    name: 'ゴミ箱',
     kind: 'trash',
     point: [140.1021404, 36.1079871],
   },

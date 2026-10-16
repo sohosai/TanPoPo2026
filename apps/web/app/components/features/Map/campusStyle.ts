@@ -573,6 +573,23 @@ export function addCampusLayers(map: MlMap) {
   });
 }
 
+/**
+ * 種類が `kind` の場所（ゴミ箱など）だけを強調する。そのアイコンをどのズームでも少し大きく出し、
+ * ほかのピン・点・ラベルは隠す。建物とテントの形は位置の手がかりとして残す。
+ */
+export function highlightPlaceKind(map: MlMap, kind: 'information' | 'trash') {
+  const target = `campus-${kind}`;
+  for (const { id, type } of map.getStyle().layers) {
+    if (!id.startsWith('campus-') || id === target) continue;
+    if (type === 'symbol' || type === 'circle') {
+      map.setLayoutProperty(id, 'visibility', 'none');
+    }
+  }
+  map.setLayerZoomRange(target, 0, 24);
+  map.setLayoutProperty(target, 'icon-size', 1.3);
+  map.setLayoutProperty(target, 'text-offset', [0, 1.3]);
+}
+
 /** 強調する場所とブース。 */
 export type Selection = { placeIds: string[]; booths: string[] };
 

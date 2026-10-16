@@ -15,6 +15,7 @@ import { buildCampusData } from './campusData';
 import {
   addCampusLayers,
   applySelection,
+  highlightPlaceKind,
   INTERACTIVE_LAYERS,
   type Selection,
   SOURCES,
@@ -91,7 +92,12 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
  * 埋め込みでは、埋め込み先のページを離れさせないよう、アプリ本体のページを新しいタブで開く。
  * ズームに応じて、エリア名 → 建物・テント列のピン → 企画数・中の企画名・テントの形、と情報を増やす。
  */
-export default function CampusLayers() {
+export default function CampusLayers({
+  highlightKind,
+}: {
+  /** 指定すると、この種類の場所だけを強調し、ほかのピン・ラベルは隠す（埋め込み用）。 */
+  highlightKind?: Parameters<typeof highlightPlaceKind>[1];
+}) {
   const { isReady, getMap } = useMap();
   const openAppPath = useOpenAppPath();
   const { data: projects } = trpc.project.list.useQuery();
@@ -168,6 +174,11 @@ export default function CampusLayers() {
     const map = getMap();
     if (loaded && map) applySelection(map, selected);
   }, [loaded, getMap, selected]);
+
+  useEffect(() => {
+    const map = getMap();
+    if (loaded && map && highlightKind) highlightPlaceKind(map, highlightKind);
+  }, [loaded, getMap, highlightKind]);
 
   return null;
 }
