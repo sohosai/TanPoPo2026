@@ -5,7 +5,7 @@
  *  - 場所属性（apps/api: place.list） … id 一意・kind・代表点の妥当性・buildingId が建物を指すか
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
- *  - 企画実施場所（apps/api/data/sources/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
+ *  - 企画実施場所（apps/api/data/sources/project-locations.json・manual-projects.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
  *  - 案内所のテント（information.geojson） … placeId の存在と種類・全案内所のテントの有無
  *  - 地図の吹き出し（callouts.json） … 建物・ステージの placeId の存在と種類・配信 URL・サムネイル画像の有無
  *  - 店舗の場所参照（apps/api: project.list） … locations[].placeId が存在するか（場所が未定の店舗は警告）
@@ -363,7 +363,11 @@ function checkProjectLocations(placeById: ReadonlyMap<string, unknown>) {
     features: { properties: { booth: string } }[];
   }>('apps/web/app/components/features/Map/data/booths.geojson').features;
   const boothShapes = new Set(booths.map(({ properties }) => properties.booth));
-  for (const [number, locations] of Object.entries(data)) {
+  // 手で追加した企画（manual-projects.json）の実施場所も同じく確かめる。
+  const manual = readData<{ number: string; locations: LocationRecord[] }[]>(
+    'apps/api/data/sources/manual-projects.json',
+  ).map(({ number, locations }) => [number, locations] as const);
+  for (const [number, locations] of [...Object.entries(data), ...manual]) {
     for (const location of locations) {
       checkLocation(number, location, placeById, boothShapes);
     }

@@ -3,6 +3,7 @@
  * （apps/api/data/projects.json）を生成する。API は実行時にこのマスターだけを読む。
  *
  * 元データは取得元ごとに分かれており、各 import スクリプトが書き出した後にこの処理を呼ぶ。
+ * SOS に無い企画は manual-projects.json にマスターの形で手で書き、そのまま足す。
  *
  * 実行: bun run build:projects
  */
@@ -216,8 +217,21 @@ export function buildProjects() {
     stages: readSource('stage-projects.json'),
     timetable: readSource('stage-timetable.json'),
   };
-  const projects = readSource<SosStaticProject[]>('sos-projects.json').map(
+  const fromSos = readSource<SosStaticProject[]>('sos-projects.json').map(
     (project) => toMaster(project, sources),
+  );
+  // SOS に無い企画（実行委員会の福引所など）は、マスターの形のまま手で書いた元データから足す。
+  const manual = readSource<ProjectMaster[]>('manual-projects.json');
+  const sosNumbers = new Set(fromSos.map(({ number }) => number));
+  for (const { number, name } of manual) {
+    if (sosNumbers.has(number)) {
+      throw new Error(
+        `manual-projects.json の ${number}（${name}）は SOS の企画番号と重なっています`,
+      );
+    }
+  }
+  const projects = [...fromSos, ...manual].sort((a, b) =>
+    a.number.localeCompare(b.number),
   );
   writeFileSync(OUT_FILE, `${JSON.stringify(projects, null, 2)}\n`);
   // リポジトリの JSON は biome で整形しているため、生成後も同じ書式にそろえる（CI の format チェック対策）。
