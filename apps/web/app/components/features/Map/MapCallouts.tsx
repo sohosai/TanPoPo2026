@@ -3,11 +3,13 @@ import type { Project } from 'api';
 import maplibregl from 'maplibre-gl';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { matchPath, useLocation } from 'react-router';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
-import { useOpenAppPath } from '~/lib/embed';
+import { toAppPath, useOpenAppPath } from '~/lib/embed';
 import { groupProjectsByPlace, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../../styled-system/css';
+import { boothCenter } from './booths';
 import { AREA_MAX_ZOOM, DETAIL_ZOOM } from './campusStyle';
 import calloutsJson from './data/callouts.json';
 import type { LngLat } from './geo';
@@ -25,15 +27,42 @@ const config: CalloutConfig = calloutsJson;
 // 建物の吹き出しで、中の企画を切り替える間隔。
 const ROTATE_MS = 4000;
 
+// 吹き出しを点からどれだけ上に浮かせるか（px）。ピン（建物の企画数・ステージ）の円には重ならず、
+// 企画詳細で立てる強調のピン（高さ約 41px）があるときはその上に出す。テントはピンを立てないため近づける。
+const CALLOUT_OFFSET = 16;
+const SELECTED_OFFSET_ON_PIN = 46;
+const SELECTED_OFFSET_ON_BOOTH = 8;
+
+/** 企画詳細を開いている企画と、その吹き出しを出す位置。開いていなければ undefined。 */
+function useSelectedProject(projects: Project[] | undefined) {
+  const pathname = toAppPath(useLocation().pathname);
+  const { byId: placesById, formatProjectLocation } = usePlaces();
+  const number = matchPath('/project/:number', pathname)?.params.number;
+  const project = projects?.find((p) => p.number === number);
+  const location = project?.locations[0];
+  const place = placesById.get(location?.placeId ?? '');
+  if (!project || !place) return undefined;
+  // 地図を寄せる位置（useProjectFocus）と同じく、屋外ブースはテントそのものを指す。
+  const booth = boothCenter(place, location?.room);
+  return {
+    project,
+    locationLabel: formatProjectLocation(project),
+    point: booth ?? place.point,
+    offset: booth ? SELECTED_OFFSET_ON_BOOTH : SELECTED_OFFSET_ON_PIN,
+  };
+}
+
 /**
  * 主要な建物とステージの上に出す吹き出し。建物は中の企画を順に見せ、ステージは配信へのリンクを見せる。
  * 対象は data/callouts.json で決める。重なったときは、ステージ、JSON に書いた順の建物、の順に残す。
+ * 企画詳細を開いている間は、その企画の場所に企画の吹き出しを出し、ステージの配信の吹き出しは出さない。
  */
 export default function MapCallouts() {
   const { isReady, getMap } = useMap();
   const { data: projects } = trpc.project.list.useQuery();
   const { byId: placesById } = usePlaces();
   const openAppPath = useOpenAppPath();
+  const selected = useSelectedProject(projects);
 
   // 建物ごとの企画。建物の中の複数の部屋で実施する企画は、1件として扱う。
   const projectsByBuilding = useMemo(() => {
@@ -68,12 +97,27 @@ export default function MapCallouts() {
       map.off('move', layout);
       map.off('resize', layout);
     };
-  }, [isReady, getMap, placesById, projectsByBuilding]);
+  }, [isReady, getMap, placesById, projectsByBuilding, selected?.project]);
 
-  const stages = Object.entries(config.stages);
+  // 選んだ企画の吹き出しを見失わないよう、その間は配信の吹き出しを出さない。
+  const stages = selected ? [] : Object.entries(config.stages);
 
   return (
     <>
+      {selected && (
+        <MapCallout
+          key={selected.project.id}
+          point={selected.point}
+          priority={-1}
+          minZoom={0}
+          offset={selected.offset}
+        >
+          <ProjectCallout
+            project={selected.project}
+            locationLabel={selected.locationLabel}
+          />
+        </MapCallout>
+      )}
       {stages.map(([placeId, stream], i) => {
         const place = placesById.get(placeId);
         if (!place) return null;
@@ -140,6 +184,7 @@ function MapCallout({
   point,
   priority,
   minZoom = AREA_MAX_ZOOM,
+  offset = CALLOUT_OFFSET,
   children,
 }: {
   point: LngLat;
@@ -147,6 +192,8 @@ function MapCallout({
   priority: number;
   /** これより寄ったら出す。既定は建物のピンが出るズーム */
   minZoom?: number;
+  /** 点からどれだけ上に浮かせるか（px） */
+  offset?: number;
   children: ReactNode;
 }) {
   const { isReady, getMap } = useMap();
@@ -172,18 +219,17 @@ function MapCallout({
   useEffect(() => {
     const map = getMap();
     if (!isReady || !map) return;
-    // ピンとその上の企画数の円に重ならないよう、少し上に浮かせる。
     const marker = new maplibregl.Marker({
       element,
       anchor: 'bottom',
-      offset: [0, -16],
+      offset: [0, -offset],
     })
       .setLngLat([lng, lat])
       .addTo(map);
     return () => {
       marker.remove();
     };
-  }, [isReady, getMap, element, lng, lat]);
+  }, [isReady, getMap, element, lng, lat, offset]);
 
   return createPortal(children, element);
 }
@@ -320,6 +366,72 @@ function BuildingCallout({
         </span>
       </span>
     </button>
+  );
+}
+
+/** 企画詳細を開いている企画のアイコン・名前・場所。押しても何も開かない（詳細はすでに開いている）。 */
+function ProjectCallout({
+  project,
+  locationLabel,
+}: {
+  project: Project;
+  locationLabel: string;
+}) {
+  return (
+    <div
+      className={cx(
+        bubble,
+        css({
+          maxW: '220px',
+          p: '6px',
+          cursor: 'default',
+          _active: { transform: 'none' },
+          // 地図の上で目に留まるよう、選択中のテント・建物と同じアクセント色の枠で囲む。
+          outline: '2px solid token(colors.accent)',
+          animation: 'detailEnter 0.2s ease-out',
+          _motionReduce: { animation: 'none' },
+        }),
+      )}
+    >
+      {/* bubble の display: block と競合しないよう、横並びは内側の要素で組む。 */}
+      <span
+        className={css({
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          pr: '4px',
+        })}
+      >
+        <ProjectIcon project={project} size={36} />
+        <span className={css({ minW: 0 })}>
+          <span
+            className={css({
+              display: 'block',
+              fontSize: 'xs',
+              fontWeight: 700,
+              lineHeight: 1.35,
+              color: 'fg.strong',
+              lineClamp: 2,
+            })}
+          >
+            {project.name}
+          </span>
+          {locationLabel && (
+            <span
+              className={css({
+                display: 'block',
+                mt: '1px',
+                fontSize: '2xs',
+                color: 'fg.subtle',
+                truncate: true,
+              })}
+            >
+              {locationLabel}
+            </span>
+          )}
+        </span>
+      </span>
+    </div>
   );
 }
 
