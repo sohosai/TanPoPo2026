@@ -66,6 +66,14 @@ export default function List() {
     () => new Set(visibleProjects.map((project) => project.id)),
     [visibleProjects],
   );
+  // 検索に一致した順に並べ、隠す行はその後ろに置く。行は key で使い回されるため、並べ替えても作り直されない。
+  const orderedProjects = useMemo(
+    () => [
+      ...visibleProjects,
+      ...allProjects.filter((project) => !visibleIds.has(project.id)),
+    ],
+    [visibleProjects, allProjects, visibleIds],
+  );
 
   // 詳細を × で閉じて戻ってきたときだけ、企画を上から順にふわっと出す。
   // 戻った直後だけに限定し、その後の絞り込みで現れた行には演出をかけない。
@@ -135,7 +143,7 @@ export default function List() {
         )}
 
         <ProjectList
-          projects={allProjects}
+          projects={orderedProjects}
           visibleIds={visibleIds}
           rowProps={(i) => enterProps(i + (showBanner ? 1 : 0))}
         />
