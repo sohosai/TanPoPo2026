@@ -35,38 +35,3 @@ export function ringBounds(ring: LngLat[]): [LngLat, LngLat] {
     [Math.max(...lngs), Math.max(...lats)],
   ];
 }
-
-/**
- * 閉じた外周を外側へ meters（m）だけ広げる。角は辺を平行にずらした線の交点にする。
- * 建物 1 棟ほどの大きさなら、経緯度を平面とみなしても誤差は無視できる。
- */
-export function offsetRing(ring: LngLat[], meters: number): LngLat[] {
-  const mx = 111_320 * Math.cos((ring[0][1] * Math.PI) / 180);
-  const my = 110_574;
-  const points = ring.slice(0, -1).map(([x, y]) => [x * mx, y * my]);
-  const count = points.length;
-  // 頂点の並びが反時計回りなら進行方向の右手が外側。時計回りなら逆になる。
-  const area = points.reduce((sum, [x1, y1], i) => {
-    const [x2, y2] = points[(i + 1) % count];
-    return sum + x1 * y2 - x2 * y1;
-  }, 0);
-  const side = Math.sign(area);
-  const outward = ([x1, y1]: number[], [x2, y2]: number[]) => {
-    const length = Math.hypot(x2 - x1, y2 - y1);
-    return [(side * (y2 - y1)) / length, (side * (x1 - x2)) / length];
-  };
-  const moved = points.map((point, i) => {
-    const [ax, ay] = outward(points[(i - 1 + count) % count], point);
-    const [bx, by] = outward(point, points[(i + 1) % count]);
-    const [sx, sy] = [ax + bx, ay + by];
-    const length = Math.hypot(sx, sy);
-    // 鋭い角では交点が遠くへ飛ぶため、ずらす量を辺のずらし幅の 2 倍までに抑える。
-    const cos = Math.max((sx * ax + sy * ay) / length, 0.5);
-    const scale = meters / cos / length;
-    return [
-      (point[0] + sx * scale) / mx,
-      (point[1] + sy * scale) / my,
-    ] as LngLat;
-  });
-  return [...moved, moved[0]];
-}

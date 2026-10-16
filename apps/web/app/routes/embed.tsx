@@ -1,8 +1,9 @@
 import { IconExternalLink } from '@tabler/icons-react';
-import { useEffect } from 'react';
-import { matchPath, useLocation } from 'react-router';
+import { useEffect, useMemo } from 'react';
+import { matchPath, useLocation, useSearchParams } from 'react-router';
 import CampusLayers from '~/components/features/Map/CampusLayers';
 import { findCampusArea } from '~/components/features/Map/campusData';
+import { ringBounds } from '~/components/features/Map/geo';
 import { AREA_MAX_ZOOM } from '~/components/features/Map/campusStyle';
 import {
   MapProvider,
@@ -28,17 +29,22 @@ export const meta: Route.MetaFunction = () => [
 /**
  * 他サイトの iframe に埋め込む地図。URL はアプリ本体の URL の先頭に /embed を付けたもので、
  * 企画・場所・エリアのページに当たる URL ならそこへ寄せる。
+ * `?highlight=trash` を付けると、ゴミ箱だけを強調して全ゴミ箱が収まるように表示する。
  */
 export default function Embed() {
   const appPath = toAppPath(useLocation().pathname);
+  const [searchParams] = useSearchParams();
+  const highlightTrash = searchParams.get('highlight') === 'trash';
 
   return (
     <MapProvider>
       <MapView />
-      <CampusLayers />
-      <MapCallouts />
+      <CampusLayers highlightKind={highlightTrash ? 'trash' : undefined} />
+      {/* ゴミ箱の強調中は、ステージの吹き出しで地図を覆わない。 */}
+      {!highlightTrash && <MapCallouts />}
       <MapControls />
       <Focus appPath={appPath} />
+      {highlightTrash && <FitTrash />}
       <a
         href={appPath}
         target="_blank"
@@ -69,6 +75,22 @@ export default function Embed() {
       </a>
     </MapProvider>
   );
+}
+
+/** すべてのゴミ箱が収まるところまで寄る。 */
+function FitTrash() {
+  const { fitBounds } = useMap();
+  const { places } = usePlaces();
+  const bounds = useMemo(() => {
+    const points = places.flatMap(({ kind, point }) =>
+      kind === 'trash' ? [point] : [],
+    );
+    return points.length > 0 ? ringBounds(points) : undefined;
+  }, [places]);
+  useEffect(() => {
+    if (bounds) fitBounds(bounds);
+  }, [bounds, fitBounds]);
+  return null;
 }
 
 function Focus({ appPath }: { appPath: string }) {

@@ -6,16 +6,10 @@ import {
   type PlaceEntry,
 } from '~/lib/places';
 import { boothCenter, boothShapes } from './booths';
-import { CATEGORY_COLORS } from './campusStyle';
+import { CATEGORY_COLORS, INFORMATION_COLOR } from './campusStyle';
 import buildingsRaw from './data/buildings.geojson?raw';
-import campusBuildingIds from './data/campus-building-ids.json';
-import {
-  type LngLat,
-  offsetRing,
-  ringBounds,
-  ringCenter,
-  ringContains,
-} from './geo';
+import informationRaw from './data/information.geojson?raw';
+import { type LngLat, ringBounds, ringCenter, ringContains } from './geo';
 import sohosaiMap from './sohosai-map.json';
 
 // 地図スタイルに塗り分けとして入っている会場エリア。
@@ -27,6 +21,13 @@ const AREAS = [
 ] as const;
 
 const PREVIEW_COUNT = 3;
+
+const VISIBLE_PLACE_KINDS = new Set<Place['kind']>([
+  'building',
+  'stage',
+  'information',
+  'trash',
+]);
 
 const areaPolygons = AREAS.map(({ source, name }) => {
   const data = (
@@ -66,33 +67,20 @@ const buildings = JSON.parse(buildingsRaw) as {
     properties: {
       placeId: string;
       name: string;
-      osmId: number;
       levels: number;
     };
     geometry: { type: 'Polygon'; coordinates: LngLat[][] };
   }[];
 };
 
-const venueBuildingIds = new Set(
-  buildings.features.map((feature) => feature.properties.osmId),
-);
-
-/**
- * 地図タイルの建物のうち 3D 表示で立体にするもの（学内の、会場以外の建物）の OSM way id。
- * 会場の建物は階数から別に立てるため、同じ輪郭が二重に立って壁がちらつかないよう除く。
- */
-export const otherCampusBuildingIds = campusBuildingIds.filter(
-  (id) => !venueBuildingIds.has(id),
-);
-
-// 地図タイルは同じ高さの建物を 1 つの地物にまとめて別の棟の id を付けることがあり（5C・大学会館など）、
-// id では除ききれない。3D の会場の建物はタイルの座標の丸め誤差（ズーム 14 で最大約 0.3m）より外へ広げ、
-// 二重に立った同じ輪郭の壁をその内側に隠す。
-const SHELL_OFFSET = 0.5;
-const buildingShells = buildings.features.map(({ geometry }) => ({
-  type: 'Polygon' as const,
-  coordinates: [offsetRing(geometry.coordinates[0], SHELL_OFFSET)],
-}));
+const informationTents = (
+  JSON.parse(informationRaw) as {
+    features: {
+      properties: { placeId: string };
+      geometry: { type: 'Polygon'; coordinates: LngLat[][] };
+    }[];
+  }
+).features;
 
 const truncate = (text: string, max: number) =>
   text.length > max ? `${text.slice(0, max)}…` : text;
@@ -192,6 +180,13 @@ export function buildCampusData(projects: Project[], places: Place[]) {
     }),
   );
 
+  const informationShapes = informationTents
+    .filter(({ properties }) => placesById.has(properties.placeId))
+    .map(({ properties, geometry }) => ({
+      type: 'Feature' as const,
+      properties: { placeId: properties.placeId, color: INFORMATION_COLOR },
+      geometry,
+    }));
   const buildingFeatures = buildings.features.map((feature) => ({
     ...feature,
     properties: {
@@ -202,7 +197,7 @@ export function buildCampusData(projects: Project[], places: Place[]) {
 
   const placeFeatures = places
     // 屋外のテントは引いているときにまとめて出さず、寄ったところでテントそのものを出す。
-    .filter(({ kind }) => kind === 'building' || kind === 'stage')
+    .filter(({ kind }) => VISIBLE_PLACE_KINDS.has(kind))
     .map((place) => {
       const entries = byPlace.get(place.id) ?? [];
       const count = countProjects(entries);
@@ -219,15 +214,10 @@ export function buildCampusData(projects: Project[], places: Place[]) {
   return {
     areas: collection(areaFeatures),
     buildings: collection(buildingFeatures),
-    buildingShells: collection(
-      buildingFeatures.map((feature, i) => ({
-        ...feature,
-        geometry: buildingShells[i],
-      })),
-    ),
     places: collection(placeFeatures),
     booths: collection(booths.points),
-    boothShapes: collection(booths.shapes),
+    // 案内所もテントとして、屋外ブースのテントと同じレイヤで描く。
+    boothShapes: collection([...booths.shapes, ...informationShapes]),
   };
 }
 

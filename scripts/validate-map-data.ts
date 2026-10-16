@@ -6,6 +6,7 @@
  *  - 建物ポリゴン（buildings.geojson） … 形状・placeId の存在/一意・建物との対応・osmId と階数
  *  - 通路ネットワーク（path-network.geojson） … 形状・kind・入口の placeId 参照・連結性
  *  - 企画実施場所（apps/api/data/sources/project-locations.json） … placeId の存在・実施日の妥当性・屋外ブースのテントの形（booths.geojson）の有無
+ *  - 案内所のテント（information.geojson） … placeId の存在と種類・全案内所のテントの有無
  *  - 地図の吹き出し（callouts.json） … 建物・ステージの placeId の存在と種類・配信 URL・サムネイル画像の有無
  *  - 店舗の場所参照（apps/api: project.list） … locations[].placeId が存在するか（場所が未定の店舗は警告）
  *  - 座標が [経度, 緯度] の順かどうか（緯度経度の取り違え検出）
@@ -255,6 +256,7 @@ async function main() {
 
   checkProjectLocations(placeById);
   checkCallouts(placeById);
+  checkTents(places);
 
   // ---- 4. 店舗の場所参照 ----
   for (const project of projects) {
@@ -353,20 +355,47 @@ function checkProjectLocations(placeById: ReadonlyMap<string, unknown>) {
     'apps/api/data/sources/project-locations.json',
   );
   const booths = readData<{
-    features: {
-      properties: { booth: string };
-      geometry: { coordinates: Position[][] };
-    }[];
+    features: { properties: { booth: string } }[];
   }>('apps/web/app/components/features/Map/data/booths.geojson').features;
-  for (const { properties, geometry } of booths) {
-    if (!geometry.coordinates[0].every(inBbox)) {
-      err(`booths.geojson ${properties.booth}: 座標が範囲外（取り違え?）`);
-    }
-  }
   const boothShapes = new Set(booths.map(({ properties }) => properties.booth));
   for (const [number, locations] of Object.entries(data)) {
     for (const location of locations) {
       checkLocation(number, location, placeById, boothShapes);
+    }
+  }
+}
+
+function checkTents(places: { id: string; kind: string }[]) {
+  type Tents = {
+    features: {
+      properties: { booth?: string; placeId?: string };
+      geometry: { coordinates: Position[][] };
+    }[];
+  };
+  const information = (readJson('information.geojson') as Tents).features;
+  const kindById = new Map(places.map(({ id, kind }) => [id, kind]));
+  for (const { properties } of information) {
+    const kind = kindById.get(properties.placeId ?? '');
+    if (kind !== 'information') {
+      err(
+        `information.geojson: 案内所の placeId でない: ${properties.placeId}（${kind ?? '存在しない'}）`,
+      );
+    }
+  }
+  const tentIds = new Set(
+    information.map(({ properties }) => properties.placeId),
+  );
+  for (const { id, kind } of places) {
+    if (kind === 'information' && !tentIds.has(id)) {
+      err(`place ${id}: 案内所のテントの形（information.geojson）が無い`);
+    }
+  }
+  const booths = (readJson('booths.geojson') as Tents).features;
+  for (const { properties, geometry } of [...booths, ...information]) {
+    if (!geometry.coordinates[0].every(inBbox)) {
+      err(
+        `テント ${properties.booth ?? properties.placeId}: 座標が範囲外（取り違え?）`,
+      );
     }
   }
 }
