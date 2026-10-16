@@ -309,6 +309,12 @@ export default defineConfig({
       overflow: 'hidden',
       overscrollBehavior: 'none',
     },
+    // iOS のホーム画面から開いたアプリでは、height: 100% や 100dvh が画面の高さより短くなり、
+    // 下端に何も描かれない帯が残ることがある（WebKit bug 301108）。ツールバーの無い standalone では
+    // 100vh が画面の高さそのものなので、ページの高さを 100vh で決める。
+    '@media (display-mode: standalone)': {
+      html: { height: '100vh' },
+    },
     body: {
       backgroundColor: 'sheet.background',
       fontFamily: "'Inter', 'Noto Sans JP', sans-serif",
