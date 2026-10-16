@@ -8,6 +8,7 @@ import MapView from '~/components/features/Map/MapView';
 import BottomSheet from '~/components/layouts/MapPanel/BottomSheet';
 import SidePanel from '~/components/layouts/MapPanel/SidePanel';
 import { useIsDesktop } from '~/lib/viewport';
+import AppLogo from './AppLogo';
 
 export default function AppLayout() {
   const isDesktop = useIsDesktop();
@@ -23,13 +24,16 @@ export default function AppLayout() {
         <MapControls ref={controlsRef} />
 
         {isDesktop ? (
-          <SidePanel>
+          <SidePanel beside={<AppLogo placement="beside-panel" />}>
             <Outlet />
           </SidePanel>
         ) : (
-          <BottomSheet controlsRef={controlsRef}>
-            <Outlet />
-          </BottomSheet>
+          <>
+            <AppLogo placement="screen" />
+            <BottomSheet controlsRef={controlsRef}>
+              <Outlet />
+            </BottomSheet>
+          </>
         )}
       </div>
     </MapProvider>
