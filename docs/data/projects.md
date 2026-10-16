@@ -8,7 +8,9 @@
     "number": "001",            // 3桁ゼロ埋めの企画番号（URL に使う）
     "id": "cmo6fjrq8002kqx01h8sfve0t", // SOS の企画 ID（お気に入り・グランプリ投票のキー）
     "name": "jsys25ごはん",
+    "nameReading": "じぇーしすにーごーごはん", // よみがな（ひらがな。検索に使う）
     "organization": "jsys25",
+    "organizationReading": "じぇーしすにーごー",
     "category": "食事",          // 絞り込みの分類
     "schedule": ["Day1", "Day2"],
     "locations": [{ "placeId": "booth-g", "room": "G1", "days": ["Day1", "Day2"] }],
@@ -35,7 +37,7 @@ bun run sync:projects
 
 | 元データ | 内容 | 取得元 | 更新コマンド |
 | --- | --- | --- | --- |
-| `sos-projects.json` | 掲載する企画と、名前・団体・区分・説明文・リンク | SOS 公開 API | `bun run sync:projects` |
+| `sos-projects.json` | 掲載する企画と、名前・団体（それぞれのよみがなを含む）・区分・説明文・リンク | SOS 公開 API | `bun run sync:projects` |
 | `project-categories.json` | 分類 | 実行委員会の CSV。[project-categories.md](./project-categories.md) | `bun run import:project-categories <企画一覧.csv> <学術企画.csv>` |
 | `committee-projects.json` | 委員会企画の企画番号 | 手で管理 | 直接編集して `bun run build:projects` |
 | `manual-projects.json` | SOS に無い企画（マスターと同じ形の配列） | 手で管理 | 直接編集して `bun run build:projects` |
@@ -49,6 +51,7 @@ bun run sync:projects
 
 実行委員会の福引所のように SOS に登録の無い企画は、`manual-projects.json` にマスターと同じ形で書く。`bun run build:projects` がそのままマスターに足し、企画番号順に並べる。
 
+- よみがな（`nameReading`・`organizationReading`）も手で書く（検索に使う）。
 - 企画番号は SOS の番号と重ならない値にする（今は 900 番台）。重なると `build:projects` がエラーで止まる。`id` は SOS の ID の代わりに `manual-<名前>` とする（お気に入り・グランプリ投票のキー）。
 - 実施場所（`locations`）・実施日（`schedule`）もこのファイルに書く。屋外のテントは `place.ts` に Place、`booths.geojson` にテントの形を足す（[project-locations.md](./project-locations.md)）。`bun run check:map-data` がこのファイルの実施場所も確かめる。
 - 画像は SOS から取れないため、`apps/web/public/projects/<名前>/` に WebP で置き、`thumbnail`・`images` に `src` と幅違いの `srcSet` を書く。アイコンは正方形にする。SOS に同じ番号の企画ができて画像が登録されれば、そちらが優先される。

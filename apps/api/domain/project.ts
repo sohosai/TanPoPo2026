@@ -49,7 +49,11 @@ export type Project = {
   /** 3桁ゼロ埋めの企画番号（例: "001"）。URL に使う */
   number: string;
   name: string;
+  /** 企画名のよみがな（ひらがな）。分からなければ空文字 */
+  nameReading: string;
   organization: string;
+  /** 団体名のよみがな（ひらがな）。分からなければ空文字 */
+  organizationReading: string;
   /**
    * 紐づく場所（1つ以上）。複数店舗が同じ placeId を共有でき（ステージ等）、
    * 1店舗が複数の場所にまたがることも表現できる（M:N）。
