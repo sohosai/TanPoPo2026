@@ -5,11 +5,12 @@ import type {
   MapMouseEvent,
   Map as MlMap,
 } from 'maplibre-gl';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { matchPath, useLocation } from 'react-router';
 import { toAppPath, useOpenAppPath } from '~/lib/embed';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
+import BoothChooser, { type BoothChoice } from './BoothChooser';
 import { boothCenter } from './booths';
 import { buildCampusData } from './campusData';
 import {
@@ -63,8 +64,14 @@ function featureCenter(feature: MapGeoJSONFeature): LngLat | null {
     : null;
 }
 
-/** タップ位置にある対象から、開くページのパスを返す。対象が無ければ null。 */
-function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
+/** 複数の企画が入るテント。タップでページを開かず、企画を選ばせる。 */
+type SharedBooth = { placeId: string; room: string; point: LngLat };
+
+/** タップ位置にある対象から、開くページのパスか、企画を選ばせるテントを返す。対象が無ければ null。 */
+function tapTarget(
+  map: MlMap,
+  { x, y }: { x: number; y: number },
+): string | SharedBooth | null {
   // 指でのタップでも小さなピンに当たるよう、タップ位置の周囲も拾う。
   const features = map.queryRenderedFeatures(
     [
@@ -81,10 +88,19 @@ function tapTarget(map: MlMap, { x, y }: { x: number; y: number }) {
     const p = map.project(center);
     return Math.hypot(p.x - x, p.y - y);
   };
-  const props = features.sort((a, b) => distance(a) - distance(b))[0]
-    ?.properties;
+  const nearest = features.sort((a, b) => distance(a) - distance(b))[0];
+  const props = nearest?.properties;
   if (typeof props?.projectNumber === 'string' && props.projectNumber !== '') {
     return `/project/${props.projectNumber}`;
+  }
+  const center = nearest && featureCenter(nearest);
+  if (
+    typeof props?.booth === 'string' &&
+    typeof props.placeId === 'string' &&
+    Number(props.count) > 1 &&
+    center
+  ) {
+    return { placeId: props.placeId, room: props.booth, point: center };
   }
   if (
     typeof props?.placeId === 'string' &&
@@ -113,6 +129,21 @@ export default function CampusLayers({
   const { places, byId: placesById } = usePlaces();
   const selected = useSelection(projects, placesById);
   const [loaded, setLoaded] = useState(false);
+  const [sharedBooth, setSharedBooth] = useState<SharedBooth | null>(null);
+  const closeChooser = useCallback(() => setSharedBooth(null), []);
+
+  const boothChoice = useMemo((): BoothChoice | null => {
+    if (!sharedBooth || !projects) return null;
+    const entries = projects.flatMap((project) =>
+      project.locations
+        .filter(
+          ({ placeId, room }) =>
+            placeId === sharedBooth.placeId && room === sharedBooth.room,
+        )
+        .map(({ days }) => ({ project, days: days ?? project.schedule })),
+    );
+    return { point: sharedBooth.point, entries };
+  }, [sharedBooth, projects]);
 
   useEffect(() => {
     const map = getMap();
@@ -146,7 +177,9 @@ export default function CampusLayers({
         return;
       }
       const target = tapTarget(map, e.point);
-      if (target) openAppPath(target);
+      // 選択肢を出している間に別の所をタップしたら、選択肢は閉じる。
+      setSharedBooth(typeof target === 'object' ? target : null);
+      if (typeof target === 'string') openAppPath(target);
     };
     const setCursor = (cursor: string) => () => {
       map.getCanvas().style.cursor = cursor;
@@ -192,5 +225,15 @@ export default function CampusLayers({
     if (loaded && map && highlightKind) highlightPlaceKind(map, highlightKind);
   }, [loaded, getMap, highlightKind]);
 
-  return null;
+  if (!boothChoice) return null;
+  return (
+    <BoothChooser
+      choice={boothChoice}
+      onSelect={(project) => {
+        setSharedBooth(null);
+        openAppPath(`/project/${project.number}`);
+      }}
+      onClose={closeChooser}
+    />
+  );
 }

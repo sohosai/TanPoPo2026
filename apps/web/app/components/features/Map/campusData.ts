@@ -1,4 +1,8 @@
-import type { Place, Project } from 'api';
+import type { Place, Project, ScheduleDay } from 'api';
+import {
+  compareSchedule,
+  formatSchedule,
+} from '~/components/features/Project/labels';
 import {
   compareRoom,
   countProjects,
@@ -120,6 +124,30 @@ function projectPreview(entries: PlaceEntry[]): string {
   return lines.join('\n');
 }
 
+// テントのラベルに企画名を並べる数。これより多いブースは残りを件数で示す。
+const BOOTH_LABEL_COUNT = 2;
+
+/**
+ * テントのラベル。複数の企画が入るブースは、どれもあることが分かるよう1行ずつ並べる。
+ * 日替わりのブースでは、いつの企画かも添える。
+ */
+function boothLabel(list: { project: Project; days: ScheduleDay[] }[]) {
+  if (list.length === 1) return truncate(list[0].project.name, 12);
+  const daysDiffer = new Set(list.map(({ days }) => days.join())).size > 1;
+  const lines = list
+    .toSorted((a, b) => compareSchedule(a.days, b.days))
+    .slice(0, BOOTH_LABEL_COUNT)
+    .map(({ project, days }) =>
+      daysDiffer
+        ? `${formatSchedule(days)} ${truncate(project.name, 9)}`
+        : truncate(project.name, 12),
+    );
+  if (list.length > BOOTH_LABEL_COUNT) {
+    lines.push(`ほか${list.length - BOOTH_LABEL_COUNT}件`);
+  }
+  return lines.join('\n');
+}
+
 /** 屋外ブースごとの点（ラベル用）とテントの形。日替わりで複数の企画が入るブースは1つにまとめる。 */
 function boothFeatures(
   projects: Project[],
@@ -127,35 +155,36 @@ function boothFeatures(
 ) {
   const booths = new Map<
     string,
-    { placeId: string; center: LngLat; projects: Project[] }
+    {
+      placeId: string;
+      center: LngLat;
+      list: { project: Project; days: ScheduleDay[] }[];
+    }
   >();
   for (const project of projects) {
-    for (const { placeId, room } of project.locations) {
+    for (const { placeId, room, days } of project.locations) {
       const center = boothCenter(placesById.get(placeId), room);
       if (!room || !center) continue;
-      const booth = booths.get(room) ?? { placeId, center, projects: [] };
-      booth.projects.push(project);
+      const booth = booths.get(room) ?? { placeId, center, list: [] };
+      booth.list.push({ project, days: days ?? project.schedule });
       booths.set(room, booth);
     }
   }
-  const entries = [...booths].map(
-    ([room, { placeId, center, projects: list }]) => {
-      const [first] = list;
-      const name = truncate(first.name, 12);
-      const properties = {
-        booth: room,
-        placeId,
-        count: list.length,
-        // 1企画だけのブースはタップで企画詳細を開く。
-        projectNumber: list.length === 1 ? first.number : '',
-        label: list.length > 1 ? `${name} ほか${list.length - 1}件` : name,
-        color: CATEGORY_COLORS[first.category],
-        // テントの形をタップしたときに、タップ位置との近さを測る基準点。
-        center,
-      };
-      return { room, center, properties };
-    },
-  );
+  const entries = [...booths].map(([room, { placeId, center, list }]) => {
+    const [{ project: first }] = list;
+    const properties = {
+      booth: room,
+      placeId,
+      count: list.length,
+      // 1企画だけのブースはタップで企画詳細を開き、複数ならどれを開くか選ばせる。
+      projectNumber: list.length === 1 ? first.number : '',
+      label: boothLabel(list),
+      color: CATEGORY_COLORS[first.category],
+      // テントの形をタップしたときに、タップ位置との近さを測る基準点。
+      center,
+    };
+    return { room, center, properties };
+  });
   return {
     points: entries.map(({ center, properties }) => point(center, properties)),
     shapes: entries.flatMap(({ room, properties }) => {
