@@ -113,8 +113,8 @@
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
+      "description": "来場者の皆様の投票によって、今年の雙峰祭で一番良かった企画を決める企画です。例年設けられている最優秀賞、優秀賞の他に第52回雙峰祭であることにちなんで、52位賞を新たに設けています。受賞した企画は、後夜祭の表彰式で表彰を行います。",
+      "websiteUrls": ["https://search.sohosai.com/grandprix"],
       "xIds": [],
       "instagramIds": [],
       "youtubeIds": []
@@ -436,10 +436,13 @@
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
+      "description": "「つくメモ〜つくばの思い出教えてください〜」を実施！つくばの思い出を記入すると、そぽたんとフックン船長柄の缶バッジが当たるカプセルトイを回せます。過去のフリーペーパーも配布予定！\n公式noteでは、筑波大生や卒業生へのインタビュー記事、現役筑波大生に行ったアンケート結果などを発信中。ぜひお立ち寄りください！",
+      "websiteUrls": [
+        "https://www.city.tsukuba.lg.jp/notfound.html",
+        "https://note.com/sohosai_city"
+      ],
       "xIds": [],
-      "instagramIds": [],
+      "instagramIds": ["tsuku_memo"],
       "youtubeIds": []
     }
   },
@@ -2574,10 +2577,10 @@
     "type": "NORMAL",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
-      "websiteUrls": [],
-      "xIds": [],
-      "instagramIds": [],
+      "description": "Tsukuba Trends 出演者が「ぶらり旅」風に第二・第三エリア、大学会館エリア、体芸エリアの屋外一般企画を巡る配信です！配信では屋外食品企画の食品の試食やリポートを行います！",
+      "websiteUrls": ["https://live.sohosai.com"],
+      "xIds": ["sohosai"],
+      "instagramIds": ["sohosai"],
       "youtubeIds": []
     }
   },

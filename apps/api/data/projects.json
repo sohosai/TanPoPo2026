@@ -198,8 +198,14 @@
         "title": "雙峰祭グランプリ2026"
       }
     ],
-    "description": "",
-    "links": []
+    "description": "来場者の皆様の投票によって、今年の雙峰祭で一番良かった企画を決める企画です。例年設けられている最優秀賞、優秀賞の他に第52回雙峰祭であることにちなんで、52位賞を新たに設けています。受賞した企画は、後夜祭の表彰式で表彰を行います。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "search.sohosai.com",
+        "url": "https://search.sohosai.com/grandprix"
+      }
+    ]
   },
   {
     "number": "008",
@@ -687,8 +693,24 @@
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "「つくメモ〜つくばの思い出教えてください〜」を実施！つくばの思い出を記入すると、そぽたんとフックン船長柄の缶バッジが当たるカプセルトイを回せます。過去のフリーペーパーも配布予定！\n公式noteでは、筑波大生や卒業生へのインタビュー記事、現役筑波大生に行ったアンケート結果などを発信中。ぜひお立ち寄りください！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "city.tsukuba.lg.jp",
+        "url": "https://www.city.tsukuba.lg.jp/notfound.html"
+      },
+      {
+        "kind": "website",
+        "label": "note.com",
+        "url": "https://note.com/sohosai_city"
+      },
+      {
+        "kind": "instagram",
+        "label": "@tsuku_memo",
+        "url": "https://www.instagram.com/tsuku_memo/"
+      }
+    ]
   },
   {
     "number": "031",
@@ -4419,8 +4441,24 @@
     "schedule": ["Day1", "Day2"],
     "locations": [],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "Tsukuba Trends 出演者が「ぶらり旅」風に第二・第三エリア、大学会館エリア、体芸エリアの屋外一般企画を巡る配信です！配信では屋外食品企画の食品の試食やリポートを行います！",
+    "links": [
+      {
+        "kind": "website",
+        "label": "live.sohosai.com",
+        "url": "https://live.sohosai.com"
+      },
+      {
+        "kind": "x",
+        "label": "@sohosai",
+        "url": "https://x.com/sohosai"
+      },
+      {
+        "kind": "instagram",
+        "label": "@sohosai",
+        "url": "https://www.instagram.com/sohosai/"
+      }
+    ]
   },
   {
     "number": "186",
