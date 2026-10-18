@@ -8,9 +8,9 @@ declare const HTMLRewriter: typeof HTMLRewriterClass;
 
 const SITE_TITLE = '雙峰祭 企画検索システム';
 const DESCRIPTION_MAX_LENGTH = 120;
-// apps/web/scripts/build-ogp.ts が書き出す画像の大きさ。
-const OGP_WIDTH = 1200;
-const OGP_HEIGHT = 630;
+// 企画の OGP 画像の大きさ。apps/web/scripts/build-ogp.ts もこの大きさで書き出す。
+export const OGP_WIDTH = 1200;
+export const OGP_HEIGHT = 630;
 
 export const ogpRoutes = new Hono<{ Bindings: AppEnv }>();
 

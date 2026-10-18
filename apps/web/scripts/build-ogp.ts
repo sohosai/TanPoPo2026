@@ -1,11 +1,14 @@
 import { mkdir, readFile } from 'node:fs/promises';
 import { availableParallelism } from 'node:os';
 import { Worker } from 'node:worker_threads';
-import type { ProjectCategory, ProjectImage } from 'api';
-import { formatProjectLocation, type Place } from 'api/domain/place';
+import { IconMapPinFilled } from '@tabler/icons-react';
+import type { Place, ProjectCategory, ProjectImage } from 'api';
 import { SosClient } from 'api/services/sos';
 import { places } from 'api/trpc/routers/place';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import sharp from 'sharp';
+import { formatProjectLocation } from '../app/lib/places';
 import config from '../panda.config';
 import type { OgpColors, OgpTask, RenderInput } from './ogp-render';
 
@@ -46,15 +49,20 @@ const colors: OgpColors = {
   category: Object.fromEntries(
     Object.entries(CATEGORY_TOKENS).map(([name, token]) => [
       name,
-      { dot: category[token]!.DEFAULT.value, bg: category[token]!.bg.value },
+      { dot: category[token].DEFAULT.value, bg: category[token].bg.value },
     ]),
   ) as OgpColors['category'],
   fg: fg.DEFAULT.value,
   fgStrong: fg.strong.value,
   fgMuted: fg.muted.value,
-  // 詳細ページの場所のアイコンと同じ accent（brand.500）。
-  accent: extend.tokens.colors.brand['500']!.value,
 };
+
+// 場所のアイコンは web と同じ Tabler Icons を、accent（brand.500）で塗って SVG にする。
+const pin = renderToStaticMarkup(
+  createElement(IconMapPinFilled, {
+    color: extend.tokens.colors.brand['500'].value,
+  }),
+);
 
 const placesById: ReadonlyMap<string, Place> = new Map(
   places.map((place) => [place.id, place]),
@@ -84,7 +92,7 @@ const [font, background, logo] = await Promise.all([
       .join(''),
   ),
   readFile('public/ogp/project-ogp-layout.png'),
-  readFile('public/ogp/logo.png'),
+  sharp('public/logo/wide.webp').resize({ width: 480 }).png().toBuffer(),
 ]);
 
 await mkdir(OUT_DIR, { recursive: true });
@@ -100,6 +108,7 @@ await Promise.all(
       font,
       background: toDataUri(background, 'image/png'),
       logo: toDataUri(logo, 'image/png'),
+      pin: toDataUri(Buffer.from(pin), 'image/svg+xml'),
       colors,
     }),
   ),

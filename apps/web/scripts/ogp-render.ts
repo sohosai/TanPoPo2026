@@ -2,12 +2,10 @@ import { writeFile } from 'node:fs/promises';
 import { workerData } from 'node:worker_threads';
 import { Resvg } from '@resvg/resvg-js';
 import type { ProjectCategory } from 'api';
+import { OGP_HEIGHT, OGP_WIDTH } from 'api/ogp/routes';
 import satori from 'satori';
 
 // build-ogp.ts が立てるスレッドで、割り当てられた企画の OGP 画像を描いて書き出す。
-
-export const OGP_WIDTH = 1200;
-export const OGP_HEIGHT = 630;
 
 export type OgpTask = {
   number: string;
@@ -25,7 +23,6 @@ export type OgpColors = {
   fg: string;
   fgStrong: string;
   fgMuted: string;
-  accent: string;
 };
 
 export type RenderInput = {
@@ -36,12 +33,10 @@ export type RenderInput = {
   /** PNG の data URI */
   background: string;
   logo: string;
+  /** 場所のアイコン（SVG の data URI） */
+  pin: string;
   colors: OgpColors;
 };
-
-// Tabler Icons の map-pin（filled）。
-const MAP_PIN_PATH =
-  'M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6';
 
 type Child = SatoriElement | string | undefined;
 type SatoriElement = {
@@ -178,11 +173,7 @@ function layout(task: OgpTask): SatoriElement {
                 color: colors.fgStrong,
               },
             },
-            h(
-              'svg',
-              { width: 34, height: 34, viewBox: '0 0 24 24' },
-              h('path', { d: MAP_PIN_PATH, fill: colors.accent }),
-            ),
+            h('img', { src: input.pin, width: 34, height: 34 }),
             h('div', { style: { maxWidth: 340, ...ellipsis } }, task.location),
           )
         : undefined,
