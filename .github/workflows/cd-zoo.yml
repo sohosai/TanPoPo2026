@@ -27,6 +27,7 @@ jobs:
         run: bun run build
         env:
           VITE_MAPTILER_KEY: ${{ secrets.VITE_MAPTILER_KEY }}
+          VITE_SITE_ORIGIN: https://zoo.search.sohosai.com
           SOS_API_URL: ${{ secrets.SOS_API_URL }}
 
       - name: Apply DB Migrations
