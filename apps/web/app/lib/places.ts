@@ -1,4 +1,5 @@
 import type { Place, Project, ProjectLocation } from 'api';
+import { formatProjectLocation } from 'api/domain/place';
 import { useMemo } from 'react';
 import { trpc } from '~/lib/trpc';
 
@@ -28,33 +29,7 @@ export function usePlaces() {
   };
 }
 
-/**
- * 場所＋場所内の位置を表示ラベルに整形する。
- * 部屋番号は続けて（"1B208"）、部屋名は空白を挟む（"6A棟 エントランスホール"）。屋外ブースは場所名だけ（"石の広場周辺"）。
- */
-export function formatLocation(
-  place: Place | undefined,
-  room?: string,
-): string {
-  if (!place) return '';
-  // 屋外のブース番号は配置用の内部的な番号なので、利用者には見せない。
-  if (!room || place.kind === 'outdoor') return place.name;
-  // 部屋番号は学内の表記（"5C305"）に合わせ、建物名の「棟」を外して続ける。
-  return /^\d/.test(room)
-    ? `${place.name.replace(/棟$/, '')}${room}`
-    : `${place.name} ${room}`;
-}
-
-/** 企画の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */
-function formatProjectLocation(
-  project: Project,
-  byId: ReadonlyMap<string, Place>,
-): string {
-  const [primary, ...rest] = project.locations;
-  if (!primary) return '';
-  const label = formatLocation(byId.get(primary.placeId), primary.room);
-  return rest.length > 0 ? `${label} ほか${rest.length}か所` : label;
-}
+export { formatLocation } from 'api/domain/place';
 
 /** ある場所で実施する企画と、その場所での位置。 */
 export type PlaceEntry = { project: Project; location: ProjectLocation };

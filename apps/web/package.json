@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build && bun scripts/build-sw.ts",
+    "build": "react-router build && bun scripts/build-ogp.ts && bun scripts/build-sw.ts",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
@@ -32,11 +32,14 @@
   "devDependencies": {
     "@pandacss/dev": "^1.11.1",
     "@react-router/dev": "7.14.0",
+    "@resvg/resvg-js": "2.6.2",
     "@types/node": "^22",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "postcss": "^8.5.15",
     "sass-embedded": "^1.99.0",
+    "satori": "0.29.1",
+    "sharp": "0.35.5",
     "typescript": "^5.9.3",
     "vite": "^8.0.3",
     "workbox-build": "^7.4.1"
