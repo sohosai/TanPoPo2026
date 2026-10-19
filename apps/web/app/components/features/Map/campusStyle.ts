@@ -357,16 +357,22 @@ export function addCampusLayers(map: MlMap) {
     paint: { ...textPaint, 'text-color': ACCENT_TEXT, 'text-halo-width': 2 },
   });
 
-  const buildingWithProjects: FilterSpecification = [
+  // places ソースの屋外の場所は、テントの形を持たないもの（池・グラウンドなど）だけで、建物と同じくピンで示す。
+  const pinned: FilterSpecification = [
+    'in',
+    ['get', 'kind'],
+    ['literal', ['building', 'outdoor']],
+  ];
+  const pinnedWithProjects: FilterSpecification = [
     'all',
-    ['==', ['get', 'kind'], 'building'],
+    pinned,
     ['>', ['get', 'count'], 0],
   ];
   map.addLayer({
     id: 'campus-building-pin',
     type: 'circle',
     source: SOURCES.places,
-    filter: buildingWithProjects,
+    filter: pinnedWithProjects,
     minzoom: AREA_MAX_ZOOM,
     paint: {
       'circle-color': ACCENT_TEXT,
@@ -387,7 +393,7 @@ export function addCampusLayers(map: MlMap) {
     id: 'campus-building-count',
     type: 'symbol',
     source: SOURCES.places,
-    filter: buildingWithProjects,
+    filter: pinnedWithProjects,
     minzoom: AREA_MAX_ZOOM,
     layout: countLayout,
     paint: { 'text-color': WHITE },
@@ -395,7 +401,7 @@ export function addCampusLayers(map: MlMap) {
   addSteppedLabel(
     map,
     BUILDING_LABEL,
-    kindIs('building'),
+    pinned,
     {
       'text-font': FONT,
       'text-size': 13,
