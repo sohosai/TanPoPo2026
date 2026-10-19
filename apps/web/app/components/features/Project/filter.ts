@@ -94,8 +94,15 @@ function matchRank(text: SearchText | undefined, query: string): number | null {
 }
 
 /**
+ * 数字だけの検索語は企画番号としても引く（"71"・"071"・"７１" → "071"）。
+ * 部屋番号（"208" で 1B208）としても引けるよう、文字列の一致は別に残す。
+ */
+const projectNumberOf = (query: string) =>
+  /^\d+$/.test(query) ? String(Number(query)).padStart(3, '0') : null;
+
+/**
  * 条件に合致する企画を返す純粋関数。各軸は独立した述語として AND 結合。フィルタ軸を増やすときはここに条件を足す。
- * 並びは、企画名・団体名・場所に一致した企画、説明文だけに一致した企画の順で、それぞれ企画番号順。
+ * 並びは、企画番号に一致した企画、企画名・団体名・場所に一致した企画、説明文だけに一致した企画の順で、それぞれ企画番号順。
  */
 export function filterProjects<P extends SearchableProject>(
   projects: readonly P[],
@@ -103,9 +110,11 @@ export function filterProjects<P extends SearchableProject>(
   { favorites = NO_FAVORITES, searchIndex = NO_INDEX }: FilterContext = {},
 ): P[] {
   const q = normalize(criteria.q);
+  const number = projectNumberOf(q);
   return projects
     .flatMap((project) => {
-      const rank = matchRank(searchIndex.get(project), q);
+      const rank =
+        project.number === number ? -1 : matchRank(searchIndex.get(project), q);
       const matches =
         rank !== null &&
         (criteria.categories.length === 0 ||
