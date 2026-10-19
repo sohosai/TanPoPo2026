@@ -14,7 +14,6 @@ export type OgpTask = {
   name: string;
   organization: string;
   category: ProjectCategory;
-  /** 場所の表記（複数の場所があれば「ほかNか所」付き） */
   /** 場所の表記（重複を除いた、企画の場所の順） */
   locations: string[];
   /** PNG の data URI */
@@ -139,7 +138,6 @@ const render = (
 for (const task of input.tasks) {
   const texts = {
     title: await titleElement(task.name),
-    // 場所はすべて並べ、入りきらなければ入るところまで出して「…」で切る。
     location:
       task.locations.length > 0
         ? await fitLine(
@@ -166,11 +164,8 @@ for (const task of input.tasks) {
 }
 
 /**
- * 企画名を BudouX の文節の切れ目で改行する。文節ごとに要素を分けて折り返す。
- * BudouX はカタカナ語の続く企画名などを1つの文節にするため、1行に入らない文節はまず空白で、それでも入らない部分は単語の切れ目でさらに分ける。
- * 1行に収まらない企画名は、副題の前か全角空白の後ろで分けた両側がそれぞれ1行に収まるなら、そこで改行する。
- * TITLE_LINES にある企画名はその行で描く。
- * それでも TITLE_MAX_LINES 行に収まらない企画名は、文字単位で改行して末尾を「…」で切る。
+ * 企画名を BudouX の文節の切れ目で改行する。BudouX はカタカナ語の続く企画名などを1つの文節にするため、
+ * 1行に入らない文節はさらに分ける。TITLE_MAX_LINES 行に収まらない企画名は、文字単位で改行して末尾を「…」で切る。
  */
 async function titleElement(name: string): Promise<SatoriElement> {
   const style = {
@@ -336,7 +331,6 @@ function splitWords(phrase: string): string[] {
   return words;
 }
 
-/** 1行に入るまで、splitters を順に使って細かく分ける。 */
 async function splitToFit(
   text: string,
   fits: (text: string) => Promise<boolean>,

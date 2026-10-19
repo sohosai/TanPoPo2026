@@ -8,13 +8,11 @@ declare const HTMLRewriter: typeof HTMLRewriterClass;
 
 const SITE_TITLE = '雙峰祭 企画検索システム';
 const DESCRIPTION_MAX_LENGTH = 120;
-// 企画の OGP 画像の大きさ。apps/web/scripts/build-ogp.ts もこの大きさで書き出す。
 export const OGP_WIDTH = 1200;
 export const OGP_HEIGHT = 630;
 
 export const ogpRoutes = new Hono<{ Bindings: AppEnv }>();
 
-// 企画の個別ページ。SPA の index.html に、その企画の OGP を書き込んで返す。
 ogpRoutes.get('/project/:number', async (c) => {
   const html = await c.env.ASSETS.fetch(c.req.url);
   const project = getSosClient(

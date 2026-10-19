@@ -58,7 +58,7 @@ const colors: OgpColors = {
   fgMuted: fg.muted.value,
 };
 
-// 場所のアイコンは web と同じ Tabler Icons を SVG にする。色は OGP のデザインのもので、web のトークンには無い。
+// 色は OGP のデザインのもので、web のトークンには無い。
 const pin = renderToStaticMarkup(
   createElement(IconMapPinFilled, { color: '#6cd8e7' }),
 );
