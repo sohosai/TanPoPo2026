@@ -110,6 +110,18 @@ const fonts = input.fonts.map((font) => ({
   style: 'normal' as const,
 }));
 
+// 行頭に置かない文字（長音・小書きの仮名・閉じ括弧・句読点など）と、行末に置かない文字（開き括弧）。
+const NO_LINE_START =
+  /^[ー〜～ぁぃぅぇぉっゃゅょゎゕゖァィゥェォッャュョヮヵヶ、。，．・：；？！?!）」』】〕〉》〙〗］｝)\]}]/;
+const NO_LINE_END = /[（「『【〔〈《〘〖［｛([{]$/;
+
+// 1行に入らない部分を分ける方法。半角空白（英語の語の間）、単語、文字の順に細かくする。
+const SPLITTERS: ((text: string) => string[])[] = [
+  (text) => text.split(/(?<=\s)/),
+  splitWords,
+  splitChars,
+];
+
 const parser = loadDefaultJapaneseParser();
 const segmenter = new Intl.Segmenter('ja', { granularity: 'word' });
 
@@ -157,7 +169,7 @@ for (const task of input.tasks) {
 
 /**
  * 企画名を BudouX の文節の切れ目で改行する。文節ごとに要素を分けて折り返す。
- * BudouX はカタカナ語の続く企画名などを1つの文節にするため、1行に入らない文節は単語の切れ目でさらに分ける。
+ * BudouX はカタカナ語の続く企画名などを1つの文節にするため、1行に入らない文節はまず空白で、それでも入らない部分は単語の切れ目でさらに分ける。
  * 副題のある企画名は、本題と副題がそれぞれ1行に収まるなら副題を2行目に置く。
  * それでも TITLE_MAX_LINES 行に収まらない企画名は、文字単位で改行して末尾を「…」で切る。
  */
@@ -178,13 +190,14 @@ async function titleElement(name: string): Promise<SatoriElement> {
           : h('div', { style: { maxWidth: '100%' } }, chunk),
       ),
     );
+  const fitsLine = async (chunk: string) =>
+    (await countTitleLines(wrapped([chunk]))) <= 1;
   const toChunks = async (text: string) => {
     const chunks: string[] = [];
     for (const phrase of parser.parse(text)) {
-      if ((await countTitleLines(wrapped([phrase]))) > 1) {
-        chunks.push(...splitWords(phrase));
-      } else {
-        chunks.push(phrase);
+      // 全角空白と「・」は語の区切りのため、BudouX が文節に含めていてもその直後で分ける（区切りは前に残す）。
+      for (const part of phrase.split(/(?<=[\u3000・])/)) {
+        chunks.push(...(await splitToFit(part, fitsLine, SPLITTERS)));
       }
     }
     return keepSpaces(chunks);
@@ -266,20 +279,64 @@ function keepSpaces(chunks: string[]): string[] {
     if (last >= 0 && /^\s/.test(chunk) && !result[last]?.endsWith('\u00a0')) {
       result[last] += '\u00a0';
     }
-    result.push(/\s$/.test(chunk) ? `${chunk.trim()}\u00a0` : chunk.trim());
+    const text = chunk.trim();
+    if (text) result.push(/\s$/.test(chunk) ? `${text}\u00a0` : text);
   }
   return result;
 }
 
-/** 文節を単語に分ける。記号や空白は前の単語に付け、行頭に来ないようにする。 */
+/**
+ * 1行に入らない語を、行頭・行末の禁則を守る文字のまとまりに分ける。
+ * カタカナの複合語は BudouX も単語の分割も1語として扱うため、ここで初めて文字単位で折り返す。
+ */
+function splitChars(word: string): string[] {
+  const pieces: string[] = [];
+  for (const char of word) {
+    const last = pieces.length - 1;
+    if (
+      last >= 0 &&
+      (NO_LINE_START.test(char) || NO_LINE_END.test(pieces[last] ?? ''))
+    ) {
+      pieces[last] += char;
+    } else {
+      pieces.push(char);
+    }
+  }
+  return pieces;
+}
+
+/** 文節を単語に分ける。記号や空白、行頭に置かない文字で始まる語は前の語に付ける。 */
 function splitWords(phrase: string): string[] {
   const words: string[] = [];
   for (const { segment, isWordLike } of segmenter.segment(phrase)) {
     const last = words.length - 1;
-    if (!isWordLike && last >= 0) words[last] += segment;
-    else words.push(segment);
+    if (
+      last >= 0 &&
+      (!isWordLike ||
+        NO_LINE_START.test(segment) ||
+        NO_LINE_END.test(words[last] ?? ''))
+    ) {
+      words[last] += segment;
+    } else {
+      words.push(segment);
+    }
   }
   return words;
+}
+
+/** 1行に入るまで、splitters を順に使って細かく分ける。 */
+async function splitToFit(
+  text: string,
+  fits: (text: string) => Promise<boolean>,
+  splitters: ((text: string) => string[])[],
+): Promise<string[]> {
+  const [split, ...rest] = splitters;
+  if (!split || (await fits(text))) return [text];
+  const pieces: string[] = [];
+  for (const piece of split(text)) {
+    pieces.push(...(await splitToFit(piece, fits, rest)));
+  }
+  return pieces;
 }
 
 function layout(
