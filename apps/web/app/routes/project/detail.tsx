@@ -4,6 +4,7 @@ import {
   IconMap,
   IconMapPin,
 } from '@tabler/icons-react';
+import type { ProjectImage } from 'api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
@@ -148,6 +149,124 @@ function ProjectDescription({ text }: { text: string }) {
   );
 }
 
+/**
+ * 企画の画像のカルーセルと、画像を押したときに開くビューワー。
+ * 企画が変わったら key で作り直し、前の企画で見ていた位置を引き継がないようにする。
+ */
+function ProjectImages({
+  name,
+  images,
+}: {
+  name: string;
+  images: ProjectImage[];
+}) {
+  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
+  const carousel = useSnapCarousel(images.length);
+
+  return (
+    <>
+      <div className={css({ mt: '20px' })}>
+        <div className={css({ position: 'relative' })}>
+          <div
+            ref={carousel.ref}
+            {...carousel.handlers}
+            className={css({
+              display: 'flex',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none',
+              px: '16px',
+              gap: '12px',
+              '&::-webkit-scrollbar': { display: 'none' },
+            })}
+          >
+            {images.map((image, i) => (
+              <button
+                // biome-ignore lint/suspicious/noArrayIndexKey: 同じ画像が複数登録されることがあり URL は一意でない
+                key={i}
+                type="button"
+                onClick={() => carousel.goToEdge() || setViewerIndex(i)}
+                aria-label={`${name} の画像 ${i + 1} を拡大`}
+                className={css({
+                  flex: '0 0 100%',
+                  scrollSnapAlign: 'center',
+                  scrollSnapStop: 'always',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  aspectRatio: '4 / 3',
+                  cursor: carousel.edge ? 'pointer' : 'zoom-in',
+                })}
+              >
+                <img
+                  src={image.src}
+                  srcSet={image.srcSet}
+                  sizes="100vw"
+                  alt=""
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  // 枠ではなく画像そのものを角丸にし、縦横比が枠と違っても帯状の余白を作らない。
+                  className={css({
+                    maxW: '100%',
+                    maxH: '100%',
+                    borderRadius: 'xl',
+                  })}
+                />
+              </button>
+            ))}
+          </div>
+
+          {carousel.index > 0 && (
+            <CarouselButton
+              direction="left"
+              active={carousel.edge === 'prev'}
+              onClick={() => carousel.goTo(carousel.index - 1)}
+            />
+          )}
+          {carousel.index < images.length - 1 && (
+            <CarouselButton
+              direction="right"
+              active={carousel.edge === 'next'}
+              onClick={() => carousel.goTo(carousel.index + 1)}
+            />
+          )}
+
+          {images.length > 1 && (
+            <span
+              className={css({
+                position: 'absolute',
+                right: '28px',
+                bottom: '12px',
+                px: '8px',
+                py: '2px',
+                borderRadius: 'full',
+                bg: 'overlay.scrim',
+                color: 'surface',
+                fontSize: '2xs',
+                fontWeight: 500,
+                pointerEvents: 'none',
+              })}
+            >
+              {carousel.index + 1} / {images.length}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {viewerIndex !== null && (
+        <ImageViewer
+          images={images}
+          initialIndex={viewerIndex}
+          title={name}
+          onClose={(index) => {
+            setViewerIndex(null);
+            carousel.goTo(index, 'instant');
+          }}
+        />
+      )}
+    </>
+  );
+}
+
 export default function Detail() {
   const { number } = useParams();
   const { data: projects, status } = trpc.project.list.useQuery();
@@ -157,8 +276,6 @@ export default function Detail() {
   const { byId: placesById } = usePlaces();
   const panel = useMapPanel();
   const favorite = project !== undefined && isFavorite(project.id);
-  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
-  const carousel = useSnapCarousel(project?.images.length ?? 0);
   const { to, closing, close } = useDetailClose(lastListUrl());
 
   // 直前の段にかかわらず、地図と詳細の両方が見える中段で開く。
@@ -334,92 +451,11 @@ export default function Detail() {
 
       {/* 画像カルーセル */}
       {project.images.length > 0 && (
-        <div className={css({ mt: '20px' })}>
-          <div className={css({ position: 'relative' })}>
-            <div
-              ref={carousel.ref}
-              {...carousel.handlers}
-              className={css({
-                display: 'flex',
-                overflowX: 'auto',
-                scrollSnapType: 'x mandatory',
-                scrollbarWidth: 'none',
-                px: '16px',
-                gap: '12px',
-                '&::-webkit-scrollbar': { display: 'none' },
-              })}
-            >
-              {project.images.map((image, i) => (
-                <button
-                  // biome-ignore lint/suspicious/noArrayIndexKey: 同じ画像が複数登録されることがあり URL は一意でない
-                  key={i}
-                  type="button"
-                  onClick={() => carousel.goToEdge() || setViewerIndex(i)}
-                  aria-label={`${project.name} の画像 ${i + 1} を拡大`}
-                  className={css({
-                    flex: '0 0 100%',
-                    scrollSnapAlign: 'center',
-                    scrollSnapStop: 'always',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    aspectRatio: '4 / 3',
-                    cursor: carousel.edge ? 'pointer' : 'zoom-in',
-                  })}
-                >
-                  <img
-                    src={image.src}
-                    srcSet={image.srcSet}
-                    sizes="100vw"
-                    alt=""
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                    // 枠ではなく画像そのものを角丸にし、縦横比が枠と違っても帯状の余白を作らない。
-                    className={css({
-                      maxW: '100%',
-                      maxH: '100%',
-                      borderRadius: 'xl',
-                    })}
-                  />
-                </button>
-              ))}
-            </div>
-
-            {carousel.index > 0 && (
-              <CarouselButton
-                direction="left"
-                active={carousel.edge === 'prev'}
-                onClick={() => carousel.goTo(carousel.index - 1)}
-              />
-            )}
-            {carousel.index < project.images.length - 1 && (
-              <CarouselButton
-                direction="right"
-                active={carousel.edge === 'next'}
-                onClick={() => carousel.goTo(carousel.index + 1)}
-              />
-            )}
-
-            {project.images.length > 1 && (
-              <span
-                className={css({
-                  position: 'absolute',
-                  right: '28px',
-                  bottom: '12px',
-                  px: '8px',
-                  py: '2px',
-                  borderRadius: 'full',
-                  bg: 'overlay.scrim',
-                  color: 'surface',
-                  fontSize: '2xs',
-                  fontWeight: 500,
-                  pointerEvents: 'none',
-                })}
-              >
-                {carousel.index + 1} / {project.images.length}
-              </span>
-            )}
-          </div>
-        </div>
+        <ProjectImages
+          key={project.number}
+          name={project.name}
+          images={project.images}
+        />
       )}
 
       <ProjectDescription text={project.description} />
@@ -502,18 +538,6 @@ export default function Detail() {
           })}
         />
       </div>
-
-      {viewerIndex !== null && (
-        <ImageViewer
-          images={project.images}
-          initialIndex={viewerIndex}
-          title={project.name}
-          onClose={(index) => {
-            setViewerIndex(null);
-            carousel.goTo(index, 'instant');
-          }}
-        />
-      )}
     </div>
   );
 }
