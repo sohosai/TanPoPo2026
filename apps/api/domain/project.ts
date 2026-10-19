@@ -29,6 +29,8 @@ export type ProjectLocation = {
    * 屋外ではブース番号（"C3"）。ステージ等、場所だけで特定できるときは省略。
    */
   room?: string;
+  /** 階。部屋番号の先頭の数字で分からない場所（部屋名だけの場所）にだけ付ける */
+  floor?: number;
   /** この場所で実施する日。省略時は企画の全実施日 */
   days?: ScheduleDay[];
 };

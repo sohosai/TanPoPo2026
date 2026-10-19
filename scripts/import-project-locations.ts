@@ -16,7 +16,12 @@ import * as XLSX from 'xlsx';
 import { buildProjects } from './build-projects';
 
 type ScheduleDay = '前夜祭' | 'Day1' | 'Day2';
-type Location = { placeId: string; room?: string; days: ScheduleDay[] };
+type Location = {
+  placeId: string;
+  room?: string;
+  floor?: number;
+  days: ScheduleDay[];
+};
 
 const SHEET_NAME = '企画実施場所一覧';
 const OUT_FILE = join(
@@ -26,6 +31,11 @@ const OUT_FILE = join(
 );
 
 // 建物名だけで書かれた場所。号棟（1B 等）は `bldg-1b` の規則で引く。
+// 部屋番号の無い場所の階。キーは「建物 備考」（企画実施場所一覧の表記）。
+const ROOM_FLOORS: Record<string, number> = {
+  '6A エントランスホール': 2,
+};
+
 const NAMED_BUILDINGS: Record<string, string> = {
   中央図書館: 'bldg-library',
   開学記念館: 'bldg-kaigaku',
@@ -65,7 +75,11 @@ function parsePlace(
   }
   // 部屋番号の無い場所（6A エントランスホール等）は、備考を部屋の代わりに表示する。
   if (/^\d[A-H]$/.test(place)) {
-    return { placeId: `bldg-${place.toLowerCase()}`, room: note || undefined };
+    return {
+      placeId: `bldg-${place.toLowerCase()}`,
+      room: note || undefined,
+      floor: ROOM_FLOORS[`${place} ${note}`],
+    };
   }
   const booth = place.match(/^([A-Z])\d+$/);
   if (booth) return { placeId: `booth-${booth[1].toLowerCase()}`, room: place };

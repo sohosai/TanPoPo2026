@@ -75,12 +75,13 @@ function toRows(entries: PlaceEntry[]): Row[] {
     );
 }
 
-/** 建物は階ごと（部屋番号の先頭の数字）、それ以外は1つの一覧にする。 */
+/** 建物は階ごと（部屋番号の先頭の数字か、部屋名だけの場所は floor）、それ以外は1つの一覧にする。 */
 function toSections(place: Place, entries: PlaceEntry[]): Section[] {
   if (place.kind !== 'building') return [{ rows: toRows(entries) }];
   const floors = new Map<string, PlaceEntry[]>();
   for (const entry of entries) {
-    const floor = entry.location.room?.match(/^(\d)/)?.[1];
+    const floor =
+      entry.location.floor ?? entry.location.room?.match(/^(\d)/)?.[1];
     const title = floor ? `${floor}階` : 'その他';
     floors.set(title, [...(floors.get(title) ?? []), entry]);
   }

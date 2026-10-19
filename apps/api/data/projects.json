@@ -5333,6 +5333,7 @@
       {
         "placeId": "bldg-6a",
         "room": "エントランスホール",
+        "floor": 2,
         "days": ["Day1", "Day2"]
       },
       {
