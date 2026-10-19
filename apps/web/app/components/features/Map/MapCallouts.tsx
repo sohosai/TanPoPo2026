@@ -226,6 +226,9 @@ function MapCallout({
     el.dataset.mapCallout = '';
     // 位置が決まるまでは出さない。
     el.style.display = 'none';
+    // 吹き出しの箱は軸のまわりなど透明な所まで広がり、すぐ隣のテントに被る。
+    // 透明な所のタップは地図に通し、中身の見える所（calloutHit）だけで受ける。
+    el.style.pointerEvents = 'none';
     // 吹き出しの上から地図をドラッグ・ダブルクリックで拡大しないようにする。クリックは React が
     // ルートで受けるため止めず、地図のタップの側（CampusLayers）で吹き出しの上なら無視する。
     for (const type of ['mousedown', 'touchstart', 'dblclick']) {
@@ -258,6 +261,8 @@ function MapCallout({
 
   return createPortal(children, element);
 }
+
+const calloutHit = css({ pointerEvents: 'auto' });
 
 const bubble = css({
   position: 'relative',
@@ -340,7 +345,7 @@ function BuildingCallout({
       type="button"
       onClick={onOpen}
       aria-label={`${name}の企画一覧`}
-      className={css({ display: 'block', w: '144px' })}
+      className={cx(calloutHit, css({ display: 'block', w: '144px' }))}
     >
       <span className={bubble}>
         <span
@@ -418,22 +423,25 @@ function ProjectCallout({
       })}
     >
       <div
-        className={css({
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          maxW: '240px',
-          py: '8px',
-          pl: '8px',
-          pr: '12px',
-          borderRadius: '14px',
-          bg: 'surface',
-          boxShadow:
-            '0 10px 24px -8px {colors.accent.deep/45}, 0 1px 2px {colors.black/8}',
-          transformOrigin: 'bottom center',
-          animation: 'detailEnter 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
-          _motionReduce: { animation: 'none' },
-        })}
+        className={cx(
+          calloutHit,
+          css({
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            maxW: '240px',
+            py: '8px',
+            pl: '8px',
+            pr: '12px',
+            borderRadius: '14px',
+            bg: 'surface',
+            boxShadow:
+              '0 10px 24px -8px {colors.accent.deep/45}, 0 1px 2px {colors.black/8}',
+            transformOrigin: 'bottom center',
+            animation: 'detailEnter 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
+            _motionReduce: { animation: 'none' },
+          }),
+        )}
       >
         {/* 選択中の企画だと分かるよう、アイコンをアクセント色の輪で囲む。 */}
         <span
@@ -550,7 +558,7 @@ function StageCallout({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${name}の配信を見る`}
-      className={css({ display: 'block', w: '128px' })}
+      className={cx(calloutHit, css({ display: 'block', w: '128px' }))}
     >
       <span className={bubble}>
         <span
