@@ -592,6 +592,11 @@
         "placeId": "bldg-2b",
         "room": "208",
         "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bldg-2b",
+        "room": "209",
+        "days": ["Day1", "Day2"]
       }
     ],
     "performances": [],
