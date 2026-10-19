@@ -36,7 +36,6 @@ const CATEGORY_TOKENS: Record<ProjectCategory, string> = {
 
 type Token = { value: string };
 const extend = config.theme?.extend as unknown as {
-  tokens: { colors: { brand: Record<string, Token> } };
   semanticTokens: {
     colors: {
       category: Record<string, { DEFAULT: Token; bg: Token }>;
@@ -57,11 +56,9 @@ const colors: OgpColors = {
   fgMuted: fg.muted.value,
 };
 
-// 場所のアイコンは web と同じ Tabler Icons を、accent（brand.500）で塗って SVG にする。
+// 場所のアイコンは web と同じ Tabler Icons を SVG にする。色は OGP のデザインのもので、web のトークンには無い。
 const pin = renderToStaticMarkup(
-  createElement(IconMapPinFilled, {
-    color: extend.tokens.colors.brand['500'].value,
-  }),
+  createElement(IconMapPinFilled, { color: '#6cd8e7' }),
 );
 
 const placesById: ReadonlyMap<string, Place> = new Map(
@@ -92,8 +89,10 @@ const [font, background, logo] = await Promise.all([
       .join(''),
   ),
   readFile('public/ogp/project-ogp-layout.png'),
-  sharp('public/logo/wide.webp').resize({ width: 480 }).png().toBuffer(),
+  readFile('public/logo/wide-simple.png'),
 ]);
+
+const logoSize = await sharp(logo).metadata();
 
 await mkdir(OUT_DIR, { recursive: true });
 
@@ -108,6 +107,7 @@ await Promise.all(
       font,
       background: toDataUri(background, 'image/png'),
       logo: toDataUri(logo, 'image/png'),
+      logoAspectRatio: logoSize.height / logoSize.width,
       pin: toDataUri(Buffer.from(pin), 'image/svg+xml'),
       colors,
     }),
@@ -163,7 +163,8 @@ async function toPngDataUri(data: Buffer) {
 async function loadFont(text: string): Promise<ArrayBuffer> {
   const params = new URLSearchParams({
     family: `${FONT_FAMILY}:wght@700`,
-    text: [...new Set(`${text}…`)].join(''),
+    // 「…」は省略、ノーブレークスペースは企画名の改行（ogp-render.ts）に使う。
+    text: [...new Set(`${text}…\u00a0`)].join(''),
   });
   const css = await (
     await fetch(`https://fonts.googleapis.com/css2?${params}`)

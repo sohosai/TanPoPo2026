@@ -3,6 +3,7 @@ import { workerData } from 'node:worker_threads';
 import { Resvg } from '@resvg/resvg-js';
 import type { ProjectCategory } from 'api';
 import { OGP_HEIGHT, OGP_WIDTH } from 'api/ogp/routes';
+import { loadDefaultJapaneseParser } from 'budoux';
 import satori from 'satori';
 
 // build-ogp.ts が立てるスレッドで、割り当てられた企画の OGP 画像を描いて書き出す。
@@ -33,10 +34,43 @@ export type RenderInput = {
   /** PNG の data URI */
   background: string;
   logo: string;
+  /** ロゴの高さ / 幅 */
+  logoAspectRatio: number;
   /** 場所のアイコン（SVG の data URI） */
   pin: string;
   colors: OgpColors;
 };
+
+// カテゴリタグの点と、場所のピンの穴の中心を同じ横位置にそろえる。
+// ピン（Tabler Icons）の穴は横幅の中央にあるため、タグの高さをピンの幅と同じにし、点をタグの左端の半円と同心に置く。
+// 点と文字の間隔は、ピンと文字の見た目の間隔（ピンの右の余白を含む）に合わせる。
+const PIN_SIZE = 36;
+const TAG_HEIGHT = PIN_SIZE;
+const DOT_SIZE = 14;
+const DOT_LEFT = (TAG_HEIGHT - DOT_SIZE) / 2;
+const DOT_GAP = 8;
+const PIN_GAP = 4;
+const TAG_FONT_SIZE = 22;
+const TITLE_WIDTH = 620;
+const TITLE_FONT_SIZE = 50;
+const TITLE_LINE_HEIGHT = 1.3;
+const TITLE_MAX_LINES = 2;
+
+// satori は text-box-trim に対応しないため、web のタグと同じ trim-both cap alphabetic を負のマージンで再現する。
+// 値は Noto Sans JP のメトリクス（em 比。hhea の ascender・descender と OS/2 の capHeight）。
+const FONT_ASCENT = 1.16;
+const FONT_DESCENT = 0.288;
+const FONT_CAP_HEIGHT = 0.733;
+// 行の高さを 1em にしたときの、行の上端からベースラインまでの距離。
+const BASELINE = (1 + FONT_ASCENT - FONT_DESCENT) / 2;
+
+const textBoxTrim = (fontSize: number) => ({
+  fontSize,
+  lineHeight: 1,
+  marginTop: -(BASELINE - FONT_CAP_HEIGHT) * fontSize,
+  marginBottom: -(1 - BASELINE) * fontSize,
+});
+const LOGO_WIDTH = 228;
 
 type Child = SatoriElement | string | undefined;
 type SatoriElement = {
@@ -67,12 +101,24 @@ const fonts = [
   },
 ];
 
+const parser = loadDefaultJapaneseParser();
+const segmenter = new Intl.Segmenter('ja', { granularity: 'word' });
+
+// satori は React の要素と同じ形のオブジェクトを受け取る。
+const render = (
+  element: SatoriElement,
+  options: { width: number; height?: number },
+) =>
+  satori(element as unknown as Parameters<typeof satori>[0], {
+    ...options,
+    fonts,
+  });
+
 for (const task of input.tasks) {
-  const svg = await satori(
-    // satori は React の要素と同じ形のオブジェクトを受け取る。
-    layout(task) as unknown as Parameters<typeof satori>[0],
-    { width: OGP_WIDTH, height: OGP_HEIGHT, fonts },
-  );
+  const svg = await render(layout(task, await titleElement(task.name)), {
+    width: OGP_WIDTH,
+    height: OGP_HEIGHT,
+  });
   // 文字は satori がパスにしているため、resvg にシステムフォントを読ませない（読むと1枚に数秒かかる）。
   const png = new Resvg(svg, { font: { loadSystemFonts: false } })
     .render()
@@ -80,7 +126,78 @@ for (const task of input.tasks) {
   await writeFile(`${input.outDir}/${task.number}.png`, png);
 }
 
-function layout(task: OgpTask): SatoriElement {
+/**
+ * 企画名を BudouX の文節の切れ目で改行する。文節ごとに要素を分けて折り返す。
+ * BudouX はカタカナ語の続く企画名などを1つの文節にするため、1行に入らない文節は単語の切れ目でさらに分ける。
+ * それでも TITLE_MAX_LINES 行に収まらない企画名は、文字単位で改行して末尾を「…」で切る。
+ */
+async function titleElement(name: string): Promise<SatoriElement> {
+  const style = {
+    fontSize: TITLE_FONT_SIZE,
+    lineHeight: TITLE_LINE_HEIGHT,
+    color: input.colors.fgStrong,
+  };
+  const wrapped = (chunks: string[]) =>
+    h(
+      'div',
+      { style: { ...style, display: 'flex', flexWrap: 'wrap' } },
+      ...chunks.map((chunk) =>
+        h('div', { style: { maxWidth: '100%' } }, chunk),
+      ),
+    );
+
+  const chunks: string[] = [];
+  for (const phrase of parser.parse(name)) {
+    if ((await countLines(wrapped([phrase]))) > 1) {
+      chunks.push(...splitWords(phrase));
+    } else {
+      chunks.push(phrase);
+    }
+  }
+  const title = wrapped(keepSpaces(chunks));
+  if ((await countLines(title)) <= TITLE_MAX_LINES) return title;
+  return h(
+    'div',
+    { style: { ...style, display: 'block', lineClamp: TITLE_MAX_LINES } },
+    name,
+  );
+}
+
+/** 企画名の幅で描いたときの行数。高さを指定せずに描くと、satori は中身の高さの SVG を返す。 */
+async function countLines(element: SatoriElement): Promise<number> {
+  const svg = await render(element, { width: TITLE_WIDTH });
+  const height = Number(svg.match(/height="([\d.]+)"/)?.[1]);
+  return Math.round(height / (TITLE_FONT_SIZE * TITLE_LINE_HEIGHT));
+}
+
+/**
+ * satori は要素の端の空白を詰めるため、要素の境目の空白をノーブレークスペースにして前の要素の末尾に付ける。
+ * 行末に来ても見えないため、そこで改行されても困らない。
+ */
+function keepSpaces(chunks: string[]): string[] {
+  const result: string[] = [];
+  for (const chunk of chunks) {
+    const last = result.length - 1;
+    if (last >= 0 && /^\s/.test(chunk) && !result[last]?.endsWith('\u00a0')) {
+      result[last] += '\u00a0';
+    }
+    result.push(/\s$/.test(chunk) ? `${chunk.trim()}\u00a0` : chunk.trim());
+  }
+  return result;
+}
+
+/** 文節を単語に分ける。記号や空白は前の単語に付け、行頭に来ないようにする。 */
+function splitWords(phrase: string): string[] {
+  const words: string[] = [];
+  for (const { segment, isWordLike } of segmenter.segment(phrase)) {
+    const last = words.length - 1;
+    if (!isWordLike && last >= 0) words[last] += segment;
+    else words.push(segment);
+  }
+  return words;
+}
+
+function layout(task: OgpTask, title: SatoriElement): SatoriElement {
   const { colors } = input;
   const color = colors.category[task.category];
   const ellipsis = {
@@ -130,7 +247,7 @@ function layout(task: OgpTask): SatoriElement {
         style: {
           position: 'absolute',
           left: 266,
-          top: 112,
+          top: 120,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
@@ -143,23 +260,24 @@ function layout(task: OgpTask): SatoriElement {
           style: {
             display: 'flex',
             alignItems: 'center',
-            gap: 10,
-            padding: '6px 22px 6px 18px',
+            gap: DOT_GAP,
+            height: TAG_HEIGHT,
+            paddingLeft: DOT_LEFT,
+            paddingRight: 16,
             borderRadius: 9999,
             backgroundColor: color.bg,
-            fontSize: 26,
             color: colors.fg,
           },
         },
         h('div', {
           style: {
-            width: 16,
-            height: 16,
+            width: DOT_SIZE,
+            height: DOT_SIZE,
             borderRadius: 9999,
             backgroundColor: color.dot,
           },
         }),
-        task.category,
+        h('div', { style: textBoxTrim(TAG_FONT_SIZE) }, task.category),
       ),
       task.location
         ? h(
@@ -168,12 +286,12 @@ function layout(task: OgpTask): SatoriElement {
               style: {
                 display: 'flex',
                 alignItems: 'center',
-                gap: 6,
+                gap: PIN_GAP,
                 fontSize: 28,
                 color: colors.fgStrong,
               },
             },
-            h('img', { src: input.pin, width: 34, height: 34 }),
+            h('img', { src: input.pin, width: PIN_SIZE, height: PIN_SIZE }),
             h('div', { style: { maxWidth: 340, ...ellipsis } }, task.location),
           )
         : undefined,
@@ -185,25 +303,13 @@ function layout(task: OgpTask): SatoriElement {
           position: 'absolute',
           left: 72,
           top: 272,
-          width: 620,
+          width: TITLE_WIDTH,
           display: 'flex',
           flexDirection: 'column',
           gap: 12,
         },
       },
-      h(
-        'div',
-        {
-          style: {
-            display: 'block',
-            lineClamp: 2,
-            fontSize: 50,
-            lineHeight: 1.3,
-            color: colors.fgStrong,
-          },
-        },
-        task.name,
-      ),
+      title,
       h(
         'div',
         { style: { fontSize: 30, color: colors.fgMuted, ...ellipsis } },
@@ -212,9 +318,9 @@ function layout(task: OgpTask): SatoriElement {
     ),
     h('img', {
       src: input.logo,
-      width: 240,
-      height: 67,
-      style: { position: 'absolute', left: 64, top: 512 },
+      width: LOGO_WIDTH,
+      height: Math.round(LOGO_WIDTH * input.logoAspectRatio),
+      style: { position: 'absolute', left: 64, top: 528 },
     }),
   );
 }

@@ -36,6 +36,7 @@
     "@types/node": "^22",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "budoux": "0.9.3",
     "postcss": "^8.5.15",
     "sass-embedded": "^1.99.0",
     "satori": "0.29.1",
