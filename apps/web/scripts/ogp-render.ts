@@ -83,6 +83,10 @@ const textBoxTrim = (fontSize: number) => ({
   marginBottom: -(1 - BASELINE) * fontSize,
 });
 const LOGO_WIDTH = 228;
+// 左上の企画アイコンと左下のロゴの、画像の端からの余白。ロゴは左下の角から縦横の余白を等しくする。
+const EDGE_LEFT = 64;
+const ICON_TOP = 80;
+const LOGO_BOTTOM = 50;
 
 type Child = SatoriElement | string | undefined;
 type SatoriElement = {
@@ -351,11 +355,12 @@ function layout(
 ): SatoriElement {
   const { colors } = input;
   const color = colors.category[task.category];
+  const logoHeight = Math.round(LOGO_WIDTH * input.logoAspectRatio);
   const nowrap = { whiteSpace: 'nowrap' };
   const icon = {
     position: 'absolute',
-    left: 64,
-    top: 80,
+    left: EDGE_LEFT,
+    top: ICON_TOP,
     width: 172,
     height: 172,
     borderRadius: 9999,
@@ -472,8 +477,12 @@ function layout(
     h('img', {
       src: input.logo,
       width: LOGO_WIDTH,
-      height: Math.round(LOGO_WIDTH * input.logoAspectRatio),
-      style: { position: 'absolute', left: 64, top: 528 },
+      height: logoHeight,
+      style: {
+        position: 'absolute',
+        left: EDGE_LEFT,
+        top: OGP_HEIGHT - LOGO_BOTTOM - logoHeight,
+      },
     }),
   );
 }
