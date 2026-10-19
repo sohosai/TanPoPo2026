@@ -11,14 +11,14 @@ import { matchPath, useLocation } from 'react-router';
 import { DAY_LABELS } from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import { toAppPath, useOpenAppPath } from '~/lib/embed';
-import { groupProjectsByPlace, usePlaces } from '~/lib/places';
+import { formatLocation, groupProjectsByPlace, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../../styled-system/css';
-import { boothCenter } from './booths';
 import { AREA_MAX_ZOOM, DETAIL_ZOOM } from './campusStyle';
 import calloutsJson from './data/callouts.json';
 import type { LngLat } from './geo';
 import { useMap } from './MapController';
+import { projectSpots } from './useProjectFocus';
 
 type CalloutConfig = {
   /** 吹き出しを出す建物の placeId */
@@ -37,28 +37,31 @@ const CALLOUT_OFFSET = 16;
 // 企画の吹き出しのカードと地面の点をつなぐ軸の長さ（px）。
 const STEM_LENGTH = 24;
 
-/** 企画詳細を開いている企画と、その吹き出しを出す位置。開いていなければ undefined。 */
+/** 企画詳細を開いている企画と、その場所ごとの吹き出し。開いていなければ undefined。 */
 function useSelectedProject(projects: Project[] | undefined) {
   const pathname = toAppPath(useLocation().pathname);
-  const { byId: placesById, formatProjectLocation } = usePlaces();
+  const { byId: placesById } = usePlaces();
   const number = matchPath('/project/:number', pathname)?.params.number;
   const project = projects?.find((p) => p.number === number);
-  const location = project?.locations[0];
-  const place = placesById.get(location?.placeId ?? '');
-  if (!project || !place) return undefined;
-  // 地図を寄せる位置（useProjectFocus）と同じく、屋外ブースはテントそのものを指す。
-  const booth = boothCenter(place, location?.room);
-  const performance = project.performances.find(
-    ({ placeId }) => placeId === place.id,
+  if (!project) return undefined;
+  // 地図を寄せる位置（useProjectFocus）と同じ点を指す。
+  const callouts = projectSpots(project, placesById).map(
+    ({ point, locations }) => {
+      const performance = project.performances.find(({ placeId }) =>
+        locations.some(({ place }) => place.id === placeId),
+      );
+      return {
+        point,
+        locationLabel: locations
+          .map(({ place, location }) => formatLocation(place, location.room))
+          .join('・'),
+        timeLabel: performance
+          ? `${DAY_LABELS[performance.day]} ${performance.start}〜`
+          : undefined,
+      };
+    },
   );
-  return {
-    project,
-    locationLabel: formatProjectLocation(project),
-    timeLabel: performance
-      ? `${DAY_LABELS[performance.day]} ${performance.start}〜`
-      : undefined,
-    point: booth ?? place.point,
-  };
+  return callouts.length > 0 ? { project, callouts } : undefined;
 }
 
 /**
@@ -113,10 +116,10 @@ export default function MapCallouts() {
 
   return (
     <>
-      {selected && (
+      {selected?.callouts.map(({ point, locationLabel, timeLabel }) => (
         <MapCallout
-          key={selected.project.id}
-          point={selected.point}
+          key={`${selected.project.id} ${point.join()}`}
+          point={point}
           priority={-1}
           minZoom={0}
           // 地面の点が吹き出しの下端にあり、点そのものが場所を指す。
@@ -124,11 +127,11 @@ export default function MapCallouts() {
         >
           <ProjectCallout
             project={selected.project}
-            locationLabel={selected.locationLabel}
-            timeLabel={selected.timeLabel}
+            locationLabel={locationLabel}
+            timeLabel={timeLabel}
           />
         </MapCallout>
-      )}
+      ))}
       {stages.map(([placeId, stream], i) => {
         const place = placesById.get(placeId);
         if (!place) return null;
