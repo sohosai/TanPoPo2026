@@ -12,6 +12,7 @@ import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
   detailExitStyles,
+  type FromDetailState,
   listPath,
   rememberListPath,
   useDetailClose,
@@ -161,7 +162,8 @@ export default function PlaceDetail() {
   const { flyTo } = useMap();
   const panel = useMapPanel();
   const { to, closing, close } = useDetailClose(listPath());
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const fromDetail = !!(state as FromDetailState | null)?.fromDetail;
 
   useEffect(() => {
     rememberListPath(pathname);
@@ -182,8 +184,9 @@ export default function PlaceDetail() {
     panel.raise();
   }, [placeId]);
 
+  // 企画詳細を閉じて戻ってきたときは、見ていた視点のまま一覧に戻す。
   useEffect(() => {
-    if (!place) return;
+    if (!place || fromDetail) return;
     flyTo(place.point, {
       zoom: placeFocusZoom(place),
       // スマホではシートを半分開いているので、残りの地図の中央に来るよう上へずらす。
@@ -191,7 +194,7 @@ export default function PlaceDetail() {
         ? undefined
         : [0, -Math.round(window.innerHeight * 0.25)],
     });
-  }, [place, flyTo]);
+  }, [place, flyTo, fromDetail]);
 
   const byPlace = useMemo(
     () => (projects ? groupProjectsByPlace(projects) : undefined),
