@@ -136,7 +136,13 @@ export default function MapCallouts() {
         const place = placesById.get(placeId);
         if (!place) return null;
         return (
-          <MapCallout key={placeId} point={place.point} priority={i}>
+          <MapCallout
+            key={placeId}
+            point={place.point}
+            priority={i}
+            // 寄ると周りの建物・テントに被って邪魔になるため、建物の吹き出しが出るところで隠す。
+            maxZoom={DETAIL_ZOOM}
+          >
             <StageCallout name={place.name} {...stream} />
           </MapCallout>
         );
@@ -173,7 +179,7 @@ function overlaps(a: DOMRect, b: DOMRect): boolean {
   );
 }
 
-/** 出せるズームの吹き出しを優先度の高い順に置き、先に置いたものと重なるものは隠す。 */
+/** 出せるズーム（minZoom 以上 maxZoom 未満）の吹き出しを優先度の高い順に置き、先に置いたものと重なるものは隠す。 */
 function layoutCallouts(map: maplibregl.Map) {
   const zoom = map.getZoom();
   const elements = [
@@ -181,7 +187,8 @@ function layoutCallouts(map: maplibregl.Map) {
   ].sort((a, b) => Number(a.dataset.priority) - Number(b.dataset.priority));
   const placed: DOMRect[] = [];
   for (const el of elements) {
-    const inZoom = zoom >= Number(el.dataset.minZoom);
+    const inZoom =
+      zoom >= Number(el.dataset.minZoom) && zoom < Number(el.dataset.maxZoom);
     // 隠していると大きさが測れないため、見えない状態で一度置いてから測る。
     el.style.visibility = 'hidden';
     el.style.display = inZoom ? '' : 'none';
@@ -198,6 +205,7 @@ function MapCallout({
   point,
   priority,
   minZoom = AREA_MAX_ZOOM,
+  maxZoom = Number.POSITIVE_INFINITY,
   offset = CALLOUT_OFFSET,
   children,
 }: {
@@ -206,6 +214,8 @@ function MapCallout({
   priority: number;
   /** これより寄ったら出す。既定は建物のピンが出るズーム */
   minZoom?: number;
+  /** これより寄ったら隠す。既定はどこまで寄っても出す */
+  maxZoom?: number;
   /** 点からどれだけ上に浮かせるか（px） */
   offset?: number;
   children: ReactNode;
@@ -228,7 +238,8 @@ function MapCallout({
   useEffect(() => {
     element.dataset.priority = String(priority);
     element.dataset.minZoom = String(minZoom);
-  }, [element, priority, minZoom]);
+    element.dataset.maxZoom = String(maxZoom);
+  }, [element, priority, minZoom, maxZoom]);
 
   useEffect(() => {
     const map = getMap();
