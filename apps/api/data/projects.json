@@ -5375,12 +5375,12 @@
     "organization": "アルティメット同好会 INVERHOUSE",
     "organizationReading": "あるてぃめっとどうこうかい　いんばーはうす",
     "category": "食事",
-    "schedule": ["前夜祭", "Day1", "Day2"],
+    "schedule": ["Day1", "Day2"],
     "locations": [
       {
         "placeId": "booth-c",
         "room": "C1",
-        "days": ["前夜祭", "Day1", "Day2"]
+        "days": ["Day1", "Day2"]
       }
     ],
     "performances": [],
@@ -7415,12 +7415,12 @@
     "organization": "医学ヨット部",
     "organizationReading": "いがくよっとぶ",
     "category": "スイーツ",
-    "schedule": ["前夜祭", "Day1", "Day2"],
+    "schedule": ["Day1", "Day2"],
     "locations": [
       {
         "placeId": "booth-e",
         "room": "E2",
-        "days": ["前夜祭", "Day1", "Day2"]
+        "days": ["Day1", "Day2"]
       }
     ],
     "performances": [],

@@ -967,7 +967,7 @@
     {
       "placeId": "booth-c",
       "room": "C1",
-      "days": ["前夜祭", "Day1", "Day2"]
+      "days": ["Day1", "Day2"]
     }
   ],
   "224": [
@@ -1505,7 +1505,7 @@
     {
       "placeId": "booth-e",
       "room": "E2",
-      "days": ["前夜祭", "Day1", "Day2"]
+      "days": ["Day1", "Day2"]
     }
   ],
   "328": [
