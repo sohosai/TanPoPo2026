@@ -34,7 +34,7 @@ export default function UpdateToast() {
         animation: 'detailEnter 0.2s ease-out',
       })}
     >
-      <span className={css({ whiteSpace: 'nowrap' })}>新しい版があります</span>
+      <span className={css({ whiteSpace: 'nowrap' })}>新しい情報</span>
       <button
         type="button"
         onClick={applyUpdate}
