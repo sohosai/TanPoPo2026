@@ -8,7 +8,7 @@ import { places } from 'api/trpc/routers/place';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import sharp from 'sharp';
-import { formatProjectLocation } from '../app/lib/places';
+import { formatLocation } from '../app/lib/places';
 import config from '../panda.config';
 import type { OgpColors, OgpFont, OgpTask, RenderInput } from './ogp-render';
 
@@ -80,12 +80,18 @@ const tasks: OgpTask[] = projects.map((project, i) => ({
   name: project.name,
   organization: project.organization,
   category: project.category,
-  location: formatProjectLocation(project, placesById),
+  locations: [
+    ...new Set(
+      project.locations.map((location) =>
+        formatLocation(placesById.get(location.placeId), location.room),
+      ),
+    ),
+  ],
   thumbnail: thumbnails[i],
 }));
 
 const text = tasks
-  .map((t) => t.name + t.organization + t.category + t.location)
+  .map((t) => t.name + t.organization + t.category + t.locations.join('、'))
   .join('');
 const hangul = text.match(/\p{Script=Hangul}/gu)?.join('') ?? '';
 

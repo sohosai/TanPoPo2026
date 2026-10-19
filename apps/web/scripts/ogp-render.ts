@@ -13,7 +13,9 @@ export type OgpTask = {
   name: string;
   organization: string;
   category: ProjectCategory;
-  location: string;
+  /** 場所の表記（複数の場所があれば「ほかNか所」付き） */
+  /** 場所の表記（重複を除いた、企画の場所の順） */
+  locations: string[];
   /** PNG の data URI */
   thumbnail?: string;
 };
@@ -58,6 +60,11 @@ const TITLE_WIDTH = 620;
 const TITLE_FONT_SIZE = 50;
 const TITLE_LINE_HEIGHT = 1.3;
 const TITLE_MAX_LINES = 2;
+const LOCATION_FONT_SIZE = 28;
+const LOCATION_MAX_WIDTH = 340;
+// 「第二・第三エリア」のように場所名に「・」が入るため、場所の区切りは「、」にする。
+const LOCATION_SEPARATOR = '、';
+const ORGANIZATION_FONT_SIZE = 30;
 // 「本題〜副題〜」の形の企画名の、波線で挟まれた末尾の副題。
 const SUBTITLE = /^(.+?)([〜～~][^〜～~]+[〜～~])$/;
 
@@ -117,7 +124,27 @@ const render = (
   });
 
 for (const task of input.tasks) {
-  const svg = await render(layout(task, await titleElement(task.name)), {
+  const texts = {
+    title: await titleElement(task.name),
+    // 場所は入るだけ並べ、入りきらなければ末尾に「…」を付けて、ほかにもあることを示す。
+    location:
+      task.locations.length > 0
+        ? await fitLine(
+            task.locations.map((_, i) => {
+              const shown = task.locations.slice(0, task.locations.length - i);
+              return `${shown.join(LOCATION_SEPARATOR)}${i > 0 ? '…' : ''}`;
+            }),
+            LOCATION_MAX_WIDTH,
+            LOCATION_FONT_SIZE,
+          )
+        : '',
+    organization: await fitLine(
+      [task.organization],
+      TITLE_WIDTH,
+      ORGANIZATION_FONT_SIZE,
+    ),
+  };
+  const svg = await render(layout(task, texts), {
     width: OGP_WIDTH,
     height: OGP_HEIGHT,
   });
@@ -154,7 +181,7 @@ async function titleElement(name: string): Promise<SatoriElement> {
   const toChunks = async (text: string) => {
     const chunks: string[] = [];
     for (const phrase of parser.parse(text)) {
-      if ((await countLines(wrapped([phrase]))) > 1) {
+      if ((await countTitleLines(wrapped([phrase]))) > 1) {
         chunks.push(...splitWords(phrase));
       } else {
         chunks.push(phrase);
@@ -168,13 +195,13 @@ async function titleElement(name: string): Promise<SatoriElement> {
   const subtitleChunks = subtitle ? await toChunks(subtitle) : [];
   if (
     subtitle &&
-    (await countLines(wrapped(mainChunks))) === 1 &&
-    (await countLines(wrapped(subtitleChunks))) === 1
+    (await countTitleLines(wrapped(mainChunks))) === 1 &&
+    (await countTitleLines(wrapped(subtitleChunks))) === 1
   ) {
     return wrapped([...mainChunks, null, ...subtitleChunks]);
   }
   const title = wrapped([...mainChunks, ...subtitleChunks]);
-  if ((await countLines(title)) <= TITLE_MAX_LINES) return title;
+  if ((await countTitleLines(title)) <= TITLE_MAX_LINES) return title;
   return h(
     'div',
     { style: { ...style, display: 'block', lineClamp: TITLE_MAX_LINES } },
@@ -182,11 +209,50 @@ async function titleElement(name: string): Promise<SatoriElement> {
   );
 }
 
-/** 企画名の幅で描いたときの行数。高さを指定せずに描くと、satori は中身の高さの SVG を返す。 */
-async function countLines(element: SatoriElement): Promise<number> {
-  const svg = await render(element, { width: TITLE_WIDTH });
+/** 幅 width で描いたときの行数。高さを指定せずに描くと、satori は中身の高さの SVG を返す。 */
+async function countLines(
+  element: SatoriElement,
+  width: number,
+  lineHeight: number,
+): Promise<number> {
+  const svg = await render(element, { width });
   const height = Number(svg.match(/height="([\d.]+)"/)?.[1]);
-  return Math.round(height / (TITLE_FONT_SIZE * TITLE_LINE_HEIGHT));
+  return Math.round(height / lineHeight);
+}
+
+function countTitleLines(element: SatoriElement): Promise<number> {
+  return countLines(element, TITLE_WIDTH, TITLE_FONT_SIZE * TITLE_LINE_HEIGHT);
+}
+
+/**
+ * 候補のうち1行の幅に収まる最初のものを返す。どれも収まらなければ、最後の候補の末尾を「…」に置き換えて詰める。
+ * satori の text-overflow: ellipsis は「…」の字形が欠けることがあるため、自前で詰める。
+ */
+async function fitLine(
+  candidates: string[],
+  width: number,
+  fontSize: number,
+): Promise<string> {
+  const fits = async (candidate: string) =>
+    (await countLines(
+      h(
+        'div',
+        { style: { fontSize, lineHeight: 1, wordBreak: 'break-all' } },
+        candidate,
+      ),
+      width,
+      fontSize,
+    )) <= 1;
+  for (const candidate of candidates) {
+    if (await fits(candidate)) return candidate;
+  }
+  const chars = [...(candidates.at(-1) ?? '')];
+  while (chars.length > 0) {
+    chars.pop();
+    const candidate = `${chars.join('').trimEnd()}…`;
+    if (await fits(candidate)) return candidate;
+  }
+  return '…';
 }
 
 /**
@@ -216,14 +282,13 @@ function splitWords(phrase: string): string[] {
   return words;
 }
 
-function layout(task: OgpTask, title: SatoriElement): SatoriElement {
+function layout(
+  task: OgpTask,
+  texts: { title: SatoriElement; location: string; organization: string },
+): SatoriElement {
   const { colors } = input;
   const color = colors.category[task.category];
-  const ellipsis = {
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  };
+  const nowrap = { whiteSpace: 'nowrap' };
   const icon = {
     position: 'absolute',
     left: 64,
@@ -298,7 +363,7 @@ function layout(task: OgpTask, title: SatoriElement): SatoriElement {
         }),
         h('div', { style: textBoxTrim(TAG_FONT_SIZE) }, task.category),
       ),
-      task.location
+      texts.location
         ? h(
             'div',
             {
@@ -306,12 +371,12 @@ function layout(task: OgpTask, title: SatoriElement): SatoriElement {
                 display: 'flex',
                 alignItems: 'center',
                 gap: PIN_GAP,
-                fontSize: 28,
+                fontSize: LOCATION_FONT_SIZE,
                 color: colors.fgStrong,
               },
             },
             h('img', { src: input.pin, width: PIN_SIZE, height: PIN_SIZE }),
-            h('div', { style: { maxWidth: 340, ...ellipsis } }, task.location),
+            h('div', { style: nowrap }, texts.location),
           )
         : undefined,
     ),
@@ -328,11 +393,17 @@ function layout(task: OgpTask, title: SatoriElement): SatoriElement {
           gap: 12,
         },
       },
-      title,
+      texts.title,
       h(
         'div',
-        { style: { fontSize: 30, color: colors.fgMuted, ...ellipsis } },
-        task.organization,
+        {
+          style: {
+            fontSize: ORGANIZATION_FONT_SIZE,
+            color: colors.fgMuted,
+            ...nowrap,
+          },
+        },
+        texts.organization,
       ),
     ),
     h('img', {

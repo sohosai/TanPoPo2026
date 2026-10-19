@@ -46,7 +46,7 @@ export function formatLocation(
 }
 
 /** 企画の先頭の場所を表示ラベルに整形する。場所が複数あれば残りの数を添える。 */
-export function formatProjectLocation(
+function formatProjectLocation(
   project: Project,
   byId: ReadonlyMap<string, Place>,
 ): string {
