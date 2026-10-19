@@ -26,11 +26,14 @@ export type OgpColors = {
   fgMuted: string;
 };
 
+export type OgpFont = { name: string; data: ArrayBuffer };
+
 export type RenderInput = {
   tasks: OgpTask[];
   outDir: string;
+  /** 文字に使うフォント。fonts のうち、これに無い字形はほかのフォントで描く */
   fontFamily: string;
-  font: ArrayBuffer;
+  fonts: OgpFont[];
   /** PNG の data URI */
   background: string;
   logo: string;
@@ -92,14 +95,11 @@ const h = (
 });
 
 const input = workerData as RenderInput;
-const fonts = [
-  {
-    name: input.fontFamily,
-    data: input.font,
-    weight: 700 as const,
-    style: 'normal' as const,
-  },
-];
+const fonts = input.fonts.map((font) => ({
+  ...font,
+  weight: 700 as const,
+  style: 'normal' as const,
+}));
 
 const parser = loadDefaultJapaneseParser();
 const segmenter = new Intl.Segmenter('ja', { granularity: 'word' });

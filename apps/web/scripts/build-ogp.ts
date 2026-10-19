@@ -10,7 +10,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import sharp from 'sharp';
 import { formatProjectLocation } from '../app/lib/places';
 import config from '../panda.config';
-import type { OgpColors, OgpTask, RenderInput } from './ogp-render';
+import type { OgpColors, OgpFont, OgpTask, RenderInput } from './ogp-render';
 
 // 企画の個別ページ（/project/:number）の OGP 画像を、全企画ぶん build/client/ogp/project/ に書き出す。
 // 非表示の企画の画像も書き出し、配信するかは Worker（apps/api/ogp/routes.ts）が実行時の設定で決める。
@@ -19,6 +19,8 @@ const OUT_DIR = 'build/client/ogp/project';
 const THUMBNAIL_WIDTH = 320;
 const FETCH_CONCURRENCY = 8;
 const FONT_FAMILY = 'Noto Sans JP';
+// Noto Sans JP にハングルの字形が無いため、ハングルだけを同じ Noto Sans CJK の韓国語版で描く。
+const HANGUL_FONT_FAMILY = 'Noto Sans KR';
 
 const CATEGORY_TOKENS: Record<ProjectCategory, string> = {
   食事: 'meal',
@@ -82,12 +84,17 @@ const tasks: OgpTask[] = projects.map((project, i) => ({
   thumbnail: thumbnails[i],
 }));
 
-const [font, background, logo] = await Promise.all([
-  loadFont(
-    tasks
-      .map((t) => t.name + t.organization + t.category + t.location)
-      .join(''),
-  ),
+const text = tasks
+  .map((t) => t.name + t.organization + t.category + t.location)
+  .join('');
+const hangul = text.match(/\p{Script=Hangul}/gu)?.join('') ?? '';
+
+const [fonts, background, logo] = await Promise.all([
+  Promise.all([
+    // 「…」は省略、ノーブレークスペースは企画名の改行（ogp-render.ts）に使う。
+    loadFont(FONT_FAMILY, `${text}…\u00a0`),
+    ...(hangul ? [loadFont(HANGUL_FONT_FAMILY, hangul)] : []),
+  ]),
   readFile('public/ogp/project-ogp-layout.png'),
   readFile('public/logo/wide-simple.png'),
 ]);
@@ -104,7 +111,7 @@ await Promise.all(
       tasks: tasks.filter((_, j) => j % threads === i),
       outDir: OUT_DIR,
       fontFamily: FONT_FAMILY,
-      font,
+      fonts,
       background: toDataUri(background, 'image/png'),
       logo: toDataUri(logo, 'image/png'),
       logoAspectRatio: logoSize.height / logoSize.width,
@@ -157,14 +164,13 @@ async function toPngDataUri(data: Buffer) {
 }
 
 /**
- * 描く文字だけを含む Noto Sans JP を Google Fonts から取る。
+ * 描く文字だけを含むフォントを Google Fonts から取る。
  * satori は WOFF2 を読めないため、TrueType を返す `text` 指定のサブセットを使う。
  */
-async function loadFont(text: string): Promise<ArrayBuffer> {
+async function loadFont(family: string, text: string): Promise<OgpFont> {
   const params = new URLSearchParams({
-    family: `${FONT_FAMILY}:wght@700`,
-    // 「…」は省略、ノーブレークスペースは企画名の改行（ogp-render.ts）に使う。
-    text: [...new Set(`${text}…\u00a0`)].join(''),
+    family: `${family}:wght@700`,
+    text: [...new Set(text)].join(''),
   });
   const css = await (
     await fetch(`https://fonts.googleapis.com/css2?${params}`)
@@ -172,8 +178,8 @@ async function loadFont(text: string): Promise<ArrayBuffer> {
   const url = css.match(
     /src: url\((.+?)\) format\('(?:truetype|opentype)'\)/,
   )?.[1];
-  if (!url) throw new Error(`Noto Sans JP の TrueType が見つからない:\n${css}`);
-  return (await fetch(url)).arrayBuffer();
+  if (!url) throw new Error(`${family} の TrueType が見つからない:\n${css}`);
+  return { name: family, data: await (await fetch(url)).arrayBuffer() };
 }
 
 async function mapConcurrent<T, R>(
