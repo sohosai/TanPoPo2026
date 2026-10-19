@@ -5,6 +5,7 @@ import type { ProjectCategory } from 'api';
 import { OGP_HEIGHT, OGP_WIDTH } from 'api/ogp/routes';
 import { loadDefaultJapaneseParser } from 'budoux';
 import satori from 'satori';
+import { TITLE_LINES } from './ogp-title-lines';
 
 // build-ogp.ts が立てるスレッドで、割り当てられた企画の OGP 画像を描いて書き出す。
 
@@ -65,8 +66,8 @@ const LOCATION_MAX_WIDTH = 340;
 // 「第二・第三エリア」のように場所名に「・」が入るため、場所の区切りは「、」にする。
 const LOCATION_SEPARATOR = '、';
 const ORGANIZATION_FONT_SIZE = 30;
-// 「本題〜副題〜」の形の企画名の、波線で挟まれた末尾の副題。
-const SUBTITLE = /^(.+?)([〜～~][^〜～~]+[〜～~])$/;
+// 企画名を2行に分けるときの切れ目。「本題〜副題〜」の副題の前と、全角空白の後ろ。
+const LINE_BREAKS = [/^(.+?)([〜～~][^〜～~]+[〜～~])$/, /^(.+?\u3000)(.+)$/];
 
 // satori は text-box-trim に対応しないため、web のタグと同じ trim-both cap alphabetic を負のマージンで再現する。
 // 値は Noto Sans JP のメトリクス（em 比。hhea の ascender・descender と OS/2 の capHeight）。
@@ -138,20 +139,17 @@ const render = (
 for (const task of input.tasks) {
   const texts = {
     title: await titleElement(task.name),
-    // 場所は入るだけ並べ、入りきらなければ末尾に「…」を付けて、ほかにもあることを示す。
+    // 場所はすべて並べ、入りきらなければ入るところまで出して「…」で切る。
     location:
       task.locations.length > 0
         ? await fitLine(
-            task.locations.map((_, i) => {
-              const shown = task.locations.slice(0, task.locations.length - i);
-              return `${shown.join(LOCATION_SEPARATOR)}${i > 0 ? '…' : ''}`;
-            }),
+            task.locations.join(LOCATION_SEPARATOR),
             LOCATION_MAX_WIDTH,
             LOCATION_FONT_SIZE,
           )
         : '',
     organization: await fitLine(
-      [task.organization],
+      task.organization,
       TITLE_WIDTH,
       ORGANIZATION_FONT_SIZE,
     ),
@@ -170,7 +168,8 @@ for (const task of input.tasks) {
 /**
  * 企画名を BudouX の文節の切れ目で改行する。文節ごとに要素を分けて折り返す。
  * BudouX はカタカナ語の続く企画名などを1つの文節にするため、1行に入らない文節はまず空白で、それでも入らない部分は単語の切れ目でさらに分ける。
- * 副題のある企画名は、本題と副題がそれぞれ1行に収まるなら副題を2行目に置く。
+ * 1行に収まらない企画名は、副題の前か全角空白の後ろで分けた両側がそれぞれ1行に収まるなら、そこで改行する。
+ * TITLE_LINES にある企画名はその行で描く。
  * それでも TITLE_MAX_LINES 行に収まらない企画名は、文字単位で改行して末尾を「…」で切る。
  */
 async function titleElement(name: string): Promise<SatoriElement> {
@@ -190,6 +189,18 @@ async function titleElement(name: string): Promise<SatoriElement> {
           : h('div', { style: { maxWidth: '100%' } }, chunk),
       ),
     );
+  // 企画名の前後に空白が入っていることがあるため、除いてから引く。
+  const lines = TITLE_LINES[name.trim()];
+  if (lines) {
+    return h(
+      'div',
+      { style: { ...style, display: 'flex', flexDirection: 'column' } },
+      ...lines.map((line) =>
+        h('div', { style: { whiteSpace: 'nowrap' } }, line),
+      ),
+    );
+  }
+
   const fitsLine = async (chunk: string) =>
     (await countTitleLines(wrapped([chunk]))) <= 1;
   const toChunks = async (text: string) => {
@@ -203,17 +214,20 @@ async function titleElement(name: string): Promise<SatoriElement> {
     return keepSpaces(chunks);
   };
 
-  const [, main = name, subtitle] = name.match(SUBTITLE) ?? [];
-  const mainChunks = await toChunks(main);
-  const subtitleChunks = subtitle ? await toChunks(subtitle) : [];
+  const [, first = name, second] =
+    LINE_BREAKS.map((pattern) => name.match(pattern)).find(Boolean) ?? [];
+  const firstChunks = await toChunks(first);
+  const secondChunks = second ? await toChunks(second) : [];
+  const chunks = [...firstChunks, ...secondChunks];
   if (
-    subtitle &&
-    (await countTitleLines(wrapped(mainChunks))) === 1 &&
-    (await countTitleLines(wrapped(subtitleChunks))) === 1
+    second &&
+    (await countTitleLines(wrapped(chunks))) > 1 &&
+    (await countTitleLines(wrapped(firstChunks))) === 1 &&
+    (await countTitleLines(wrapped(secondChunks))) === 1
   ) {
-    return wrapped([...mainChunks, null, ...subtitleChunks]);
+    return wrapped([...firstChunks, null, ...secondChunks]);
   }
-  const title = wrapped([...mainChunks, ...subtitleChunks]);
+  const title = wrapped(chunks);
   if ((await countTitleLines(title)) <= TITLE_MAX_LINES) return title;
   return h(
     'div',
@@ -238,11 +252,11 @@ function countTitleLines(element: SatoriElement): Promise<number> {
 }
 
 /**
- * 候補のうち1行の幅に収まる最初のものを返す。どれも収まらなければ、最後の候補の末尾を「…」に置き換えて詰める。
+ * 1行の幅に収まらない文字列を、末尾を「…」に置き換えて詰める。切り口に残る空白と場所の区切りは除く。
  * satori の text-overflow: ellipsis は「…」の字形が欠けることがあるため、自前で詰める。
  */
 async function fitLine(
-  candidates: string[],
+  text: string,
   width: number,
   fontSize: number,
 ): Promise<string> {
@@ -256,13 +270,11 @@ async function fitLine(
       width,
       fontSize,
     )) <= 1;
-  for (const candidate of candidates) {
-    if (await fits(candidate)) return candidate;
-  }
-  const chars = [...(candidates.at(-1) ?? '')];
+  if (await fits(text)) return text;
+  const chars = [...text];
   while (chars.length > 0) {
     chars.pop();
-    const candidate = `${chars.join('').trimEnd()}…`;
+    const candidate = `${chars.join('').replace(/[\s、]+$/, '')}…`;
     if (await fits(candidate)) return candidate;
   }
   return '…';
