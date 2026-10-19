@@ -1,6 +1,14 @@
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
-import { useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { css, cx } from '../../../../styled-system/css';
+import { FluffSeed } from '../Fluff/Fluff';
+
+// ハートから離れる種。行き先（dx, dy）はハートの大きさに対する比、tilt は昇りきったときの傾き。
+const SEEDS = [
+  { dx: -0.6, dy: -1.1, tilt: -10, delay: 0 },
+  { dx: 0.1, dy: -1.5, tilt: 6, delay: 0.1 },
+  { dx: 0.65, dy: -1.0, tilt: 12, delay: 0.2 },
+];
 
 type FavoriteButtonProps = {
   /** お気に入り済みか */
@@ -15,7 +23,7 @@ type FavoriteButtonProps = {
 
 /**
  * いいね（お気に入り）ボタン。
- * ON にする瞬間だけハートがポップし、拡散リングが広がる演出を加えて特別感を出す。
+ * ON にする瞬間だけハートがポップし、タンポポの綿毛がふわりと離れて昇る演出を加えて特別感を出す。
  * 一覧・詳細で共有するため、配置は className で外から制御する。
  */
 export default function FavoriteButton({
@@ -52,7 +60,7 @@ export default function FavoriteButton({
         className,
       )}
     >
-      {/* position は外側の className に委ね、リングはこの内側ラッパー基準で配置する */}
+      {/* position は外側の className に委ね、綿毛はこの内側ラッパー基準で配置する */}
       <span
         className={css({
           position: 'relative',
@@ -61,26 +69,41 @@ export default function FavoriteButton({
           justifyContent: 'center',
         })}
       >
-        {/* 拡散リング（ON の瞬間のみ） */}
-        {burst && (
-          <span
-            aria-hidden
-            style={{ width: size, height: size }}
-            className={css({
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              borderRadius: 'full',
-              border: 'token(borderWidths.thick) solid',
-              borderColor: 'favorite',
-              transform: 'translate(-50%, -50%)',
-              animation: 'heartBurst 0.5s ease-out forwards',
-              pointerEvents: 'none',
-            })}
-          />
-        )}
+        {/* ON の瞬間のみ。動きを減らす設定でも animationend で片付けられるよう、止めずに隠す */}
+        {burst &&
+          SEEDS.map((seed, i) => (
+            <FluffSeed
+              // biome-ignore lint/suspicious/noArrayIndexKey: 本数が固定の飾り
+              key={i}
+              height={size * 0.55}
+              strokeWidth={2}
+              // 最後に出る種が消えたら片付ける。
+              onAnimationEnd={
+                i === SEEDS.length - 1 ? () => setBurst(false) : undefined
+              }
+              style={
+                {
+                  '--dx': `${seed.dx * size}px`,
+                  '--dy': `${seed.dy * size}px`,
+                  '--tilt': `${seed.tilt}deg`,
+                  animationDelay: `${seed.delay}s`,
+                } as CSSProperties
+              }
+              className={css({
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transformOrigin: '50% 33%',
+                color: 'favorite',
+                opacity: 0,
+                animation:
+                  'fluffLift 1.6s cubic-bezier(0.3, 0.6, 0.4, 1) forwards',
+                pointerEvents: 'none',
+                _motionReduce: { visibility: 'hidden' },
+              })}
+            />
+          ))}
         <span
-          onAnimationEnd={() => setBurst(false)}
           className={css({
             display: 'flex',
             animation: burst ? 'heartPop 0.45s ease-out' : undefined,
