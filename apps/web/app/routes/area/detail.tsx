@@ -5,6 +5,7 @@ import DetailCloseButton from '~/components/features/Detail/DetailCloseButton';
 import {
   detailEnterStyles,
   detailExitStyles,
+  type FromDetailState,
   listPath,
   rememberListPath,
   useDetailClose,
@@ -47,7 +48,8 @@ export default function AreaDetail() {
   const { fitBounds } = useMap();
   const panel = useMapPanel();
   const { to, closing, close } = useDetailClose(listPath());
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const fromDetail = !!(state as FromDetailState | null)?.fromDetail;
 
   useEffect(() => {
     rememberListPath(pathname);
@@ -70,8 +72,9 @@ export default function AreaDetail() {
 
   useEffect(() => {
     // エリア名が消えて建物のピンに切り替わるところまで寄る。
-    if (area) fitBounds(area.bounds, AREA_MAX_ZOOM + 0.1);
-  }, [area, fitBounds]);
+    // 企画詳細を閉じて戻ってきたときは、見ていた視点のまま一覧に戻す。
+    if (area && !fromDetail) fitBounds(area.bounds, AREA_MAX_ZOOM + 0.1);
+  }, [area, fitBounds, fromDetail]);
 
   const areaProjects = useMemo(
     () =>

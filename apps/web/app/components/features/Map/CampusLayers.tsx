@@ -5,8 +5,13 @@ import type {
   MapMouseEvent,
   Map as MlMap,
 } from 'maplibre-gl';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { matchPath, useLocation } from 'react-router';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { matchPath, useLocation, useNavigate } from 'react-router';
+import {
+  type FromDetailState,
+  lastListUrl,
+  listPath,
+} from '~/components/features/Detail/useDetailClose';
 import { toAppPath, useOpenAppPath } from '~/lib/embed';
 import { usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
@@ -112,6 +117,14 @@ function tapTarget(
   return null;
 }
 
+/** 詳細を開いているときに、閉じて戻る一覧の URL。詳細を開いていなければ null。 */
+function detailCloseUrl(pathname: string): string | null {
+  if (matchPath('/project/:number', pathname)) return lastListUrl();
+  if (matchPath('/place/:placeId', pathname)) return listPath();
+  if (matchPath('/area/:areaId', pathname)) return listPath();
+  return null;
+}
+
 /**
  * 会場エリア・建物・屋外のテント・ステージを地図に重ね、タップで企画詳細や場所の企画一覧を開く。
  * 埋め込みでは、埋め込み先のページを離れさせないよう、アプリ本体のページを新しいタブで開く。
@@ -125,11 +138,18 @@ export default function CampusLayers({
 }) {
   const { isReady, getMap } = useMap();
   const openAppPath = useOpenAppPath();
+  const navigate = useNavigate();
+  // タップの処理は地図に一度だけ登録するため、最新の値は ref から読む。
+  // 埋め込みでは詳細を新しいタブで開くので、埋め込みのパスのまま照合して閉じないようにする。
+  const pathname = useRef('');
+  pathname.current = useLocation().pathname;
   const { data: projects } = trpc.project.list.useQuery();
   const { places, byId: placesById } = usePlaces();
   const selected = useSelection(projects, placesById);
   const [loaded, setLoaded] = useState(false);
   const [sharedBooth, setSharedBooth] = useState<SharedBooth | null>(null);
+  const chooserOpen = useRef(false);
+  chooserOpen.current = sharedBooth !== null;
   const closeChooser = useCallback(() => setSharedBooth(null), []);
 
   const boothChoice = useMemo((): BoothChoice | null => {
@@ -171,12 +191,20 @@ export default function CampusLayers({
     map.on('idle', setup);
     map.on('pitch', syncExtrusion);
 
+    const closeDetail = () => {
+      const to = detailCloseUrl(pathname.current);
+      const state: FromDetailState = { fromDetail: true };
+      if (to !== null) navigate(to, { state });
+    };
+
     const onClick = (e: MapMouseEvent) => {
       // 地図の上に載せた吹き出し（MapCallouts）は、それ自身で開く先を持つ。
       if ((e.originalEvent.target as Element).closest('[data-map-callout]')) {
         return;
       }
       const target = tapTarget(map, e.point);
+      // 何もない所のタップは、選択肢が出ていればそれだけを閉じ、無ければ開いている詳細を閉じる。
+      if (target === null && !chooserOpen.current) closeDetail();
       // 選択肢を出している間に別の所をタップしたら、選択肢は閉じる。
       setSharedBooth(typeof target === 'object' ? target : null);
       if (typeof target === 'string') openAppPath(target);
@@ -201,7 +229,7 @@ export default function CampusLayers({
         map.off('mouseleave', id, reset);
       }
     };
-  }, [isReady, getMap, openAppPath]);
+  }, [isReady, getMap, openAppPath, navigate]);
 
   useEffect(() => {
     const map = getMap();
