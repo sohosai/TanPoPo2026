@@ -82,9 +82,11 @@ const tasks: OgpTask[] = projects.map((project, i) => ({
   category: project.category,
   locations: [
     ...new Set(
-      project.locations.map((location) =>
-        formatLocation(placesById.get(location.placeId), location.room),
-      ),
+      project.locations
+        .map((location) =>
+          formatLocation(placesById.get(location.placeId), location.room),
+        )
+        .filter(Boolean),
     ),
   ],
   thumbnail: thumbnails[i],
@@ -157,12 +159,14 @@ async function loadThumbnail(image: ProjectImage | undefined) {
       ?.split(' ')[0] ?? image.src;
   if (src.startsWith('/')) return toPngDataUri(await readFile(`public${src}`));
   // 1枚取れないだけでデプロイを止めないよう、アイコンなしで描く。
-  const response = await fetch(src);
-  if (!response.ok) {
-    console.warn(`ogp: アイコンを取得できない（${response.status}）: ${src}`);
+  try {
+    const response = await fetch(src);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await toPngDataUri(Buffer.from(await response.arrayBuffer()));
+  } catch (error) {
+    console.warn(`ogp: アイコンを取得できない: ${src}`, error);
     return undefined;
   }
-  return toPngDataUri(Buffer.from(await response.arrayBuffer()));
 }
 
 async function toPngDataUri(data: Buffer) {

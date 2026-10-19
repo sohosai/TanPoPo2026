@@ -13,7 +13,14 @@ export const OGP_HEIGHT = 630;
 
 export const ogpRoutes = new Hono<{ Bindings: AppEnv }>();
 
+// 元のリクエストをヘッダーごと静的アセットに渡す。web の型チェックでは Request が DOM の型になるため変換する。
+const fetchAsset = (env: AppEnv, request: Request) =>
+  env.ASSETS.fetch(
+    request as unknown as Parameters<AppEnv['ASSETS']['fetch']>[0],
+  ) as unknown as Promise<Response>;
+
 ogpRoutes.get('/project/:number', async (c) => {
+  // 書き換えた HTML は元のファイルと中身が変わるため、条件付きリクエストのヘッダーは渡さない。
   const html = await c.env.ASSETS.fetch(c.req.url);
   const project = getSosClient(
     c.env.SOS_API_URL,
@@ -56,13 +63,10 @@ ogpRoutes.get('/project/:number', async (c) => {
 });
 
 // 上で拾わない /project/ 以下のパスは、通常どおり SPA に任せる。
-ogpRoutes.get(
-  '/project/*',
-  (c) => c.env.ASSETS.fetch(c.req.url) as unknown as Response,
-);
+ogpRoutes.get('/project/*', (c) => fetchAsset(c.env, c.req.raw));
 
 // OGP 画像はビルド時に全企画ぶん書き出してある。非表示の企画の番号は実行時の設定で決まるため、ここで出し分ける。
-ogpRoutes.get('/ogp/project/:file', (c) => {
+ogpRoutes.get('/ogp/project/:file', async (c) => {
   const number = c.req.param('file').match(/^(\d{3})\.png$/)?.[1];
   const project =
     number &&
@@ -71,9 +75,17 @@ ogpRoutes.get('/ogp/project/:file', (c) => {
       c.env.HIDDEN_PROJECT_NUMBERS,
     ).getProjectMaster(number);
   if (!project) return c.notFound();
-  return c.env.ASSETS.fetch(c.req.url) as unknown as Response;
+  const response = await fetchAsset(c.env, c.req.raw);
+  // 画像が無いと SPA の index.html が返るため、画像でなければ見つからない扱いにする。
+  const isImage =
+    response.status === 304 ||
+    response.headers.get('Content-Type')?.startsWith('image/png');
+  if (!isImage) return c.notFound();
+  return response;
 });
 
+// 絵文字などのサロゲートペアの途中で切らないよう、文字単位で数える。
 function truncate(text: string, max: number): string {
-  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+  const chars = Array.from(text);
+  return chars.length > max ? `${chars.slice(0, max - 1).join('')}…` : text;
 }
