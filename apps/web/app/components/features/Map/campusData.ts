@@ -241,12 +241,19 @@ export function buildCampusData(projects: Project[], places: Place[]) {
       },
     }));
 
+  // 屋外のテントは引いているときにまとめて出さず、寄ったところでテントそのものを出す。
+  // テントの形を持たない屋外の場所（池・グラウンドなど）は、建物と同じくピンで示す。
+  const isTentlessOutdoor = (place: Place) =>
+    place.kind === 'outdoor' &&
+    (byPlace.get(place.id) ?? []).some(
+      ({ location }) => !boothCenter(place, location.room),
+    );
   const placeFeatures = places
-    // 屋外のテントは引いているときにまとめて出さず、寄ったところでテントそのものを出す。
     .filter(
-      ({ id, kind }) =>
-        VISIBLE_PLACE_KINDS.has(kind) &&
-        (kind !== 'building' || hasProjects(id)),
+      (place) =>
+        (VISIBLE_PLACE_KINDS.has(place.kind) &&
+          (place.kind !== 'building' || hasProjects(place.id))) ||
+        isTentlessOutdoor(place),
     )
     .map((place) => {
       const entries = byPlace.get(place.id) ?? [];
@@ -257,7 +264,7 @@ export function buildCampusData(projects: Project[], places: Place[]) {
         name: place.name,
         count,
         countLabel: count > 0 ? `${count}企画` : '',
-        preview: place.kind === 'building' ? projectPreview(entries) : '',
+        preview: projectPreview(entries),
         hasStage: stageBuildingIds.has(place.id),
       });
     });

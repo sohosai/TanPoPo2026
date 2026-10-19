@@ -1,5 +1,6 @@
 import type { Place } from 'api';
 import type maplibregl from 'maplibre-gl';
+import type { PaddingOptions } from 'maplibre-gl';
 import {
   createContext,
   type ReactNode,
@@ -41,8 +42,15 @@ export type MapController = {
   getMap: () => maplibregl.Map | null;
   /** 指定座標へアニメーションで移動 */
   flyTo: (center: LngLat, options?: FocusOptions) => void;
-  /** 範囲が収まるところまで寄る。収まるズームが minZoom 未満なら minZoom まで寄り、範囲の端ははみ出す */
-  fitBounds: (bounds: [LngLat, LngLat], minZoom?: number) => void;
+  /**
+   * 範囲が収まるズームへ移る（今より引くこともある）。収まるズームが minZoom 未満なら minZoom まで寄り、範囲の端ははみ出す。
+   * inset は範囲の外に描くもの（点の上の吹き出しなど）のために、画面の端から余分に空ける幅（px）。
+   */
+  fitBounds: (
+    bounds: [LngLat, LngLat],
+    minZoom?: number,
+    inset?: Required<PaddingOptions>,
+  ) => void;
   /** 地図を会場全体が収まる表示に戻す。初期表示にも使う */
   resetView: (duration?: number) => void;
 };
@@ -68,6 +76,15 @@ const SHEET_OFFSET: [number, number] = [0, -120];
 // fitBounds で下部シートに隠れないよう、下側を広く空ける。
 const SHEET_PADDING = { top: 40, left: 40, right: 40, bottom: 240 };
 const EVEN_PADDING = { top: 40, left: 40, right: 40, bottom: 40 };
+// PC のアプリ本体は左にサイドパネルがあり、地図の padding で空けていてもパネルの際は見づらい。
+// 範囲の端がパネル寄りに来ないよう、左を広めに空けて全体に余裕を持たせる。
+const DESKTOP_PADDING = { top: 80, left: 160, right: 80, bottom: 80 };
+const NO_INSET: Required<PaddingOptions> = {
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+};
 const VIEW_PADDING = { top: 16, left: 16, right: 16, bottom: 16 };
 
 const MapContext = createContext<MapController | null>(null);
@@ -103,22 +120,34 @@ export function MapProvider({ children }: { children: ReactNode }) {
 
   // maplibre の fitBounds の minZoom は飛行経路の頂点のズームで、到着時の下限にはならない。
   // そのため収まるズームだけ求め、下限をかけて飛ぶ。中心は padding の内側の中央に置く。
+  // flyTo と違い、今より引いたズームでも範囲が収まるところへ移る。範囲が狭くても、テントに寄せるより先へは寄らない。
   const fitBounds = useCallback(
-    (bounds: [LngLat, LngLat], minZoom = 0) => {
-      const padding = hasSheet() ? SHEET_PADDING : EVEN_PADDING;
-      const fitZoom = mapRef.current?.cameraForBounds(bounds, {
-        padding,
-      })?.zoom;
+    (bounds: [LngLat, LngLat], minZoom = 0, inset = NO_INSET) => {
+      const map = mapRef.current;
+      const base = hasSheet()
+        ? SHEET_PADDING
+        : isEmbed
+          ? EVEN_PADDING
+          : DESKTOP_PADDING;
+      const padding = {
+        top: base.top + inset.top,
+        left: base.left + inset.left,
+        right: base.right + inset.right,
+        bottom: base.bottom + inset.bottom,
+      };
+      const fitZoom = map?.cameraForBounds(bounds, { padding })?.zoom;
       const [[west, south], [east, north]] = bounds;
-      flyTo([(west + east) / 2, (south + north) / 2], {
-        zoom: Math.max(fitZoom ?? minZoom, minZoom),
+      map?.flyTo({
+        center: [(west + east) / 2, (south + north) / 2],
+        zoom: Math.min(Math.max(fitZoom ?? minZoom, minZoom), BOOTH_FOCUS_ZOOM),
+        duration: DEFAULT_DURATION,
         offset: [
           (padding.left - padding.right) / 2,
           (padding.top - padding.bottom) / 2,
         ],
       });
     },
-    [flyTo, hasSheet],
+    [hasSheet, isEmbed],
   );
 
   // 画面の大きさによらず会場全体が収まるよう、固定のズームではなく範囲に合わせる。
