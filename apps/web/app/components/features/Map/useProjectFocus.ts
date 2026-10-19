@@ -7,10 +7,10 @@ import { BOOTH_FOCUS_ZOOM, useMap } from './MapController';
 /**
  * 企画の場所へ地図を寄せる。表示したときに一度寄せ、もう一度寄せるための関数を返す。
  * 屋外ブースはテント列の代表点ではなく、テントそのものの位置へ、形が見えるところまで寄せる。
- * テントは地図上で枠線で強調されるため、テントを隠してしまうピンは立てない。
+ * 場所は企画の吹き出し（MapCallouts）が地面の点で指すため、ここではピンを立てない。
  */
 export function useProjectFocus(project: Project | undefined): () => void {
-  const { flyTo, focusPoint, highlight } = useMap();
+  const { flyTo } = useMap();
   const { byId: placesById } = usePlaces();
   const primaryLocation = project?.locations[0];
   const primaryPlace = placesById.get(primaryLocation?.placeId ?? '');
@@ -19,13 +19,12 @@ export function useProjectFocus(project: Project | undefined): () => void {
 
   const focus = useCallback(() => {
     if (boothPoint) flyTo(boothPoint, { zoom: BOOTH_FOCUS_ZOOM });
-    else if (placePoint) focusPoint(placePoint);
-  }, [boothPoint, placePoint, flyTo, focusPoint]);
+    else if (placePoint) flyTo(placePoint);
+  }, [boothPoint, placePoint, flyTo]);
 
   useEffect(() => {
     focus();
-    return () => highlight(null);
-  }, [focus, highlight]);
+  }, [focus]);
 
   return focus;
 }

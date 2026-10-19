@@ -1,9 +1,14 @@
-import { IconBroadcast, IconExternalLink } from '@tabler/icons-react';
+import {
+  IconBroadcast,
+  IconExternalLink,
+  IconMapPin,
+} from '@tabler/icons-react';
 import type { Project } from 'api';
 import maplibregl from 'maplibre-gl';
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { matchPath, useLocation } from 'react-router';
+import { DAY_LABELS } from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import { toAppPath, useOpenAppPath } from '~/lib/embed';
 import { groupProjectsByPlace, usePlaces } from '~/lib/places';
@@ -27,11 +32,10 @@ const config: CalloutConfig = calloutsJson;
 // 建物の吹き出しで、中の企画を切り替える間隔。
 const ROTATE_MS = 4000;
 
-// 吹き出しを点からどれだけ上に浮かせるか（px）。ピン（建物の企画数・ステージ）の円には重ならず、
-// 企画詳細で立てる強調のピン（高さ約 41px）があるときはその上に出す。テントはピンを立てないため近づける。
+// 吹き出しを点からどれだけ上に浮かせるか（px）。ピン（建物の企画数・ステージ）の円に重ねない。
 const CALLOUT_OFFSET = 16;
-const SELECTED_OFFSET_ON_PIN = 46;
-const SELECTED_OFFSET_ON_BOOTH = 8;
+// 企画の吹き出しのカードと地面の点をつなぐ軸の長さ（px）。
+const STEM_LENGTH = 24;
 
 /** 企画詳細を開いている企画と、その吹き出しを出す位置。開いていなければ undefined。 */
 function useSelectedProject(projects: Project[] | undefined) {
@@ -44,11 +48,16 @@ function useSelectedProject(projects: Project[] | undefined) {
   if (!project || !place) return undefined;
   // 地図を寄せる位置（useProjectFocus）と同じく、屋外ブースはテントそのものを指す。
   const booth = boothCenter(place, location?.room);
+  const performance = project.performances.find(
+    ({ placeId }) => placeId === place.id,
+  );
   return {
     project,
     locationLabel: formatProjectLocation(project),
+    timeLabel: performance
+      ? `${DAY_LABELS[performance.day]} ${performance.start}〜`
+      : undefined,
     point: booth ?? place.point,
-    offset: booth ? SELECTED_OFFSET_ON_BOOTH : SELECTED_OFFSET_ON_PIN,
   };
 }
 
@@ -110,11 +119,13 @@ export default function MapCallouts() {
           point={selected.point}
           priority={-1}
           minZoom={0}
-          offset={selected.offset}
+          // 地面の点が吹き出しの下端にあり、点そのものが場所を指す。
+          offset={0}
         >
           <ProjectCallout
             project={selected.project}
             locationLabel={selected.locationLabel}
+            timeLabel={selected.timeLabel}
           />
         </MapCallout>
       )}
@@ -369,45 +380,64 @@ function BuildingCallout({
   );
 }
 
-/** 企画詳細を開いている企画のアイコン・名前・場所。押しても何も開かない（詳細はすでに開いている）。 */
+/**
+ * 企画詳細を開いている企画のカード。細い軸で地面の点につなぎ、点の位置で企画の場所を指す。
+ * 押しても何も開かない（詳細はすでに開いている）。
+ */
 function ProjectCallout({
   project,
   locationLabel,
+  timeLabel,
 }: {
   project: Project;
   locationLabel: string;
+  /** ステージの出演時間（例 "2日目 12:25〜"）。ステージに出ない企画は無し */
+  timeLabel?: string;
 }) {
   return (
     <div
-      className={cx(
-        bubble,
-        css({
-          maxW: '220px',
-          p: '6px',
-          cursor: 'default',
-          _active: { transform: 'none' },
-          // 地図の上で目に留まるよう、選択中のテント・建物と同じアクセント色の枠で囲む。
-          outline: '2px solid token(colors.accent)',
-          animation: 'detailEnter 0.2s ease-out',
-          _motionReduce: { animation: 'none' },
-        }),
-      )}
+      className={css({
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        pb: `${STEM_LENGTH}px`,
+      })}
     >
-      {/* bubble の display: block と競合しないよう、横並びは内側の要素で組む。 */}
-      <span
+      <div
         className={css({
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          pr: '4px',
+          gap: '10px',
+          maxW: '240px',
+          py: '8px',
+          pl: '8px',
+          pr: '12px',
+          borderRadius: '14px',
+          bg: 'surface',
+          boxShadow:
+            '0 10px 24px -8px {colors.accent.deep/45}, 0 1px 2px {colors.black/8}',
+          transformOrigin: 'bottom center',
+          animation: 'detailEnter 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
+          _motionReduce: { animation: 'none' },
         })}
       >
-        <ProjectIcon project={project} size={36} />
+        {/* 選択中の企画だと分かるよう、アイコンをアクセント色の輪で囲む。 */}
+        <span
+          className={css({
+            flexShrink: 0,
+            display: 'flex',
+            p: '2px',
+            borderRadius: 'full',
+            boxShadow: '0 0 0 2px token(colors.accent)',
+          })}
+        >
+          <ProjectIcon project={project} size={38} />
+        </span>
         <span className={css({ minW: 0 })}>
           <span
             className={css({
               display: 'block',
-              fontSize: 'xs',
+              fontSize: '13px',
               fontWeight: 700,
               lineHeight: 1.35,
               color: 'fg.strong',
@@ -416,21 +446,76 @@ function ProjectCallout({
           >
             {project.name}
           </span>
-          {locationLabel && (
+          {(locationLabel || timeLabel) && (
             <span
               className={css({
-                display: 'block',
-                mt: '1px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '3px',
+                mt: '2px',
                 fontSize: '2xs',
                 color: 'fg.subtle',
-                truncate: true,
               })}
             >
-              {locationLabel}
+              {locationLabel && (
+                <>
+                  <IconMapPin size={12} className={css({ flexShrink: 0 })} />
+                  <span className={css({ truncate: true })}>
+                    {locationLabel}
+                  </span>
+                </>
+              )}
+              {timeLabel && (
+                <span
+                  className={css({
+                    flexShrink: 0,
+                    ml: '4px',
+                    px: '5px',
+                    py: '1px',
+                    borderRadius: '4px',
+                    bg: 'accent.subtle',
+                    color: 'accent.text',
+                    fontWeight: 700,
+                    fontVariantNumeric: 'tabular-nums',
+                  })}
+                >
+                  {timeLabel}
+                </span>
+              )}
             </span>
           )}
         </span>
-      </span>
+      </div>
+
+      {/* 軸と点は、青い建物の上でも見分けられるよう墨色にし、細い白の縁で地図から浮かせる。 */}
+      <span
+        className={css({
+          position: 'absolute',
+          bottom: 0,
+          left: '50%',
+          w: '2px',
+          h: `${STEM_LENGTH}px`,
+          ml: '-1px',
+          borderRadius: '1px',
+          bg: 'fg.strong',
+          boxShadow: '0 0 0 1px {colors.white/85}',
+        })}
+      />
+      {/* 地面の点。中心が吹き出しの下端に来るので、吹き出しの下端を場所に合わせれば点が場所を指す。
+          太い白い縁や波紋を付けると現在地の表示に見えるため、軸の先端と同じ色の小さな点にとどめる。 */}
+      <span
+        className={css({
+          position: 'absolute',
+          bottom: 0,
+          left: '50%',
+          w: '6px',
+          h: '6px',
+          borderRadius: 'full',
+          bg: 'fg.strong',
+          boxShadow: '0 0 0 1px {colors.white/85}',
+          transform: 'translate(-50%, 50%)',
+        })}
+      />
     </div>
   );
 }
