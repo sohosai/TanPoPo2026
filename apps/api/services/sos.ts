@@ -75,6 +75,12 @@ export class SosClient {
     );
   }
 
+  /** 画面に出す企画のマスターデータを番号で引く。SOS には問い合わせない。 */
+  getProjectMaster(number: string): ProjectMaster | undefined {
+    if (this.hiddenNumbers.has(number)) return undefined;
+    return PROJECT_MASTERS.find((master) => master.number === number);
+  }
+
   private async getAllDetails(): Promise<ProjectDetail[]> {
     if (this.cache && this.cache.expiresAt > Date.now()) {
       return this.cache.details;

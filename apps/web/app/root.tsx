@@ -12,7 +12,9 @@ import UpdateToast from './components/features/Pwa/UpdateToast';
 import { TrpcProvider } from './lib/trpc-provider';
 import './global.css';
 
-const SITE_ORIGIN = 'https://search.sohosai.com';
+// OGP の URL は絶対 URL にする必要があるため、配信先ごとにビルドで切り替える。
+const SITE_ORIGIN =
+  import.meta.env.VITE_SITE_ORIGIN ?? 'https://search.sohosai.com';
 
 /** 本番のビルドでだけ設定し、zoo やローカルでは計測しない。 */
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;

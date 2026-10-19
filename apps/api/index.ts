@@ -5,6 +5,7 @@ import { authRoutes } from './auth/routes';
 import { SESSION_COOKIE_NAME } from './auth/session';
 import { LINE_LOGIN_ENABLED } from './domain/features';
 import type { AppEnv } from './env';
+import { ogpRoutes } from './ogp/routes';
 import { createTRPCContext } from './trpc/context';
 import { appRouter } from './trpc/router';
 
@@ -26,7 +27,7 @@ export type {
 } from './domain/project';
 
 // web の静的アセットと同一オリジンで配信するため CORS は不要。
-// /trpc/* と /auth/* 以外は wrangler.jsonc の assets 設定で静的配信される。
+// wrangler.jsonc の run_worker_first に挙げたパス以外は、assets 設定で静的配信される。
 const app = new Hono<{ Bindings: AppEnv }>();
 
 // LINE ログインを無効にしている間は、ログイン・ログアウトの入口ごと塞ぐ。
@@ -35,6 +36,7 @@ app.use('/auth/*', async (c, next) => {
   await next();
 });
 app.route('/auth', authRoutes);
+app.route('/', ogpRoutes);
 
 app.use(
   '/trpc/*',

@@ -1,9 +1,10 @@
-import type { D1Database } from '@cloudflare/workers-types';
+import type { D1Database, Fetcher } from '@cloudflare/workers-types';
 
 // wrangler.jsonc の vars / d1_databases と、`.env`（本番は wrangler secret）で渡す値。
 // web 側の型チェックからも参照されるため、グローバル型に頼らず明示的に定義する。
 export type AppEnv = {
   DB: D1Database;
+  ASSETS: Fetcher;
   SOS_API_URL: string;
   GRANDPRIX_WIN_RATE: string;
   HIDDEN_PROJECT_NUMBERS?: string;
