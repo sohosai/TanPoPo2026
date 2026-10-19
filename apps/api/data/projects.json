@@ -1410,7 +1410,7 @@
     "locations": [
       {
         "placeId": "booth-q",
-        "room": "Q4",
+        "room": "Q3",
         "days": ["Day1"]
       }
     ],
@@ -5760,7 +5760,7 @@
     "locations": [
       {
         "placeId": "booth-q",
-        "room": "Q3",
+        "room": "Q4",
         "days": ["Day1", "Day2"]
       }
     ],
