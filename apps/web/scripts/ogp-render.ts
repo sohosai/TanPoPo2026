@@ -58,6 +58,8 @@ const TITLE_WIDTH = 620;
 const TITLE_FONT_SIZE = 50;
 const TITLE_LINE_HEIGHT = 1.3;
 const TITLE_MAX_LINES = 2;
+// 「本題〜副題〜」の形の企画名の、波線で挟まれた末尾の副題。
+const SUBTITLE = /^(.+?)([〜～~][^〜～~]+[〜～~])$/;
 
 // satori は text-box-trim に対応しないため、web のタグと同じ trim-both cap alphabetic を負のマージンで再現する。
 // 値は Noto Sans JP のメトリクス（em 比。hhea の ascender・descender と OS/2 の capHeight）。
@@ -129,6 +131,7 @@ for (const task of input.tasks) {
 /**
  * 企画名を BudouX の文節の切れ目で改行する。文節ごとに要素を分けて折り返す。
  * BudouX はカタカナ語の続く企画名などを1つの文節にするため、1行に入らない文節は単語の切れ目でさらに分ける。
+ * 副題のある企画名は、本題と副題がそれぞれ1行に収まるなら副題を2行目に置く。
  * それでも TITLE_MAX_LINES 行に収まらない企画名は、文字単位で改行して末尾を「…」で切る。
  */
 async function titleElement(name: string): Promise<SatoriElement> {
@@ -137,24 +140,40 @@ async function titleElement(name: string): Promise<SatoriElement> {
     lineHeight: TITLE_LINE_HEIGHT,
     color: input.colors.fgStrong,
   };
-  const wrapped = (chunks: string[]) =>
+  // null の位置で改行する（幅いっぱいで高さのない要素を挟む）。
+  const wrapped = (chunks: (string | null)[]) =>
     h(
       'div',
       { style: { ...style, display: 'flex', flexWrap: 'wrap' } },
       ...chunks.map((chunk) =>
-        h('div', { style: { maxWidth: '100%' } }, chunk),
+        chunk === null
+          ? h('div', { style: { width: '100%' } })
+          : h('div', { style: { maxWidth: '100%' } }, chunk),
       ),
     );
-
-  const chunks: string[] = [];
-  for (const phrase of parser.parse(name)) {
-    if ((await countLines(wrapped([phrase]))) > 1) {
-      chunks.push(...splitWords(phrase));
-    } else {
-      chunks.push(phrase);
+  const toChunks = async (text: string) => {
+    const chunks: string[] = [];
+    for (const phrase of parser.parse(text)) {
+      if ((await countLines(wrapped([phrase]))) > 1) {
+        chunks.push(...splitWords(phrase));
+      } else {
+        chunks.push(phrase);
+      }
     }
+    return keepSpaces(chunks);
+  };
+
+  const [, main = name, subtitle] = name.match(SUBTITLE) ?? [];
+  const mainChunks = await toChunks(main);
+  const subtitleChunks = subtitle ? await toChunks(subtitle) : [];
+  if (
+    subtitle &&
+    (await countLines(wrapped(mainChunks))) === 1 &&
+    (await countLines(wrapped(subtitleChunks))) === 1
+  ) {
+    return wrapped([...mainChunks, null, ...subtitleChunks]);
   }
-  const title = wrapped(keepSpaces(chunks));
+  const title = wrapped([...mainChunks, ...subtitleChunks]);
   if ((await countLines(title)) <= TITLE_MAX_LINES) return title;
   return h(
     'div',
