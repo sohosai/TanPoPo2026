@@ -1,5 +1,5 @@
 import type { Place } from 'api';
-import maplibregl from 'maplibre-gl';
+import type maplibregl from 'maplibre-gl';
 import {
   createContext,
   type ReactNode,
@@ -41,12 +41,8 @@ export type MapController = {
   getMap: () => maplibregl.Map | null;
   /** 指定座標へアニメーションで移動 */
   flyTo: (center: LngLat, options?: FocusOptions) => void;
-  /** 座標へ移動しハイライトを置く */
-  focusPoint: (point: LngLat, options?: FocusOptions) => void;
   /** 範囲が収まるところまで寄る。収まるズームが minZoom 未満なら minZoom まで寄り、範囲の端ははみ出す */
   fitBounds: (bounds: [LngLat, LngLat], minZoom?: number) => void;
-  /** ハイライトマーカーを置く（null で消す） */
-  highlight: (point: LngLat | null) => void;
   /** 地図を会場全体が収まる表示に戻す。初期表示にも使う */
   resetView: (duration?: number) => void;
 };
@@ -78,7 +74,6 @@ const MapContext = createContext<MapController | null>(null);
 
 export function MapProvider({ children }: { children: ReactNode }) {
   const mapRef = useRef<maplibregl.Map | null>(null);
-  const markerRef = useRef<maplibregl.Marker | null>(null);
   const [isReady, setReady] = useState(false);
   // 下部シートがあるのはスマホのアプリ本体だけ。PC はサイドパネル分を padding で空けていて、
   // 埋め込みにはパネル自体が無い。
@@ -91,10 +86,6 @@ export function MapProvider({ children }: { children: ReactNode }) {
   const register = useCallback((map: maplibregl.Map | null) => {
     mapRef.current = map;
     setReady(map !== null);
-    if (map === null && markerRef.current) {
-      markerRef.current.remove();
-      markerRef.current = null;
-    }
   }, []);
 
   const flyTo = useCallback(
@@ -108,30 +99,6 @@ export function MapProvider({ children }: { children: ReactNode }) {
       });
     },
     [hasSheet],
-  );
-
-  const highlight = useCallback((point: LngLat | null) => {
-    const map = mapRef.current;
-    if (!map) return;
-    if (point === null) {
-      markerRef.current?.remove();
-      markerRef.current = null;
-      return;
-    }
-    if (!markerRef.current) {
-      markerRef.current = new maplibregl.Marker({
-        color: '#4a93d7', // token('colors.accent')
-      });
-    }
-    markerRef.current.setLngLat(point).addTo(map);
-  }, []);
-
-  const focusPoint = useCallback(
-    (point: LngLat, options?: FocusOptions) => {
-      flyTo(point, options);
-      highlight(point);
-    },
-    [flyTo, highlight],
   );
 
   // maplibre の fitBounds の minZoom は飛行経路の頂点のズームで、到着時の下限にはならない。
@@ -176,12 +143,10 @@ export function MapProvider({ children }: { children: ReactNode }) {
       register,
       getMap: () => mapRef.current,
       flyTo,
-      focusPoint,
       fitBounds,
-      highlight,
       resetView,
     }),
-    [isReady, register, flyTo, focusPoint, fitBounds, highlight, resetView],
+    [isReady, register, flyTo, fitBounds, resetView],
   );
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;
