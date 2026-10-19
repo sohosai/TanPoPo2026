@@ -1688,7 +1688,7 @@
     "nameReading": "とるこでもぐってきましたけばぶだいばーず",
     "organization": "Diving Partner",
     "organizationReading": "だいびんぐぱーとなー",
-    "category": "学術",
+    "category": "食事",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -2745,7 +2745,7 @@
     "nameReading": "せいさくげーむてんじかい",
     "organization": "AmusementCreators",
     "organizationReading": "あみゅーずめんとくりえいたーず",
-    "category": "学術",
+    "category": "その他",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -3999,7 +3999,7 @@
     "nameReading": "たこすはじめました",
     "organization": "天2居酒屋連盟",
     "organizationReading": "あまにいざかやれんめい",
-    "category": "学術",
+    "category": "食事",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -4265,7 +4265,7 @@
     "nameReading": "ぴあのかふぇ",
     "organization": "筑波大学ピアノ愛好会",
     "organizationReading": "つくばだいがくぴあのあいこうかい",
-    "category": "学術",
+    "category": "スイーツ",
     "schedule": ["Day2"],
     "locations": [
       {
@@ -5225,7 +5225,7 @@
     "nameReading": "ぼーどげーむたいけんかい",
     "organization": "T.A.S.C.",
     "organizationReading": "たすく",
-    "category": "学術",
+    "category": "参加型",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -5524,7 +5524,7 @@
     "nameReading": "あどばんちゅろすぶ",
     "organization": "硬式テニスサークルADVANT",
     "organizationReading": "こうしきてにすさーくるあどばん",
-    "category": "学術",
+    "category": "スイーツ",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -5749,7 +5749,7 @@
     "nameReading": "じょうきゅうぐし",
     "organization": "フィールドホッケー部",
     "organizationReading": "ふぃーるどほっけーぶ",
-    "category": "学術",
+    "category": "食事",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -6746,7 +6746,7 @@
     "nameReading": "きたのだいちのじんぎすかん",
     "organization": "どさんこ会",
     "organizationReading": "どさんこかい",
-    "category": "学術",
+    "category": "食事",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -7116,7 +7116,7 @@
     "nameReading": "こけとらんとみずべのいきもの",
     "organization": "つくリウム",
     "organizationReading": "つくりうむ",
-    "category": "学術",
+    "category": "展示型",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -7290,7 +7290,7 @@
     "nameReading": "ごくじょう　あじにこだわりぬいたきゅうきょくのぶたらーめん",
     "organization": "ラーメンパソコン部",
     "organizationReading": "らーめんぱそこんぶ",
-    "category": "学術",
+    "category": "食事",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
@@ -7570,7 +7570,7 @@
     "nameReading": "むじゃきにすすれ",
     "organization": "むじゃきな仲間たち",
     "organizationReading": "むじゃきななかまたち",
-    "category": "学術",
+    "category": "食事",
     "schedule": ["Day1", "Day2"],
     "locations": [
       {
