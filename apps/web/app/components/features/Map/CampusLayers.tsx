@@ -24,9 +24,11 @@ import {
   BUILDING_FLAT_SOURCE,
   highlightPlaceKind,
   INTERACTIVE_LAYERS,
+  isTentView,
   type Selection,
   SOURCES,
   setExtrusionVisible,
+  setTentView,
 } from './campusStyle';
 import type { LngLat } from './geo';
 import { useMap } from './MapController';
@@ -179,17 +181,26 @@ export default function CampusLayers({
       extruded = next;
       setExtrusionVisible(map, next);
     };
+    let tentView: boolean | undefined;
+    const syncTentView = () => {
+      const next = isTentView(map);
+      if (next === tentView || !map.getSource(SOURCES.places)) return;
+      tentView = next;
+      setTentView(map, next);
+    };
 
     const setup = () => {
       if (!map.isStyleLoaded() || map.getSource(SOURCES.places)) return;
       addCampusLayers(map);
       syncExtrusion();
+      syncTentView();
       setLoaded(true);
     };
     setup();
     map.on('styledata', setup);
     map.on('idle', setup);
     map.on('pitch', syncExtrusion);
+    map.on('zoom', syncTentView);
 
     const closeDetail = () => {
       const to = detailCloseUrl(pathname.current);
@@ -223,6 +234,7 @@ export default function CampusLayers({
       map.off('styledata', setup);
       map.off('idle', setup);
       map.off('pitch', syncExtrusion);
+      map.off('zoom', syncTentView);
       map.off('click', onClick);
       for (const id of INTERACTIVE_LAYERS) {
         map.off('mouseenter', id, pointer);

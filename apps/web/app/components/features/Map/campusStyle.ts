@@ -34,10 +34,12 @@ export const DETAIL_ZOOM = 17.4;
 // これより寄ると、建物名の下に中の企画名を並べる。
 const PREVIEW_ZOOM = 18.2;
 // テントは実寸（数メートル）で描くため、引いているときは画面上で大きさの変わらない点で出し、
-// 形が見分けられるところまで寄ったら、点を消しながらテントの形を浮かび上がらせる。
+// 形が見分けられる BOOTH_ZOOM まで寄ったら、点からテントの形へフェードで入れ替える。
+// 入れ替えはズームに比例させず時間で進める。比例させると、途中でズームを止めたときに半透明のまま残る。
 const BOOTH_DOT_ZOOM = AREA_MAX_ZOOM;
-const BOOTH_FADE_ZOOM = 17.6;
-const BOOTH_ZOOM = 18;
+const BOOTH_ZOOM = 17.8;
+// 点と形のレイヤを BOOTH_ZOOM の前後で重ねて出しておき、入れ替えのフェードが途中で切れないようにする。
+const BOOTH_LAYER_MARGIN = 0.2;
 const BOOTH_DOT_RADIUS = 4.5;
 const BOOTH_NAME_ZOOM = 18.3;
 
@@ -51,20 +53,29 @@ const TENT_VIEW_BUILDING_OPACITY = 0.45;
 export const INFORMATION_COLOR = '#e8642c'; // token('colors.map.information')
 const TRASH_COLOR = '#5f9a3c'; // token('colors.map.trash')
 
-/** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤと、その不透明度。 */
-const EXTRUSION_LAYERS: Record<string, number | ExpressionSpecification> = {
-  'campus-booth-3d': 1,
-  // テントの点が形に入れ替わる間に透かしていく。
-  'campus-building-3d': [
-    'interpolate',
-    ['linear'],
-    ['zoom'],
-    BOOTH_FADE_ZOOM,
-    1,
-    BOOTH_ZOOM,
-    TENT_VIEW_BUILDING_OPACITY,
-  ],
+/** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤと、テントを形で出しているかに応じた不透明度。 */
+const EXTRUSION_LAYERS: Record<string, (tentView: boolean) => number> = {
+  'campus-booth-3d': () => 1,
+  'campus-building-3d': (tentView) =>
+    tentView ? TENT_VIEW_BUILDING_OPACITY : 1,
 };
+
+/** テントを点で出すときと形で出すときの、各レイヤの不透明度。 */
+const BOOTH_VIEW_PAINT: [
+  layer: string,
+  property: string,
+  dot: number,
+  tent: number,
+][] = [
+  ['campus-booth-dot', 'circle-opacity', 1, 0],
+  ['campus-booth-dot', 'circle-stroke-opacity', 1, 0],
+  ['campus-booth-dot-selected', 'circle-stroke-opacity', 1, 0],
+  ['campus-booth-fill', 'fill-opacity', 0, 0.85],
+  ['campus-booth-outline', 'line-opacity', 0, 1],
+  ['campus-booth-selected', 'line-opacity', 0, 1],
+  // 案内所はテントの形が見えたら、アイコンを消してテントと名前だけにする。
+  ['campus-information', 'icon-opacity', 1, 0],
+];
 /** 3D 表示では立体の色で強調・タップ判定するため隠す平面のレイヤ。 */
 const FLAT_LAYERS = [
   'campus-building-fill',
@@ -217,7 +228,7 @@ function addExtrusionLayers(map: MlMap) {
   add({
     id: 'campus-booth-3d',
     source: SOURCES.boothShapes,
-    minzoom: BOOTH_FADE_ZOOM,
+    minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
     paint: {
       'fill-extrusion-color': ['get', 'color'],
       'fill-extrusion-height': BOOTH_HEIGHT,
@@ -233,12 +244,34 @@ function addExtrusionLayers(map: MlMap) {
   });
 }
 
+/** テントを点ではなく形で出すところまで寄っているか。 */
+export function isTentView(map: MlMap): boolean {
+  return map.getZoom() >= BOOTH_ZOOM;
+}
+
+/** テントを点で出すか形で出すかを切り替える。不透明度を変えるだけなので、transition でフェードする。 */
+export function setTentView(map: MlMap, tentView: boolean) {
+  for (const [id, property, dot, tent] of BOOTH_VIEW_PAINT) {
+    if (map.getLayer(id))
+      map.setPaintProperty(id, property, tentView ? tent : dot);
+  }
+  for (const [id, opacity] of Object.entries(EXTRUSION_LAYERS)) {
+    if (map.getLayoutProperty(id, 'visibility') === 'visible') {
+      map.setPaintProperty(id, 'fill-extrusion-opacity', opacity(tentView));
+    }
+  }
+}
+
 /** 立体の表示/非表示を切り替え、平面の建物・テントはその逆にする。 */
 export function setExtrusionVisible(map: MlMap, visible: boolean) {
   for (const [id, opacity] of Object.entries(EXTRUSION_LAYERS)) {
     map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
     // 非表示の間に 0 へ戻しておき、表示したときに transition でふわっと出す。
-    map.setPaintProperty(id, 'fill-extrusion-opacity', visible ? opacity : 0);
+    map.setPaintProperty(
+      id,
+      'fill-extrusion-opacity',
+      visible ? opacity(isTentView(map)) : 0,
+    );
   }
   for (const id of FLAT_LAYERS) {
     map.setLayoutProperty(id, 'visibility', visible ? 'none' : 'visible');
@@ -455,39 +488,18 @@ export function addCampusLayers(map: MlMap) {
     },
   });
 
-  // 点からテントの形へ、BOOTH_FADE_ZOOM〜BOOTH_ZOOM の間で入れ替える。
-  const fadeIn = (to: number): ExpressionSpecification => [
-    'interpolate',
-    ['linear'],
-    ['zoom'],
-    BOOTH_FADE_ZOOM,
-    0,
-    BOOTH_ZOOM,
-    to,
-  ];
-  const fadeOut: ExpressionSpecification = [
-    'interpolate',
-    ['linear'],
-    ['zoom'],
-    BOOTH_FADE_ZOOM,
-    1,
-    BOOTH_ZOOM,
-    0,
-  ];
-
+  // 点とテントの形の不透明度は setTentView で決める。
   map.addLayer({
     id: 'campus-booth-dot',
     type: 'circle',
     source: SOURCES.booths,
     minzoom: BOOTH_DOT_ZOOM,
-    maxzoom: BOOTH_ZOOM,
+    maxzoom: BOOTH_ZOOM + BOOTH_LAYER_MARGIN,
     paint: {
       'circle-color': ['get', 'color'],
       'circle-radius': BOOTH_DOT_RADIUS,
       'circle-stroke-color': WHITE,
       'circle-stroke-width': 1.5,
-      'circle-opacity': fadeOut,
-      'circle-stroke-opacity': fadeOut,
     },
   });
   map.addLayer({
@@ -496,13 +508,12 @@ export function addCampusLayers(map: MlMap) {
     source: SOURCES.booths,
     filter: ['in', ['get', 'booth'], ['literal', []]],
     minzoom: BOOTH_DOT_ZOOM,
-    maxzoom: BOOTH_ZOOM,
+    maxzoom: BOOTH_ZOOM + BOOTH_LAYER_MARGIN,
     paint: {
       'circle-color': 'transparent',
       'circle-radius': BOOTH_DOT_RADIUS + 3,
       'circle-stroke-color': ACCENT_TEXT,
       'circle-stroke-width': 2.5,
-      'circle-stroke-opacity': fadeOut,
     },
   });
 
@@ -510,34 +521,25 @@ export function addCampusLayers(map: MlMap) {
     id: 'campus-booth-fill',
     type: 'fill',
     source: SOURCES.boothShapes,
-    minzoom: BOOTH_FADE_ZOOM,
-    paint: { 'fill-color': ['get', 'color'], 'fill-opacity': fadeIn(0.85) },
+    minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
+    paint: { 'fill-color': ['get', 'color'] },
   });
   map.addLayer({
     id: 'campus-booth-outline',
     type: 'line',
     source: SOURCES.boothShapes,
-    minzoom: BOOTH_FADE_ZOOM,
-    paint: {
-      'line-color': WHITE,
-      'line-width': 1.2,
-      'line-opacity': fadeIn(1),
-    },
+    minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
+    paint: { 'line-color': WHITE, 'line-width': 1.2 },
   });
   map.addLayer({
     id: 'campus-booth-selected',
     type: 'line',
     source: SOURCES.boothShapes,
     filter: ['in', ['get', 'booth'], ['literal', []]],
-    minzoom: BOOTH_FADE_ZOOM,
-    paint: {
-      'line-color': ACCENT_TEXT,
-      'line-width': 3,
-      'line-opacity': fadeIn(1),
-    },
+    minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
+    paint: { 'line-color': ACCENT_TEXT, 'line-width': 3 },
   });
   // 案内所はエリア全体から目印になるよう引いた段階から、ゴミ箱は数が多いため寄ってから出す。
-  // 案内所はテントの形が見えるところまで寄ったら、アイコンを消してテントと名前だけにする。
   for (const [kind, minzoom] of [
     ['information', AREA_MAX_ZOOM],
     ['trash', DETAIL_ZOOM],
@@ -567,10 +569,7 @@ export function addCampusLayers(map: MlMap) {
         'text-offset': [0, 1],
         'text-max-width': 10,
       },
-      paint: {
-        ...textPaint,
-        ...(kind === 'information' && { 'icon-opacity': fadeOut }),
-      },
+      paint: textPaint,
     });
   }
 
