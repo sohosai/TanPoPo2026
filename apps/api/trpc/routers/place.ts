@@ -368,7 +368,7 @@ export const places: Place[] = [
   },
   {
     id: 'info-kaikan',
-    name: '大学会館案内所',
+    name: '大学会館エリア案内所',
     kind: 'information',
     point: [140.1022471, 36.1056821],
   },
