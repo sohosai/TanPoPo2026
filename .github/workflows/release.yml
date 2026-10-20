@@ -1,0 +1,96 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'リリースバージョン (3桁: 例 1.0.0)'
+        required: true
+        type: string
+
+concurrency:
+  group: release-prod
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate version
+        id: version
+        run: |
+          RAW_VERSION="${{ github.event.inputs.version }}"
+          # 3桁のセマンティックバージョン（例: 1.0.0 または v1.0.0）か検証
+          if [[ ! "$RAW_VERSION" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::バージョンは3桁の形式（例: 1.0.0）で指定してください。"
+            exit 1
+          fi
+          TAG="v${RAW_VERSION#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          # 既に同じタグが存在しないか確認
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "::error::タグ $TAG は既に存在します。別のバージョンを指定してください。"
+            exit 1
+          fi
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - run: bun install --frozen-lockfile
+
+      - name: Prepare styled-system
+        run: bun run --cwd apps/web prepare
+
+      - name: Build
+        run: bun run build
+        env:
+          VITE_MAPTILER_KEY: ${{ secrets.VITE_MAPTILER_KEY }}
+          SOS_API_URL: ${{ secrets.SOS_API_URL }}
+          VITE_GA_MEASUREMENT_ID: G-JCTHXK7DXT
+
+      - name: Apply DB Migrations
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/api
+          command: d1 migrations apply DB --env prod --remote
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/api
+          command: deploy --env prod
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --generate-notes \
+            --target "${{ github.sha }}"
+
+      - name: Output Release Summary
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          echo "## 🚀 本番リリース完了: $TAG" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "リリースページ: [${TAG}](${{ github.server_url }}/${{ github.repository }}/releases/tag/${TAG})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### マージされた機能・変更内容" >> $GITHUB_STEP_SUMMARY
+          gh release view "$TAG" --json body -q .body >> $GITHUB_STEP_SUMMARY
