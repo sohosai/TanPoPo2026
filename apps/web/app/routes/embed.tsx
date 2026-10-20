@@ -29,7 +29,7 @@ export const meta: Route.MetaFunction = () => [
 /**
  * 他サイトの iframe に埋め込む地図。URL はアプリ本体の URL の先頭に /embed を付けたもので、
  * 企画・場所・エリアのページに当たる URL ならそこへ寄せる。
- * `?highlight=trash` を付けると、ゴミ箱だけを強調して全ゴミ箱が収まるように表示する。
+ * `?highlight=trash` を付けると、ごみ箱だけを強調して全ごみ箱が収まるように表示する。
  */
 export default function Embed() {
   const appPath = toAppPath(useLocation().pathname);
@@ -40,7 +40,7 @@ export default function Embed() {
     <MapProvider>
       <MapView />
       <CampusLayers highlightKind={highlightTrash ? 'trash' : undefined} />
-      {/* ゴミ箱の強調中は、ステージの吹き出しで地図を覆わない。 */}
+      {/* ごみ箱の強調中は、ステージの吹き出しで地図を覆わない。 */}
       {!highlightTrash && <MapCallouts />}
       <MapControls />
       <Focus appPath={appPath} />
@@ -77,7 +77,7 @@ export default function Embed() {
   );
 }
 
-/** すべてのゴミ箱が収まるところまで寄る。 */
+/** すべてのごみ箱が収まるところまで寄る。 */
 function FitTrash() {
   const { fitBounds } = useMap();
   const { places } = usePlaces();
