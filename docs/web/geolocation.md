@@ -27,7 +27,7 @@ Web ページから位置情報を許可することはできず、ブラウザ�
 
 ## アプリ内ブラウザ
 
-LINE・Instagram・Facebook・X・TikTok、Android の WebView で開かれているときは、ダイアログに標準ブラウザで開き直す案内を出す。
+LINE・Instagram・Facebook・X・TikTok・SmartNews・Slack・Discord・Yahoo! JAPAN、Android の WebView で開かれているときは、ダイアログに標準ブラウザで開き直す案内を出す。
 
 - LINE: URL に `openExternalBrowser=1` を付けて開き直す
 - Android: `intent://` で Chrome を開く
