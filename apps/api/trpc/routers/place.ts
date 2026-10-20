@@ -416,52 +416,46 @@ export const places: Place[] = [
     point: [140.1058889, 36.1000008],
   },
 
-  // ---- ゴミ箱（屋外配置図の位置） ----
+  // ---- ごみ箱（屋外配置図の位置） ----
   {
     id: 'trash-2-3-sunny',
-    name: 'ゴミ箱',
+    name: 'ごみ箱',
     kind: 'trash',
     point: [140.1014062, 36.1103633],
   },
   {
     id: 'trash-ishi',
-    name: 'ゴミ箱',
+    name: 'ごみ箱',
     kind: 'trash',
     point: [140.1020905, 36.1097069],
   },
   {
     id: 'trash-library',
-    name: 'ゴミ箱',
+    name: 'ごみ箱',
     kind: 'trash',
     point: [140.1018991, 36.1090672],
   },
   {
     id: 'trash-1-sunny',
-    name: 'ゴミ箱',
+    name: 'ごみ箱',
     kind: 'trash',
     point: [140.1021697, 36.1083743],
   },
   {
-    id: 'trash-1-rainy',
-    name: 'ゴミ箱',
-    kind: 'trash',
-    point: [140.1026599, 36.1082421],
-  },
-  {
     id: 'trash-matsumi',
-    name: 'ゴミ箱',
+    name: 'ごみ箱',
     kind: 'trash',
     point: [140.1021404, 36.1079871],
   },
   {
     id: 'trash-kaikan',
-    name: 'ゴミ箱',
+    name: 'ごみ箱',
     kind: 'trash',
     point: [140.1027139, 36.1054642],
   },
   {
     id: 'trash-taigei',
-    name: 'ゴミ箱',
+    name: 'ごみ箱',
     kind: 'trash',
     point: [140.1030967, 36.1034724],
   },
