@@ -17,7 +17,8 @@
     "merge:osm": "bun run scripts/merge-osm.ts",
     "clean": "turbo run clean && rm -rf .turbo",
     "format": "biome format . --write",
-    "ci": "bun run format:check && bun run check && bun run check:map-data",
+    "test": "bun test",
+    "ci": "bun run format:check && bun run check && bun run check:map-data && bun test",
     "db:migrate": "bun run --cwd apps/api db:migrate",
     "deploy": "bun run build && bun run --cwd apps/api deploy",
     "format:check": "biome format ."

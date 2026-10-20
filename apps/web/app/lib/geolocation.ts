@@ -65,10 +65,14 @@ export function markGeolocationIntroSeen(): void {
 
 const IN_APP_BROWSERS: [RegExp, string][] = [
   [/\bLine\//i, 'LINE'],
-  [/Instagram/, 'Instagram'],
-  [/FBAN|FBAV|FB_IAB/, 'Facebook'],
-  [/Twitter/, 'X'],
+  [/Instagram/i, 'Instagram'],
+  [/FBAN|FBAV|FB_IAB|Messenger/i, 'Facebook'],
+  [/Twitter|Tweetbot/i, 'X'],
   [/BytedanceWebview|musical_ly|TikTok/i, 'TikTok'],
+  [/SmartNews/i, 'SmartNews'],
+  [/Slack/i, 'Slack'],
+  [/Discord/i, 'Discord'],
+  [/YJApp/i, 'Yahoo! JAPAN'],
 ];
 
 export function isIos(ua: string): boolean {
@@ -83,8 +87,7 @@ export function isIos(ua: string): boolean {
  * SNS などのアプリ内ブラウザで開かれていれば、そのアプリ名を返す。
  * アプリ内ブラウザは位置情報を使えないか、許可の設定場所が分かりにくいことが多い。
  */
-export function detectInAppBrowser(): string | null {
-  const ua = navigator.userAgent;
+export function detectInAppBrowser(ua = navigator.userAgent): string | null {
   const found = IN_APP_BROWSERS.find(([pattern]) => pattern.test(ua));
   if (found) return found[1];
   // Android の WebView は UA に `; wv)` を含む。
@@ -121,34 +124,87 @@ export async function openInExternalBrowser(): Promise<
 const RELOAD_STEP = 'ページを再読み込み';
 
 const IOS_OTHER_BROWSERS: [RegExp, string][] = [
-  [/CriOS/, 'Chrome'],
-  [/FxiOS/, 'Firefox'],
-  [/EdgiOS/, 'Edge'],
+  [/CriOS/i, 'Chrome'],
+  [/FxiOS/i, 'Firefox'],
+  [/EdgiOS/i, 'Edge'],
+  [/Brave/i, 'Brave'],
+  [/OPiOS|OPT\//i, 'Opera'],
+  [/DuckDuckGo|DDB\//i, 'DuckDuckGo'],
+  [/Vivaldi/i, 'Vivaldi'],
+  [/ArcMobile|Arc\//i, 'Arc'],
+  [/Sleipnir/i, 'Sleipnir'],
+  [/YJApp|YahooMobile/i, 'Yahoo! JAPAN'],
+  [/AlohaBrowser/i, 'Aloha'],
+  [/Ecosia/i, 'Ecosia'],
+  [/Focus/i, 'Firefox Focus'],
 ];
+
+function isBrave(ua: string): boolean {
+  if (/Brave/i.test(ua)) return true;
+  if (
+    typeof navigator !== 'undefined' &&
+    'brave' in navigator &&
+    Boolean((navigator as { brave?: unknown }).brave)
+  ) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * 純正 Safari かどうかを判定する。
+ * サードパーティブラウザは WebKit ベースでも独自の識別子を含む。
+ */
+function isSafari(ua: string): boolean {
+  if (!/Safari/.test(ua) || !/Version\//.test(ua)) return false;
+  if (isBrave(ua)) return false;
+  const otherBrowsers =
+    /Chrome|Chromium|Edg|CriOS|FxiOS|Firefox|OPR|OPiOS|OPT\/|Vivaldi|DuckDuckGo|DDB\/|Arc|Sleipnir|YJApp|YahooMobile|AlohaBrowser|Ecosia|Focus/i;
+  return !otherBrowsers.test(ua);
+}
 
 function iosSteps(ua: string): string[] {
   const locationServices =
     '設定 →「プライバシーとセキュリティ」→「位置情報サービス」をオン';
   const other = IOS_OTHER_BROWSERS.find(([pattern]) => pattern.test(ua));
-  if (other) {
+  const browserName = other?.[1] ?? (isBrave(ua) ? 'Brave' : null);
+
+  if (browserName) {
     return [
-      `設定 →「${other[1]}」→「位置情報」を「このAppの使用中」に`,
+      `設定 →「${browserName}」→「位置情報」を「このAppの使用中」に`,
       locationServices,
       RELOAD_STEP,
     ];
   }
+
+  if (isSafari(ua)) {
+    return [
+      'アドレスバーの「ぁあ」→「Webサイトの設定」→「位置情報」を「許可」に',
+      `${locationServices}にし、「Safari Webサイト」を「使用中のみ」に`,
+      RELOAD_STEP,
+    ];
+  }
+
+  // リストに無いサードパーティ製ブラウザの場合、誤って Safari の案内を出さず汎用的に誘導する。
   return [
-    'アドレスバーの「ぁあ」→「Webサイトの設定」→「位置情報」を「許可」に',
-    `${locationServices}にし、「Safari Webサイト」を「使用中のみ」に`,
+    '設定 →「お使いのブラウザ」→「位置情報」を「このAppの使用中」に',
+    locationServices,
     RELOAD_STEP,
   ];
 }
 
+function androidSteps(ua: string): string[] {
+  const browserStep = /Firefox/i.test(ua)
+    ? 'アドレスバーの鍵アイコン →「権限」→「位置情報」を許可'
+    : 'アドレスバー左のアイコン →「権限」→「位置情報」を許可';
+  return [browserStep, '端末の「位置情報」をオン', RELOAD_STEP];
+}
+
 function desktopSteps(ua: string): string[] {
   const isMac = /Macintosh/.test(ua);
-  const browserStep = /Firefox/.test(ua)
+  const browserStep = /Firefox/i.test(ua)
     ? 'アドレスバーの位置情報アイコン →「ブロック」を解除'
-    : isMac && /Safari/.test(ua) && !/Chrome|Chromium|Edg\//.test(ua)
+    : isMac && isSafari(ua)
       ? '「Safari」→「設定」→「Webサイト」→「位置情報」で「許可」に'
       : 'アドレスバー左のアイコン →「位置情報」を「許可」に';
   // ブラウザで許可していても、OS 側で位置情報が切られていると取得に失敗する。
@@ -161,15 +217,8 @@ function desktopSteps(ua: string): string[] {
 }
 
 /** ブラウザで拒否された位置情報を許可し直す手順。端末とブラウザに合わせて出し分ける。 */
-export function permissionSteps(): string[] {
-  const ua = navigator.userAgent;
+export function permissionSteps(ua = navigator.userAgent): string[] {
   if (isIos(ua)) return iosSteps(ua);
-  if (/Android/.test(ua)) {
-    return [
-      'アドレスバー左のアイコン →「権限」→「位置情報」を許可',
-      '端末の「位置情報」をオン',
-      RELOAD_STEP,
-    ];
-  }
+  if (/Android/.test(ua)) return androidSteps(ua);
   return desktopSteps(ua);
 }
