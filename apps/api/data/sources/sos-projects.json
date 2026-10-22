@@ -438,7 +438,7 @@
     "publicInfo": {
       "description": "「つくメモ〜つくばの思い出教えてください〜」を実施！つくばの思い出を記入すると、そぽたんとフックン船長柄の缶バッジが当たるカプセルトイを回せます。過去のフリーペーパーも配布予定！\n公式noteでは、筑波大生や卒業生へのインタビュー記事、現役筑波大生に行ったアンケート結果などを発信中。ぜひお立ち寄りください！",
       "websiteUrls": [
-        "https://www.city.tsukuba.lg.jp/notfound.html",
+        "https://www.city.tsukuba.lg.jp/tsukumemo/index.html",
         "https://note.com/sohosai_city"
       ],
       "xIds": [],
@@ -643,7 +643,7 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": "🌞 SUN基地 🌞\n「一口かじれば、ふわっと昇天。」\n\n国産素材＆専門店直仕入れの\n自慢のつくねを焼きたてでご提供します🔥\n\n味は\n秘伝のタレ / 塩 の2種類！\n1本 200円\nSUN本セット（3本）500円\n\n最高の「ととのう」経験をご堪能ください！",
+      "description": "🌞 SUN基地 🌞\n「一口かじれば、ふわっと昇天。」\n\n国産素材＆専門店直仕入れの\n自慢のつくねを焼きたてでご提供します🔥\n\n味は\n秘伝のタレ / 塩 の2種類！\n1本 250円\nSUN本セット（3本）600円\n\n最高の「ととのう」経験をご堪能ください！",
       "websiteUrls": [],
       "xIds": [],
       "instagramIds": ["sun_1010no1"],
@@ -1330,7 +1330,7 @@
     "publicInfo": {
       "description": "筑波大学落語研究会です。私たちは、「筑大寄席２０２６」という企画名にあるように、雙峰祭本番の10月31日、11月1日の両日寄席を行います。落語研究会の会員たちが落語や漫才などを披露します！木戸銭は無料、自由に出入りしてOKです！どなたでも気軽に立ち寄っていただけると嬉しいです！会員一同皆様のご来場をお待ちしています！",
       "websiteUrls": [],
-      "xIds": ["114139512"],
+      "xIds": ["TsukubaOchiken"],
       "instagramIds": ["tsuku__mochi"],
       "youtubeIds": []
     }
