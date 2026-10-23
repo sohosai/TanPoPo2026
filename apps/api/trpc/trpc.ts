@@ -1,12 +1,12 @@
 import { initTRPC, TRPCError } from '@trpc/server';
-import { LINE_LOGIN_ENABLED } from '../domain/features';
+import { isLineLoginEnabled } from '../domain/features';
 import type { TRPCContext } from './context';
 
 export const t = initTRPC.context<TRPCContext>().create();
 
 /** LINE ログインを使う機能のプロシージャ。LINE ログインが無効なら NOT_FOUND を投げる。 */
-export const lineProcedure = t.procedure.use(({ next }) => {
-  if (!LINE_LOGIN_ENABLED) {
+export const lineProcedure = t.procedure.use(({ ctx, next }) => {
+  if (!isLineLoginEnabled(ctx.env)) {
     throw new TRPCError({ code: 'NOT_FOUND' });
   }
   return next();
