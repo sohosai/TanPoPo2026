@@ -1,0 +1,53 @@
+name: Reset zoo DB
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'zoo の D1 の全データを消します。実行するなら "reset" と入力'
+        required: true
+
+concurrency:
+  group: reset-zoo-db
+  cancel-in-progress: false
+
+jobs:
+  reset:
+    if: inputs.confirm == 'reset'
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - run: bun install --frozen-lockfile
+
+      # d1_migrations も消し、マイグレーションを最初から当て直せるようにする。
+      # sqlite_* と _cf_* は D1 の内部テーブルで、消せない。
+      - name: Drop all tables
+        run: |
+          tables=$(bunx wrangler d1 execute DB --env zoo --remote --json \
+            --command "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%'" \
+            | jq -r '.[0].results[].name')
+          if [ -z "$tables" ]; then
+            echo "No tables to drop"
+            exit 0
+          fi
+          {
+            # 外部キーの参照順を気にせず消せるよう、検査をトランザクションの終わりまで遅らせる。
+            echo 'PRAGMA defer_foreign_keys = on;'
+            for t in $tables; do echo "DROP TABLE IF EXISTS \"$t\";"; done
+          } > "$RUNNER_TEMP/drop.sql"
+          cat "$RUNNER_TEMP/drop.sql"
+          bunx wrangler d1 execute DB --env zoo --remote --file "$RUNNER_TEMP/drop.sql"
+
+      - name: Apply DB Migrations
+        run: bunx wrangler d1 migrations apply DB --env zoo --remote
