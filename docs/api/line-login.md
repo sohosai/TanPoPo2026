@@ -6,16 +6,17 @@ Web と API は同一オリジンで配信される（本番は同じ Worker、�
 
 ## 機能の有効・無効
 
-LINE ログインと、それを使う機能（グランプリ投票・来場者アンケート）は、`apps/api/domain/features.ts` の定数 `LINE_LOGIN_ENABLED` でまとめて切り替える。API と Web の両方がこの定数を見るため、書き換えてデプロイすれば両方がそろって切り替わる。
+LINE ログインと、それを使う機能（グランプリ投票・来場者アンケート）は、API の環境変数 `LINE_LOGIN_ENABLED` でまとめて切り替える。`true` のときだけ有効になり、未設定やそれ以外の値なら無効になる。Web はビルドに値を持たず、tRPC の `auth.enabled` で API の状態を取得して表示を切り替える。そのため Worker の環境変数を変えるだけで、再ビルドせずに両方がそろって切り替わる。
 
-| 側 | 無効（`false`）のとき |
+| 側 | 無効のとき |
 | --- | --- |
-| API | `/auth/*` は 404。tRPC の `auth.*`・`grandprix.*`・`questionnaire.*` は `NOT_FOUND`。セッションの Cookie も読まない |
+| API | `/auth/*` は 404。tRPC の `auth.me`・`grandprix.*`・`questionnaire.*` は `NOT_FOUND`。セッションの Cookie も読まない |
 | Web | 企画一覧の先頭のグランプリ投票・来場者アンケートの導線を出さない。`/grandprix`・`/questionnaire` は「現在準備中です」の案内になる（404 のページと同じデザイン。`apps/web/app/components/layouts/StatusPage/StatusPage.tsx` の `ComingSoonPage`） |
 
-- 雙峰祭の当日に `true` にしてデプロイし、公開する想定。
+- 雙峰祭の当日に `true` にして公開する想定。
+- Web は `auth.enabled` を取得できないとき（オフラインなど）も無効として扱う。
 - 無効にしてもデータベース（`users`・`sessions`・投票・アンケートのテーブル）と LINE のチャネル設定（`LINE_CHANNEL_*`）はそのまま残る。有効に戻せば、それまでのデータとログイン中のセッションを引き続き使える。
-- 実装: API は `apps/api/index.ts`（`/auth/*` を塞ぐ）と `apps/api/trpc/trpc.ts` の `lineProcedure`（`protectedProcedure` もこれを通る）。Web は `apps/web/app/lib/auth.ts` が同じ定数を読み出す。
+- 実装: API は `apps/api/index.ts`（`/auth/*` を塞ぐ）と `apps/api/trpc/trpc.ts` の `lineProcedure`（`protectedProcedure` もこれを通る）。判定は `apps/api/domain/features.ts` の `isLineLoginEnabled`。Web は `apps/web/app/lib/auth.ts` の `fetchLineLoginEnabled`（`/grandprix`・`/questionnaire` の `clientLoader`）と `useLineLoginEnabled`（企画一覧の導線）で取得する。
 
 ## フロー
 
@@ -34,7 +35,7 @@ LINE ログインと、それを使う機能（グランプリ投票・来場者
 - `apps/api/auth/session.ts` — セッションの作成/検証/破棄
 - `apps/api/auth/routes.ts` — `/auth/line/login` `/auth/line/callback` `/auth/logout` のHonoルート
 - `apps/api/trpc/context.ts` / `apps/api/trpc/trpc.ts` — セッションをtRPCコンテキストに解決し、`protectedProcedure` でログイン必須のプロシージャを作る
-- `apps/api/trpc/routers/auth.ts` — `auth.me`(ログイン状態確認。未ログイン時は `null`）
+- `apps/api/trpc/routers/auth.ts` — `auth.enabled`（LINE ログインが有効か）と `auth.me`(ログイン状態確認。未ログイン時は `null`）
 
 ## Web側の利用方法
 

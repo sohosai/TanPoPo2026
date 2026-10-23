@@ -9,6 +9,7 @@ export type AppEnv = {
   GRANDPRIX_WIN_RATE: string;
   HIDDEN_PROJECT_NUMBERS?: string;
   GRANDPRIX_HIDDEN_PROJECT_NUMBERS?: string;
+  LINE_LOGIN_ENABLED?: string;
   LINE_CHANNEL_ID: string;
   LINE_CHANNEL_SECRET: string;
   LINE_CALLBACK_URL: string;

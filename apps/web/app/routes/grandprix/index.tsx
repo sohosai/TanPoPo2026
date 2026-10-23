@@ -7,19 +7,23 @@ import {
   statusPageLinks,
   statusPageMeta,
 } from '~/components/layouts/StatusPage/StatusPage';
-import { LINE_LOGIN_ENABLED } from '~/lib/auth';
+import { fetchLineLoginEnabled } from '~/lib/auth';
 import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
 import type { Route } from './+types/index';
 
-// LINE ログインを無効にしたビルド（雙峰祭の当日まで）では、準備中の案内を出す。
-export const meta: Route.MetaFunction = () =>
-  LINE_LOGIN_ENABLED
+export const clientLoader = async () => ({
+  lineLoginEnabled: await fetchLineLoginEnabled(),
+});
+
+// LINE ログインをサーバーで無効にしている間（雙峰祭の当日まで）は、準備中の案内を出す。
+export const meta: Route.MetaFunction = ({ loaderData }) =>
+  loaderData?.lineLoginEnabled
     ? [{ title: '雙峰祭グランプリ | 雙峰祭 企画検索システム' }]
     : statusPageMeta('雙峰祭グランプリ投票は準備中です');
 
-export const links: Route.LinksFunction = () =>
-  LINE_LOGIN_ENABLED ? [] : statusPageLinks;
+// links は loaderData を受け取れないため、準備中の案内のフォントは常に読む。
+export const links: Route.LinksFunction = () => statusPageLinks;
 
 function GrandprixContent() {
   const { data: status, status: queryStatus } =
@@ -48,8 +52,8 @@ function GrandprixContent() {
   return <GrandprixForm onSubmitted={(r) => setLocalResult(r)} />;
 }
 
-export default function GrandprixRoute() {
-  return LINE_LOGIN_ENABLED ? (
+export default function GrandprixRoute({ loaderData }: Route.ComponentProps) {
+  return loaderData.lineLoginEnabled ? (
     <GrandprixPage />
   ) : (
     <ComingSoonPage title="グランプリ投票" />

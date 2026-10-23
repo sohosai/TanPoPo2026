@@ -1,6 +1,6 @@
 import { getSessionUser, type SessionUser } from '../auth/session';
 import { createDb, type Database } from '../db/client';
-import { LINE_LOGIN_ENABLED } from '../domain/features';
+import { isLineLoginEnabled } from '../domain/features';
 import type { AppEnv } from '../env';
 import { getSosClient, type SosClient } from '../services/sos';
 
@@ -21,6 +21,8 @@ export async function createTRPCContext(
     db,
     sos: getSosClient(env.SOS_API_URL, env.HIDDEN_PROJECT_NUMBERS),
     // LINE ログインを無効にしている間は、残っているセッションの Cookie も読まない。
-    user: LINE_LOGIN_ENABLED ? await getSessionUser(db, sessionToken) : null,
+    user: isLineLoginEnabled(env)
+      ? await getSessionUser(db, sessionToken)
+      : null,
   };
 }
