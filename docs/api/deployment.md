@@ -42,6 +42,10 @@ Web のビルド → 本番 D1 へのマイグレーション適用（`wrangler 
 
 CI から実行する場合は、環境変数 `CLOUDFLARE_API_TOKEN`（Workers Scripts と D1 の編集権限）と `CLOUDFLARE_ACCOUNT_ID`、Web のビルド用に `VITE_MAPTILER_KEY` を渡す。
 
+## zoo のデータベースのリセット
+
+GitHub Actions の「Reset zoo DB」（`.github/workflows/reset-zoo-db.yml`）を手動で実行する。確認の入力欄に `reset` と入力したときだけ動く。zoo の D1 のテーブルを `d1_migrations` も含めてすべて消し、マイグレーションを最初から当て直す。ユーザー・セッション・投票・アンケートのデータはすべて消える。
+
 ## 注意点
 
 - Windows では `wrangler dev` の実行中に `apps/web` をビルドすると、`build/client` がロックされて削除に失敗する。ビルド前に `wrangler dev` を止める。
