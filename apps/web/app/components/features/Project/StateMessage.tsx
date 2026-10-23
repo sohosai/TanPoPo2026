@@ -1,21 +1,17 @@
-import {
-  IconHeartOff,
-  IconSearchOff,
-  type TablerIcon,
-} from '@tabler/icons-react';
+import type { ReactNode } from 'react';
 import { css } from '../../../../styled-system/css';
+import { FluffDrift } from '../Fluff/Fluff';
 
 /** 読み込み中・エラー・該当なしなどの全画面状態を表す共通表示。 */
 export function StateMessage({
-  icon: Icon,
+  icon,
   title,
   description,
-  spinning = false,
 }: {
-  icon: TablerIcon;
+  /** 丸の中に置く 30px 前後のアイコン */
+  icon: ReactNode;
   title: string;
   description?: string;
-  spinning?: boolean;
 }) {
   return (
     <div
@@ -42,12 +38,7 @@ export function StateMessage({
           color: 'accent',
         })}
       >
-        <Icon
-          size={30}
-          className={
-            spinning ? css({ animation: 'spin 1s linear infinite' }) : undefined
-          }
-        />
+        {icon}
       </span>
       <p
         className={css({
@@ -78,13 +69,13 @@ export function StateMessage({
 export function NoProjectsMessage({ favoriteOnly }: { favoriteOnly: boolean }) {
   return favoriteOnly ? (
     <StateMessage
-      icon={IconHeartOff}
+      icon={<FluffDrift size={30} />}
       title="いいねした企画がありません"
       description={'ハートを押してお気に入りに追加すると\nここに表示されます。'}
     />
   ) : (
     <StateMessage
-      icon={IconSearchOff}
+      icon={<FluffDrift size={30} />}
       title="企画が見つかりませんでした"
       description={
         'キーワードを変えるか、絞り込み条件を\nゆるめてもう一度お試しください。'
