@@ -153,6 +153,18 @@
       {
         "src": "/projects/goods/image-1280.webp",
         "srcSet": "/projects/goods/image-640.webp 640w, /projects/goods/image-1280.webp 1280w"
+      },
+      {
+        "src": "/projects/goods/image-2-1280.webp",
+        "srcSet": "/projects/goods/image-2-640.webp 640w, /projects/goods/image-2-1280.webp 1280w"
+      },
+      {
+        "src": "/projects/goods/image-3-1280.webp",
+        "srcSet": "/projects/goods/image-3-640.webp 640w, /projects/goods/image-3-1280.webp 1280w"
+      },
+      {
+        "src": "/projects/goods/image-4-1280.webp",
+        "srcSet": "/projects/goods/image-4-640.webp 640w, /projects/goods/image-4-1280.webp 1280w"
       }
     ]
   }
