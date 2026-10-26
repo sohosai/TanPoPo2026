@@ -456,11 +456,11 @@
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "累計販売本数10万本を突破した人気ゲームを公認ミュージカル化！\n\n「つくば時間」が流れる筑波大学で、「永遠」の時が流れるファミレスを舞台にした物語をお届けします。\n\n原作にも登場するドリンクを片手にぜひご鑑賞ください🌛🥄",
       "websiteUrls": ["https://essassa.jimdofree.com/"],
-      "xIds": ["essassa_musical", "__ESSASSAdaily"],
+      "xIds": ["essassa_musical", "___ESSASSAdaily"],
       "instagramIds": ["essassa_musicalcompany"],
-      "youtubeIds": ["essassa5359"]
+      "youtubeIds": ["essassa6447"]
     }
   },
   {
