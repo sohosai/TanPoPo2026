@@ -3,14 +3,14 @@ import { useEffect, useMemo } from 'react';
 import { matchPath, useLocation, useSearchParams } from 'react-router';
 import CampusLayers from '~/components/features/Map/CampusLayers';
 import { findCampusArea } from '~/components/features/Map/campusData';
-import { ringBounds } from '~/components/features/Map/geo';
 import { AREA_MAX_ZOOM } from '~/components/features/Map/campusStyle';
+import { ringBounds } from '~/components/features/Map/geo';
+import MapCallouts from '~/components/features/Map/MapCallouts';
 import {
   MapProvider,
   placeFocusZoom,
   useMap,
 } from '~/components/features/Map/MapController';
-import MapCallouts from '~/components/features/Map/MapCallouts';
 import MapControls from '~/components/features/Map/MapControls';
 import MapView from '~/components/features/Map/MapView';
 import { useProjectFocus } from '~/components/features/Map/useProjectFocus';
@@ -29,22 +29,27 @@ export const meta: Route.MetaFunction = () => [
 /**
  * 他サイトの iframe に埋め込む地図。URL はアプリ本体の URL の先頭に /embed を付けたもので、
  * 企画・場所・エリアのページに当たる URL ならそこへ寄せる。
- * `?highlight=trash` を付けると、ゴミ箱だけを強調して全ゴミ箱が収まるように表示する。
+ * `?highlight=trash`（ゴミ箱）か `?highlight=information`（案内所）を付けると、その種類の場所だけを強調し、
+ * すべてが収まるように表示する。
  */
 export default function Embed() {
   const appPath = toAppPath(useLocation().pathname);
   const [searchParams] = useSearchParams();
-  const highlightTrash = searchParams.get('highlight') === 'trash';
+  const highlight = searchParams.get('highlight');
+  const highlightKind =
+    highlight === 'trash' || highlight === 'information'
+      ? highlight
+      : undefined;
 
   return (
     <MapProvider>
       <MapView />
-      <CampusLayers highlightKind={highlightTrash ? 'trash' : undefined} />
-      {/* ゴミ箱の強調中は、ステージの吹き出しで地図を覆わない。 */}
-      {!highlightTrash && <MapCallouts />}
+      <CampusLayers highlightKind={highlightKind} />
+      {/* 強調中は、ステージの吹き出しで地図を覆わない。 */}
+      {!highlightKind && <MapCallouts />}
       <MapControls />
       <Focus appPath={appPath} />
-      {highlightTrash && <FitTrash />}
+      {highlightKind && <FitKind kind={highlightKind} />}
       <a
         href={appPath}
         target="_blank"
@@ -77,16 +82,16 @@ export default function Embed() {
   );
 }
 
-/** すべてのゴミ箱が収まるところまで寄る。 */
-function FitTrash() {
+/** 種類が `kind` の場所すべてが収まるところまで寄る。 */
+function FitKind({ kind: target }: { kind: 'information' | 'trash' }) {
   const { fitBounds } = useMap();
   const { places } = usePlaces();
   const bounds = useMemo(() => {
     const points = places.flatMap(({ kind, point }) =>
-      kind === 'trash' ? [point] : [],
+      kind === target ? [point] : [],
     );
     return points.length > 0 ? ringBounds(points) : undefined;
-  }, [places]);
+  }, [places, target]);
   useEffect(() => {
     if (bounds) fitBounds(bounds);
   }, [bounds, fitBounds]);
