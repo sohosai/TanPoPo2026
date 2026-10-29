@@ -55,7 +55,7 @@ const submitInputSchema = z.object({
     .refine((ids) => new Set(ids).size === ids.length, {
       message: '同じ企画に複数回投票することはできません',
     }),
-  // ステージ部門: ステージごとに1企画まで。どこか1つのステージに投票すればよい。
+  // ステージ部門: 任意。ステージごとに1企画まで。
   stageProjectIds: z.array(z.string()).max(grandprixStages.length),
   isTsukubaStudent: z.boolean(),
 });
@@ -102,14 +102,10 @@ export const grandprixRouter = t.router({
       .input(submitInputSchema)
       .mutation(async ({ ctx, input }) => {
         // クライアント側のボタンdisableだけに頼らず、サーバー側でも必ず再検証する。
-        if (
-          input.generalProjectIds.length < 1 ||
-          input.stageProjectIds.length < 1
-        ) {
+        if (input.generalProjectIds.length < 1) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
-            message:
-              '一般部門は1票以上、ステージ部門はどこか1つのステージで投票してから送信してください',
+            message: '一般部門は1票以上投票してから送信してください',
           });
         }
 
@@ -167,9 +163,14 @@ export const grandprixRouter = t.router({
                 projectId,
               })),
             ),
-            db
-              .insert(grandprixStageVotes)
-              .values(stageVotes.map((vote) => ({ voteId, ...vote }))),
+            // 空の values は drizzle が拒むため、ステージ部門に投票したときだけ書き込む。
+            ...(stageVotes.length > 0
+              ? [
+                  db
+                    .insert(grandprixStageVotes)
+                    .values(stageVotes.map((vote) => ({ voteId, ...vote }))),
+                ]
+              : []),
             db
               .update(users)
               .set({ isTsukubaStudent: input.isTsukubaStudent })

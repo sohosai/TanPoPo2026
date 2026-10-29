@@ -26,6 +26,7 @@ export default function EventPageShell({
 
   return (
     <div
+      data-event-scroll
       className={css({
         height: '100%',
         overflowY: 'auto',

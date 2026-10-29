@@ -2,8 +2,8 @@ import { IconCheck } from '@tabler/icons-react';
 import type { GrandprixStage, Project } from 'api';
 import { css } from '../../../../styled-system/css';
 
-// タブは3つ横に並べるため「ステージ」を省いた短い名前にする。
-const STAGE_LABELS: Record<GrandprixStage, string> = {
+// タブやチップに並べるため「ステージ」を省いた短い名前にする。
+export const STAGE_LABELS: Record<GrandprixStage, string> = {
   '1a': '1A',
   united: 'UNITED',
   kaikan: '会館',

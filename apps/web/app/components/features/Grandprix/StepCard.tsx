@@ -1,19 +1,17 @@
-import { IconCheck } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
 import { css } from '../../../../styled-system/css';
 
-/** 設問ごとのカード。番号は回答すると ✓ に変わり、どこまで答えたかが分かる。 */
+/** 1つの設問を入れるカード。 */
 export default function StepCard({
-  step,
   title,
   description,
-  done,
+  aside,
   children,
 }: {
-  step: number;
   title: string;
   description?: string;
-  done: boolean;
+  /** 見出しの右に置く補足（票数など）。 */
+  aside?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -29,28 +27,12 @@ export default function StepCard({
         className={css({
           display: 'flex',
           alignItems: 'flex-start',
-          gap: '10px',
+          justifyContent: 'space-between',
+          gap: '12px',
           p: '20px',
           pb: '14px',
         })}
       >
-        <span
-          className={css({
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            w: '24px',
-            h: '24px',
-            borderRadius: 'full',
-            bg: done ? 'accent' : 'accent.subtle',
-            color: done ? 'surface' : 'accent.text',
-            fontSize: 'sm',
-            fontWeight: 'bold',
-          })}
-        >
-          {done ? <IconCheck size={15} stroke={3} /> : step}
-        </span>
         <div className={css({ minWidth: 0 })}>
           <h2
             className={css({
@@ -65,7 +47,7 @@ export default function StepCard({
           {description && (
             <p
               className={css({
-                mt: '2px',
+                mt: '4px',
                 fontSize: 'xs',
                 lineHeight: 1.6,
                 color: 'fg.subtle',
@@ -75,6 +57,7 @@ export default function StepCard({
             </p>
           )}
         </div>
+        {aside}
       </header>
       {children}
     </section>
@@ -98,7 +81,7 @@ export function ChoiceButton({
       onClick={onClick}
       className={css({
         flex: 1,
-        py: '10px',
+        py: '14px',
         borderRadius: 'xl',
         border: 'token(borderWidths.thin) solid',
         borderColor: active ? 'accent' : 'border',
