@@ -280,6 +280,7 @@ export const QUESTIONNAIRE_QUESTIONS: QuestionDef[] = [
       opt('パスケース', 'Pass Case'),
       opt('そぽたんの動く耳帽子', 'Sopotan Moving Ear Hat'),
       opt('ぷくぷくシール', 'Puffy Stickers'),
+      opt('わからない', "I don't know"),
     ],
   },
   {
@@ -293,6 +294,7 @@ export const QUESTIONNAIRE_QUESTIONS: QuestionDef[] = [
       opt('安いと思う', 'Cheap'),
       opt('適切だと思う', 'Reasonable / Appropriate'),
       opt('高いと思う', 'Expensive'),
+      opt('わからない', "I don't know"),
     ],
   },
   {
