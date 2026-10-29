@@ -35,7 +35,7 @@ ogpRoutes.get('/project/:number', async (c) => {
       `${project.organization}による雙峰祭の企画「${project.name}」です。`,
     DESCRIPTION_MAX_LENGTH,
   );
-  const content: Record<string, string> = {
+  return rewriteHead(html, title, {
     description,
     'og:title': title,
     'og:description': description,
@@ -43,8 +43,28 @@ ogpRoutes.get('/project/:number', async (c) => {
     'og:image': `${origin}/ogp/project/${project.number}.png`,
     'og:image:width': String(OGP_WIDTH),
     'og:image:height': String(OGP_HEIGHT),
-  };
+  });
+});
 
+ogpRoutes.get('/grandprix', async (c) => {
+  const html = await c.env.ASSETS.fetch(c.req.url);
+  const { origin } = new URL(c.req.url);
+  const title = `雙峰祭グランプリ | ${SITE_TITLE}`;
+  return rewriteHead(html, title, {
+    'og:title': title,
+    'og:url': `${origin}/grandprix`,
+    'og:image': `${origin}/ogp/grandprix-ogp.png`,
+    'og:image:width': String(OGP_WIDTH),
+    'og:image:height': String(OGP_HEIGHT),
+  });
+});
+
+/** title と、content のキーに一致する property・name の meta を書き換える。 */
+function rewriteHead(
+  html: Awaited<ReturnType<AppEnv['ASSETS']['fetch']>>,
+  title: string,
+  content: Record<string, string>,
+): Response {
   return new HTMLRewriter()
     .on('title', {
       element(element) {
@@ -60,7 +80,7 @@ ogpRoutes.get('/project/:number', async (c) => {
       },
     })
     .transform(html) as unknown as Response;
-});
+}
 
 // 上で拾わない /project/ 以下のパスは、通常どおり SPA に任せる。
 ogpRoutes.get('/project/*', (c) => fetchAsset(c.env, c.req.raw));

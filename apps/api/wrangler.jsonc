@@ -11,7 +11,13 @@
     "directory": "../web/build/client",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/trpc/*", "/auth/*", "/project/*", "/ogp/project/*"]
+    "run_worker_first": [
+      "/trpc/*",
+      "/auth/*",
+      "/project/*",
+      "/ogp/project/*",
+      "/grandprix"
+    ]
   },
   "d1_databases": [
     {
