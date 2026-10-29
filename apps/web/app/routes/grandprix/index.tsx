@@ -28,7 +28,10 @@ export const links: Route.LinksFunction = () => statusPageLinks;
 function GrandprixContent() {
   const { data: status, status: queryStatus } =
     trpc.grandprix.status.useQuery();
-  const [localResult, setLocalResult] = useState<'win' | 'lose' | null>(null);
+  const [localDraw, setLocalDraw] = useState<{
+    result: 'win' | 'lose';
+    drawnAt: string;
+  } | null>(null);
 
   if (queryStatus === 'pending') {
     return (
@@ -40,16 +43,22 @@ function GrandprixContent() {
     );
   }
 
-  const result = localResult ?? status?.result ?? null;
-  const hasVoted = status?.hasVoted || localResult !== null;
+  const draw = localDraw ?? status;
+  const hasVoted = status?.hasVoted || localDraw !== null;
 
   if (hasVoted) {
-    // 投票直後（localResultがある）のときだけ抽選演出を再生する。
+    // 投票直後（localDrawがある）のときだけ抽選演出を再生する。
     // 既に結果が出ている状態での再訪問では、待たせずに即結果を表示する。
-    return <GrandprixResult result={result} animate={localResult !== null} />;
+    return (
+      <GrandprixResult
+        result={draw?.result ?? null}
+        drawnAt={draw?.drawnAt ?? null}
+        animate={localDraw !== null}
+      />
+    );
   }
 
-  return <GrandprixForm onSubmitted={(r) => setLocalResult(r)} />;
+  return <GrandprixForm onSubmitted={setLocalDraw} />;
 }
 
 export default function GrandprixRoute({ loaderData }: Route.ComponentProps) {

@@ -92,10 +92,15 @@ export const grandprixRouter = t.router({
       });
 
       if (!vote) {
-        return { hasVoted: false as const, result: null };
+        return { hasVoted: false as const, result: null, drawnAt: null };
       }
 
-      return { hasVoted: true as const, result: vote.draw?.result ?? null };
+      return {
+        hasVoted: true as const,
+        result: vote.draw?.result ?? null,
+        // superjson を使っていないため、Date のままだと型と実際の値（文字列）が食い違う。
+        drawnAt: vote.draw?.drawnAt.toISOString() ?? null,
+      };
     }),
 
     submit: protectedProcedure
@@ -149,6 +154,7 @@ export const grandprixRouter = t.router({
 
         const voteId = crypto.randomUUID();
         const result = drawResult(ctx.env.GRANDPRIX_WIN_RATE);
+        const drawnAt = new Date();
         const { db } = ctx;
 
         try {
@@ -177,10 +183,10 @@ export const grandprixRouter = t.router({
               .where(eq(users.id, ctx.user.id)),
             db
               .insert(grandprixDraws)
-              .values({ id: crypto.randomUUID(), voteId, result }),
+              .values({ id: crypto.randomUUID(), voteId, result, drawnAt }),
           ]);
 
-          return { result };
+          return { result, drawnAt: drawnAt.toISOString() };
         } catch (error) {
           if (isDuplicateKeyError(error)) {
             throw new TRPCError({

@@ -35,7 +35,7 @@ type NavProps = {
 };
 
 type GrandprixFormProps = {
-  onSubmitted: (result: 'win' | 'lose') => void;
+  onSubmitted: (draw: { result: 'win' | 'lose'; drawnAt: string }) => void;
 };
 
 export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
@@ -53,7 +53,7 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
   const [stageVotes, setStageVotes] = useState<StageVotes>({});
 
   const submit = trpc.grandprix.submit.useMutation({
-    onSuccess: (data) => onSubmitted(data.result),
+    onSuccess: onSubmitted,
   });
 
   // 手順はページ内で切り替えるため、前の手順のスクロール位置が残らないよう先頭へ戻す。
