@@ -40,9 +40,7 @@
       "indexes": {
         "grandprix_draws_vote_id_unique": {
           "name": "grandprix_draws_vote_id_unique",
-          "columns": [
-            "vote_id"
-          ],
+          "columns": ["vote_id"],
           "isUnique": true
         }
       },
@@ -51,12 +49,8 @@
           "name": "grandprix_draws_vote_id_grandprix_votes_id_fk",
           "tableFrom": "grandprix_draws",
           "tableTo": "grandprix_votes",
-          "columnsFrom": [
-            "vote_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["vote_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -89,22 +83,15 @@
           "name": "grandprix_general_votes_vote_id_grandprix_votes_id_fk",
           "tableFrom": "grandprix_general_votes",
           "tableTo": "grandprix_votes",
-          "columnsFrom": [
-            "vote_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["vote_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "grandprix_general_votes_vote_id_project_id_pk": {
-          "columns": [
-            "vote_id",
-            "project_id"
-          ],
+          "columns": ["vote_id", "project_id"],
           "name": "grandprix_general_votes_vote_id_project_id_pk"
         }
       },
@@ -142,22 +129,15 @@
           "name": "grandprix_stage_votes_vote_id_grandprix_votes_id_fk",
           "tableFrom": "grandprix_stage_votes",
           "tableTo": "grandprix_votes",
-          "columnsFrom": [
-            "vote_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["vote_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "grandprix_stage_votes_vote_id_stage_pk": {
-          "columns": [
-            "vote_id",
-            "stage"
-          ],
+          "columns": ["vote_id", "stage"],
           "name": "grandprix_stage_votes_vote_id_stage_pk"
         }
       },
@@ -193,9 +173,7 @@
       "indexes": {
         "grandprix_votes_user_id_unique": {
           "name": "grandprix_votes_user_id_unique",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": true
         }
       },
@@ -204,12 +182,8 @@
           "name": "grandprix_votes_user_id_users_id_fk",
           "tableFrom": "grandprix_votes",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -294,12 +268,8 @@
           "name": "questionnaire_responses_submission_id_questionnaire_submissions_id_fk",
           "tableFrom": "questionnaire_responses",
           "tableTo": "questionnaire_submissions",
-          "columnsFrom": [
-            "submission_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["submission_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -344,9 +314,7 @@
       "indexes": {
         "questionnaire_submissions_user_id_unique": {
           "name": "questionnaire_submissions_user_id_unique",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": true
         }
       },
@@ -355,12 +323,8 @@
           "name": "questionnaire_submissions_user_id_users_id_fk",
           "tableFrom": "questionnaire_submissions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -405,9 +369,7 @@
       "indexes": {
         "questionnaire_tickets_response_id_unique": {
           "name": "questionnaire_tickets_response_id_unique",
-          "columns": [
-            "response_id"
-          ],
+          "columns": ["response_id"],
           "isUnique": true
         }
       },
@@ -416,12 +378,8 @@
           "name": "questionnaire_tickets_response_id_questionnaire_responses_id_fk",
           "tableFrom": "questionnaire_tickets",
           "tableTo": "questionnaire_responses",
-          "columnsFrom": [
-            "response_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["response_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -469,12 +427,8 @@
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -526,9 +480,7 @@
       "indexes": {
         "users_line_user_id_unique": {
           "name": "users_line_user_id_unique",
-          "columns": [
-            "line_user_id"
-          ],
+          "columns": ["line_user_id"],
           "isUnique": true
         }
       },
