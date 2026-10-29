@@ -10,6 +10,7 @@ import { createTRPCContext } from './trpc/context';
 import { appRouter } from './trpc/router';
 
 export type { GrandprixStage } from './db/schema';
+export type { Feature } from './domain/features';
 export type { AppRouter } from './trpc/router';
 export type { MaxGeneralVotes } from './trpc/routers/grandprix';
 export type { Place, PlaceKind } from './domain/place';

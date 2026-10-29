@@ -5,26 +5,26 @@ import SurveyForm from '~/components/features/Questionnaire/SurveyForm';
 import TicketList from '~/components/features/Questionnaire/TicketList';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
 import {
-  ComingSoonPage,
+  OutOfHoursPage,
   statusPageLinks,
   statusPageMeta,
 } from '~/components/layouts/StatusPage/StatusPage';
-import { fetchLineLoginEnabled } from '~/lib/auth';
+import { fetchFeatureEnabled } from '~/lib/auth';
 import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
 import type { Route } from './+types/index';
 
 export const clientLoader = async () => ({
-  lineLoginEnabled: await fetchLineLoginEnabled(),
+  enabled: await fetchFeatureEnabled('questionnaire'),
 });
 
-// LINE ログインをサーバーで無効にしている間（雙峰祭の当日まで）は、準備中の案内を出す。
+// サーバーで受付を止めている間は、時間外の案内を出す。
 export const meta: Route.MetaFunction = ({ loaderData }) =>
-  loaderData?.lineLoginEnabled
+  loaderData?.enabled
     ? [{ title: '来場者アンケート | 雙峰祭 企画検索システム' }]
-    : statusPageMeta('来場者アンケートは準備中です');
+    : statusPageMeta('来場者アンケートは受付時間外です');
 
-// links は loaderData を受け取れないため、準備中の案内のフォントは常に読む。
+// links は loaderData を受け取れないため、時間外の案内のフォントは常に読む。
 export const links: Route.LinksFunction = () => statusPageLinks;
 
 function QuestionnaireContent() {
@@ -131,10 +131,10 @@ function LanguageToggle({
 export default function QuestionnaireRoute({
   loaderData,
 }: Route.ComponentProps) {
-  return loaderData.lineLoginEnabled ? (
+  return loaderData.enabled ? (
     <QuestionnairePage />
   ) : (
-    <ComingSoonPage title="来場者アンケート" />
+    <OutOfHoursPage title="来場者アンケート" />
   );
 }
 

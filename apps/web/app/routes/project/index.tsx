@@ -25,13 +25,11 @@ import {
 } from '~/components/features/Project/StateMessage';
 import { useFilteredProjects } from '~/components/features/Project/useFilteredProjects';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
-import { useLineLoginEnabled } from '~/lib/auth';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
 export default function List() {
   const { data: projects, status, isError } = trpc.project.list.useQuery();
-  const lineLoginEnabled = useLineLoginEnabled();
 
   // 検索・絞り込み条件は URL クエリを唯一の状態源とする（共有/戻る操作に対応）。
   const [searchParams, setSearchParams] = useSearchParams();
@@ -90,8 +88,8 @@ export default function List() {
   const scroll = useListScroll(projects !== undefined);
 
   const unfiltered = !hasActiveFilter(criteria) && criteria.q === '';
-  // グランプリ投票・来場者アンケートの導線。どちらも LINE ログインを使う。
-  const showBanner = lineLoginEnabled && unfiltered;
+  // グランプリ投票・来場者アンケートの導線。受付時間外でも出し、入った先で時間外と案内する。
+  const showBanner = unfiltered;
   const enterProps = (index: number) =>
     entering
       ? { className: itemEnterStyles, style: itemEnterStyle(index) }
