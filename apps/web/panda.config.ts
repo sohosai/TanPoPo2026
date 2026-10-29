@@ -249,6 +249,7 @@ export default defineConfig({
             x: { value: '{colors.black}' },
             instagram: { value: '#d62976' },
             youtube: { value: '#ff0000' },
+            line: { value: '#06c755' },
           },
           logo: { value: '#ff0000' },
           overlay: {

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import GrandprixForm from '~/components/features/Grandprix/GrandprixForm';
+import GrandprixForm, {
+  GrandprixFormPreview,
+} from '~/components/features/Grandprix/GrandprixForm';
 import GrandprixResult from '~/components/features/Grandprix/GrandprixResult';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
 import {
@@ -82,7 +84,18 @@ export default function GrandprixRoute({ loaderData }: Route.ComponentProps) {
 
 function GrandprixPage() {
   return (
-    <EventPageShell title="雙峰祭グランプリ投票" redirectPath="/grandprix">
+    <EventPageShell
+      title="雙峰祭グランプリ投票"
+      redirectPath="/grandprix"
+      loginPrompt={{
+        preview: <GrandprixFormPreview />,
+        title: 'ログインしてグランプリに投票',
+        steps: [
+          '一般部門・ステージ部門の企画に投票',
+          'その場で抽選、当たりは福引所で景品と引き換え',
+        ],
+      }}
+    >
       <GrandprixContent />
     </EventPageShell>
   );
