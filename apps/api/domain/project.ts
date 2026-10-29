@@ -67,7 +67,6 @@ export type Project = {
   /** 主分類（単一） */
   category: ProjectCategory;
   thumbnail?: ProjectImage;
-  cancelled?: boolean;
 };
 
 /** 表示する画像。`srcSet` は幅違いの候補（`<img srcset>` 形式）で、無い場合は `src` だけを使う */
@@ -93,16 +92,20 @@ export type ProjectDetail = Project & {
   /** ギャラリー画像URLの配列 */
   images: ProjectImage[];
   links: ProjectLink[];
+  /** 団体が SOS で設定した今の営業状態。CLOSED は準備中か閉店。設定されていなければ無い */
+  openStatus?: 'OPEN' | 'CLOSED';
+  /** 団体が SOS で設定した今の在庫状態。設定されていなければ無い */
+  stockStatus?: 'IN_STOCK' | 'OUT_OF_STOCK';
 };
 
 /**
  * 企画のマスターデータ（apps/api/data/projects.json）の1件。
- * 実行時に SOS から取り直す画像・公開状態を除いた企画詳細。
+ * 実行時に SOS から取り直す画像・営業状態・在庫状態を除いた企画詳細。
  * SOS に無い企画（手で追加した企画）だけは、画像（`thumbnail`・`images`）をマスターに持つ。
  */
 export type ProjectMaster = Omit<
   ProjectDetail,
-  'thumbnail' | 'images' | 'cancelled'
+  'thumbnail' | 'images' | 'openStatus' | 'stockStatus'
 > &
   Partial<Pick<ProjectDetail, 'thumbnail' | 'images'>>;
 

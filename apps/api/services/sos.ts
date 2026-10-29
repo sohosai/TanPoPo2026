@@ -35,7 +35,10 @@ function withDynamicInfo(
     ...master,
     thumbnail: info?.iconFileId ? toImage(info.iconFileId) : master.thumbnail,
     images: info?.mapImageFileIds?.map(toImage) ?? master.images ?? [],
-    cancelled: info?.openStatus === 'CLOSED',
+    openStatus:
+      info?.openStatus === 'NOT_APPLICABLE' ? undefined : info?.openStatus,
+    stockStatus:
+      info?.stockStatus === 'NOT_APPLICABLE' ? undefined : info?.stockStatus,
   };
 }
 
@@ -44,6 +47,8 @@ function toProject(detail: ProjectDetail): Project {
     description: _description,
     images: _images,
     links: _links,
+    openStatus: _openStatus,
+    stockStatus: _stockStatus,
     ...project
   } = detail;
   return project;

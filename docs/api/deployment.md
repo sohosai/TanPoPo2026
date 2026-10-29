@@ -50,4 +50,4 @@ GitHub Actions の「Reset zoo DB」（`.github/workflows/reset-zoo-db.yml`）�
 
 - Windows では `wrangler dev` の実行中に `apps/web` をビルドすると、`build/client` がロックされて削除に失敗する。ビルド前に `wrangler dev` を止める。
 - 掲載する企画とその名前・団体・説明文・リンクは、コミット済みの企画のマスターデータ（[projects.md](../data/projects.md)）で決まる。SOS に企画が増えた・登録内容が変わったときは、`bun run sync:projects` で取り込んでコミットし、デプロイし直すまで反映されない。
-- 実行時に SOS から取るのは画像と公開状態（中止）だけで、Worker の isolate 内で 30 秒キャッシュする。isolate をまたいだ共有はしない。
+- 実行時に SOS から取るのは画像と営業状態・在庫状態だけで、Worker の isolate 内で 30 秒キャッシュする。isolate をまたいだ共有はしない。

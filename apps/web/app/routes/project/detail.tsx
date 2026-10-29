@@ -1,8 +1,10 @@
 import {
+  IconBuildingStore,
   IconCalendarEvent,
   IconClock,
   IconMap,
   IconMapPin,
+  IconPackage,
 } from '@tabler/icons-react';
 import type { ProjectImage } from 'api';
 import { useEffect, useState } from 'react';
@@ -25,6 +27,11 @@ import {
 } from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import ProjectLinks from '~/components/features/Project/ProjectLinks';
+import {
+  type StatusLabel,
+  type StatusTone,
+  useProjectStatus,
+} from '~/components/features/Project/useProjectStatus';
 import { useSnapCarousel } from '~/components/features/Project/useSnapCarousel';
 import { useMapPanel } from '~/components/layouts/MapPanel/mapPanel';
 import {
@@ -39,15 +46,27 @@ import { formatLocation, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../styled-system/css';
 
-/** 場所と、日程またはステージの出演時間。出演時間は日も含むため、あれば日程の代わりに出す。未確定の項目は「未定」と表示する。 */
+// Panda は css() の引数を静的解析するため、状態ごとの色は列挙しておく。
+const STATUS_TONE_CLASS: Record<StatusTone, string> = {
+  active: css({ color: 'accent.text' }),
+  inactive: css({ color: 'fg.muted' }),
+  alert: css({ color: 'favorite.text' }),
+};
+
+/**
+ * 場所と、日程またはステージの出演時間。出演時間は日も含むため、あれば日程の代わりに出す。未確定の項目は「未定」と表示する。
+ * 営業状態・在庫状態は、表示してよいものがあるときだけ行を足す。
+ */
 function ProjectFacts({
   locations,
   schedule,
   performances,
+  status,
 }: {
   locations: string[];
   schedule: string;
   performances: string[];
+  status: { open?: StatusLabel; stock?: StatusLabel };
 }) {
   return (
     <dl
@@ -114,6 +133,32 @@ function ProjectFacts({
             </span>
           </dt>
           <dd>{schedule || '未定'}</dd>
+        </div>
+      )}
+      {status.open && (
+        <div>
+          <dt>
+            <IconBuildingStore size={18} />
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              営業
+            </span>
+          </dt>
+          <dd className={STATUS_TONE_CLASS[status.open.tone]}>
+            {status.open.label}
+          </dd>
+        </div>
+      )}
+      {status.stock && (
+        <div>
+          <dt>
+            <IconPackage size={18} />
+            <span className={css({ textBox: 'trim-both cap alphabetic' })}>
+              在庫
+            </span>
+          </dt>
+          <dd className={STATUS_TONE_CLASS[status.stock.tone]}>
+            {status.stock.label}
+          </dd>
         </div>
       )}
     </dl>
@@ -269,8 +314,13 @@ function ProjectImages({
 
 export default function Detail() {
   const { number } = useParams();
-  const { data: projects, status } = trpc.project.list.useQuery();
+  const {
+    data: projects,
+    status,
+    dataUpdatedAt,
+  } = trpc.project.list.useQuery();
   const project = projects?.find((p) => p.number === number);
+  const liveStatus = useProjectStatus(project ?? {}, dataUpdatedAt);
 
   const { isFavorite, toggle } = useFavorites();
   const { byId: placesById } = usePlaces();
@@ -401,24 +451,6 @@ export default function Detail() {
         />
       </header>
 
-      {project.cancelled && (
-        <p
-          className={css({
-            mx: '16px',
-            mt: '12px',
-            px: '12px',
-            py: '8px',
-            borderRadius: 'lg',
-            bg: 'fg.strong',
-            color: 'surface',
-            fontSize: 'sm',
-            fontWeight: 700,
-          })}
-        >
-          この企画は中止になりました
-        </p>
-      )}
-
       <ProjectFacts
         locations={[
           // 屋外ブースは場所名だけを出すため、同じ表示になる場所は1行にまとめる。
@@ -441,6 +473,7 @@ export default function Detail() {
           (performance) =>
             `${formatPerformance(performance)} ${placesById.get(performance.placeId)?.name ?? ''}`,
         )}
+        status={liveStatus}
       />
 
       {project.links.length > 0 && (
