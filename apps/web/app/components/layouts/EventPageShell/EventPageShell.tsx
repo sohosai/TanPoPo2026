@@ -1,7 +1,9 @@
 import { IconX } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
-import RequireLineLogin from '~/components/features/Auth/RequireLineLogin';
+import RequireLineLogin, {
+  type LoginPrompt,
+} from '~/components/features/Auth/RequireLineLogin';
 import { useOnline } from '~/lib/pwa';
 import { css } from '../../../../styled-system/css';
 
@@ -9,6 +11,7 @@ type EventPageShellProps = {
   title: string;
   /** ログイン成功後、`/auth/line/login` へ渡す戻り先の相対パス。 */
   redirectPath: string;
+  loginPrompt: LoginPrompt;
   children: ReactNode;
 };
 
@@ -20,12 +23,14 @@ type EventPageShellProps = {
 export default function EventPageShell({
   title,
   redirectPath,
+  loginPrompt,
   children,
 }: EventPageShellProps) {
   const online = useOnline();
 
   return (
     <div
+      data-event-scroll
       className={css({
         height: '100%',
         overflowY: 'auto',
@@ -72,7 +77,7 @@ export default function EventPageShell({
       </header>
 
       {online ? (
-        <RequireLineLogin redirectPath={redirectPath}>
+        <RequireLineLogin redirectPath={redirectPath} loginPrompt={loginPrompt}>
           {children}
         </RequireLineLogin>
       ) : (

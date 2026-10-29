@@ -2,16 +2,44 @@ import { IconMinus, IconPlus } from '@tabler/icons-react';
 import type { MaxHeadcount } from 'api';
 import { useState } from 'react';
 import { css } from '../../../../styled-system/css';
+import type { Lang } from './questions';
 
 const MIN_HEADCOUNT = 1;
 const MAX_HEADCOUNT: MaxHeadcount = 10;
 
+const TEXT = {
+  ja: {
+    title: '何人分のアンケートに答えますか？',
+    description: [
+      'スマホをお持ちでないお子様の分も、保護者の方がまとめて回答できます。',
+      '同伴されている人数分を選択してください。',
+    ],
+    decrease: '人数を減らす',
+    increase: '人数を増やす',
+    count: (n: number) => `${n}人`,
+    next: '次へ',
+  },
+  en: {
+    title: 'How many people are answering?',
+    description: [
+      'A parent or guardian can answer on behalf of children without a smartphone.',
+      'Please select the number of people in your group.',
+    ],
+    decrease: 'Decrease',
+    increase: 'Increase',
+    count: (n: number) => `${n}`,
+    next: 'Next',
+  },
+} satisfies Record<Lang, unknown>;
+
 type HeadcountStepProps = {
+  lang: Lang;
   onConfirm: (headcount: number) => void;
 };
 
-export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
+export default function HeadcountStep({ lang, onConfirm }: HeadcountStepProps) {
   const [headcount, setHeadcount] = useState(1);
+  const text = TEXT[lang];
 
   return (
     <div
@@ -30,7 +58,7 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
             color: 'fg.strong',
           })}
         >
-          何人分のアンケートに答えますか？
+          {text.title}
         </h2>
         <p
           className={css({
@@ -40,9 +68,9 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
             mt: '6px',
           })}
         >
-          スマホをお持ちでないお子様の分も、保護者の方がまとめて回答できます。
+          {text.description[0]}
           <br />
-          同伴されている人数分を選択してください。
+          {text.description[1]}
         </p>
       </div>
 
@@ -57,7 +85,7 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
       >
         <StepButton
           icon={IconMinus}
-          label="人数を減らす"
+          label={text.decrease}
           disabled={headcount <= MIN_HEADCOUNT}
           onClick={() => setHeadcount((n) => Math.max(MIN_HEADCOUNT, n - 1))}
         />
@@ -70,11 +98,11 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
             color: 'fg.strong',
           })}
         >
-          {headcount}人
+          {text.count(headcount)}
         </span>
         <StepButton
           icon={IconPlus}
-          label="人数を増やす"
+          label={text.increase}
           disabled={headcount >= MAX_HEADCOUNT}
           onClick={() => setHeadcount((n) => Math.min(MAX_HEADCOUNT, n + 1))}
         />
@@ -95,7 +123,7 @@ export default function HeadcountStep({ onConfirm }: HeadcountStepProps) {
           cursor: 'pointer',
         })}
       >
-        次へ
+        {text.next}
       </button>
     </div>
   );

@@ -1,14 +1,27 @@
-import { IconSparkles } from '@tabler/icons-react';
+import {
+  IconChevronRight,
+  IconClipboardText,
+  IconSparkles,
+  IconTicket,
+} from '@tabler/icons-react';
 import { type CSSProperties, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router';
+import RedemptionSchedule from '~/components/features/Questionnaire/RedemptionSchedule';
 import { css } from '../../../../styled-system/css';
 import { token } from '../../../../styled-system/tokens';
 
-const DRAW_DURATION_MS = 1800;
+// Panda は animation の値を静的に読むため、css() の中では同じ値を文字列で書く。
+const SPIN_MS = 1800;
+const DROP_MS = 900;
+
+type Phase = 'spinning' | 'dropping' | 'revealed';
 
 type GrandprixResultProps = {
   result: 'win' | 'lose' | null;
+  /** 抽選した日時（ISO 8601）。 */
+  drawnAt: string | null;
   /**
-   * true の場合のみ「回している最中」の演出を再生する。
+   * true の場合のみ抽選器を回す演出を再生する。
    * 既に結果が確定しているページの再訪問時（false）は演出なしで即結果を表示する。
    */
   animate?: boolean;
@@ -16,19 +29,51 @@ type GrandprixResultProps = {
 
 export default function GrandprixResult({
   result,
+  drawnAt,
   animate = false,
 }: GrandprixResultProps) {
-  const [phase, setPhase] = useState<'drawing' | 'revealed'>(
-    animate ? 'drawing' : 'revealed',
+  const [phase, setPhase] = useState<Phase>(() =>
+    animate && !prefersReducedMotion() ? 'spinning' : 'revealed',
   );
 
   useEffect(() => {
-    if (!animate) return;
-    const timer = setTimeout(() => setPhase('revealed'), DRAW_DURATION_MS);
+    if (phase === 'revealed') return;
+    const timer = setTimeout(
+      () => setPhase(phase === 'spinning' ? 'dropping' : 'revealed'),
+      phase === 'spinning' ? SPIN_MS : DROP_MS,
+    );
     return () => clearTimeout(timer);
-  }, [animate]);
+  }, [phase]);
 
   const isWin = result === 'win';
+
+  if (phase !== 'revealed') {
+    return (
+      <div
+        className={css({
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+          minHeight: '70vh',
+          px: '24px',
+        })}
+      >
+        <Garapon isWin={isWin} dropping={phase === 'dropping'} />
+        <p
+          aria-live="polite"
+          className={css({
+            fontSize: 'md',
+            fontWeight: 'bold',
+            color: 'fg.muted',
+          })}
+        >
+          抽選中...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -36,88 +81,333 @@ export default function GrandprixResult({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
         gap: '20px',
-        minHeight: '60vh',
-        px: '24px',
+        maxW: '480px',
+        mx: 'auto',
+        px: '16px',
+        pt: '32px',
+        pb: 'calc(40px + env(safe-area-inset-bottom, 0px))',
         textAlign: 'center',
         overflow: 'hidden',
       })}
     >
-      {phase === 'drawing' && (
-        <p className={css({ fontSize: 'sm', color: 'fg.subtle' })}>
-          抽選中です...
-        </p>
-      )}
-
-      <div
-        className={css({
-          position: 'relative',
-          width: '200px',
-          height: '200px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        })}
-      >
-        {phase === 'drawing' ? (
-          <RouletteWheel />
-        ) : isWin ? (
-          <WinBadge key={result} />
-        ) : (
-          <LoseBadge key={result} />
-        )}
-      </div>
-
-      {phase === 'revealed' && (
-        <p
+      {isWin ? (
+        <div
           className={css({
-            fontSize: 'sm',
-            color: 'fg.muted',
-            lineHeight: 1.7,
+            position: 'relative',
+            width: '200px',
+            height: '200px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           })}
         >
-          {isWin
-            ? 'この画面を福引所の係員にお見せください。'
-            : 'ご参加ありがとうございました。また次の機会にぜひ！'}
-        </p>
+          <WinBadge />
+        </div>
+      ) : (
+        <LoseBadge />
       )}
+
+      <h2
+        className={css({
+          fontSize: '2xl',
+          fontWeight: 'bold',
+          color: 'fg.strong',
+        })}
+      >
+        {isWin ? 'おめでとうございます！' : 'ご参加ありがとうございました'}
+      </h2>
+
+      {isWin ? <PrizeCard drawnAt={drawnAt} /> : <QuestionnaireLink />}
+
+      <Link
+        to="/"
+        className={css({
+          fontSize: 'sm',
+          fontWeight: 'bold',
+          color: 'accent.text',
+          textDecoration: 'none',
+        })}
+      >
+        企画検索に戻る
+      </Link>
     </div>
   );
 }
 
-function RouletteWheel() {
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+const dateTimeFormat = new Intl.DateTimeFormat('ja-JP', {
+  timeZone: 'Asia/Tokyo',
+  month: 'numeric',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+const clockFormat = new Intl.DateTimeFormat('ja-JP', {
+  timeZone: 'Asia/Tokyo',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+});
+
+function useNow() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  return now;
+}
+
+/** 当たりの引換証。係員が本物の画面か見分けられるよう、秒まで動く現在時刻を出す。 */
+function PrizeCard({ drawnAt }: { drawnAt: string | null }) {
+  const now = useNow();
+
   return (
-    <>
+    <section
+      className={css({
+        w: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '14px',
+        p: '16px',
+        borderRadius: 'xl',
+        border: 'token(borderWidths.thin) solid',
+        borderColor: 'accent.border',
+        bg: 'surface',
+        boxShadow: 'card',
+        textAlign: 'left',
+      })}
+    >
+      <div
+        className={css({ display: 'flex', alignItems: 'center', gap: '10px' })}
+      >
+        <span
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            w: '36px',
+            h: '36px',
+            borderRadius: 'full',
+            bg: 'accent.subtle',
+            color: 'accent',
+          })}
+        >
+          <IconTicket size={20} />
+        </span>
+        <div>
+          <p
+            className={css({
+              fontSize: 'md',
+              fontWeight: 'bold',
+              color: 'fg.strong',
+            })}
+          >
+            グランプリ抽選 引換証
+          </p>
+          <p className={css({ fontSize: 'xs', color: 'fg.subtle' })}>
+            福引所でこの画面を係員に見せてください
+          </p>
+        </div>
+      </div>
+
+      <dl
+        className={css({
+          display: 'grid',
+          gridTemplateColumns: 'auto 1fr',
+          gap: '6px 16px',
+          fontSize: 'sm',
+        })}
+      >
+        <dt className={css({ color: 'fg.subtle' })}>抽選日時</dt>
+        <dd className={css({ color: 'fg.strong', fontWeight: 'bold' })}>
+          {drawnAt ? dateTimeFormat.format(new Date(drawnAt)) : '—'}
+        </dd>
+        <dt className={css({ color: 'fg.subtle' })}>現在時刻</dt>
+        <dd
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            color: 'fg.strong',
+            fontWeight: 'bold',
+            fontVariantNumeric: 'tabular-nums',
+          })}
+        >
+          <span
+            aria-hidden
+            className={css({
+              w: '8px',
+              h: '8px',
+              borderRadius: 'full',
+              bg: 'accent',
+              animation: 'sparkleTwinkle 1s ease-in-out infinite',
+            })}
+          />
+          {clockFormat.format(now)}
+        </dd>
+      </dl>
+
       <div
         className={css({
-          position: 'absolute',
-          top: '10px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 0,
-          height: 0,
-          borderLeft: '8px solid transparent',
-          borderRight: '8px solid transparent',
-          borderTop: '12px solid token(colors.accent)',
-          zIndex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '6px',
         })}
+      >
+        <p
+          className={css({
+            fontSize: 'xs',
+            fontWeight: 'bold',
+            color: 'fg.muted',
+          })}
+        >
+          引き換えできる時間
+        </p>
+        <RedemptionSchedule />
+      </div>
+    </section>
+  );
+}
+
+/** はずれのときの、来場者アンケート（回答で福引券）への導線。 */
+function QuestionnaireLink() {
+  return (
+    <Link
+      to="/questionnaire"
+      className={css({
+        w: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        p: '16px',
+        borderRadius: 'xl',
+        bg: 'accent.subtle',
+        color: 'fg.strong',
+        textAlign: 'left',
+        textDecoration: 'none',
+      })}
+    >
+      <IconClipboardText
+        size={28}
+        className={css({ flexShrink: 0, color: 'accent' })}
       />
-      <div
+      <span className={css({ flex: 1 })}>
+        <span
+          className={css({
+            display: 'block',
+            fontSize: 'md',
+            fontWeight: 'bold',
+          })}
+        >
+          来場者アンケートに答える
+        </span>
+        <span
+          className={css({
+            display: 'block',
+            fontSize: 'xs',
+            color: 'fg.muted',
+          })}
+        >
+          回答すると福引券がもらえます
+        </span>
+      </span>
+      <IconChevronRight size={20} className={css({ color: 'accent' })} />
+    </Link>
+  );
+}
+
+/** 福引の抽選器。回したあと、口から結果の色の玉が受け皿へ落ちる（当たりは金、はずれは白）。 */
+function Garapon({ isWin, dropping }: { isWin: boolean; dropping: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      width={220}
+      height={220}
+      role="img"
+      aria-label="抽選器"
+      className={css({ overflow: 'visible' })}
+    >
+      {/* 台 */}
+      <path
+        d="M60 170 L80 120 M140 170 L120 120"
+        stroke={token.var('colors.accent.deep')}
+        strokeWidth={8}
+        strokeLinecap="round"
+      />
+      <rect
+        x={40}
+        y={166}
+        width={120}
+        height={10}
+        rx={5}
+        fill={token.var('colors.accent.deep')}
+      />
+      {/* 受け皿 */}
+      <path
+        d="M30 150 Q48 166 66 150"
+        fill="none"
+        stroke={token.var('colors.accent.deep')}
+        strokeWidth={5}
+        strokeLinecap="round"
+      />
+
+      <g
         className={css({
-          width: '180px',
-          height: '180px',
-          borderRadius: '50%',
-          background:
-            'conic-gradient(token(colors.accent) 0deg 60deg, token(colors.accent.subtle) 60deg 120deg, token(colors.accent) 120deg 180deg, token(colors.accent.subtle) 180deg 240deg, token(colors.accent) 240deg 300deg, token(colors.accent.subtle) 300deg 360deg)',
-          // Pandaはanimation値を静的解析するため、DRAW_DURATION_MSと
-          // 同じ値(1800ms)を固定文字列で書く必要がある。
-          animation: 'rouletteSpin 1800ms cubic-bezier(0.15, 0.65, 0.2, 1) 1',
-          boxShadow: 'raised',
-          border: '4px solid token(colors.white)',
+          // 取っ手まで含めると図形の中心がずれるため、ドラムの中心を軸にする。
+          transformBox: 'view-box',
+          transformOrigin: '100px 90px',
+          animation: 'garaponSpin 1800ms cubic-bezier(0.45, 0, 0.2, 1) 1',
         })}
-      />
-    </>
+        style={dropping ? { animation: 'none' } : undefined}
+      >
+        <polygon
+          points="100,30 142,47 160,90 142,133 100,150 58,133 40,90 58,47"
+          fill={token.var('colors.accent')}
+          stroke={token.var('colors.accent.deep')}
+          strokeWidth={4}
+          strokeLinejoin="round"
+        />
+        <polygon
+          points="100,48 129,60 142,90 129,120 100,132 71,120 58,90 71,60"
+          fill={token.var('colors.accent.subtle')}
+        />
+        <line
+          x1={100}
+          y1={90}
+          x2={178}
+          y2={90}
+          stroke={token.var('colors.accent.deep')}
+          strokeWidth={5}
+          strokeLinecap="round"
+        />
+        <circle cx={178} cy={90} r={7} fill={token.var('colors.accent.deep')} />
+      </g>
+
+      {dropping && (
+        <circle
+          cx={70}
+          cy={120}
+          r={9}
+          fill={
+            isWin
+              ? token.var('colors.result.confetti.gold')
+              : token.var('colors.white')
+          }
+          stroke={token.var('colors.result.dust.dark')}
+          strokeWidth={2}
+          className={css({
+            transformBox: 'fill-box',
+            transformOrigin: 'center',
+            animation: 'ballDrop 900ms cubic-bezier(0.3, 0.7, 0.4, 1) forwards',
+          })}
+        />
+      )}
+    </svg>
   );
 }
 
@@ -290,46 +580,23 @@ function WinBadge() {
 }
 
 function LoseBadge() {
-  const dust = useParticles(8, LOSE_DUST_COLORS, 60);
+  const dust = useParticles(8, LOSE_DUST_COLORS, 70);
 
   return (
-    <>
-      <div
-        className={css({
-          position: 'absolute',
-          width: '180px',
-          height: '180px',
-          borderRadius: '50%',
-          background:
-            'radial-gradient(circle, token(colors.result.loseGlow), transparent 70%)',
-          animation: 'resultGlow 1s ease-out forwards',
-        })}
-      />
-
+    <div className={css({ position: 'relative', py: '24px' })}>
       <Particles particles={dust} duration="0.9s" />
-
-      <div
+      <p
         className={css({
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '160px',
-          height: '160px',
-          borderRadius: '50%',
-          bg: 'result.lose',
-          color: 'surface',
           fontSize: '5xl',
-          fontWeight: 'normal',
-          fontFamily: "'Yuji Syuku', serif",
-          border: '3px solid token(colors.white)',
-          boxShadow: 'lose',
+          fontWeight: 'bold',
+          letterSpacing: '0.12em',
+          color: 'result.lose',
           animation:
             'resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), resultShake 0.6s ease-in-out 0.6s 1',
         })}
       >
         はずれ
-      </div>
-    </>
+      </p>
+    </div>
   );
 }

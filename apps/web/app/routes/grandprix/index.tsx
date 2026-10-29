@@ -1,30 +1,50 @@
 import { useState } from 'react';
-import GrandprixForm from '~/components/features/Grandprix/GrandprixForm';
+import GrandprixForm, {
+  GrandprixFormPreview,
+} from '~/components/features/Grandprix/GrandprixForm';
 import GrandprixResult from '~/components/features/Grandprix/GrandprixResult';
 import EventPageShell from '~/components/layouts/EventPageShell/EventPageShell';
 import {
-  ComingSoonPage,
+  OutOfHoursPage,
   statusPageLinks,
   statusPageMeta,
 } from '~/components/layouts/StatusPage/StatusPage';
-import { LINE_LOGIN_ENABLED } from '~/lib/auth';
+import { fetchFeatureEnabled } from '~/lib/auth';
 import { trpc } from '~/lib/trpc';
 import { css } from '../../../styled-system/css';
 import type { Route } from './+types/index';
 
-// LINE ログインを無効にしたビルド（雙峰祭の当日まで）では、準備中の案内を出す。
-export const meta: Route.MetaFunction = () =>
-  LINE_LOGIN_ENABLED
-    ? [{ title: '雙峰祭グランプリ | 雙峰祭 企画検索システム' }]
-    : statusPageMeta('雙峰祭グランプリ投票は準備中です');
+export const clientLoader = async () => ({
+  enabled: await fetchFeatureEnabled('grandprix'),
+});
 
-export const links: Route.LinksFunction = () =>
-  LINE_LOGIN_ENABLED ? [] : statusPageLinks;
+// サーバーで受付を止めている間は、時間外の案内を出す。
+export const meta: Route.MetaFunction = ({ loaderData }) =>
+  loaderData?.enabled
+    ? [{ title: '雙峰祭グランプリ | 雙峰祭 企画検索システム' }]
+    : statusPageMeta('雙峰祭グランプリ投票は受付時間外です');
+
+// links は loaderData を受け取れないため、時間外の案内のフォントは常に読む。
+export const links: Route.LinksFunction = () => statusPageLinks;
 
 function GrandprixContent() {
   const { data: status, status: queryStatus } =
     trpc.grandprix.status.useQuery();
-  const [localResult, setLocalResult] = useState<'win' | 'lose' | null>(null);
+  const utils = trpc.useUtils();
+  const [localDraw, setLocalDraw] = useState<{
+    result: 'win' | 'lose';
+    drawnAt: string;
+  } | null>(null);
+
+  // localDraw はページを離れると消えるため、キャッシュも投票済みにしておかないと
+  // staleTime の間に戻ったとき投票フォームが再び出る。
+  const handleSubmitted = (draw: {
+    result: 'win' | 'lose';
+    drawnAt: string;
+  }) => {
+    setLocalDraw(draw);
+    utils.grandprix.status.setData(undefined, { hasVoted: true, ...draw });
+  };
 
   if (queryStatus === 'pending') {
     return (
@@ -36,29 +56,46 @@ function GrandprixContent() {
     );
   }
 
-  const result = localResult ?? status?.result ?? null;
-  const hasVoted = status?.hasVoted || localResult !== null;
+  const draw = localDraw ?? status;
+  const hasVoted = status?.hasVoted || localDraw !== null;
 
   if (hasVoted) {
-    // 投票直後（localResultがある）のときだけ抽選演出を再生する。
+    // 投票直後（localDrawがある）のときだけ抽選演出を再生する。
     // 既に結果が出ている状態での再訪問では、待たせずに即結果を表示する。
-    return <GrandprixResult result={result} animate={localResult !== null} />;
+    return (
+      <GrandprixResult
+        result={draw?.result ?? null}
+        drawnAt={draw?.drawnAt ?? null}
+        animate={localDraw !== null}
+      />
+    );
   }
 
-  return <GrandprixForm onSubmitted={(r) => setLocalResult(r)} />;
+  return <GrandprixForm onSubmitted={handleSubmitted} />;
 }
 
-export default function GrandprixRoute() {
-  return LINE_LOGIN_ENABLED ? (
+export default function GrandprixRoute({ loaderData }: Route.ComponentProps) {
+  return loaderData.enabled ? (
     <GrandprixPage />
   ) : (
-    <ComingSoonPage title="グランプリ投票" />
+    <OutOfHoursPage title="グランプリ投票" />
   );
 }
 
 function GrandprixPage() {
   return (
-    <EventPageShell title="雙峰祭グランプリ投票" redirectPath="/grandprix">
+    <EventPageShell
+      title="雙峰祭グランプリ投票"
+      redirectPath="/grandprix"
+      loginPrompt={{
+        preview: <GrandprixFormPreview />,
+        title: 'ログインしてグランプリに投票',
+        steps: [
+          '一般部門・ステージ部門の企画に投票',
+          'その場で抽選、当たりは福引所で景品と引き換え',
+        ],
+      }}
+    >
       <GrandprixContent />
     </EventPageShell>
   );

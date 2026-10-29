@@ -455,22 +455,22 @@ const primaryButton = css({
 });
 
 /**
- * LINE ログインを無効にしている間（雙峰祭の当日まで）に、その機能のページの代わりに出す準備中の案内。
+ * 機能の受付をサーバーで止めている間に、その機能のページの代わりに出す時間外の案内。
  * `title` は機能の名前（「グランプリ投票」など）。
  */
-export function ComingSoonPage({ title }: { title: string }) {
+export function OutOfHoursPage({ title }: { title: string }) {
   return (
     <StatusPage
-      headline="COMING SOON!"
+      headline="CLOSED"
       title={title}
       message={
         <>
-          現在準備中です。
+          現在は受付時間外です。
           <br />
-          雙峰祭の当日に公開します。
+          受付時間内にもう一度お越しください。
         </>
       }
-      bubble="もうすぐ始まるそぽ！"
+      bubble="また来てほしいそぽ！"
     />
   );
 }

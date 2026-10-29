@@ -120,9 +120,17 @@ export default defineConfig({
           '0%': { opacity: '0', transform: 'scale(0.94)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
-        rouletteSpin: {
+        garaponSpin: {
           from: { transform: 'rotate(0deg)' },
-          to: { transform: 'rotate(1080deg)' },
+          to: { transform: 'rotate(720deg)' },
+        },
+        // 抽選器の口から出た玉が、受け皿へ転がり落ちて小さく跳ねる。
+        ballDrop: {
+          '0%': { transform: 'translate(0, 0) scale(0.4)', opacity: '0' },
+          '20%': { transform: 'translate(-4px, 4px) scale(1)', opacity: '1' },
+          '65%': { transform: 'translate(-26px, 38px)' },
+          '80%': { transform: 'translate(-30px, 30px)' },
+          '100%': { transform: 'translate(-32px, 38px)', opacity: '1' },
         },
         resultReveal: {
           '0%': { transform: 'scale(0.4)', opacity: '0' },
@@ -241,6 +249,7 @@ export default defineConfig({
             x: { value: '{colors.black}' },
             instagram: { value: '#d62976' },
             youtube: { value: '#ff0000' },
+            line: { value: '#06c755' },
           },
           logo: { value: '#ff0000' },
           overlay: {
@@ -254,7 +263,6 @@ export default defineConfig({
           result: {
             lose: { value: '#1f3a5f' },
             winGlow: { value: '{colors.brand.500/45}' },
-            loseGlow: { value: '{colors.result.lose/35}' },
             confetti: {
               gold: { value: '#b28827' },
               blue: { value: '{colors.brand.500}' },

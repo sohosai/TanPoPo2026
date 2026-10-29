@@ -1,0 +1,76 @@
+name: Export data
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 取り出す環境
+        type: choice
+        options: [zoo, prod]
+      report:
+        description: 取り出すデータ
+        type: choice
+        options:
+          - grandprix-votes
+          - questionnaire-count
+          - questionnaire-responses
+      until:
+        description: この日時（日本時間）より前の票・回答だけを数える。例 2026-11-01 18:00。空なら全件
+        required: false
+
+concurrency:
+  group: export-data
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    # prod に実行前の承認者を設定できるよう、入力した環境の Environment で動かす。
+    environment: ${{ inputs.environment }}
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      TARGET_ENV: ${{ inputs.environment }}
+      REPORT: ${{ inputs.report }}
+      UNTIL: ${{ inputs.until }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - run: bun install --frozen-lockfile
+
+      # リポジトリが public でログも公開されるため、データは暗号化した Zip にだけ入れる。
+      - name: Export CSV
+        run: |
+          bun run scripts/export-data.ts \
+            --env "$TARGET_ENV" --report "$REPORT" --until "$UNTIL" \
+            --out "$RUNNER_TEMP/export"
+
+      - name: Encrypt
+        id: encrypt
+        env:
+          EXPORT_PASSWORD: ${{ secrets.EXPORT_PASSWORD }}
+        run: |
+          if [ -z "$EXPORT_PASSWORD" ]; then
+            echo "::error::secret EXPORT_PASSWORD が未設定です"
+            exit 1
+          fi
+          name="$TARGET_ENV-$REPORT-$(TZ=Asia/Tokyo date +%Y%m%d-%H%M)"
+          mkdir -p "$RUNNER_TEMP/out"
+          (cd "$RUNNER_TEMP/export" && \
+            7z a -tzip -mem=ZipCrypto -p"$EXPORT_PASSWORD" -bso0 -bsp0 \
+              "$RUNNER_TEMP/out/$name.zip" ./*.csv)
+          rm -rf "$RUNNER_TEMP/export"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      # public リポジトリの artifact はログインした誰でも落とせるため、置く期間を最短にする。
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.encrypt.outputs.name }}
+          path: ${{ runner.temp }}/out/${{ steps.encrypt.outputs.name }}.zip
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error

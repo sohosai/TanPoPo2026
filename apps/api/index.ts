@@ -3,13 +3,14 @@ import { Hono } from 'hono';
 import { getCookie } from 'hono/cookie';
 import { authRoutes } from './auth/routes';
 import { SESSION_COOKIE_NAME } from './auth/session';
-import { LINE_LOGIN_ENABLED } from './domain/features';
+import { isLineLoginEnabled } from './domain/features';
 import type { AppEnv } from './env';
 import { ogpRoutes } from './ogp/routes';
 import { createTRPCContext } from './trpc/context';
 import { appRouter } from './trpc/router';
 
 export type { GrandprixStage } from './db/schema';
+export type { Feature } from './domain/features';
 export type { AppRouter } from './trpc/router';
 export type { MaxGeneralVotes } from './trpc/routers/grandprix';
 export type { Place, PlaceKind } from './domain/place';
@@ -32,7 +33,7 @@ const app = new Hono<{ Bindings: AppEnv }>();
 
 // LINE ログインを無効にしている間は、ログイン・ログアウトの入口ごと塞ぐ。
 app.use('/auth/*', async (c, next) => {
-  if (!LINE_LOGIN_ENABLED) return c.notFound();
+  if (!isLineLoginEnabled(c.env)) return c.notFound();
   await next();
 });
 app.route('/auth', authRoutes);

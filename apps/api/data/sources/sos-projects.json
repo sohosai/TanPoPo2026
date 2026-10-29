@@ -438,7 +438,7 @@
     "publicInfo": {
       "description": "「つくメモ〜つくばの思い出教えてください〜」を実施！つくばの思い出を記入すると、そぽたんとフックン船長柄の缶バッジが当たるカプセルトイを回せます。過去のフリーペーパーも配布予定！\n公式noteでは、筑波大生や卒業生へのインタビュー記事、現役筑波大生に行ったアンケート結果などを発信中。ぜひお立ち寄りください！",
       "websiteUrls": [
-        "https://www.city.tsukuba.lg.jp/notfound.html",
+        "https://www.city.tsukuba.lg.jp/tsukumemo/index.html",
         "https://note.com/sohosai_city"
       ],
       "xIds": [],
@@ -456,11 +456,11 @@
     "type": "FOOD",
     "location": "INDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "累計販売本数10万本を突破した人気ゲームを公認ミュージカル化！\n\n「つくば時間」が流れる筑波大学で、「永遠」の時が流れるファミレスを舞台にした物語をお届けします。\n\n原作にも登場するドリンクを片手にぜひご鑑賞ください🌛🥄",
       "websiteUrls": ["https://essassa.jimdofree.com/"],
-      "xIds": ["essassa_musical", "__ESSASSAdaily"],
+      "xIds": ["essassa_musical", "___ESSASSAdaily"],
       "instagramIds": ["essassa_musicalcompany"],
-      "youtubeIds": ["essassa5359"]
+      "youtubeIds": ["essassa6447"]
     }
   },
   {
@@ -643,7 +643,7 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": "🌞 SUN基地 🌞\n「一口かじれば、ふわっと昇天。」\n\n国産素材＆専門店直仕入れの\n自慢のつくねを焼きたてでご提供します🔥\n\n味は\n秘伝のタレ / 塩 の2種類！\n1本 200円\nSUN本セット（3本）500円\n\n最高の「ととのう」経験をご堪能ください！",
+      "description": "🌞 SUN基地 🌞\n「一口かじれば、ふわっと昇天。」\n\n国産素材＆専門店直仕入れの\n自慢のつくねを焼きたてでご提供します🔥\n\n味は\n秘伝のタレ / 塩 の2種類！\n1本 250円\nSUN本セット（3本）600円\n\n最高の「ととのう」経験をご堪能ください！",
       "websiteUrls": [],
       "xIds": [],
       "instagramIds": ["sun_1010no1"],
@@ -1330,7 +1330,7 @@
     "publicInfo": {
       "description": "筑波大学落語研究会です。私たちは、「筑大寄席２０２６」という企画名にあるように、雙峰祭本番の10月31日、11月1日の両日寄席を行います。落語研究会の会員たちが落語や漫才などを披露します！木戸銭は無料、自由に出入りしてOKです！どなたでも気軽に立ち寄っていただけると嬉しいです！会員一同皆様のご来場をお待ちしています！",
       "websiteUrls": [],
-      "xIds": ["114139512"],
+      "xIds": ["TsukubaOchiken"],
       "instagramIds": ["tsuku__mochi"],
       "youtubeIds": []
     }
@@ -3909,10 +3909,10 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "＼外はサクッ、中はジュワッ／\n北海道出身のメンバーが試行錯誤の末に辿り着いた\n「特製ザンギ」が2年ぶりに出店！🔥\n\n「普通の唐揚げとはひと味違う」本場の旨味の秘密は、醤油・生姜・にんにく・ウスターソース等を合わせた濃厚な漬け込み液と、片栗粉×小麦粉の黄金比率衣！カラッと香ばしく揚げた究極の一品です✨\n\n極上のジューシーさをぜひご堪能ください！\n\n🍖 ザンギ（5個） 600円\n🥤 北海道ご当地",
       "websiteUrls": [],
       "xIds": [],
-      "instagramIds": [],
+      "instagramIds": ["tsukuba_dosanko"],
       "youtubeIds": []
     }
   },
@@ -3926,10 +3926,10 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "今年で3年目となるどさんこ会の北海道グルメ企画。\n今回お届けするのは、北海道グルメの王道「ジンギスカン」です！🍖🔥\n\n旭川直送のこだわりラム肉と野菜を特製タレに絡め、鉄板で熱々に仕上げます！\n道民メンバーが再現する本場の味は絶品です✨\n北海道のご当地ドリンクと一緒に味わえば、気分はまさに北海道旅行です✈️\nぜひご堪能ください！\n\n📍メニュー\n・ジンギスカン 500円\n・リボンナポリン、ガラナ",
       "websiteUrls": [],
       "xIds": [],
-      "instagramIds": [],
+      "instagramIds": ["tsukuba_dosanko"],
       "youtubeIds": []
     }
   },
@@ -4524,10 +4524,10 @@
     "type": "FOOD",
     "location": "OUTDOOR",
     "publicInfo": {
-      "description": null,
+      "description": "パリパリのせんべいに、目玉焼きとソースをのせた「たません」を販売します！\nシンプルなのに、クセになるおいしさ。小腹が空いたときや、ステージのおともにぴったりです！\n前夜祭から営業していますので、ぜひお気軽にお立ち寄りください！",
       "websiteUrls": [],
       "xIds": [],
-      "instagramIds": [],
+      "instagramIds": ["tamasen.ya"],
       "youtubeIds": []
     }
   },
@@ -4541,7 +4541,7 @@
     "type": "STAGE",
     "location": "STAGE",
     "publicInfo": {
-      "description": "10月30日の17時30分から、石の広場「UNITEDステージ」にて演奏させていただきます！\n皆さんが一度は耳にしたことがあるあの曲を披露します。前夜祭に花を添えられるよう演奏しますので、ぜひ聞きに来てくださいね！",
+      "description": "10月30日の17時15分から、石の広場「UNITEDステージ」にて演奏させていただきます！\n皆さんが一度は耳にしたことがあるあの曲を披露します。前夜祭に花を添えられるよう演奏しますので、ぜひ聞きに来てくださいね！",
       "websiteUrls": [],
       "xIds": [],
       "instagramIds": [],

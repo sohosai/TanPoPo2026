@@ -769,7 +769,7 @@
       {
         "kind": "website",
         "label": "city.tsukuba.lg.jp",
-        "url": "https://www.city.tsukuba.lg.jp/notfound.html"
+        "url": "https://www.city.tsukuba.lg.jp/tsukumemo/index.html"
       },
       {
         "kind": "website",
@@ -800,7 +800,7 @@
       }
     ],
     "performances": [],
-    "description": "",
+    "description": "累計販売本数10万本を突破した人気ゲームを公認ミュージカル化！\n\n「つくば時間」が流れる筑波大学で、「永遠」の時が流れるファミレスを舞台にした物語をお届けします。\n\n原作にも登場するドリンクを片手にぜひご鑑賞ください🌛🥄",
     "links": [
       {
         "kind": "website",
@@ -814,8 +814,8 @@
       },
       {
         "kind": "x",
-        "label": "@__ESSASSAdaily",
-        "url": "https://x.com/__ESSASSAdaily"
+        "label": "@___ESSASSAdaily",
+        "url": "https://x.com/___ESSASSAdaily"
       },
       {
         "kind": "instagram",
@@ -824,8 +824,8 @@
       },
       {
         "kind": "youtube",
-        "label": "@essassa5359",
-        "url": "https://www.youtube.com/@essassa5359"
+        "label": "@essassa6447",
+        "url": "https://www.youtube.com/@essassa6447"
       }
     ]
   },
@@ -1164,7 +1164,7 @@
       }
     ],
     "performances": [],
-    "description": "🌞 SUN基地 🌞\n「一口かじれば、ふわっと昇天。」\n\n国産素材＆専門店直仕入れの\n自慢のつくねを焼きたてでご提供します🔥\n\n味は\n秘伝のタレ / 塩 の2種類！\n1本 200円\nSUN本セット（3本）500円\n\n最高の「ととのう」経験をご堪能ください！",
+    "description": "🌞 SUN基地 🌞\n「一口かじれば、ふわっと昇天。」\n\n国産素材＆専門店直仕入れの\n自慢のつくねを焼きたてでご提供します🔥\n\n味は\n秘伝のタレ / 塩 の2種類！\n1本 250円\nSUN本セット（3本）600円\n\n最高の「ととのう」経験をご堪能ください！",
     "links": [
       {
         "kind": "instagram",
@@ -1772,12 +1772,12 @@
     "organization": "プクプクの3年生",
     "organizationReading": "ぷくぷくのさんねんせい",
     "category": "スイーツ",
-    "schedule": ["Day1", "Day2"],
+    "schedule": ["Day2"],
     "locations": [
       {
         "placeId": "booth-d",
         "room": "D3",
-        "days": ["Day1", "Day2"]
+        "days": ["Day2"]
       }
     ],
     "performances": [],
@@ -2362,8 +2362,8 @@
     "links": [
       {
         "kind": "x",
-        "label": "@114139512",
-        "url": "https://x.com/114139512"
+        "label": "@TsukubaOchiken",
+        "url": "https://x.com/TsukubaOchiken"
       },
       {
         "kind": "instagram",
@@ -6742,8 +6742,14 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "＼外はサクッ、中はジュワッ／\n北海道出身のメンバーが試行錯誤の末に辿り着いた\n「特製ザンギ」が2年ぶりに出店！🔥\n\n「普通の唐揚げとはひと味違う」本場の旨味の秘密は、醤油・生姜・にんにく・ウスターソース等を合わせた濃厚な漬け込み液と、片栗粉×小麦粉の黄金比率衣！カラッと香ばしく揚げた究極の一品です✨\n\n極上のジューシーさをぜひご堪能ください！\n\n🍖 ザンギ（5個） 600円\n🥤 北海道ご当地",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_dosanko",
+        "url": "https://www.instagram.com/tsukuba_dosanko/"
+      }
+    ]
   },
   {
     "number": "286",
@@ -6762,8 +6768,14 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "今年で3年目となるどさんこ会の北海道グルメ企画。\n今回お届けするのは、北海道グルメの王道「ジンギスカン」です！🍖🔥\n\n旭川直送のこだわりラム肉と野菜を特製タレに絡め、鉄板で熱々に仕上げます！\n道民メンバーが再現する本場の味は絶品です✨\n北海道のご当地ドリンクと一緒に味わえば、気分はまさに北海道旅行です✈️\nぜひご堪能ください！\n\n📍メニュー\n・ジンギスカン 500円\n・リボンナポリン、ガラナ",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tsukuba_dosanko",
+        "url": "https://www.instagram.com/tsukuba_dosanko/"
+      }
+    ]
   },
   {
     "number": "287",
@@ -7598,8 +7610,14 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "パリパリのせんべいに、目玉焼きとソースをのせた「たません」を販売します！\nシンプルなのに、クセになるおいしさ。小腹が空いたときや、ステージのおともにぴったりです！\n前夜祭から営業していますので、ぜひお気軽にお立ち寄りください！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tamasen.ya",
+        "url": "https://www.instagram.com/tamasen.ya/"
+      }
+    ]
   },
   {
     "number": "342",
@@ -7625,7 +7643,7 @@
         "title": "夜祭パフォーマンスショー第1部 吹奏楽団夜祭ステージ"
       }
     ],
-    "description": "10月30日の17時30分から、石の広場「UNITEDステージ」にて演奏させていただきます！\n皆さんが一度は耳にしたことがあるあの曲を披露します。前夜祭に花を添えられるよう演奏しますので、ぜひ聞きに来てくださいね！",
+    "description": "10月30日の17時15分から、石の広場「UNITEDステージ」にて演奏させていただきます！\n皆さんが一度は耳にしたことがあるあの曲を披露します。前夜祭に花を添えられるよう演奏しますので、ぜひ聞きに来てくださいね！",
     "links": []
   },
   {
@@ -7820,6 +7838,18 @@
       {
         "src": "/projects/goods/image-1280.webp",
         "srcSet": "/projects/goods/image-640.webp 640w, /projects/goods/image-1280.webp 1280w"
+      },
+      {
+        "src": "/projects/goods/image-2-1280.webp",
+        "srcSet": "/projects/goods/image-2-640.webp 640w, /projects/goods/image-2-1280.webp 1280w"
+      },
+      {
+        "src": "/projects/goods/image-3-1280.webp",
+        "srcSet": "/projects/goods/image-3-640.webp 640w, /projects/goods/image-3-1280.webp 1280w"
+      },
+      {
+        "src": "/projects/goods/image-4-1280.webp",
+        "srcSet": "/projects/goods/image-4-640.webp 640w, /projects/goods/image-4-1280.webp 1280w"
       }
     ]
   }
