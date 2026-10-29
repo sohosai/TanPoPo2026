@@ -25,9 +25,6 @@ export function getAuthorizationUrl(
   url.searchParams.set('state', state);
   url.searchParams.set('scope', 'profile openid');
   url.searchParams.set('nonce', nonce);
-  // 自動ログインは LINE アプリを経由するため、コールバックが開始時と別のブラウザ（iOS の Safari など）で開き、
-  // state の Cookie が届かず失敗することがある。毎回、開始したブラウザの中で LINE のログイン画面を出す。
-  url.searchParams.set('disable_auto_login', 'true');
   return url.toString();
 }
 
