@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import { Link } from 'react-router';
 import FavoriteButton from '~/components/features/Project/FavoriteButton';
 import {
-  badgeClass,
   DAY_LABELS,
   formatPerformance,
 } from '~/components/features/Project/labels';
@@ -43,7 +42,6 @@ function TimetableRow({
   favorite: boolean;
   onToggleFavorite: (id: string) => void;
 }) {
-  const { cancelled = false } = project;
   // 演目名が企画名と違うときは、どの企画の出演か分かるよう企画名を添える。
   const subtitle =
     performance.title === project.name ? project.organization : project.name;
@@ -52,7 +50,6 @@ function TimetableRow({
     <Link
       to={`/project/${project.number}`}
       className={cx(projectRowClass, css({ alignItems: 'center' }))}
-      style={{ opacity: cancelled ? 0.55 : undefined }}
     >
       <ProjectIcon project={project} size={48} />
 
@@ -71,24 +68,12 @@ function TimetableRow({
         <p
           className={css({
             mt: '2px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
             fontSize: '12px',
             color: 'fg.subtle',
+            truncate: true,
           })}
         >
-          {cancelled && (
-            <span
-              className={cx(
-                badgeClass,
-                css({ flexShrink: 0, bg: 'fg.strong', color: 'surface' }),
-              )}
-            >
-              中止
-            </span>
-          )}
-          <span className={css({ truncate: true })}>{subtitle}</span>
+          {subtitle}
         </p>
       </div>
 

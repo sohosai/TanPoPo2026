@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { css, cx } from '../../../../styled-system/css';
 import CategoryLabel from './CategoryLabel';
 import FavoriteButton from './FavoriteButton';
-import { badgeClass, formatPerformances, formatSchedule } from './labels';
+import { formatPerformances, formatSchedule } from './labels';
 import ProjectIcon from './ProjectIcon';
 
 type ProjectListItemProps = {
@@ -38,14 +38,7 @@ export function ProjectRowContent({
   locationLabel?: string;
   action?: React.ReactNode;
 }) {
-  const {
-    name,
-    organization,
-    category,
-    schedule,
-    performances,
-    cancelled = false,
-  } = project;
+  const { name, organization, category, schedule, performances } = project;
 
   return (
     <>
@@ -81,18 +74,7 @@ export function ProjectRowContent({
             fontSize: 'xs',
           })}
         >
-          {cancelled ? (
-            <span
-              className={cx(
-                badgeClass,
-                css({ flexShrink: 0, bg: 'fg.strong', color: 'surface' }),
-              )}
-            >
-              中止
-            </span>
-          ) : (
-            <CategoryLabel category={category} />
-          )}
+          <CategoryLabel category={category} />
           <span className={css({ color: 'fg.subtle', truncate: true })}>
             {organization}
           </span>
@@ -236,14 +218,12 @@ const ProjectListItem = memo(function ProjectListItem({
   className,
   style,
 }: ProjectListItemProps) {
-  const { number, cancelled = false } = project;
-
   return (
     <Link
-      to={`/project/${number}`}
+      to={`/project/${project.number}`}
       hidden={hidden}
       className={cx(projectCardClass, className)}
-      style={{ ...style, opacity: cancelled ? 0.55 : undefined }}
+      style={style}
     >
       <ProjectListItemBody
         project={project}

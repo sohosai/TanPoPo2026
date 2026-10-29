@@ -78,9 +78,7 @@ export default function MapCallouts() {
 
   // 建物ごとの企画。建物の中の複数の部屋で実施する企画は、1件として扱う。
   const projectsByBuilding = useMemo(() => {
-    const byPlace = groupProjectsByPlace(
-      (projects ?? []).filter(({ cancelled }) => !cancelled),
-    );
+    const byPlace = groupProjectsByPlace(projects ?? []);
     return new Map(
       config.buildings.map((placeId) => [
         placeId,

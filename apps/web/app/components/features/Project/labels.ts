@@ -28,16 +28,6 @@ export function formatPerformances([first, ...rest]: Performance[]): string {
   return rest.length > 0 ? `${label} ほか${rest.length}回` : label;
 }
 
-/** 中止などの、塗りで目立たせる小さなラベルの形。 */
-export const badgeClass = css({
-  px: '7px',
-  py: '0.5em',
-  textBox: 'trim-both cap alphabetic',
-  borderRadius: 'full',
-  fontSize: '2xs',
-  fontWeight: 500,
-});
-
 // Panda は css() の引数を静的解析するため、分類ごとのクラスは動的に組み立てず列挙しておく。
 export const CATEGORY_TAG_CLASS: Record<ProjectCategory, string> = {
   食事: css({ bg: 'category.meal.bg' }),

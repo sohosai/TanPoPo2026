@@ -63,7 +63,7 @@ export const listEnterStyles = css({
 
 /**
  * 一覧の各行が上から順に少しずつ出てくる演出。itemEnterStyle(index) と組み合わせる。
- * fill-mode は backwards にし、終了後は中止企画の半透明など本来のスタイルに戻す。
+ * fill-mode は backwards にし、終了後は本来のスタイルに戻す。
  */
 export const itemEnterStyles = css({
   animation: 'itemEnter 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) backwards',

@@ -29,6 +29,7 @@ export const SosDynamicProjectSchema = z.object({
     iconFileId: z.string().nullable().optional(),
     mapImageFileIds: z.array(z.string()).optional(),
     openStatus: z.enum(['OPEN', 'CLOSED', 'NOT_APPLICABLE']),
+    stockStatus: z.enum(['IN_STOCK', 'OUT_OF_STOCK', 'NOT_APPLICABLE']),
   }),
 });
 
