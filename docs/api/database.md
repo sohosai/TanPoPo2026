@@ -9,6 +9,8 @@ LINEログイン・雙峰祭グランプリ投票・来場者アンケートの�
 
 Place（建物・ステージ等）や Project（企画）は DB 化せず、インメモリ／外部 SOS API から配信する。グランプリ投票の `projectId`（一般部門・ステージ部門とも）などは文字列として保存するのみで、外部キー制約は持たない。ステージ部門は `grandprix_stage_votes` に「ステージ・企画」を保存し、`(vote_id, stage)` の複合主キーで1ステージにつき1企画までに制限する。ステージ部門への投票は任意で、投票しなければ `grandprix_stage_votes` に行を作らない。
 
+グランプリ抽選の当たりは `grandprix_prizes` の枠で数を制限する。1行が景品1個（全部で5行）で、確率で当たった投票は、空いている枠の `vote_id` に自分の投票を書き込めたときだけ当たりになる。日ごとに取れる枠は `apps/api/trpc/routers/grandprix.ts` の `PRIZE_LIMITS`（日本時間の日付ごとの、その日までの累計）で決め、載っていない日は当たりが出ない。行の数が上限になるため、`PRIZE_LIMITS` を誤って大きくしても5個を超えない。また、枠を取っていない投票に `result = 'win'` の `grandprix_draws` を書き込むとトリガーが拒む。
+
 ## ローカル開発
 
 ローカルの D1 は `wrangler dev` が `apps/api/.wrangler/state` に作る SQLite ファイルで、Cloudflare アカウントは不要。

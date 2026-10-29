@@ -82,6 +82,15 @@ export const grandprixStageVotes = sqliteTable(
   (table) => [primaryKey({ columns: [table.voteId, table.stage] })],
 );
 
+// 抽選の当たり枠。1行が景品1個で、当たりは空いた枠を取れたときだけになる。
+// 行の数が当選数の上限になるため、コードの誤りや同時の投票があっても行数を超えて当たりは出ない。
+export const grandprixPrizes = sqliteTable('grandprix_prizes', {
+  id: integer('id').primaryKey(),
+  voteId: text('vote_id')
+    .unique()
+    .references(() => grandprixVotes.id),
+});
+
 export const grandprixDraws = sqliteTable('grandprix_draws', {
   id: text('id').primaryKey(),
   voteId: text('vote_id')

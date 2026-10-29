@@ -1,11 +1,12 @@
 import { TRPCError } from '@trpc/server';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { isDuplicateKeyError } from '../../db/errors';
 import {
   type GrandprixStage,
   grandprixDraws,
   grandprixGeneralVotes,
+  grandprixPrizes,
   grandprixStages,
   grandprixStageVotes,
   grandprixVotes,
@@ -43,8 +44,20 @@ function votableProjects(projects: Project[], hiddenNumbers?: string) {
   return projects.filter(({ number }) => !hidden.has(number));
 }
 
-function drawResult(winRate: string): 'win' | 'lose' {
-  return Math.random() < Number.parseFloat(winRate) ? 'win' : 'lose';
+/**
+ * 日本時間の日付ごとの、その日までに出せる当たりの累計。載っていない日は 0。
+ * 前日に余った枠はあとの日にも取れる。全体の上限は grandprix_prizes の行数（5）で、ここで増やしても超えない。
+ */
+const PRIZE_LIMITS: Record<string, number> = {
+  '2026-10-31': 3,
+  '2026-11-01': 5,
+};
+
+function prizeLimitOn(date: Date): number {
+  const jstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
+  return PRIZE_LIMITS[jstDate] ?? 0;
 }
 
 const submitInputSchema = z.object({
@@ -153,13 +166,16 @@ export const grandprixRouter = t.router({
         }
 
         const voteId = crypto.randomUUID();
-        const result = drawResult(ctx.env.GRANDPRIX_WIN_RATE);
         const drawnAt = new Date();
+        const prizeLimit = prizeLimitOn(drawnAt);
+        const rolledWin =
+          Math.random() < Number.parseFloat(ctx.env.GRANDPRIX_WIN_RATE);
         const { db } = ctx;
 
         try {
           // D1 は対話的トランザクションを持たないため、batch で全件を原子的に書き込む。
-          await db.batch([
+          // batch は他の書き込みと混ざらずに実行されるため、同時に当たっても同じ枠を二重に取らない。
+          const results = await db.batch([
             db
               .insert(grandprixVotes)
               .values({ id: voteId, userId: ctx.user.id }),
@@ -181,12 +197,36 @@ export const grandprixRouter = t.router({
               .update(users)
               .set({ isTsukubaStudent: input.isTsukubaStudent })
               .where(eq(users.id, ctx.user.id)),
+            ...(rolledWin && prizeLimit > 0
+              ? [
+                  db
+                    .update(grandprixPrizes)
+                    .set({ voteId })
+                    .where(
+                      eq(
+                        grandprixPrizes.id,
+                        sql`(SELECT ${grandprixPrizes.id} FROM ${grandprixPrizes} WHERE ${grandprixPrizes.voteId} IS NULL AND ${grandprixPrizes.id} <= ${prizeLimit} ORDER BY ${grandprixPrizes.id} LIMIT 1)`,
+                      ),
+                    ),
+                ]
+              : []),
+            // 枠が残っていなければ、確率で当たっていてもはずれにする。
             db
               .insert(grandprixDraws)
-              .values({ id: crypto.randomUUID(), voteId, result, drawnAt }),
+              .values({
+                id: crypto.randomUUID(),
+                voteId,
+                result: sql`CASE WHEN EXISTS (SELECT 1 FROM ${grandprixPrizes} WHERE ${grandprixPrizes.voteId} = ${voteId}) THEN 'win' ELSE 'lose' END`,
+                drawnAt,
+              })
+              .returning({ result: grandprixDraws.result }),
           ]);
+          const [draw] = results[results.length - 1] as {
+            result: 'win' | 'lose';
+          }[];
+          if (!draw) throw new Error('抽選結果を記録できませんでした');
 
-          return { result, drawnAt: drawnAt.toISOString() };
+          return { result: draw.result, drawnAt: drawnAt.toISOString() };
         } catch (error) {
           if (isDuplicateKeyError(error)) {
             throw new TRPCError({
