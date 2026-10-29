@@ -1772,12 +1772,12 @@
     "organization": "プクプクの3年生",
     "organizationReading": "ぷくぷくのさんねんせい",
     "category": "スイーツ",
-    "schedule": ["Day1", "Day2"],
+    "schedule": ["Day2"],
     "locations": [
       {
         "placeId": "booth-d",
         "room": "D3",
-        "days": ["Day1", "Day2"]
+        "days": ["Day2"]
       }
     ],
     "performances": [],
