@@ -21,7 +21,7 @@ LINE ログインと、それを使う機能（グランプリ投票・来場者
 ## フロー
 
 1. Webから `GET /auth/line/login?redirect=/grandprix` へフルページ遷移する（`redirect`はログイン後に戻る相対パス、省略時は `/`）。
-2. APIが CSRF対策の `state` と `nonce` を発行し、httpOnly cookie(`/auth/line`配下のみ有効、10分)に保存した上で、LINEの認可画面へ302リダイレクトする。認可URLには `disable_auto_login=true` を付け、LINEアプリを経由する自動ログインを使わない。自動ログインではコールバックが開始時と別のブラウザで開くことがあり、`state` の cookie が届かずに失敗するため。
+2. APIが CSRF対策の `state` と `nonce` を発行し、httpOnly cookie(`/auth/line`配下のみ有効、10分)に保存した上で、LINEの認可画面へ302リダイレクトする。
 3. ユーザーがLINE側で認可すると `GET /auth/line/callback?code=...&state=...` に戻ってくる。
 4. APIは `state` を検証し、認可コードをLINEのトークンエンドポイントでID Token(JWT)に交換、`jose` でID Tokenの署名・`iss`/`aud`/`nonce`を検証する。LINEのID TokenはHS256（チャネルシークレットを鍵とする対称鍵署名）で発行されるため、JWKS（公開鍵）ではなく`LINE_CHANNEL_SECRET`を鍵として検証する。
 5. ID Tokenの `sub`(LINEユーザーの安定ID)で `users` テーブルをupsertし、セッション(`sessions`テーブル、cookieには生トークンのSHA-256ハッシュを保存)を発行、httpOnly cookieとしてセットする。cookie の `Secure` 属性は https で配信されているときだけ付く。
