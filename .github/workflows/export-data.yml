@@ -61,7 +61,7 @@ jobs:
           name="$TARGET_ENV-$REPORT-$(TZ=Asia/Tokyo date +%Y%m%d-%H%M)"
           mkdir -p "$RUNNER_TEMP/out"
           (cd "$RUNNER_TEMP/export" && \
-            7z a -tzip -mem=AES256 -p"$EXPORT_PASSWORD" -bso0 -bsp0 \
+            7z a -tzip -mem=ZipCrypto -p"$EXPORT_PASSWORD" -bso0 -bsp0 \
               "$RUNNER_TEMP/out/$name.zip" ./*.csv)
           rm -rf "$RUNNER_TEMP/export"
           echo "name=$name" >> "$GITHUB_OUTPUT"
