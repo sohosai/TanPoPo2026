@@ -134,9 +134,11 @@ function grandprixVotes(env: Env, before: (column: string) => string) {
      ${before('v.submitted_at')}
      GROUP BY s.stage, s.project_id`,
   );
-  const [{ voters }] = query<{ voters: number }>(
+  const [{ voters, winners }] = query<{ voters: number; winners: number }>(
     env,
-    `SELECT COUNT(*) AS voters FROM grandprix_votes ${before('submitted_at')}`,
+    `SELECT COUNT(*) AS voters, COUNT(CASE WHEN d.result = 'win' THEN 1 END) AS winners
+     FROM grandprix_votes v LEFT JOIN grandprix_draws d ON d.vote_id = v.id
+     ${before('v.submitted_at')}`,
   );
 
   return {
@@ -150,6 +152,7 @@ function grandprixVotes(env: Env, before: (column: string) => string) {
     'summary.csv': [
       ['項目', '値'],
       ['投票者数', voters],
+      ['当選数', winners],
     ],
   };
 }
