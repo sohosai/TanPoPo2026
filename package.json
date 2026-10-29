@@ -13,6 +13,7 @@
     "import:stage-projects": "bun run scripts/import-stage-projects.ts",
     "import:stage-timetable": "bun run scripts/import-stage-timetable.ts",
     "sync:projects": "bun run scripts/sync-projects.ts",
+    "export:data": "bun run scripts/export-data.ts",
     "ingest:osm": "bun run scripts/ingest-osm.ts",
     "merge:osm": "bun run scripts/merge-osm.ts",
     "clean": "turbo run clean && rm -rf .turbo",
