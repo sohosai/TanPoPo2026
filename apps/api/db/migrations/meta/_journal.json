@@ -22,6 +22,13 @@
       "when": 1791443839680,
       "tag": "0002_rename_shop_to_project",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1793281418001,
+      "tag": "0003_oauth_states",
+      "breakpoints": true
     }
   ]
 }
