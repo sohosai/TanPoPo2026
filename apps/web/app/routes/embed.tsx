@@ -29,7 +29,7 @@ export const meta: Route.MetaFunction = () => [
 /**
  * 他サイトの iframe に埋め込む地図。URL はアプリ本体の URL の先頭に /embed を付けたもので、
  * 企画・場所・エリアのページに当たる URL ならそこへ寄せる。
- * `?highlight=trash`（ゴミ箱）か `?highlight=information`（案内所）を付けると、その種類の場所だけを強調し、
+ * `?highlight=trash`（ごみ箱）か `?highlight=information`（案内所）を付けると、その種類の場所だけを強調し、
  * すべてが収まるように表示する。
  */
 export default function Embed() {

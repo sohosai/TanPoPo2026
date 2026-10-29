@@ -9,7 +9,7 @@ export type PlaceKind =
   | 'bus_stop' // バス停
   | 'information' // インフォメーション
   | 'parking' // 駐車場
-  | 'trash'; // ゴミ捨て場
+  | 'trash'; // ごみ箱
 
 /**
  * 場所の情報。

@@ -281,7 +281,7 @@ export function setExtrusionVisible(map: MlMap, visible: boolean) {
 const ICON_SIZE = 20;
 const ICON_PIXEL_RATIO = 2;
 
-/** 色の丸に白い記号（`symbol` が 20px 四方に描く）を載せた、案内所・ゴミ箱のアイコン。 */
+/** 色の丸に白い記号（`symbol` が 20px 四方に描く）を載せた、案内所・ごみ箱のアイコン。 */
 function facilityIcon(
   color: string,
   symbol: (ctx: CanvasRenderingContext2D) => void,
@@ -539,7 +539,7 @@ export function addCampusLayers(map: MlMap) {
     minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
     paint: { 'line-color': ACCENT_TEXT, 'line-width': 3 },
   });
-  // 案内所はエリア全体から目印になるよう引いた段階から、ゴミ箱は数が多いため寄ってから出す。
+  // 案内所はエリア全体から目印になるよう引いた段階から、ごみ箱は数が多いため寄ってから出す。
   for (const [kind, minzoom] of [
     ['information', AREA_MAX_ZOOM],
     ['trash', DETAIL_ZOOM],
@@ -595,7 +595,7 @@ export function addCampusLayers(map: MlMap) {
 }
 
 /**
- * 種類が `kind` の場所（ゴミ箱など）だけを強調する。そのアイコンをどのズームでも少し大きく出し、
+ * 種類が `kind` の場所（ごみ箱など）だけを強調する。そのアイコンをどのズームでも少し大きく出し、
  * ほかのピン・点・ラベルは隠す。建物とテントの形は位置の手がかりとして残す。
  */
 export function highlightPlaceKind(map: MlMap, kind: 'information' | 'trash') {
