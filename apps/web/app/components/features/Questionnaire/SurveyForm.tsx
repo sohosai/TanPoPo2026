@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { css } from '../../../../styled-system/css';
 import {
   type Answers,
@@ -64,6 +64,7 @@ export default function SurveyForm({
   const [answers, setAnswers] = useState<Answers[]>([]);
   // 回答前から全質問を赤くすると読みにくいため、一度進もうとしてから未回答を示す。
   const [showUnanswered, setShowUnanswered] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
   const current = answers[personIndex] ?? {};
   const text = TEXT[lang];
 
@@ -119,11 +120,15 @@ export default function SurveyForm({
     setShowUnanswered(false);
     setPersonIndex((i) => i + 1);
     // 1人分の質問が長いため、次の人の回答は先頭から始められるようにする。
-    window.scrollTo({ top: 0 });
+    // スクロールするのは window ではなく EventPageShell の要素。
+    rootRef.current
+      ?.closest('[data-event-scroll]')
+      ?.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   return (
     <div
+      ref={rootRef}
       className={css({
         display: 'flex',
         flexDirection: 'column',
