@@ -30,6 +30,15 @@ export const sessions = sqliteTable('sessions', {
   createdAt: createdAt('created_at'),
 });
 
+// LINE の自動ログインではコールバックが開始時と別のブラウザで開き、Cookie が届かないことがある。
+// そのため state はサーバーにも保存し、Cookie が無くても検証できるようにする。
+export const oauthStates = sqliteTable('oauth_states', {
+  state: text('state').primaryKey(),
+  nonce: text('nonce').notNull(),
+  redirect: text('redirect').notNull(),
+  expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+});
+
 // ---- 雙峰祭グランプリ投票 ----
 
 // Place側の生IDに依存させず、投票用に統合したステージの識別子。

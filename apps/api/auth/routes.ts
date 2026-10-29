@@ -1,9 +1,9 @@
-import { eq } from 'drizzle-orm';
+import { eq, lt } from 'drizzle-orm';
 import type { Context } from 'hono';
 import { Hono } from 'hono';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
 import { createDb } from '../db/client';
-import { users } from '../db/schema';
+import { oauthStates, users } from '../db/schema';
 import type { AppEnv } from '../env';
 import {
   exchangeCodeForIdToken,
@@ -19,9 +19,7 @@ import {
 } from './session';
 
 const OAUTH_STATE_COOKIE = 'line_oauth_state';
-const OAUTH_NONCE_COOKIE = 'line_oauth_nonce';
-const OAUTH_REDIRECT_COOKIE = 'line_oauth_redirect';
-const OAUTH_COOKIE_MAX_AGE = 600; // 10分
+const OAUTH_STATE_MAX_AGE = 600; // 10分
 const SESSION_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30日
 
 type AppContext = Context<{ Bindings: AppEnv }>;
@@ -39,21 +37,29 @@ function sanitizeRedirectPath(raw: string | undefined): string {
 
 export const authRoutes = new Hono<{ Bindings: AppEnv }>();
 
-authRoutes.get('/line/login', (c) => {
+authRoutes.get('/line/login', async (c) => {
   const state = randomHex(16);
   const nonce = randomHex(16);
   const redirect = sanitizeRedirectPath(c.req.query('redirect'));
 
-  const oauthCookieOptions = {
+  const db = createDb(c.env.DB);
+  await db.batch([
+    db.delete(oauthStates).where(lt(oauthStates.expiresAt, new Date())),
+    db.insert(oauthStates).values({
+      state,
+      nonce,
+      redirect,
+      expiresAt: new Date(Date.now() + OAUTH_STATE_MAX_AGE * 1000),
+    }),
+  ]);
+
+  setCookie(c, OAUTH_STATE_COOKIE, state, {
     httpOnly: true,
     secure: isSecureRequest(c),
-    sameSite: 'Lax' as const,
-    maxAge: OAUTH_COOKIE_MAX_AGE,
+    sameSite: 'Lax',
+    maxAge: OAUTH_STATE_MAX_AGE,
     path: '/auth/line',
-  };
-  setCookie(c, OAUTH_STATE_COOKIE, state, oauthCookieOptions);
-  setCookie(c, OAUTH_NONCE_COOKIE, nonce, oauthCookieOptions);
-  setCookie(c, OAUTH_REDIRECT_COOKIE, redirect, oauthCookieOptions);
+  });
 
   return c.redirect(getAuthorizationUrl(c.env, state, nonce));
 });
@@ -61,29 +67,36 @@ authRoutes.get('/line/login', (c) => {
 authRoutes.get('/line/callback', async (c) => {
   const code = c.req.query('code');
   const returnedState = c.req.query('state');
-  const savedState = getCookie(c, OAUTH_STATE_COOKIE);
-  const nonce = getCookie(c, OAUTH_NONCE_COOKIE);
-  const redirect = sanitizeRedirectPath(getCookie(c, OAUTH_REDIRECT_COOKIE));
-
+  const cookieState = getCookie(c, OAUTH_STATE_COOKIE);
   deleteCookie(c, OAUTH_STATE_COOKIE, { path: '/auth/line' });
-  deleteCookie(c, OAUTH_NONCE_COOKIE, { path: '/auth/line' });
-  deleteCookie(c, OAUTH_REDIRECT_COOKIE, { path: '/auth/line' });
 
+  const db = createDb(c.env.DB);
+  // 使い回せないよう、検証の成否に関わらず取り出した時点で消す。
+  const saved = returnedState
+    ? await db
+        .delete(oauthStates)
+        .where(eq(oauthStates.state, returnedState))
+        .returning()
+        .get()
+    : undefined;
+
+  // 自動ログインで別のブラウザに戻ると Cookie は無いため、そのときはサーバーの記録だけで受け入れる。
+  // Cookie があるのに食い違うのは、別のログインの途中に差し込まれたコールバックなので拒む。
   if (
     !code ||
-    !returnedState ||
-    !savedState ||
-    !nonce ||
-    returnedState !== savedState
+    !saved ||
+    saved.expiresAt.getTime() < Date.now() ||
+    (cookieState !== undefined && cookieState !== returnedState)
   ) {
     return c.text(
       'ログインに失敗しました（不正なリクエストです）。もう一度お試しください。',
       400,
     );
   }
+  const { nonce } = saved;
+  const redirect = sanitizeRedirectPath(saved.redirect);
 
   try {
-    const db = createDb(c.env.DB);
     const idToken = await exchangeCodeForIdToken(c.env, code);
     const profile = await verifyIdToken(c.env, idToken, nonce);
 
