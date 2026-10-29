@@ -7598,8 +7598,14 @@
       }
     ],
     "performances": [],
-    "description": "",
-    "links": []
+    "description": "パリパリのせんべいに、目玉焼きとソースをのせた「たません」を販売します！\nシンプルなのに、クセになるおいしさ。小腹が空いたときや、ステージのおともにぴったりです！\n前夜祭から営業していますので、ぜひお気軽にお立ち寄りください！",
+    "links": [
+      {
+        "kind": "instagram",
+        "label": "@tamasen.ya",
+        "url": "https://www.instagram.com/tamasen.ya/"
+      }
+    ]
   },
   {
     "number": "342",
