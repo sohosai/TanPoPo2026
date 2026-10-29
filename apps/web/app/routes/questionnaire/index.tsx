@@ -140,7 +140,23 @@ export default function QuestionnaireRoute({
 
 function QuestionnairePage() {
   return (
-    <EventPageShell title="来場者アンケート" redirectPath="/questionnaire">
+    <EventPageShell
+      title="来場者アンケート"
+      redirectPath="/questionnaire"
+      loginPrompt={{
+        preview: (
+          <>
+            <LanguageToggle lang="ja" onChange={() => {}} />
+            <HeadcountStep lang="ja" onConfirm={() => {}} />
+          </>
+        ),
+        title: 'ログインしてアンケートに回答',
+        steps: [
+          'アンケートに回答（同伴者の分もまとめて回答できます）',
+          '福引券を受け取り、福引所で抽選に参加',
+        ],
+      }}
+    >
       <QuestionnaireContent />
     </EventPageShell>
   );

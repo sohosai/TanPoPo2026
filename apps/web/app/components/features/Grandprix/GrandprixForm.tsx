@@ -91,26 +91,8 @@ export default function GrandprixForm({ onSubmitted }: GrandprixFormProps) {
   const selectedStage = selectedStageProjects(stageProjects, stageVotes);
 
   return (
-    <div
-      ref={rootRef}
-      className={css({
-        minH: '100%',
-        bg: 'surface',
-        pb: 'calc(150px + env(safe-area-inset-bottom, 0px))',
-      })}
-    >
-      <div
-        className={cx(
-          contentWidth,
-          css({
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            px: '12px',
-            pt: '16px',
-          }),
-        )}
-      >
+    <div ref={rootRef} className={formRootClass}>
+      <div className={formBodyClass}>
         <StepProgress labels={STEP_LABELS} current={stepIndex} />
 
         {step === 'student' && (
@@ -204,6 +186,38 @@ function selectedStageProjects(
     const project = projects.find((p) => p.id === votes[stage]);
     return project ? [{ stage, project }] : [];
   });
+}
+
+const formRootClass = css({
+  minH: '100%',
+  bg: 'surface',
+  pb: 'calc(150px + env(safe-area-inset-bottom, 0px))',
+});
+const formBodyClass = cx(
+  contentWidth,
+  css({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    px: '12px',
+    pt: '16px',
+  }),
+);
+
+/** ログイン前の背景に見せる、投票フォームの最初の手順。 */
+export function GrandprixFormPreview() {
+  return (
+    <div className={formRootClass}>
+      <div className={formBodyClass}>
+        <StepProgress labels={STEP_LABELS} current={0} />
+        <StudentStep
+          value={null}
+          onChange={() => {}}
+          nav={{ onNext: () => {}, returnsToConfirm: false }}
+        />
+      </div>
+    </div>
+  );
 }
 
 function StudentStep({
