@@ -14,7 +14,10 @@ import {
 } from '../../db/schema';
 import type { Project } from '../../domain/project';
 import { parseProjectNumbers } from '../../services/sos';
-import { lineProcedure, protectedProcedure, t } from '../trpc';
+import { featureProcedure, protectedProcedure, t } from '../trpc';
+
+const grandprixProcedure = featureProcedure('grandprix');
+const grandprixProtectedProcedure = protectedProcedure('grandprix');
 
 const MAX_GENERAL_VOTES = 4;
 export type MaxGeneralVotes = typeof MAX_GENERAL_VOTES;
@@ -75,7 +78,7 @@ const submitInputSchema = z.object({
 
 export const grandprixRouter = t.router({
   grandprix: t.router({
-    stageProjects: lineProcedure.query(async ({ ctx }) =>
+    stageProjects: grandprixProcedure.query(async ({ ctx }) =>
       groupStageProjects(
         votableProjects(
           await ctx.sos.getProjects(),
@@ -85,7 +88,7 @@ export const grandprixRouter = t.router({
     ),
 
     // ステージ企画はステージ部門でだけ投票できるため、一般部門の一覧から除く。
-    generalProjects: lineProcedure.query(async ({ ctx }) => {
+    generalProjects: grandprixProcedure.query(async ({ ctx }) => {
       const projects = votableProjects(
         await ctx.sos.getProjects(),
         ctx.env.GRANDPRIX_HIDDEN_PROJECT_NUMBERS,
@@ -98,7 +101,7 @@ export const grandprixRouter = t.router({
       return projects.filter((project) => !stageProjectIds.has(project.id));
     }),
 
-    status: protectedProcedure.query(async ({ ctx }) => {
+    status: grandprixProtectedProcedure.query(async ({ ctx }) => {
       const vote = await ctx.db.query.grandprixVotes.findFirst({
         where: eq(grandprixVotes.userId, ctx.user.id),
         with: { draw: true },
@@ -116,7 +119,7 @@ export const grandprixRouter = t.router({
       };
     }),
 
-    submit: protectedProcedure
+    submit: grandprixProtectedProcedure
       .input(submitInputSchema)
       .mutation(async ({ ctx, input }) => {
         // クライアント側のボタンdisableだけに頼らず、サーバー側でも必ず再検証する。

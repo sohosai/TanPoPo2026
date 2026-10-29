@@ -1,5 +1,18 @@
 import type { AppEnv } from '../env';
 
-/** LINE ログインと、それを使う機能（グランプリ投票・来場者アンケート）を有効にするか。 */
-export const isLineLoginEnabled = (env: Pick<AppEnv, 'LINE_LOGIN_ENABLED'>) =>
-  env.LINE_LOGIN_ENABLED === 'true';
+/** LINE ログインを使う機能。機能ごとに環境変数で受付を切り替える。 */
+export type Feature = 'grandprix' | 'questionnaire';
+
+const FEATURE_ENV = {
+  grandprix: 'GRANDPRIX_ENABLED',
+  questionnaire: 'QUESTIONNAIRE_ENABLED',
+} as const satisfies Record<Feature, keyof AppEnv>;
+
+type FeatureEnv = Pick<AppEnv, (typeof FEATURE_ENV)[Feature]>;
+
+export const isFeatureEnabled = (env: FeatureEnv, feature: Feature) =>
+  env[FEATURE_ENV[feature]] === 'true';
+
+/** どれかの機能が有効な間だけ、LINE ログインを受け付ける。 */
+export const isLineLoginEnabled = (env: FeatureEnv) =>
+  isFeatureEnabled(env, 'grandprix') || isFeatureEnabled(env, 'questionnaire');

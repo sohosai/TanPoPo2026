@@ -6,17 +6,19 @@ Web と API は同一オリジンで配信される（本番は同じ Worker、�
 
 ## 機能の有効・無効
 
-LINE ログインと、それを使う機能（グランプリ投票・来場者アンケート）は、API の環境変数 `LINE_LOGIN_ENABLED` でまとめて切り替える。`true` のときだけ有効になり、未設定やそれ以外の値なら無効になる。Web はビルドに値を持たず、tRPC の `auth.enabled` で API の状態を取得して表示を切り替える。そのため Worker の環境変数を変えるだけで、再ビルドせずに両方がそろって切り替わる。
+LINE ログインを使う機能（グランプリ投票・来場者アンケート）は、API の環境変数で機能ごとに受付を切り替える。どちらも `true` のときだけ有効になり、未設定やそれ以外の値なら無効になる。LINE ログイン自体は、どちらかが有効な間だけ受け付ける。Web はビルドに値を持たず、tRPC の `auth.enabled`（`{ grandprix, questionnaire }`）で API の状態を取得して表示を切り替える。そのため Worker の環境変数を変えるだけで、再ビルドせずに切り替わる。
 
-| 側 | 無効のとき |
-| --- | --- |
-| API | `/auth/*` は 404。tRPC の `auth.me`・`grandprix.*`・`questionnaire.*` は `NOT_FOUND`。セッションの Cookie も読まない |
-| Web | 企画一覧の先頭のグランプリ投票・来場者アンケートの導線を出さない。`/grandprix`・`/questionnaire` は「現在準備中です」の案内になる（404 のページと同じデザイン。`apps/web/app/components/layouts/StatusPage/StatusPage.tsx` の `ComingSoonPage`） |
+| 環境変数 | 機能 | 無効のときの API | 無効のときの Web |
+| --- | --- | --- | --- |
+| `GRANDPRIX_ENABLED` | グランプリ投票 | `grandprix.*` は `NOT_FOUND` | `/grandprix` は「受付時間外です」の案内になる |
+| `QUESTIONNAIRE_ENABLED` | 来場者アンケート | `questionnaire.*` は `NOT_FOUND` | `/questionnaire` は「受付時間外です」の案内になる |
 
-- 雙峰祭の当日に `true` にして公開する想定。
+- 両方とも無効なときは、`/auth/*` も 404 になり、tRPC の `auth.me` は `NOT_FOUND` を返す。セッションの Cookie も読まない。
+- 企画一覧の先頭のグランプリ投票・来場者アンケートの導線は、受付時間外でも常に出す。入った先で時間外の案内を出す（404 のページと同じデザイン。`apps/web/app/components/layouts/StatusPage/StatusPage.tsx` の `OutOfHoursPage`）。
+- 無効にした機能は、それまでの回答や結果も表示できない。来場者アンケートの福引券やグランプリの引換証を福引所で見せる時間帯は、その機能を有効にしておく。
 - Web は `auth.enabled` を取得できないとき（オフラインなど）も無効として扱う。
 - 無効にしてもデータベース（`users`・`sessions`・投票・アンケートのテーブル）と LINE のチャネル設定（`LINE_CHANNEL_*`）はそのまま残る。有効に戻せば、それまでのデータとログイン中のセッションを引き続き使える。
-- 実装: API は `apps/api/index.ts`（`/auth/*` を塞ぐ）と `apps/api/trpc/trpc.ts` の `lineProcedure`（`protectedProcedure` もこれを通る）。判定は `apps/api/domain/features.ts` の `isLineLoginEnabled`。Web は `apps/web/app/lib/auth.ts` の `fetchLineLoginEnabled`（`/grandprix`・`/questionnaire` の `clientLoader`）と `useLineLoginEnabled`（企画一覧の導線）で取得する。
+- 実装: API は `apps/api/index.ts`（`/auth/*` を塞ぐ）と `apps/api/trpc/trpc.ts` の `lineProcedure`（`auth.me`）・`featureProcedure`・`protectedProcedure`（機能ごと）。判定は `apps/api/domain/features.ts` の `isFeatureEnabled` と `isLineLoginEnabled`。Web は `apps/web/app/lib/auth.ts` の `fetchFeatureEnabled`（`/grandprix`・`/questionnaire` の `clientLoader`）で取得する。
 
 ## フロー
 

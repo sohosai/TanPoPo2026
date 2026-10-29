@@ -9,6 +9,8 @@ import {
 } from '../../db/schema';
 import { protectedProcedure, t } from '../trpc';
 
+const questionnaireProcedure = protectedProcedure('questionnaire');
+
 // 子供の分もまとめて回答するケースを想定した人数上限。
 const MAX_HEADCOUNT = 10;
 export type MaxHeadcount = typeof MAX_HEADCOUNT;
@@ -21,7 +23,7 @@ const submitInputSchema = z.object({
 
 export const questionnaireRouter = t.router({
   questionnaire: t.router({
-    myTickets: protectedProcedure.query(async ({ ctx }) => {
+    myTickets: questionnaireProcedure.query(async ({ ctx }) => {
       const submissions = await ctx.db.query.questionnaireSubmissions.findMany({
         where: eq(questionnaireSubmissions.userId, ctx.user.id),
         with: { responses: { with: { ticket: true } } },
@@ -48,7 +50,7 @@ export const questionnaireRouter = t.router({
       );
     }),
 
-    submit: protectedProcedure
+    submit: questionnaireProcedure
       .input(submitInputSchema)
       .mutation(async ({ ctx, input }) => {
         // クライアント側の入力ステップ数だけに頼らず、サーバー側でも件数を再検証する。
@@ -95,7 +97,7 @@ export const questionnaireRouter = t.router({
         return { submissionId };
       }),
 
-    markUsed: protectedProcedure
+    markUsed: questionnaireProcedure
       .input(z.object({ ticketId: z.string() }))
       .mutation(async ({ ctx, input }) => {
         // 「係員が操作する」はUI上の運用であって認可境界ではないため、

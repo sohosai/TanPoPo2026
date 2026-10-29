@@ -9,7 +9,8 @@ Worker の環境変数は、本番では `apps/api/wrangler.jsonc` の `vars`（
 | `GRANDPRIX_WIN_RATE` | var | 雙峰祭グランプリ抽選の当選率（0〜1の小数） |
 | `HIDDEN_PROJECT_NUMBERS` | var | 全体から非表示にする企画番号のカンマ区切り（例: `001,002`）。一覧・詳細・地図・グランプリのすべてから消える。空なら何も隠さない |
 | `GRANDPRIX_HIDDEN_PROJECT_NUMBERS` | var | グランプリ投票だけから非表示にする企画番号のカンマ区切り。投票画面に出ず、投票も受け付けない。一覧・詳細には残る |
-| `LINE_LOGIN_ENABLED` | var | `true` のときだけ LINE ログインと、それを使う機能（グランプリ投票・来場者アンケート）を有効にする。未設定やそれ以外の値なら無効。詳細は [line-login.md](./line-login.md#機能の有効無効) |
+| `GRANDPRIX_ENABLED` | var | `true` のときだけグランプリ投票を受け付ける。未設定やそれ以外の値なら「受付時間外です」の案内になる。詳細は [line-login.md](./line-login.md#機能の有効無効) |
+| `QUESTIONNAIRE_ENABLED` | var | `true` のときだけ来場者アンケートを受け付ける。未設定やそれ以外の値なら「受付時間外です」の案内になる。`GRANDPRIX_ENABLED` とどちらかが有効な間だけ LINE ログインを受け付ける |
 | `LINE_CHANNEL_ID` | var | LINEログインチャネルのChannel ID（[LINE Developers Console](https://developers.line.biz/console/)で発行） |
 | `LINE_CHANNEL_SECRET` | secret | LINEログインチャネルのChannel Secret。**非公開情報**。本番は `wrangler secret put LINE_CHANNEL_SECRET` で登録する |
 | `LINE_CALLBACK_URL` | var | LINEログインのコールバックURL（`<Webのオリジン>/auth/line/callback`）。LINE Developers Console側にも同じ値を登録する |
