@@ -9,6 +9,7 @@ import {
 import maplibregl from 'maplibre-gl';
 import { type Ref, useEffect, useRef, useState } from 'react';
 import { SHEET_PEEK } from '~/components/layouts/MapPanel/BottomSheet';
+import { startCrowdReport } from '~/lib/crowdReport';
 import { useIsEmbed } from '~/lib/embed';
 import {
   hasSeenGeolocationIntro,
@@ -196,7 +197,17 @@ export default function MapControls({ ref }: { ref?: Ref<HTMLDivElement> }) {
     if (!geolocate || stateRef.current !== 'off') return;
     setState('waiting');
     geolocate.trigger();
+    // ブラウザで許可済みの端末は説明を経ずにここへ来るため、説明を承諾した端末だけ送る。
+    if (hasSeenGeolocationIntro()) startCrowdReport();
   };
+
+  // 説明を承諾して許可済みの端末では、現在地を表示していなくても、開いている間は人流の送信を続ける。
+  // 埋め込みでは位置情報を使わない。
+  useEffect(() => {
+    if (!isEmbed && permission === 'granted' && hasSeenGeolocationIntro()) {
+      startCrowdReport();
+    }
+  }, [permission, isEmbed]);
 
   // 設定から許可して戻ってきたら、そのまま現在地を表示する。サイトは許可済みでも OS 側で
   // 拒否されていると拒否のエラーになるため、許可に変わった時点だけを見ないと取得を繰り返してしまう。
