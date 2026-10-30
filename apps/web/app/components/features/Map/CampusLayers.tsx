@@ -13,7 +13,7 @@ import {
   listPath,
 } from '~/components/features/Detail/useDetailClose';
 import { toAppPath, useOpenAppPath } from '~/lib/embed';
-import { usePlaces } from '~/lib/places';
+import { spreadFacilityKind, usePlaces } from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import BoothChooser, { type BoothChoice } from './BoothChooser';
 import { boothCenter } from './booths';
@@ -58,6 +58,19 @@ function useSelection(
           room && boothCenter(placesById.get(placeId), room) ? [room] : [],
         ) ?? [],
     };
+  }, [pathname, projects, placesById]);
+}
+
+/** 開いている企画詳細がごみ箱・駐輪場・駐車場の企画なら、その種類。吹き出しを並べる代わりにその種類を強調する。 */
+function useProjectFacilityKind(
+  projects: Project[] | undefined,
+  placesById: ReadonlyMap<string, Place>,
+) {
+  const pathname = toAppPath(useLocation().pathname);
+  return useMemo(() => {
+    const number = matchPath('/project/:number', pathname)?.params.number;
+    const project = projects?.find((p) => p.number === number);
+    return project && spreadFacilityKind(project, placesById);
   }, [pathname, projects, placesById]);
 }
 
@@ -148,6 +161,8 @@ export default function CampusLayers({
   const { data: projects } = trpc.project.list.useQuery();
   const { places, byId: placesById } = usePlaces();
   const selected = useSelection(projects, placesById);
+  const projectKind = useProjectFacilityKind(projects, placesById);
+  const kind = highlightKind ?? projectKind;
   const [loaded, setLoaded] = useState(false);
   const [sharedBooth, setSharedBooth] = useState<SharedBooth | null>(null);
   const chooserOpen = useRef(false);
@@ -262,8 +277,8 @@ export default function CampusLayers({
 
   useEffect(() => {
     const map = getMap();
-    if (loaded && map && highlightKind) highlightPlaceKind(map, highlightKind);
-  }, [loaded, getMap, highlightKind]);
+    if (loaded && map) highlightPlaceKind(map, kind);
+  }, [loaded, getMap, kind]);
 
   if (!boothChoice) return null;
   return (

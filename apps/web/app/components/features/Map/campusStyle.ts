@@ -52,6 +52,8 @@ const CAMPUS_BUILDING_COLOR = '#97bbdc'; // token('colors.map.campusBuilding')
 const TENT_VIEW_BUILDING_OPACITY = 0.45;
 export const INFORMATION_COLOR = '#e8642c'; // token('colors.map.information')
 const TRASH_COLOR = '#5f9a3c'; // token('colors.map.trash')
+const PARKING_COLOR = '#2b62b0'; // token('colors.map.parking')
+const BICYCLE_PARKING_COLOR = '#7b55a8'; // token('colors.map.bicycleParking')
 
 /** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤと、テントを形で出しているかに応じた不透明度。 */
 const EXTRUSION_LAYERS: Record<string, (tentView: boolean) => number> = {
@@ -321,7 +323,48 @@ const FACILITY_ICONS = {
       ctx.lineTo(7, 15.4);
       ctx.fill();
     }),
+  parking: () =>
+    facilityIcon(PARKING_COLOR, (ctx) => {
+      ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('P', 10, 10.6);
+    }),
+  bicycle_parking: () =>
+    facilityIcon(BICYCLE_PARKING_COLOR, (ctx) => {
+      ctx.strokeStyle = WHITE;
+      ctx.lineWidth = 1.2;
+      ctx.lineJoin = 'round';
+      for (const x of [6.4, 13.6]) {
+        ctx.beginPath();
+        ctx.arc(x, 12, 2.4, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      // 後輪・ペダル・前輪をつなぐフレームとハンドル。
+      ctx.beginPath();
+      ctx.moveTo(6.4, 12);
+      ctx.lineTo(9.6, 12);
+      ctx.lineTo(12.4, 8);
+      ctx.lineTo(13.6, 12);
+      ctx.moveTo(6.4, 12);
+      ctx.lineTo(8.4, 8);
+      ctx.lineTo(12.4, 8);
+      ctx.moveTo(11.6, 6.4);
+      ctx.lineTo(13.2, 6.4);
+      ctx.stroke();
+    }),
 };
+
+// 案内所・駐車場はエリア全体から目印になるよう引いた段階から、ごみ箱・駐輪場は数が多いため寄ってから出す。
+const FACILITY_LAYERS = [
+  ['information', AREA_MAX_ZOOM],
+  ['parking', AREA_MAX_ZOOM],
+  ['bicycle_parking', DETAIL_ZOOM],
+  ['trash', DETAIL_ZOOM],
+] as const;
+
+/** 強調できる施設の種類。 */
+export type FacilityKind = (typeof FACILITY_LAYERS)[number][0];
 
 /** 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。 */
 // 下地の地図タイルの建物のうち、会場の区画に重なって紛らわしいもの（モニュメント・イルミネーションの区画の下）。
@@ -539,11 +582,7 @@ export function addCampusLayers(map: MlMap) {
     minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
     paint: { 'line-color': ACCENT_TEXT, 'line-width': 3 },
   });
-  // 案内所はエリア全体から目印になるよう引いた段階から、ごみ箱は数が多いため寄ってから出す。
-  for (const [kind, minzoom] of [
-    ['information', AREA_MAX_ZOOM],
-    ['trash', DETAIL_ZOOM],
-  ] as const) {
+  for (const [kind, minzoom] of FACILITY_LAYERS) {
     const icon = `campus-${kind}`;
     if (!map.hasImage(icon)) {
       map.addImage(icon, FACILITY_ICONS[kind](), {
@@ -596,19 +635,31 @@ export function addCampusLayers(map: MlMap) {
 
 /**
  * 種類が `kind` の場所（ごみ箱など）だけを強調する。そのアイコンをどのズームでも少し大きく出し、
- * ほかのピン・点・ラベルは隠す。建物とテントの形は位置の手がかりとして残す。
+ * ほかのピン・点・ラベルは隠す。建物とテントの形は位置の手がかりとして残す。`undefined` で元に戻す。
  */
-export function highlightPlaceKind(map: MlMap, kind: 'information' | 'trash') {
-  const target = `campus-${kind}`;
+export function highlightPlaceKind(map: MlMap, kind: FacilityKind | undefined) {
+  const visibility = kind ? 'none' : 'visible';
   for (const { id, type } of map.getStyle().layers) {
-    if (!id.startsWith('campus-') || id === target) continue;
-    if (type === 'symbol' || type === 'circle') {
-      map.setLayoutProperty(id, 'visibility', 'none');
+    if (id.startsWith('campus-') && (type === 'symbol' || type === 'circle')) {
+      map.setLayoutProperty(id, 'visibility', visibility);
     }
   }
-  map.setLayerZoomRange(target, 0, 24);
-  map.setLayoutProperty(target, 'icon-size', 1.3);
-  map.setLayoutProperty(target, 'text-offset', [0, 1.3]);
+  for (const [facility, minzoom] of FACILITY_LAYERS) {
+    setFacilityEmphasis(map, `campus-${facility}`, minzoom, facility === kind);
+  }
+}
+
+/** 施設のアイコンのレイヤを、強調（どのズームでも少し大きく）と通常で切り替える。 */
+function setFacilityEmphasis(
+  map: MlMap,
+  id: string,
+  minzoom: number,
+  on: boolean,
+) {
+  if (on) map.setLayoutProperty(id, 'visibility', 'visible');
+  map.setLayerZoomRange(id, on ? 0 : minzoom, 24);
+  map.setLayoutProperty(id, 'icon-size', on ? 1.3 : 1);
+  map.setLayoutProperty(id, 'text-offset', [0, on ? 1.3 : 1]);
 }
 
 /** 強調する場所とブース。 */

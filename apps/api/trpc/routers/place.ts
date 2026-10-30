@@ -416,6 +416,68 @@ export const places: Place[] = [
     point: [140.1058889, 36.1000008],
   },
 
+  // ---- 駐輪場（自転車撤去案内の図の「自転車の移動先」） ----
+  {
+    id: 'bicycle-rikakei',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1007749, 36.1099458],
+  },
+  {
+    id: 'bicycle-ike-east',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1017741, 36.1104723],
+  },
+  {
+    id: 'bicycle-2h',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1021013, 36.1110164],
+  },
+  {
+    id: 'bicycle-jinbun',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1021251, 36.1090935],
+  },
+  {
+    id: 'bicycle-1b',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1026705, 36.1087938],
+  },
+  {
+    id: 'bicycle-1c',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1026567, 36.1084464],
+  },
+  {
+    id: 'bicycle-1d',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1019662, 36.1080985],
+  },
+  {
+    id: 'bicycle-cegloc',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.102247, 36.1046932],
+  },
+  {
+    id: 'bicycle-taiikukan-north',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1040831, 36.1030155],
+  },
+  {
+    id: 'bicycle-taiikukan-west',
+    name: '駐輪場',
+    kind: 'bicycle_parking',
+    point: [140.1035122, 36.102235],
+  },
+
   // ---- ごみ箱（屋外配置図の位置） ----
   {
     id: 'trash-2-3-sunny',

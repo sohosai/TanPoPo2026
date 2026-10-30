@@ -279,6 +279,8 @@ export default defineConfig({
             campusBuilding: { value: '#97bbdc' },
             information: { value: '#e8642c' },
             trash: { value: '#5f9a3c' },
+            parking: { value: '#2b62b0' },
+            bicycleParking: { value: '#7b55a8' },
           },
           debug: {
             label: { value: '#0a6b6b' },

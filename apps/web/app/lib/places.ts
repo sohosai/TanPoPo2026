@@ -56,6 +56,24 @@ function formatProjectLocation(
   return rest.length > 0 ? `${label} ほか${rest.length}か所` : label;
 }
 
+/** 数が多く、同じ名前の場所が並ぶ施設。企画詳細では吹き出しを並べず、その種類のアイコンを強調する。 */
+const SPREAD_FACILITY_KINDS = ['trash', 'bicycle_parking', 'parking'] as const;
+export type SpreadFacilityKind = (typeof SPREAD_FACILITY_KINDS)[number];
+
+/** 企画の場所がすべて同じ種類の施設（ごみ箱・駐輪場・駐車場）なら、その種類。 */
+export function spreadFacilityKind(
+  project: Project,
+  byId: ReadonlyMap<string, Place>,
+): SpreadFacilityKind | undefined {
+  const kinds = new Set(
+    project.locations.map(({ placeId }) => byId.get(placeId)?.kind),
+  );
+  const [kind] = kinds;
+  return kinds.size === 1
+    ? SPREAD_FACILITY_KINDS.find((facility) => facility === kind)
+    : undefined;
+}
+
 /** ある場所で実施する企画と、その場所での位置。 */
 export type PlaceEntry = { project: Project; location: ProjectLocation };
 

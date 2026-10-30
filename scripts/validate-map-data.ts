@@ -26,6 +26,7 @@ const PLACE_KINDS = [
   'bus_stop',
   'information',
   'parking',
+  'bicycle_parking',
   'trash',
 ] as const;
 
