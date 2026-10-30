@@ -1,7 +1,9 @@
 import { relations, sql } from 'drizzle-orm';
 import {
+  index,
   integer,
   primaryKey,
+  real,
   sqliteTable,
   text,
 } from 'drizzle-orm/sqlite-core';
@@ -140,6 +142,45 @@ export const questionnaireTickets = sqliteTable('questionnaire_tickets', {
     .default('unused'),
   usedAt: integer('used_at', { mode: 'timestamp' }),
 });
+
+// ---- 人流（来場者の位置） ----
+
+// 端末から届いた位置。端末は LINE のログインや cookie と結びつけず、端末内のランダムな ID を
+// 秘密の値と合わせたハッシュ（device_hash）だけで区別する。時刻は端末で測った UNIX ミリ秒。
+// 同じ端末・同じ時刻の位置は1件にし、送り直し（届いたか分からず再送した分）を重ねない。
+export const locationPoints = sqliteTable(
+  'location_points',
+  {
+    deviceHash: text('device_hash').notNull(),
+    measuredAt: integer('measured_at').notNull(),
+    receivedAt: integer('received_at').notNull(),
+    lat: real('lat').notNull(),
+    lng: real('lng').notNull(),
+    accuracy: real('accuracy').notNull(),
+    altitude: real('altitude'),
+    altitudeAccuracy: real('altitude_accuracy'),
+    heading: real('heading'),
+    speed: real('speed'),
+    // 30秒ごとに選んだ代表の位置か。それ以外は、その間の経路を5秒刻みで残した位置。
+    isPrimary: integer('is_primary', { mode: 'boolean' }).notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.deviceHash, table.measuredAt] }),
+    index('location_points_measured_at').on(table.measuredAt),
+  ],
+);
+
+// 会場エリアごとの、1分間にいた端末の数。Cron で location_points から集計する。
+// area_id は会場エリアの id（area-1 など）と、どこにいたかを問わない全体の 'all'。
+export const crowdAreaMinutes = sqliteTable(
+  'crowd_area_minutes',
+  {
+    minute: integer('minute').notNull(),
+    areaId: text('area_id').notNull(),
+    devices: integer('devices').notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.minute, table.areaId] })],
+);
 
 // ---- リレーション定義（クエリビルダーでのjoinを簡潔にするため） ----
 

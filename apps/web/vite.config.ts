@@ -22,6 +22,8 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/trpc': apiDevUrl,
         '/auth': apiDevUrl,
+        '/telemetry': apiDevUrl,
+        '/crowd/api': apiDevUrl,
       },
     },
   };

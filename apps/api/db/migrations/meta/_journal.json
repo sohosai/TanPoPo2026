@@ -36,6 +36,13 @@
       "when": 1793282272237,
       "tag": "0004_grandprix_prizes",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1793363516311,
+      "tag": "0005_crowd_location",
+      "breakpoints": true
     }
   ]
 }

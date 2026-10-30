@@ -16,8 +16,14 @@
       "/auth/*",
       "/project/*",
       "/ogp/project/*",
-      "/grandprix"
+      "/grandprix",
+      "/telemetry/*",
+      "/crowd/api/*"
     ]
+  },
+  // 人流の集計（apps/api/crowd/aggregate.ts）。
+  "triggers": {
+    "crons": ["* * * * *"]
   },
   "d1_databases": [
     {

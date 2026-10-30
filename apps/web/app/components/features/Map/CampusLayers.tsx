@@ -147,9 +147,12 @@ function detailCloseUrl(pathname: string): string | null {
  */
 export default function CampusLayers({
   highlightKind,
+  interactive = true,
 }: {
   /** 指定すると、この種類の場所だけを強調し、ほかのピン・ラベルは隠す（埋め込み用）。 */
   highlightKind?: Parameters<typeof highlightPlaceKind>[1];
+  /** false なら見せるだけにし、押しても企画や場所のページを開かない（人流プレビューの下地）。 */
+  interactive?: boolean;
 }) {
   const { isReady, getMap } = useMap();
   const openAppPath = useOpenAppPath();
@@ -217,6 +220,18 @@ export default function CampusLayers({
     map.on('pitch', syncExtrusion);
     map.on('zoom', syncTentView);
 
+    return () => {
+      map.off('styledata', setup);
+      map.off('idle', setup);
+      map.off('pitch', syncExtrusion);
+      map.off('zoom', syncTentView);
+    };
+  }, [isReady, getMap]);
+
+  // 見せるだけのとき（interactive=false）は、タップで何も開かない。
+  useEffect(() => {
+    const map = getMap();
+    if (!isReady || !map || !interactive) return;
     const closeDetail = () => {
       const to = detailCloseUrl(pathname.current);
       const state: FromDetailState = { fromDetail: true };
@@ -246,17 +261,13 @@ export default function CampusLayers({
       map.on('mouseleave', id, reset);
     }
     return () => {
-      map.off('styledata', setup);
-      map.off('idle', setup);
-      map.off('pitch', syncExtrusion);
-      map.off('zoom', syncTentView);
       map.off('click', onClick);
       for (const id of INTERACTIVE_LAYERS) {
         map.off('mouseenter', id, pointer);
         map.off('mouseleave', id, reset);
       }
     };
-  }, [isReady, getMap, openAppPath, navigate]);
+  }, [isReady, getMap, openAppPath, navigate, interactive]);
 
   useEffect(() => {
     const map = getMap();

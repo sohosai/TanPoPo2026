@@ -4,7 +4,7 @@ import { useMap } from '~/components/features/Map/MapController';
 import { css } from '../../../../styled-system/css';
 import { type MapPanelApi, MapPanelContext } from './mapPanel';
 
-const PANEL_WIDTH = 408;
+export const PANEL_WIDTH = 408;
 // panelStyles の transition と揃える。
 const SLIDE_MS = 300;
 
@@ -52,9 +52,20 @@ const toggleStyles = css({
  * PC 向けの左サイドパネル。地図は画面全体に敷いたまま、パネルで隠れる分だけ
  * 地図の padding を空け、フォーカスや初期表示が見えている範囲の中央に来るようにする。
  */
-export default function SidePanel({ children }: { children?: ReactNode }) {
+export default function SidePanel({
+  children,
+  onOpenChange,
+}: {
+  children?: ReactNode;
+  /** 開け閉めを知らせる。パネルの横に置く操作（人流プレビューの時間のバー）を避けさせるため */
+  onOpenChange?: (open: boolean) => void;
+}) {
   const [open, setOpen] = useState(true);
   const { isReady, getMap } = useMap();
+
+  useEffect(() => {
+    onOpenChange?.(open);
+  }, [open, onOpenChange]);
 
   useEffect(() => {
     const map = getMap();
