@@ -77,13 +77,39 @@ export default defineConfig({
           '75%': { transform: 'scale(1.1)' },
           '100%': { transform: 'scale(1)' },
         },
-        heartBurst: {
-          '0%': {
-            transform: 'translate(-50%, -50%) scale(0.3)',
-            opacity: '0.7',
-          },
+        // 綿毛の種。浮き沈み（Bob）と冠毛を支点にした振り子（Sway）は、周期を変えて重ねる。
+        fluffBob: {
+          '0%, 100%': { transform: 'translateY(1px)' },
+          '50%': { transform: 'translateY(-3px)' },
+        },
+        fluffSway: {
+          '0%, 100%': { transform: 'translateX(-2px) rotate(-6deg)' },
+          '50%': { transform: 'translateX(2px) rotate(6deg)' },
+        },
+        // 読み込み中の種。下から現れ、--rise だけ昇って消える。
+        fluffRise: {
+          '0%': { transform: 'translateY(var(--rise))', opacity: '0' },
+          '25%, 70%': { opacity: '1' },
           '100%': {
-            transform: 'translate(-50%, -50%) scale(2)',
+            transform: 'translateY(calc(var(--rise) * -1))',
+            opacity: '0',
+          },
+        },
+        // いいねで離れる種。--dx, --dy まで、途中で逆向きに傾きながら昇る。
+        fluffLift: {
+          '0%': {
+            transform: 'translate(-50%, -50%) scale(0.6)',
+            opacity: '0',
+          },
+          '15%': { opacity: '1' },
+          '50%': {
+            transform:
+              'translate(calc(-50% + var(--dx) * 0.35), calc(-50% + var(--dy) * 0.5)) rotate(calc(var(--tilt) * -0.6)) scale(1)',
+          },
+          '65%': { opacity: '1' },
+          '100%': {
+            transform:
+              'translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--tilt)) scale(1)',
             opacity: '0',
           },
         },

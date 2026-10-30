@@ -1,9 +1,10 @@
-import { IconBrandLine, IconLoader2 } from '@tabler/icons-react';
+import { IconBrandLine } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { getLineLoginUrl, useAuth } from '~/lib/auth';
 import { css } from '../../../../styled-system/css';
+import { FluffLoader } from '../Fluff/Fluff';
 
 /** 未ログイン時に出す案内。 */
 export type LoginPrompt = {
@@ -120,10 +121,7 @@ export default function RequireLineLogin({
           color: 'fg.subtle',
         })}
       >
-        <IconLoader2
-          size={28}
-          className={css({ animation: 'spin 1s linear infinite' })}
-        />
+        <FluffLoader size={40} />
         <p className={css({ fontSize: 'sm' })}>読み込み中...</p>
       </div>
     );

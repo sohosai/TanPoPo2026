@@ -1,4 +1,4 @@
-import { IconAlertTriangle, IconLoader2 } from '@tabler/icons-react';
+import { IconAlertTriangle } from '@tabler/icons-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 import {
@@ -10,6 +10,7 @@ import {
 } from '~/components/features/Detail/useDetailClose';
 import { useListScroll } from '~/components/features/Detail/useListScroll';
 import EventBanner from '~/components/features/EventLinks/EventBanner';
+import { FluffLoader } from '~/components/features/Fluff/Fluff';
 import {
   criteriaFromParams,
   criteriaToParams,
@@ -129,11 +130,14 @@ export default function List() {
         )}
 
         {status === 'pending' && (
-          <StateMessage icon={IconLoader2} title="読み込み中..." spinning />
+          <StateMessage
+            icon={<FluffLoader size={44} />}
+            title="読み込み中..."
+          />
         )}
         {isError && !projects && (
           <StateMessage
-            icon={IconAlertTriangle}
+            icon={<IconAlertTriangle size={30} />}
             title="企画一覧を取得できませんでした"
             description={'通信環境を確認して\nもう一度お試しください。'}
           />
