@@ -52,6 +52,8 @@ const CAMPUS_BUILDING_COLOR = '#97bbdc'; // token('colors.map.campusBuilding')
 const TENT_VIEW_BUILDING_OPACITY = 0.45;
 export const INFORMATION_COLOR = '#e8642c'; // token('colors.map.information')
 const TRASH_COLOR = '#5f9a3c'; // token('colors.map.trash')
+const PARKING_COLOR = '#2b62b0'; // token('colors.map.parking')
+const BICYCLE_PARKING_COLOR = '#7b55a8'; // token('colors.map.bicycleParking')
 
 /** 3D 表示（地図を傾けたとき）だけ出す立体のレイヤと、テントを形で出しているかに応じた不透明度。 */
 const EXTRUSION_LAYERS: Record<string, (tentView: boolean) => number> = {
@@ -321,6 +323,36 @@ const FACILITY_ICONS = {
       ctx.lineTo(7, 15.4);
       ctx.fill();
     }),
+  parking: () =>
+    facilityIcon(PARKING_COLOR, (ctx) => {
+      ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('P', 10, 10.6);
+    }),
+  bicycle_parking: () =>
+    facilityIcon(BICYCLE_PARKING_COLOR, (ctx) => {
+      ctx.strokeStyle = WHITE;
+      ctx.lineWidth = 1.2;
+      ctx.lineJoin = 'round';
+      for (const x of [6.4, 13.6]) {
+        ctx.beginPath();
+        ctx.arc(x, 12, 2.4, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      // 後輪・ペダル・前輪をつなぐフレームとハンドル。
+      ctx.beginPath();
+      ctx.moveTo(6.4, 12);
+      ctx.lineTo(9.6, 12);
+      ctx.lineTo(12.4, 8);
+      ctx.lineTo(13.6, 12);
+      ctx.moveTo(6.4, 12);
+      ctx.lineTo(8.4, 8);
+      ctx.lineTo(12.4, 8);
+      ctx.moveTo(11.6, 6.4);
+      ctx.lineTo(13.2, 6.4);
+      ctx.stroke();
+    }),
 };
 
 /** 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。 */
@@ -539,9 +571,11 @@ export function addCampusLayers(map: MlMap) {
     minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
     paint: { 'line-color': ACCENT_TEXT, 'line-width': 3 },
   });
-  // 案内所はエリア全体から目印になるよう引いた段階から、ごみ箱は数が多いため寄ってから出す。
+  // 案内所・駐車場はエリア全体から目印になるよう引いた段階から、ごみ箱・駐輪場は数が多いため寄ってから出す。
   for (const [kind, minzoom] of [
     ['information', AREA_MAX_ZOOM],
+    ['parking', AREA_MAX_ZOOM],
+    ['bicycle_parking', DETAIL_ZOOM],
     ['trash', DETAIL_ZOOM],
   ] as const) {
     const icon = `campus-${kind}`;

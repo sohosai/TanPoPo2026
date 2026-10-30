@@ -32,6 +32,8 @@ const VISIBLE_PLACE_KINDS = new Set<Place['kind']>([
   'building',
   'stage',
   'information',
+  'parking',
+  'bicycle_parking',
   'trash',
 ]);
 

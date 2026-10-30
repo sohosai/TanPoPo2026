@@ -21,7 +21,7 @@
 ```ts
 type PlaceKind =
   | 'building' | 'stage' | 'outdoor' | 'bus_stop'
-  | 'information' | 'parking' | 'trash';
+  | 'information' | 'parking' | 'bicycle_parking' | 'trash';
 
 type Place = {
   id: string;              // 安定ID。例 'bldg-5c'
