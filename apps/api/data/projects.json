@@ -7852,5 +7852,240 @@
         "srcSet": "/projects/goods/image-4-640.webp 640w, /projects/goods/image-4-1280.webp 1280w"
       }
     ]
+  },
+  {
+    "number": "903",
+    "id": "manual-rest-area-1",
+    "name": "第一エリア休憩所",
+    "nameReading": "だいいちえりあきゅうけいじょ",
+    "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
+    "category": "その他",
+    "schedule": ["Day1", "Day2"],
+    "performances": [],
+    "links": [
+      {
+        "kind": "website",
+        "label": "sohosai.com",
+        "url": "https://sohosai.com/info-desk/"
+      }
+    ],
+    "locations": [
+      {
+        "placeId": "bldg-1d",
+        "room": "204",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "description": "座ってご飲食やご歓談を楽しめる休憩スペースです。雙峰祭の合間に、ほっと一息つきにお気軽にお立ち寄りください。\n\n本祭1日目 10/31（土） 10:00～19:00\n本祭2日目 11/1（日） 10:00～17:00\n\n※前夜祭では運営しません。\n※当日の状況により、運営時間が変更となる場合や、設置を中止する場合がございます。"
+  },
+  {
+    "number": "904",
+    "id": "manual-rest-area-3",
+    "name": "第三エリア休憩所",
+    "nameReading": "だいさんえりあきゅうけいじょ",
+    "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
+    "category": "その他",
+    "schedule": ["Day1", "Day2"],
+    "performances": [],
+    "links": [
+      {
+        "kind": "website",
+        "label": "sohosai.com",
+        "url": "https://sohosai.com/info-desk/"
+      }
+    ],
+    "locations": [
+      {
+        "placeId": "bldg-3a",
+        "room": "アカデミックラウンジ",
+        "floor": 1,
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "description": "座ってご飲食やご歓談を楽しめる休憩スペースです。雙峰祭の合間に、ほっと一息つきにお気軽にお立ち寄りください。\n\n本祭1日目 10/31（土） 10:00～19:00\n本祭2日目 11/1（日） 10:00～17:00\n\n※前夜祭では運営しません。\n※当日の状況により、運営時間が変更となる場合や、設置を中止する場合がございます。"
+  },
+  {
+    "number": "905",
+    "id": "manual-information",
+    "name": "案内所",
+    "nameReading": "あんないじょ",
+    "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
+    "category": "その他",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "info-2-3",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "info-1",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "info-kaikan",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "info-taigei",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "会場内4か所（第二・第三エリア、第一エリア、大学会館エリア、体芸エリア）に、オレンジ色のテントの案内所を設置しています。ご来場の際にお困りのことがございましたら、お気軽にお越しください。\n\n次の事柄も案内所で対応します。\n・迷子\n・落とし物\n・授乳室のご案内\n・車椅子の貸出\n・怪我や体調不良等の応急処置",
+    "links": [
+      {
+        "kind": "website",
+        "label": "sohosai.com",
+        "url": "https://sohosai.com/info-desk/"
+      }
+    ]
+  },
+  {
+    "number": "906",
+    "id": "manual-parking",
+    "name": "駐車場",
+    "nameReading": "ちゅうしゃじょう",
+    "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
+    "category": "その他",
+    "schedule": ["前夜祭", "Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "parking-1",
+        "days": ["前夜祭", "Day1", "Day2"]
+      },
+      {
+        "placeId": "parking-2",
+        "days": ["前夜祭", "Day1", "Day2"]
+      },
+      {
+        "placeId": "parking-3",
+        "days": ["前夜祭", "Day1", "Day2"]
+      },
+      {
+        "placeId": "parking-4",
+        "days": ["前夜祭", "Day1", "Day2"]
+      },
+      {
+        "placeId": "parking-5",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "学内5か所に無料の駐車場をご用意しています。学内ループ道路をはじめ、所定の場所以外への駐車は、大学の利用者や近隣のみなさまのご迷惑となりますのでご遠慮ください。障がい者等用駐車場も設置していますので、必要に応じてご利用ください。\n\n・第1駐車場～第3駐車場は、10月30日（金）17:00までご利用いただけません。\n・第3駐車場の一部と第5駐車場は、10月30日（金）は終日ご利用いただけません。\n\n例年、駐車場は大変混雑し、満車となる場合があります。ご来場の際は自家用車の使用をできる限りお控えいただき、公共交通機関をご利用ください。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "sohosai.com",
+        "url": "https://sohosai.com/access/"
+      }
+    ]
+  },
+  {
+    "number": "907",
+    "id": "manual-bicycle-parking",
+    "name": "駐輪場",
+    "nameReading": "ちゅうりんじょう",
+    "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
+    "category": "その他",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "bicycle-rikakei",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-ike-east",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-2h",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-jinbun",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-1b",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-1c",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-1d",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-cegloc",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-taiikukan-north",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "bicycle-taiikukan-west",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "安全のため、会場内では自転車を含む軽車両の通行を禁止しています。自転車でお越しの方は駐輪場にお停めください。\n\n規制区域内に駐輪されている自転車は、撤去・移動を行います。ご理解とご協力をお願いします。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "sohosai.com",
+        "url": "https://sohosai.com/traffic/"
+      }
+    ]
+  },
+  {
+    "number": "908",
+    "id": "manual-trash",
+    "name": "ごみ箱",
+    "nameReading": "ごみばこ",
+    "organization": "筑波大学学園祭実行委員会",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかい",
+    "category": "その他",
+    "schedule": ["Day1", "Day2"],
+    "locations": [
+      {
+        "placeId": "trash-2-3-sunny",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "trash-ishi",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "trash-library",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "trash-1-sunny",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "trash-matsumi",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "trash-kaikan",
+        "days": ["Day1", "Day2"]
+      },
+      {
+        "placeId": "trash-taigei",
+        "days": ["Day1", "Day2"]
+      }
+    ],
+    "performances": [],
+    "description": "会場内に設置しているごみ箱です。",
+    "links": []
   }
 ]

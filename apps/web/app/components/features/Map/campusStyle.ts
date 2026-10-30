@@ -355,6 +355,17 @@ const FACILITY_ICONS = {
     }),
 };
 
+// 案内所・駐車場はエリア全体から目印になるよう引いた段階から、ごみ箱・駐輪場は数が多いため寄ってから出す。
+const FACILITY_LAYERS = [
+  ['information', AREA_MAX_ZOOM],
+  ['parking', AREA_MAX_ZOOM],
+  ['bicycle_parking', DETAIL_ZOOM],
+  ['trash', DETAIL_ZOOM],
+] as const;
+
+/** 強調できる施設の種類。 */
+export type FacilityKind = (typeof FACILITY_LAYERS)[number][0];
+
 /** 会場の情報を描くソースとレイヤを地図に追加する（中身は空。データは後から流す）。 */
 // 下地の地図タイルの建物のうち、会場の区画に重なって紛らわしいもの（モニュメント・イルミネーションの区画の下）。
 // タイルの地物 ID で指定しているため、地図タイルが更新されて ID が変わると再び描かれる。
@@ -571,13 +582,7 @@ export function addCampusLayers(map: MlMap) {
     minzoom: BOOTH_ZOOM - BOOTH_LAYER_MARGIN,
     paint: { 'line-color': ACCENT_TEXT, 'line-width': 3 },
   });
-  // 案内所・駐車場はエリア全体から目印になるよう引いた段階から、ごみ箱・駐輪場は数が多いため寄ってから出す。
-  for (const [kind, minzoom] of [
-    ['information', AREA_MAX_ZOOM],
-    ['parking', AREA_MAX_ZOOM],
-    ['bicycle_parking', DETAIL_ZOOM],
-    ['trash', DETAIL_ZOOM],
-  ] as const) {
+  for (const [kind, minzoom] of FACILITY_LAYERS) {
     const icon = `campus-${kind}`;
     if (!map.hasImage(icon)) {
       map.addImage(icon, FACILITY_ICONS[kind](), {
@@ -630,19 +635,31 @@ export function addCampusLayers(map: MlMap) {
 
 /**
  * 種類が `kind` の場所（ごみ箱など）だけを強調する。そのアイコンをどのズームでも少し大きく出し、
- * ほかのピン・点・ラベルは隠す。建物とテントの形は位置の手がかりとして残す。
+ * ほかのピン・点・ラベルは隠す。建物とテントの形は位置の手がかりとして残す。`undefined` で元に戻す。
  */
-export function highlightPlaceKind(map: MlMap, kind: 'information' | 'trash') {
-  const target = `campus-${kind}`;
+export function highlightPlaceKind(map: MlMap, kind: FacilityKind | undefined) {
+  const visibility = kind ? 'none' : 'visible';
   for (const { id, type } of map.getStyle().layers) {
-    if (!id.startsWith('campus-') || id === target) continue;
-    if (type === 'symbol' || type === 'circle') {
-      map.setLayoutProperty(id, 'visibility', 'none');
+    if (id.startsWith('campus-') && (type === 'symbol' || type === 'circle')) {
+      map.setLayoutProperty(id, 'visibility', visibility);
     }
   }
-  map.setLayerZoomRange(target, 0, 24);
-  map.setLayoutProperty(target, 'icon-size', 1.3);
-  map.setLayoutProperty(target, 'text-offset', [0, 1.3]);
+  for (const [facility, minzoom] of FACILITY_LAYERS) {
+    setFacilityEmphasis(map, `campus-${facility}`, minzoom, facility === kind);
+  }
+}
+
+/** 施設のアイコンのレイヤを、強調（どのズームでも少し大きく）と通常で切り替える。 */
+function setFacilityEmphasis(
+  map: MlMap,
+  id: string,
+  minzoom: number,
+  on: boolean,
+) {
+  if (on) map.setLayoutProperty(id, 'visibility', 'visible');
+  map.setLayerZoomRange(id, on ? 0 : minzoom, 24);
+  map.setLayoutProperty(id, 'icon-size', on ? 1.3 : 1);
+  map.setLayoutProperty(id, 'text-offset', [0, on ? 1.3 : 1]);
 }
 
 /** 強調する場所とブース。 */

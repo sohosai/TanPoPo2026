@@ -11,7 +11,12 @@ import { matchPath, useLocation } from 'react-router';
 import { DAY_LABELS } from '~/components/features/Project/labels';
 import ProjectIcon from '~/components/features/Project/ProjectIcon';
 import { toAppPath, useOpenAppPath } from '~/lib/embed';
-import { formatLocation, groupProjectsByPlace, usePlaces } from '~/lib/places';
+import {
+  formatLocation,
+  groupProjectsByPlace,
+  spreadFacilityKind,
+  usePlaces,
+} from '~/lib/places';
 import { trpc } from '~/lib/trpc';
 import { css, cx } from '../../../../styled-system/css';
 import { AREA_MAX_ZOOM, DETAIL_ZOOM } from './campusStyle';
@@ -44,6 +49,8 @@ function useSelectedProject(projects: Project[] | undefined) {
   const number = matchPath('/project/:number', pathname)?.params.number;
   const project = projects?.find((p) => p.number === number);
   if (!project) return undefined;
+  // ごみ箱・駐輪場・駐車場は場所が多く吹き出しが重なり合うため出さず、地図の側でその種類のアイコンを強調する。
+  if (spreadFacilityKind(project, placesById)) return { project, callouts: [] };
   // 地図を寄せる位置（useProjectFocus）と同じ点を指す。
   const callouts = projectSpots(project, placesById).map(
     ({ point, locations }) => {
@@ -111,6 +118,8 @@ export default function MapCallouts() {
 
   // 選んだ企画の吹き出しを見失わないよう、その間は配信の吹き出しを出さない。
   const stages = selected ? [] : Object.entries(config.stages);
+  // 施設を強調している間は、ほかのピンと同じく建物の吹き出しも隠す。
+  const buildings = selected?.callouts.length === 0 ? [] : config.buildings;
 
   return (
     <>
@@ -145,7 +154,7 @@ export default function MapCallouts() {
           </MapCallout>
         );
       })}
-      {config.buildings.map((placeId, i) => {
+      {buildings.map((placeId, i) => {
         const place = placesById.get(placeId);
         const buildingProjects = projectsByBuilding.get(placeId) ?? [];
         if (!place || buildingProjects.length === 0) return null;
