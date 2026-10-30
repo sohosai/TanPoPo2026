@@ -45,6 +45,7 @@ bun run sync:projects
 | `project-locations.json` | 屋内・屋外の実施場所と実施日 | 実行委員会の xlsx。[project-locations.md](./project-locations.md) | `bun run import:project-locations <屋内.xlsx> <屋外.xlsx>` |
 | `stage-projects.json` | ステージ企画の実施ステージ | SOS 公開 API のカスタム項目 | `bun run import:stage-projects` |
 | `stage-timetable.json` | ステージの出演枠 | 公式サイトのタイムテーブル | `bun run import:stage-timetable`（`apps/api` の build でも実行） |
+| `manual-timetable.json` | ステージ以外で時間の決まった企画（樽酒振る舞いなど）の時間帯。`stage-timetable.json` と同じ形で、出演枠に足す。部屋（ブース）まで決まっている場所の時間帯は、実施場所を足し直さない | 手で管理 | 直接編集して `bun run build:projects` |
 
 元データとマスターはどちらもコミットする。
 
@@ -54,5 +55,7 @@ bun run sync:projects
 
 - よみがな（`nameReading`・`organizationReading`）も手で書く（検索に使う）。
 - 企画番号は SOS の番号と重ならない値にする（今は 900 番台）。重なると `build:projects` がエラーで止まる。`id` は SOS の ID の代わりに `manual-<名前>` とする（お気に入り・グランプリ投票のキー）。
+- 樽酒振る舞いの鏡開き（909）のように、タイムテーブルでは SOS の企画の枠でも、別の企画として見せたい枠は、このファイルの企画の `performances` に同じ枠（場所・日・開始時刻・演目名が同じもの）を書く。`build:projects` はその枠を元の企画から外す。
 - 実施場所（`locations`）・実施日（`schedule`）もこのファイルに書く。屋外のテントは `place.ts` に Place、`booths.geojson` にテントの形を足す（[project-locations.md](./project-locations.md)）。`bun run check:map-data` がこのファイルの実施場所も確かめる。
+- SOS の別の企画と同じ画像を使うときは、`imagesFrom` にその企画番号を書く（樽酒振る舞いの鏡開き 909 は `"021"`）。画像だけを引き継ぎ、営業・在庫状態は引き継がない。
 - 画像は SOS から取れないため、`apps/web/public/projects/<名前>/` に WebP で置き、`thumbnail`・`images` に `src` と幅違いの `srcSet` を書く。アイコンは正方形にする。SOS に同じ番号の企画ができて画像が登録されれば、そちらが優先される。

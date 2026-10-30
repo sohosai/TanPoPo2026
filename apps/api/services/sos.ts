@@ -26,15 +26,18 @@ function toProjectImage(baseUrl: string, fileId: string): ProjectImage {
 type DynamicInfo = SosDynamicProject['publicInfo'];
 
 function withDynamicInfo(
-  master: ProjectMaster,
+  { imagesFrom: _imagesFrom, ...master }: ProjectMaster,
   info: DynamicInfo | undefined,
+  imageInfo: DynamicInfo | undefined,
   baseUrl: string,
 ): ProjectDetail {
   const toImage = (fileId: string) => toProjectImage(baseUrl, fileId);
   return {
     ...master,
-    thumbnail: info?.iconFileId ? toImage(info.iconFileId) : master.thumbnail,
-    images: info?.mapImageFileIds?.map(toImage) ?? master.images ?? [],
+    thumbnail: imageInfo?.iconFileId
+      ? toImage(imageInfo.iconFileId)
+      : master.thumbnail,
+    images: imageInfo?.mapImageFileIds?.map(toImage) ?? master.images ?? [],
     openStatus:
       info?.openStatus === 'NOT_APPLICABLE' ? undefined : info?.openStatus,
     stockStatus:
@@ -93,7 +96,12 @@ export class SosClient {
 
     const infos = await this.fetchDynamicInfos();
     const details = PROJECT_MASTERS.map((master) =>
-      withDynamicInfo(master, infos.get(master.number), this.baseUrl),
+      withDynamicInfo(
+        master,
+        infos.get(master.number),
+        infos.get(master.imagesFrom ?? master.number),
+        this.baseUrl,
+      ),
     );
     this.cache = { details, expiresAt: Date.now() + DYNAMIC_INFO_CACHE_TTL_MS };
     return details;

@@ -1,0 +1,18 @@
+{
+  "21": [
+    {
+      "placeId": "booth-taruzake",
+      "day": "Day1",
+      "start": "17:00",
+      "end": "20:00",
+      "title": "樽酒振る舞い"
+    },
+    {
+      "placeId": "booth-taruzake",
+      "day": "Day2",
+      "start": "15:00",
+      "end": "18:00",
+      "title": "樽酒振る舞い"
+    }
+  ]
+}

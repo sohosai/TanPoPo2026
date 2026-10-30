@@ -101,13 +101,17 @@ export type ProjectDetail = Project & {
 /**
  * 企画のマスターデータ（apps/api/data/projects.json）の1件。
  * 実行時に SOS から取り直す画像・営業状態・在庫状態を除いた企画詳細。
- * SOS に無い企画（手で追加した企画）だけは、画像（`thumbnail`・`images`）をマスターに持つ。
+ * SOS に無い企画（手で追加した企画）だけは、画像（`thumbnail`・`images`）をマスターに持つか、
+ * `imagesFrom` で SOS の別の企画の画像を使う。
  */
 export type ProjectMaster = Omit<
   ProjectDetail,
   'thumbnail' | 'images' | 'openStatus' | 'stockStatus'
 > &
-  Partial<Pick<ProjectDetail, 'thumbnail' | 'images'>>;
+  Partial<Pick<ProjectDetail, 'thumbnail' | 'images'>> & {
+    /** 画像を SOS のこの企画番号の企画から取る（樽酒振る舞いから分けた鏡開きなど）。営業・在庫状態は引き継がない */
+    imagesFrom?: string;
+  };
 
 /** URL に使うため、桁数をそろえて辞書順と番号順を一致させる。 */
 export function formatProjectNumber(number: number): string {
