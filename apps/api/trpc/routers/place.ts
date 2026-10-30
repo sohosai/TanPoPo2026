@@ -208,7 +208,7 @@ export const places: Place[] = [
   // 実行委員会の樽酒振る舞い。配置図では1D棟の南の学実委使用テント2張りで、ブース記号は無い。
   {
     id: 'booth-taruzake',
-    name: '第一エリア学群棟周辺',
+    name: '第一エリア棟周辺',
     kind: 'outdoor',
     point: [140.1020238, 36.1084149],
   },

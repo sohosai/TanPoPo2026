@@ -544,19 +544,22 @@
         "placeId": "booth-taruzake",
         "room": "樽酒振る舞い（東）",
         "days": ["前夜祭", "Day1", "Day2"]
-      },
-      {
-        "placeId": "stage-united",
-        "days": ["前夜祭"]
       }
     ],
     "performances": [
       {
-        "placeId": "stage-united",
-        "day": "前夜祭",
+        "placeId": "booth-taruzake",
+        "day": "Day1",
         "start": "17:00",
-        "end": "17:10",
-        "title": "樽酒振る舞い 鏡開き"
+        "end": "20:00",
+        "title": "樽酒振る舞い"
+      },
+      {
+        "placeId": "booth-taruzake",
+        "day": "Day2",
+        "start": "15:00",
+        "end": "18:00",
+        "title": "樽酒振る舞い"
       }
     ],
     "description": "茨城県内の酒造のお酒を20歳以上の来場者に無料で振る舞っています。とっておきの一杯で今年も乾杯しませんか？ご来場の際は顔写真付き身分証明書をお持ちください。",
@@ -8087,5 +8090,49 @@
     "performances": [],
     "description": "会場内に設置しているごみ箱です。",
     "links": []
+  },
+  {
+    "number": "909",
+    "id": "manual-taruzake-kagamibiraki",
+    "name": "樽酒振る舞い 鏡開き",
+    "nameReading": "たるざけふるまい かがみびらき",
+    "organization": "筑波大学学園祭実行委員会本部企画局",
+    "organizationReading": "つくばだいがくがくえんさいじっこういいんかいほんぶきかくきょく",
+    "category": "委員会企画",
+    "schedule": ["前夜祭"],
+    "locations": [
+      {
+        "placeId": "stage-united",
+        "days": ["前夜祭"]
+      }
+    ],
+    "performances": [
+      {
+        "placeId": "stage-united",
+        "day": "前夜祭",
+        "start": "17:00",
+        "end": "17:10",
+        "title": "樽酒振る舞い 鏡開き"
+      }
+    ],
+    "description": "前夜祭の始まりに、UNITEDステージで樽酒の鏡開きを行います。鏡開きのあとは、第一エリア（1D棟前）で茨城県内の酒造の地酒を20歳以上の来場者に無料で振る舞います。",
+    "links": [
+      {
+        "kind": "website",
+        "label": "sohosai.com",
+        "url": "https://sohosai.com/committee/taruzake"
+      },
+      {
+        "kind": "x",
+        "label": "@taruzakehurumai",
+        "url": "https://x.com/taruzakehurumai"
+      },
+      {
+        "kind": "instagram",
+        "label": "@taruzakehurumai",
+        "url": "https://www.instagram.com/taruzakehurumai/"
+      }
+    ],
+    "imagesFrom": "021"
   }
 ]

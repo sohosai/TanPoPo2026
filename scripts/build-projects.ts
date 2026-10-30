@@ -37,6 +37,9 @@ type Sources = {
   locations: Record<string, ProjectLocation[]>;
   stages: Record<string, string>;
   timetable: Record<string, Performance[]>;
+  manualTimetable: Record<string, Performance[]>;
+  /** 手で書いた企画に移した、タイムテーブルの枠（`slotKey`） */
+  movedSlots: ReadonlySet<string>;
 };
 
 /**
@@ -57,13 +60,28 @@ function mapLocations(
     if (!days.includes(day)) days.push(day);
     stageDays.set(placeId, days);
   }
+  // 屋外ブースのように部屋（ブース）まで決まっている場所の時間帯は、場所を足し直さない。
+  const roomed = new Set(
+    listed.flatMap(({ placeId, room }) => (room ? [placeId] : [])),
+  );
   return [
     ...listed.filter(
       (location) => location.room || !stageDays.has(location.placeId),
     ),
-    ...[...stageDays].map(([placeId, days]) => ({ placeId, days })),
+    ...[...stageDays]
+      .filter(([placeId]) => !roomed.has(placeId))
+      .map(([placeId, days]) => ({ placeId, days })),
   ];
 }
+
+/**
+ * 日・開始時刻の順。同じ時刻に始まる枠は長い方を先にする（一覧は先頭の枠を出すため、
+ * 鏡開き 17:00〜17:10 より実施時間 17:00〜20:00 を見せる）。
+ */
+const comparePerformances = (a: Performance, b: Performance) =>
+  SCHEDULE_DAYS.indexOf(a.day) - SCHEDULE_DAYS.indexOf(b.day) ||
+  a.start.localeCompare(b.start) ||
+  b.end.localeCompare(a.end);
 
 /** 実施場所ごとの実施日を合わせた、企画全体の実施日。日付の分からない企画は本祭2日間とする。 */
 function scheduleOf(locations: ProjectLocation[]): ScheduleDay[] {
@@ -191,9 +209,17 @@ function categoryOf(
   );
 }
 
+const slotKey = ({ placeId, day, start, title }: Performance) =>
+  `${placeId} ${day} ${start} ${title}`;
+
 // マスターを読む人のために、キーは識別子・分類・場所・詳細の順に並べる。
 function toMaster(project: SosStaticProject, sources: Sources): ProjectMaster {
-  const performances = sources.timetable[project.number] ?? [];
+  const performances = [
+    ...(sources.timetable[project.number] ?? []).filter(
+      (performance) => !sources.movedSlots.has(slotKey(performance)),
+    ),
+    ...(sources.manualTimetable[project.number] ?? []),
+  ].sort(comparePerformances);
   const locations = mapLocations(project.number, performances, sources);
   return {
     number: formatProjectNumber(project.number),
@@ -212,6 +238,8 @@ function toMaster(project: SosStaticProject, sources: Sources): ProjectMaster {
 }
 
 export function buildProjects() {
+  // SOS に無い企画（実行委員会の福引所など）は、マスターの形のまま手で書いた元データから足す。
+  const manual = readSource<ProjectMaster[]>('manual-projects.json');
   const sources: Sources = {
     categories: readSource('project-categories.json'),
     committee: new Set(readSource<number[]>('committee-projects.json')),
@@ -222,12 +250,17 @@ export function buildProjects() {
     },
     stages: readSource('stage-projects.json'),
     timetable: readSource('stage-timetable.json'),
+    // ステージ以外で時間の決まった企画（樽酒振る舞いなど）の時間帯は、手で書いた元データで足す。
+    manualTimetable: readSource('manual-timetable.json'),
+    // 樽酒振る舞いの鏡開きのように、タイムテーブルでは SOS の企画の枠でも、手で書いた別の企画として載せる枠。
+    // 元の企画からは外す。
+    movedSlots: new Set(
+      manual.flatMap(({ performances }) => performances.map(slotKey)),
+    ),
   };
   const fromSos = readSource<SosStaticProject[]>('sos-projects.json').map(
     (project) => toMaster(project, sources),
   );
-  // SOS に無い企画（実行委員会の福引所など）は、マスターの形のまま手で書いた元データから足す。
-  const manual = readSource<ProjectMaster[]>('manual-projects.json');
   const sosNumbers = new Set(fromSos.map(({ number }) => number));
   for (const { number, name } of manual) {
     if (sosNumbers.has(number)) {
