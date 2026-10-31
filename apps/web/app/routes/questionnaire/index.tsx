@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router';
 import HeadcountStep from '~/components/features/Questionnaire/HeadcountStep';
 import type { Lang } from '~/components/features/Questionnaire/questions';
 import SurveyForm from '~/components/features/Questionnaire/SurveyForm';
@@ -139,10 +140,12 @@ export default function QuestionnaireRoute({
 }
 
 function QuestionnairePage() {
+  // /questionnaire と /q のどちらから来ても、ログイン後は開いた URL に戻す。
+  const { pathname } = useLocation();
   return (
     <EventPageShell
       title="来場者アンケート"
-      redirectPath="/questionnaire"
+      redirectPath={pathname}
       loginPrompt={{
         preview: (
           <>
