@@ -12,6 +12,8 @@ export default [
   // 地図に紐づかない独立したページのため AppLayout の外側（トップレベル）に置く。
   route('/grandprix', 'routes/grandprix/index.tsx'),
   route('/questionnaire', 'routes/questionnaire/index.tsx'),
+  // 掲示などで手で打ち込んでもらうための短い URL。中身は /questionnaire と同じ。
+  route('/q', 'routes/questionnaire/index.tsx', { id: 'questionnaire-short' }),
   // 人流のプレビュー。Cloudflare Access で実行委員会のアカウントだけに公開する。
   route('/crowd', 'routes/crowd/index.tsx'),
   // 他サイトの iframe に埋め込む地図。/embed の後ろはアプリ本体と同じパス。
