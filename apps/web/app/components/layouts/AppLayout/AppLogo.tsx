@@ -3,7 +3,7 @@ import { css, cx } from '../../../../styled-system/css';
 
 // public/logo/wide-outline.webp は、地図の上でも読めるよう wide.webp に白い縁取りを付けて幅 600px に縮めたもの。
 // ロゴを差し替えたら作り直す。縦横比は縁取りの余白を含む。
-const LOGO_ASPECT = 624 / 190;
+const LOGO_ASPECT = 600 / 182;
 
 const linkStyles = css({
   display: 'block',
